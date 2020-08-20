@@ -15,7 +15,10 @@ public class WebController {
     public WebController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    @GetMapping("/")
+    public String hello() {
+        return "hello world!";
+    }
     @GetMapping("/test")
     public List<String> getTuples() {
         return this.jdbcTemplate.queryForList("SELECT * FROM users").stream()
