@@ -1,33 +1,35 @@
 package pl.lodz.p.it.inz.sgruda.multiStore;
 
-//import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
 public class RestApi {
 
-//    private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-//    public RestApi(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
+    public RestApi(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @GetMapping("/hello")
     public String hello() {
         return "hello world!";
     }
 
-//    @GetMapping("/db")
-//    public List<String> getTuples() {
-//        return this.jdbcTemplate.queryForList("SELECT * FROM users").stream()
-//                .map((m) -> m.values().toString())
-//                .collect(Collectors.toList());
-//    }
+    @GetMapping("/db")
+    public List<String> getTuples() {
+        return this.jdbcTemplate.queryForList("SELECT * FROM employees").stream()
+                .map((m) -> m.values().toString())
+                .collect(Collectors.toList());
+    }
     @GetMapping("/simple")
     public String simple() {
         return new String("test");
