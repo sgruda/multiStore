@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore;
 
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class RestApi {
 //        this.jdbcTemplate = jdbcTemplate;
 //    }
 
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String hello() {
         return "hello world!";
     }
