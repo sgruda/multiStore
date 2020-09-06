@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import InstructorApp from './component/InstructorApp';
 import axios from 'axios'
 
 const API_URL = 'http://localhost:8080/api'
