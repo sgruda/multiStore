@@ -13,7 +13,5 @@ RUN mvn clean verify
 
 FROM openjdk:14-jdk-alpine
 COPY --from=backend /backend/target/*.jar ./app.jar
-# EXPOSE 8080
-# RUN adduser -D user
-# USER user
+COPY --from=backend /backend/src/main/resources/tmp_keystore.jks .//src/main/resources/tmp_keystore.jks
 CMD [ "sh", "-c", "java -Dserver.port=$PORT -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
