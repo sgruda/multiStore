@@ -12,11 +12,16 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "account_data", schema = "public")
+@Table(name = "account_data", schema = "public",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"email", "veryfication_token"})
+})
 @TableGenerator(name = "AccountIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
                valueColumnName = "id_range", pkColumnValue = "account_login_data")
 @SecondaryTables({
-        @SecondaryTable(name = "account_login_data", schema = "public")
+        @SecondaryTable(name = "account_login_data", schema = "public", uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"login"})
+                })
 })
 public class AccountEntity {
 
