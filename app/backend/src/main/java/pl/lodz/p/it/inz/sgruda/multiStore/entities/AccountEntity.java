@@ -1,7 +1,10 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.AuthProvider;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -53,6 +56,7 @@ public class AccountEntity {
     @Column(table = "account_login_data", name = "login", nullable = false, length = 32)
     private String login;
 
+    @JsonIgnore
     @Basic
     @Column(table = "account_login_data", name = "password", nullable = false, length = 64)
     private String password;
@@ -77,6 +81,13 @@ public class AccountEntity {
 
     @OneToOne(mappedBy = "accountEntity")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
+
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @Override
     public boolean equals(Object o) {
