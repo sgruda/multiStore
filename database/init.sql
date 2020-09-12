@@ -86,3 +86,6 @@ create unique index forgot_password_token_hash_uindex on forgot_password_token (
 insert into id_generator values (1,'account_login_data',50);
 insert into id_generator values (2,'access_level',50);
 insert into id_generator values (3,'forgot_password_token',50);
+INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
+INSERT INTO access_level VALUES(2, 'ROLE_EMPLOYEE');
+INSERT INTO access_level VALUES(1,'ROLE_ADMIN');
