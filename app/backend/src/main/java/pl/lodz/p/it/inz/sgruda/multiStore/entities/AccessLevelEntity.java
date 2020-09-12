@@ -1,6 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
 import lombok.Getter;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,8 +21,9 @@ public class AccessLevelEntity {
     private long id;
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "role_name", nullable = false, length = 16)
-    private String roleName;
+    private RoleName roleName;
 
     //    @OneToMany(mappedBy = "accessLevelByAccessLevelId")
 //    private Collection<AccountAccessLevelMappingEntity> accountAccessLevelMappingsById;

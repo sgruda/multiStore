@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -21,7 +22,7 @@ public class ForgotPasswordTokenEntity {
 
     @Basic
     @Column(name = "expire_date", nullable = false)
-    private Object expireDate;
+    private LocalDateTime expireDate;
 
     @Basic
     @Column(name = "hash", nullable = false, unique = true, updatable = false, length = 64)
