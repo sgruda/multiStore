@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import javax.validation.constraints.Email;
+import java.util.*;
 
 
 @Getter
@@ -23,7 +22,7 @@ import java.util.Objects;
                valueColumnName = "id_range", pkColumnValue = "account_login_data")
 @SecondaryTables({
         @SecondaryTable(name = "account_login_data", schema = "public", uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"login"})
+                @UniqueConstraint(columnNames = {"username"})
                 })
 })
 public class AccountEntity {
@@ -43,6 +42,7 @@ public class AccountEntity {
     private String lastname;
 
     @Basic
+    @Email
     @Column(name = "email", nullable = false, length = 32)
     private String email;
 
@@ -53,8 +53,8 @@ public class AccountEntity {
 
 
     @Basic
-    @Column(table = "account_login_data", name = "login", nullable = false, length = 32)
-    private String login;
+    @Column(table = "account_login_data", name = "username", nullable = false, length = 32)
+    private String username;
 
     @JsonIgnore
     @Basic
@@ -76,18 +76,37 @@ public class AccountEntity {
     private long version;
 
 
-    @OneToMany(mappedBy = "accountEntity")
-    private Collection<AccessLevelEntity> accessLevelEntityCollectionccessLevelEntity = new ArrayList<>();
+//    @OneToMany(mappedBy = "accountEntity")
+//    private Collection<AccessLevelEntity> accessLevelEntityCollectionccessLevelEntity = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_access_level_mapping",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "access_level_id"))
+    private Set<AccessLevelEntity> accessLevelEntities = new HashSet<>();
+
 
     @OneToOne(mappedBy = "accountEntity")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
+//    @NotNull
+//    @Enumerated(EnumType.STRING)
+//    private AuthProvider provider;
+//
+//    private String providerId;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
+    public AccountEntity(String firstname, String lastname, @Email String email, String username, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.veryficationToken = "test";
+    }
 
-    private String providerId;
+    public AccountEntity() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -98,7 +117,7 @@ public class AccountEntity {
                 Objects.equals(firstname, that.firstname) &&
                 Objects.equals(lastname, that.lastname) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(login, that.login) &&
+                Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(active, that.active) &&
                 Objects.equals(confirmed, that.confirmed);
@@ -106,6 +125,6 @@ public class AccountEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email, veryficationToken, login, password, active, confirmed);
+        return Objects.hash(id, firstname, lastname, email, veryficationToken, username, password, active, confirmed);
     }
 }
