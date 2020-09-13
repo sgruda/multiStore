@@ -89,11 +89,11 @@ public class AccountEntity {
     @OneToOne(mappedBy = "accountEntity")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
-//    @NotNull
-//    @Enumerated(EnumType.STRING)
-//    private AuthProvider provider;
-//
-//    private String providerId;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     public AccountEntity(String firstname, String lastname, @Email String email, String username, String password) {
         this.firstname = firstname;
@@ -102,6 +102,7 @@ public class AccountEntity {
         this.username = username;
         this.password = password;
         this.veryficationToken = "test";
+        this.provider = AuthProvider.SYSTEM;
     }
 
     public AccountEntity() {

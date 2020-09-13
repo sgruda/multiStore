@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Log
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest,

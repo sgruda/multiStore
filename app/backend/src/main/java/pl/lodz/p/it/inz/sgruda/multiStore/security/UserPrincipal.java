@@ -2,18 +2,21 @@ package pl.lodz.p.it.inz.sgruda.multiStore.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements OAuth2User, UserDetails {
     private Long id;
 
     private String name;
@@ -27,6 +30,8 @@ public class UserPrincipal implements UserDetails {
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
+    @Setter
+    private Map<String, Object> attributes;
 
     public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
@@ -51,7 +56,11 @@ public class UserPrincipal implements UserDetails {
                 authorities
         );
     }
-
+    public static UserPrincipal create(AccountEntity account, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = UserPrincipal.create(account);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
 
 //    @Override
 //    public String getUsername() {
