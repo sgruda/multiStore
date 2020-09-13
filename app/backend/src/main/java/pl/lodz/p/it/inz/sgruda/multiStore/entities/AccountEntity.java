@@ -22,7 +22,7 @@ import java.util.*;
                valueColumnName = "id_range", pkColumnValue = "account_login_data")
 @SecondaryTables({
         @SecondaryTable(name = "account_login_data", schema = "public", uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"login"})
+                @UniqueConstraint(columnNames = {"username"})
                 })
 })
 public class AccountEntity {
@@ -53,8 +53,8 @@ public class AccountEntity {
 
 
     @Basic
-    @Column(table = "account_login_data", name = "login", nullable = false, length = 32)
-    private String login;
+    @Column(table = "account_login_data", name = "username", nullable = false, length = 32)
+    private String username;
 
     @JsonIgnore
     @Basic
@@ -105,7 +105,7 @@ public class AccountEntity {
                 Objects.equals(firstname, that.firstname) &&
                 Objects.equals(lastname, that.lastname) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(login, that.login) &&
+                Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(active, that.active) &&
                 Objects.equals(confirmed, that.confirmed);
@@ -113,6 +113,6 @@ public class AccountEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email, veryficationToken, login, password, active, confirmed);
+        return Objects.hash(id, firstname, lastname, email, veryficationToken, username, password, active, confirmed);
     }
 }

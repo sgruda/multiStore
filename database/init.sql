@@ -14,14 +14,14 @@ create unique index id_generator_class_name_uindex on id_generator (class_name);
 create table account_login_data (
   id bigint not null
   constraint account_login_data_pk primary key,
-  login varchar(32) not null,
+  username varchar(32) not null,
   password char(64) not null,
   active boolean default true not null,
   confirmed boolean default false not null,
   version bigint default 1 not null
 );
 alter table account_login_data owner to docker;
-create unique index account_login_data_login_uindex on account_login_data (login);
+create unique index account_login_data_login_uindex on account_login_data (username);
 
 ---------------------------------------------------------------------------------------------------
 create table account_data (
