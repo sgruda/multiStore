@@ -45,7 +45,7 @@ public class UserPrincipal implements UserDetails {
         return new UserPrincipal(
                 account.getId(),
                 account.getFirstname() + account.getLastname(),
-                account.getLogin(),
+                account.getUsername(),
                 account.getEmail(),
                 account.getPassword(),
                 authorities
