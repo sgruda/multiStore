@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.configuration;
 
+import org.springframework.http.HttpMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CustomUserDetailsService;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.RestAuthenticationEntryPoint;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenAuthenticationFilter;
@@ -108,10 +109,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()
 //                .antMatchers("/api/auth/**")
 //                .permitAll()
-//                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-//                .permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
-//                .permitAll()
 //                .anyRequest()
 //                .authenticated();
         http
@@ -141,7 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**")
+                .antMatchers("/api/auth/**", "/api/oauth2/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
