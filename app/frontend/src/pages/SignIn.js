@@ -1,70 +1,3 @@
-// import React, { useState } from "react";
-// import { Link, Redirect } from "react-router-dom";
-// import axios from 'axios';
-// import { Card, Input, Button } from '@material-ui/core';
-// import { useAuth } from "../context/AuthContext";
-
-// const API_URL = 'https://localhost:8181/api/auth/signin'
-
-// function SignIn(props) {
-//   const [isSignedIn, setSignedIn] = useState(false);
-//   const [isError, setIsError] = useState(false);
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const { setAuthTokens } = useAuth();
-//   const referer = props.location.state.referer || '/';
-
-//   function signInPost() {
-//     axios.post(API_URL, {
-//       username,
-//       password
-//     }).then(result => {
-//       if (result.status === 200) {
-//         setAuthTokens(result.data);
-//         setSignedIn(true);
-//       } else {
-//         setIsError(true);
-//         console.error("Nie udalo sie zalogowac");
-//       }
-//     }).catch(e => {
-//       setIsError(true);
-//       console.error("Nie udalo sie zalogowac,catch");
-//     });
-//   }
-
-//   if (isSignedIn) {
-//     return <Redirect to={referer} />;
-//   }
-
-//   return (
-//     <Card>
-//         <Input
-//           type="username"
-//           value={username}
-//           onChange={e => {
-//             setUsername(e.target.value);
-//           }}
-//           placeholder="username"
-//         />
-//         <Input
-//           type="password"
-//           value={password}
-//           onChange={e => {
-//             setPassword(e.target.value);
-//           }}
-//           placeholder="password"
-//         />
-//         <Button onClick={signInPost}>Sign In</Button>
-//       <Link to="/signup">Don't have an account?</Link>
-//         {/* { isError &&<Error>The username or password provided were incorrect!</Error> } */}
-//     </Card>
-//   );
-// }
-
-// export default SignIn;
-
-
-
 import React, { useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
@@ -72,12 +5,10 @@ import { useAuth } from "../context/AuthContext";
 import AuthenticationService from "../services/AuthenticationService";
 
 
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import * as MaterialLink from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -120,13 +51,16 @@ function SignIn(props) {
   const { setAuthTokens } = useAuth();
   // const referer = props.location.state.referer || '/';
 
+
+
   function signInPost() {
     axios.post(API_URL, {
       username,
       password
-    }).then(result => {
-      if (result.status === 200) {
-        setAuthTokens(result.data);
+    }).then(respone => {
+      if (respone.status === 200) {
+        console.info(respone)
+        setAuthTokens(respone.data);
         setSignedIn(true);
       } else {
         setIsError(true);
@@ -181,8 +115,8 @@ function SignIn(props) {
             autoComplete="current-password"
           />
           <Button
-            onClick={signInPost()}
-            type="submit"
+            onClick={signInPost}
+            // type="submit" //To chyba komplikowało sprawę sprawdź później 
             fullWidth
             variant="contained"
             color="primary"
@@ -190,6 +124,7 @@ function SignIn(props) {
           >
             Sign In
           </Button>
+           {/* <Button onClick={signInPost}>Sign In</Button> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
