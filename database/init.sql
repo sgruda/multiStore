@@ -35,15 +35,17 @@ create unique index access_level_role_name_uindex
 
 create table account_data
 (
-	id bigint not null
-		constraint account_data_pkey
-			primary key,
-	email varchar(32) not null,
-	firstname varchar(32) not null,
-	lastname varchar(32) not null,
-	veryfication_token varchar(32),
-	constraint uk6s47d2qjycu5ns46lid98vgqp
-		unique (email, veryfication_token)
+	id                 bigint      not null
+        constraint account_data_pkey
+            primary key,
+    email              varchar(32) not null,
+    firstname          varchar(32) not null,
+    lastname           varchar(32) not null,
+    veryfication_token varchar(32),
+    provider           varchar(255),
+    provider_id        varchar(255),
+    constraint uk6s47d2qjycu5ns46lid98vgqp
+        unique (email, veryfication_token)
 );
 
 alter table account_data owner to docker;
