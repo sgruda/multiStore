@@ -9,7 +9,6 @@ import SignUp from './pages/SignUp';
 import Routes from './routes/Routes';
 
 
-
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { LinkSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,9 +67,15 @@ function App(props) {
             <Typography variant="h6" className={classes.title}>
               EMPIK
             </Typography>
-            <Button href="/signin" color="inherit">
+            {/* <Button href="/signin" color="inherit">
+              SignIn
+            </Button> */}
+             <Button component={Link} to="/signin" color="inherit">
               SignIn
             </Button>
+            
+    
+
           </Toolbar>
       </AppBar>
       <Routes />
