@@ -45,7 +45,8 @@ function SignUp() {
     lastname: "",
     email: "",
     username: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
@@ -149,7 +150,7 @@ function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                value={ fields.value }
+                value={ fields.password }
                 onChange={ setFields }
                 variant="outlined"
                 margin="normal"
@@ -164,6 +165,28 @@ function SignUp() {
                 inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
                 error={errors.password ? true : false}
                 helperText={errors.password ? "Password is required (must have 8 digits and...)" : ""}
+             />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                value={ fields.confirmPassword }
+                onChange={ setFields }
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="current-password"
+
+                inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, 
+                                     validate: confirmPassword => confirmPassword === fields.password})}
+                error={errors.confirmPassword ? true : false}
+                helperText={errors.confirmPassword ? 
+                            errors.confirmPassword?.type === "validate" ? "Both must be the same" : "Password is required (must have 8 digits and...)"
+                            : ""}
              />
             </Grid>
           </Grid>
