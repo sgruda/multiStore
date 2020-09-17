@@ -7,7 +7,7 @@ import { AuthContext } from "./context/AuthContext";
 import SignIn from "./pages/SignIn";
 import SignUp from './pages/SignUp';
 import Routes from './routes/Routes';
-
+import AuthenticationService from './services/AuthenticationService';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -34,52 +34,47 @@ const useStyles = makeStyles((theme) => ({
 function App(props) {
   const classes = useStyles();
 
-  const [authTokens, setAuthTokens] = useState();
-  
-  const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data));
-    setAuthTokens(data);
-  }
+  // const [authTokens, setAuthTokens] = useState();
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
 
+  // const setTokens = (data) => {
+  //   localStorage.setItem("tokens", JSON.stringify(data));
+  //   setAuthTokens(data);
+  // }
+  const signOut = () => {
+    localStorage.removeItem("user");
+    setUserIsAuthenticated(false);
+  }
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-      {/* <Router>
-        <div>
-        <ul>
-          <li>
-            <Link to="/">Home Pagee</Link>
-          </li>
-          <li>
-            <Link to="/admin">Admin Pagee</Link>
-          </li>
-        </ul>
-          <Route exact path="/" component={Home} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <PrivateRoute path="/admin" component={Admin} />
-        </div>
-      </Router> */}
+    <div>
        <AppBar position="static">
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              EMPIK
+            <Typography variant="h6" className={classes.title} >
+              <Button component={Link} to="/" color="inherit">
+                EMPIK
+              </Button>
             </Typography>
-            {/* <Button href="/signin" color="inherit">
-              SignIn
-            </Button> */}
-             <Button component={Link} to="/signin" color="inherit">
-              SignIn
-            </Button>
-            
-    
 
+            { userIsAuthenticated
+              ? <Button onClick={signOut} color="inherit">Sign out</Button>
+              : <>
+              <Button component={Link} to="/signin" color="inherit">
+                Sign in
+              </Button>
+              <Button component={Link} to="/signup" color="inherit">
+                Sign up
+              </Button>
+              </>
+            }
           </Toolbar>
       </AppBar>
-      <Routes />
-    </AuthContext.Provider>
+      <AuthContext.Provider value={{ userIsAuthenticated, setUserIsAuthenticated }}>
+        <Routes />
+      </AuthContext.Provider>
+    </div>
   );
 }
 

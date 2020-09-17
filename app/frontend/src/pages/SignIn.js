@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from "../context/AuthContext";
-import AuthenticationService from "../services/AuthenticationService";
 
 
 import Avatar from '@material-ui/core/Avatar';
@@ -14,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import AuthenticationService from '../services/AuthenticationService';
 
 
 
@@ -43,35 +43,19 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn(props) {
  const classes = useStyles();
-
-  const [isSignedIn, setSignedIn] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setAuthTokens } = useAuth();
-  // const referer = props.location.state.referer || '/';
+  const {setUserIsAuthenticated} = useAuth();
 
-
-
-  function signInPost() {
-    axios.post(API_URL, {
-      username,
-      password
-    }).then(respone => {
-      if (respone.status === 200) {
-        console.info(respone)
-        setAuthTokens(respone.data);
-        setSignedIn(true);
-      } else {
-        setIsError(true);
-      }
-    }).catch(e => {
-      setIsError(true);
-    });
+  function signIn() {
+    return AuthenticationService.signIn(username, password)
+      .then(response => {
+         AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : alert("Nie udalo sie zalogowac")
+        }).catch(e => {
+          alert(e);
+        }
+      );
   }
-  // if (isSignedIn) {
-  //   return <Redirect to={referer} />;
-  // }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -115,7 +99,7 @@ function SignIn(props) {
             autoComplete="current-password"
           />
           <Button
-            onClick={signInPost}
+            onClick={signIn}
             // type="submit" //To chyba komplikowało sprawę sprawdź później 
             fullWidth
             variant="contained"
