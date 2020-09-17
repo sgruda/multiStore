@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import PrivateRoute from './PrivateRoute';
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn"
 import Admin from "../pages/Admin"
@@ -11,9 +12,9 @@ export default function Routes() {
       <Route exact path="/">
           <Home />
       </Route>
-      <Route exact path="/admin">
+      <PrivateRoute exact path="/admin">
           <Admin />
-      </Route>
+      </PrivateRoute>
       <Route exact path="/signin">
         <SignIn />
       </Route>
