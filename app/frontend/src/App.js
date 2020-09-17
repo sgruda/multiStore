@@ -1,100 +1,66 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import PrivateRoute from './routes/PrivateRoute';
-import Home from "./pages/Home";
-import Admin from "./pages/Admin";
-import { AuthContext } from "./context/AuthContext";
-import SignIn from "./pages/SignIn";
-import SignUp from './pages/SignUp';
-import Routes from './routes/Routes';
-import AuthenticationService from './services/AuthenticationService';
+import React, { Component } from 'react';
+import './App.css';
+import axios from 'axios'
 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { LinkSharp } from "@material-ui/icons";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+const API_URL = 'http://localhost:8080/api'
+const EMPLOYEE_API_URL = `${API_URL}/db`
 
 
-function App(props) {
-  const classes = useStyles();
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
-  const history = useHistory();
-
-  // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  // const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
-
-
-  useEffect(() => {
-     const user = AuthenticationService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-      // setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      // setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        employees: [],
+        message: null
     }
-  }, []);
-  
-  const signOut = () => {
-    localStorage.removeItem("user");
-    setUserIsAuthenticated(false);
-    history.push("/")
+    this.refreshEmployee = this.refreshEmployee.bind(this)
+}
+
+componentDidMount() {
+    this.refreshEmployee();
+}
+
+refreshEmployee() {
+  axios.get(`${EMPLOYEE_API_URL}`)
+        .then(
+            response => {
+                console.log(response.data[2]);
+                this.setState({ employees: response.data })
+            }
+        )
+}
+  render() {
+    return (
+      <div className="container">
+                <h3>All Employee</h3>
+                <div className="container">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Forename</th>
+                                <th>Surname</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.employees.map(
+                                    employee =>
+                                        <tr key={employee[0]}>
+                                            <td>{employee.id}</td>
+                                            <td>{employee.forename}</td>
+                                            <td>{employee.surname}</td>
+                                            <td>{employee.description}</td>
+                                        </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    );
   }
-  return (
-    !currentUser &&
-    <div>
-       <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title} >
-              <Button component={Link} to="/" color="inherit">
-                EMPIK
-              </Button>
-            </Typography>
-
-            { userIsAuthenticated &&
-              <Button component={Link} to="/admin" color="inherit">
-                AdminPage
-              </Button>
-            }
-
-            { userIsAuthenticated
-              ? <Button onClick={signOut} color="inherit">Sign out</Button>
-              : <>
-              <Button component={Link} to="/signin" color="inherit">
-                Sign in
-              </Button>
-              <Button component={Link} to="/signup" color="inherit">
-                Sign up
-              </Button>
-              </>
-            }
-          </Toolbar>
-      </AppBar>
-      <AuthContext.Provider value={{ userIsAuthenticated, setUserIsAuthenticated }}>
-        <Routes />
-      </AuthContext.Provider>
-    </div>
-  );
 }
 
 export default App;
