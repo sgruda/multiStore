@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 
 import Avatar from '@material-ui/core/Avatar';
@@ -42,15 +43,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignIn(props) {
- const classes = useStyles();
+  const classes = useStyles();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const {setUserIsAuthenticated} = useAuth();
+  const history = useHistory();
 
   function signIn() {
     return AuthenticationService.signIn(username, password)
       .then(response => {
          AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : alert("Nie udalo sie zalogowac")
+         history.push("/admin");
+        //  window.location.reload();
         }).catch(e => {
           alert(e);
         }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PrivateRoute from './routes/PrivateRoute';
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
@@ -33,19 +34,31 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
   const classes = useStyles();
-
-  // const [authTokens, setAuthTokens] = useState();
   const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
+  const history = useHistory();
 
-  // const setTokens = (data) => {
-  //   localStorage.setItem("tokens", JSON.stringify(data));
-  //   setAuthTokens(data);
-  // }
+  // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  // const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+
+  useEffect(() => {
+     const user = AuthenticationService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      // setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      // setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+  }, []);
+  
   const signOut = () => {
     localStorage.removeItem("user");
     setUserIsAuthenticated(false);
+    history.push("/")
   }
   return (
+    !currentUser &&
     <div>
        <AppBar position="static">
           <Toolbar>
@@ -57,6 +70,12 @@ function App(props) {
                 EMPIK
               </Button>
             </Typography>
+
+            { userIsAuthenticated &&
+              <Button component={Link} to="/admin" color="inherit">
+                AdminPage
+              </Button>
+            }
 
             { userIsAuthenticated
               ? <Button onClick={signOut} color="inherit">Sign out</Button>
