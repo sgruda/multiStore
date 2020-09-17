@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### application.properties
-/src/main/resources/application.properties
+#/src/main/resources/application.properties
+app/authentication-test/
