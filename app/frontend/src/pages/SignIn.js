@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
 
+import AuthenticationService from '../services/AuthenticationService';
+import { onError } from '../services/exceptions/ErrorService';
+import { useFields } from '../hooks/FieldHook';
+
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,7 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AuthenticationService from '../services/AuthenticationService';
+
 
 
 
@@ -44,19 +48,21 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn(props) {
   const classes = useStyles();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [fields, setFields] = useFields({
+    username: "",
+    password: ""
+  });
   const {setUserIsAuthenticated} = useAuth();
   const history = useHistory();
 
   function signIn() {
-    return AuthenticationService.signIn(username, password)
+    return AuthenticationService.signIn(fields.username, fields.password)
       .then(response => {
-         AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : alert("Nie udalo sie zalogowac")
+         AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
          history.push("/admin");
         //  window.location.reload();
         }).catch(e => {
-          alert(e);
+          onError(e);
         }
       );
   }
@@ -73,10 +79,8 @@ function SignIn(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            value={username}
-            onChange={e => {
-              setUsername(e.target.value);
-            }}
+            value={ fields.username }
+            onChange={ setFields }
             variant="outlined"
             margin="normal"
             required
@@ -88,10 +92,8 @@ function SignIn(props) {
             autoFocus
           />
           <TextField
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-            }}
+            value={ fields.value }
+            onChange={ setFields }
             variant="outlined"
             margin="normal"
             required
