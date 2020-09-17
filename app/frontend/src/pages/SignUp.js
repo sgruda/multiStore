@@ -51,14 +51,18 @@ function SignUp() {
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
 
   function signUp() {
-    // return AuthenticationService.signIn(fields.username, fields.password)
-    //   .then(response => {
-    //      AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
-    //      history.push("/admin");
-    //     }).catch(e => {
-    //       onError(e);
-    //     }
-    //   );
+    return AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
+      .then(response => {
+        //  AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
+         console.info(response);
+        if (response.status === 201) { 
+            history.push("/");
+            alert("udalo sie");
+          }
+        }).catch(e => {
+          onError(e);
+        }
+      );
   }
 
 

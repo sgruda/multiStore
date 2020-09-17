@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'https://localhost:8181/api/auth/signin'
+const API_URL_SIGN_IN = 'https://localhost:8181/api/auth/signin'
+const API_URL_SIGN_UP = 'https://localhost:8181/api/auth/signup'
 
 class AuthenticationService {
     signIn(username, password) {
-        return axios.post(API_URL, {username, password })
+        return axios.post(API_URL_SIGN_IN, {username, password })
+    }
+    signUp(firstname, lastname, email, username, password) {
+        return axios.post(API_URL_SIGN_UP, {firstname, lastname, email, username, password })
     }
     saveTokenJWT(response) {
         if (response.status === 200 && response.data.accessToken) {
