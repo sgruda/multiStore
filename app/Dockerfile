@@ -2,6 +2,7 @@ FROM node:12.4.0-alpine as frontend
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci
+RUN npm install
 RUN npm run-script build
 
 FROM maven:3.6.3-jdk-14 as backend

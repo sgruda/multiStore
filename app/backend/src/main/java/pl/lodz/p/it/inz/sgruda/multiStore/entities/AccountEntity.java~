@@ -103,7 +103,6 @@ public class AccountEntity {
         this.password = password;
         this.veryficationToken = "test";
         this.provider = AuthProvider.SYSTEM;
-        this.providerId = "test";
     }
 
     public AccountEntity() {
