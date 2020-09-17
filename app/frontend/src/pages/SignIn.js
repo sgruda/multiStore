@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link, Redirect } from "react-router-dom";
-import axios from 'axios';
+import React from 'react';
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import AuthenticationService from '../services/AuthenticationService';
 import { onError } from '../services/exceptions/ErrorService';
@@ -18,11 +18,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-
-
-
-const API_URL = 'https://localhost:8181/api/auth/signin'
 
 
 
@@ -55,12 +50,15 @@ function SignIn(props) {
   const {setUserIsAuthenticated} = useAuth();
   const history = useHistory();
 
+  const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+
+
+
   function signIn() {
     return AuthenticationService.signIn(fields.username, fields.password)
       .then(response => {
          AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
          history.push("/admin");
-        //  window.location.reload();
         }).catch(e => {
           onError(e);
         }
@@ -77,7 +75,7 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit(signIn)}>
           <TextField
             value={ fields.username }
             onChange={ setFields }
@@ -87,10 +85,13 @@ function SignIn(props) {
             fullWidth
             id="username"
             label="Username"
-            name="text"
+            name="username"
             autoComplete="username"
-            autoFocus
-          />
+            
+            inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
+            error={errors.username ? true : false}
+            helperText={errors.username ? "Incorrect entry." : ""}
+          />    
           <TextField
             value={ fields.value }
             onChange={ setFields }
@@ -103,10 +104,13 @@ function SignIn(props) {
             type="password"
             id="password"
             autoComplete="current-password"
+
+            inputRef={register({ required: true })}
+            error={errors.password ? true : false}
+            helperText={errors.password ? "Password is required" : ""}
           />
           <Button
-            onClick={signIn}
-            // type="submit" //To chyba komplikowało sprawę sprawdź później 
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
@@ -114,7 +118,6 @@ function SignIn(props) {
           >
             Sign In
           </Button>
-           {/* <Button onClick={signInPost}>Sign In</Button> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -125,7 +128,6 @@ function SignIn(props) {
               <Link to="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
-               {/* { isError &&<Error>The username or password provided were incorrect!</Error> } */}
             </Grid>
           </Grid>
         </form>
