@@ -91,25 +91,15 @@ function SignUp() {
   return (
     <div>
         <div>
-        {/* <Container className={classes.socialButtons} >
-           <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
-                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
-                          className={classes.socialButtons}/>
-        </Container> */}
 
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div>
-            <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
-                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
-                          className={classes.socialButtons}/>
-                          </div>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Or sign up with us:
+                Sign up
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(signUp)}>
                 <Grid container spacing={2}>
@@ -169,7 +159,6 @@ function SignUp() {
                       value={ fields.username }
                       onChange={ setFields }
                       variant="outlined"
-                      margin="normal"
                       required
                       fullWidth
                       id="username"
@@ -187,7 +176,6 @@ function SignUp() {
                       value={ fields.password }
                       onChange={ setFields }
                       variant="outlined"
-                      margin="normal"
                       required
                       fullWidth
                       name="password"
@@ -206,7 +194,6 @@ function SignUp() {
                       value={ fields.confirmPassword }
                       onChange={ setFields }
                       variant="outlined"
-                      margin="normal"
                       required
                       fullWidth
                       name="confirmPassword"
@@ -233,16 +220,19 @@ function SignUp() {
                 >
                   Sign Up
                 </Button>
-                  <Grid item>
-                    <Link to="/signin" variant="body2">
-                    {"Already have an account? Sign in"}
-                    </Link>
-                  </Grid>
-                  <Dialog
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-describedby="dialog-description"
-                  >
+                <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
+                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
+                          className={classes.socialButtons}/>
+                <Grid item>
+                  <Link to="/signin" variant="body2">
+                  {"Already have an account? Sign in"}
+                  </Link>
+                </Grid>
+                <Dialog
+                  open={openDialog}
+                  onClose={handleCloseDialog}
+                  aria-describedby="dialog-description"
+                >
                     <DialogContent>
                       <DialogContentText id="dialog-description">
                         Registration has been done!
