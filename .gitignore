@@ -35,3 +35,5 @@ build/
 ### application.properties
 #/src/main/resources/application.properties
 app/authentication-test/
+
+app/test/
