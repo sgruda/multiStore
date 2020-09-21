@@ -10,6 +10,8 @@ import SignUp from './pages/SignUp';
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 
+import { ACCESS_TOKEN } from './config/config';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +22,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { LinkSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
+  appbar : {
+    backgroundColor: "#4285F4"
+  },
   root: {
     flexGrow: 1,
   },
@@ -54,13 +59,14 @@ function App(props) {
   
   const signOut = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem(ACCESS_TOKEN);
     setUserIsAuthenticated(false);
     history.push("/")
   }
   return (
     !currentUser &&
     <div>
-       <AppBar position="static">
+       <AppBar position="static" className={classes.appbar}>
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
