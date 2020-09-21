@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-// import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import { Button, Container } from "@material-ui/core";
 import GOOGLE_LOGO from "../images/google-logo.svg";
@@ -16,10 +15,10 @@ const useStyles = makeStyles(theme => ({
       height: 40,
       backgroundColor: "white",
       borderRadius: 2,
-      marginRight: 12,
-      marginLeft: 0,
+      marginLeft: '-200%',
     },
     buttonRoot: {
+      margin: theme.spacing(1, 0, 1),
       padding: 2,
       paddingRight: 10,
       paddingLeft: 6,
@@ -46,24 +45,18 @@ function SocialSignup({GOOGLE_AUTH_URL, GOOGLE_TEXT, FACEBOOK_AUTH_URL, FACEBOOK
     
     return (
         <div>
-            <Container>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <Button href={GOOGLE_AUTH_URL} className={classes.buttonRoot}  startIcon={<GoogleIcon />} variant="contained">                    
-                            <Typography  variant="body2" component="h2">
-                                {GOOGLE_TEXT}
-                            </Typography>                
-                        </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                        <Button href={FACEBOOK_AUTH_URL} className={classes.buttonRoot}  startIcon={<FacebookIcon />} variant="contained">                    
-                            <Typography  variant="body2" component="h2">
-                                {FACEBOOK_TEXT}
-                            </Typography>
-                        </Button>
-                    </Grid>
+            <Grid container spacing={1}>
+                <Button href={GOOGLE_AUTH_URL} className={classes.buttonRoot}  startIcon={<GoogleIcon />} variant="contained" fullWidth>                    
+                    <Typography  variant="body2" component="h2">
+                        {GOOGLE_TEXT}
+                    </Typography>                
+                </Button>
+                <Button href={FACEBOOK_AUTH_URL} className={classes.buttonRoot}  startIcon={<FacebookIcon />} variant="contained" fullWidth>                    
+                    <Typography  variant="body2" component="h2">
+                        {FACEBOOK_TEXT}
+                    </Typography>
+                </Button>
                 </Grid>
-            </Container>
         </div>
     );
 }

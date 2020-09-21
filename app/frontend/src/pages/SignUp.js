@@ -7,7 +7,7 @@ import AuthenticationService from '../services/AuthenticationService';
 import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
-import  SocialSignup from '../components/SocialSignup';
+import  SocialButtons from '../components/SocialButtons';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -23,7 +23,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  socialSignup: {
+  socialButtons: {
     padding: 10,
     width: '47%'
   },
@@ -92,14 +91,19 @@ function SignUp() {
   return (
     <div>
         <div>
-        <Container className={classes.socialSignup} >
-           <SocialSignup GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
-                        FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"/>
-        </Container>
+        {/* <Container className={classes.socialButtons} >
+           <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
+                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
+                          className={classes.socialButtons}/>
+        </Container> */}
 
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            
+            <div>
+            <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
+                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
+                          className={classes.socialButtons}/>
+                          </div>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
