@@ -37,8 +37,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   socialSignup: {
-    margin: theme.spacing(2),
-    marginLeft: '27%',
     padding: 10,
     width: '47%'
   },
@@ -93,8 +91,8 @@ function SignUp() {
   return (
     <div>
         <div>
-        <Container className={classes.socialSignup}>
-           <SocialSignup className={classes.socialSignup}/>
+        <Container className={classes.socialSignup} >
+           <SocialSignup />
         </Container>
 
         <Container component="main" maxWidth="xs">
