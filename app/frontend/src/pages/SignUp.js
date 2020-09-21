@@ -1,4 +1,4 @@
-import React from 'react';
+import  React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +55,8 @@ function SignUp() {
   });
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+  const [openDialog, setOpenDialog] = useState(false);
+
 
   function signUp() {
     return AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
@@ -57,8 +64,8 @@ function SignUp() {
         //  AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
          console.info(response);
         if (response.status === 201) { 
-            history.push("/");
-            alert("udalo sie");
+            // history.push("/");
+            setOpenDialog(true);
           }
         }).catch(e => {
           onError(e);
@@ -66,6 +73,10 @@ function SignUp() {
       );
   }
 
+  const handleCloseDialog = (event, reason) => {
+    setOpenDialog(false);
+    history.push("/")
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -199,13 +210,28 @@ function SignUp() {
           >
             Sign Up
           </Button>
-          {/* <Grid container justify="flex-end"> */}
             <Grid item>
               <Link to="/signin" variant="body2">
               {"Already have an account? Sign in"}
               </Link>
             </Grid>
-          {/* </Grid> */}
+            <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              aria-describedby="dialog-description"
+            >
+              <DialogContent>
+                <DialogContentText id="dialog-description">
+                  Registration has been done!
+                  Confirm your accont (e-mail with activation link)
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog} color="primary" autoFocus>
+                  OK
+                </Button>
+              </DialogActions>
+          </Dialog>
         </form>
       </div>
     </Container>
