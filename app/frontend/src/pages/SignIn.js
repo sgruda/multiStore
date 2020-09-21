@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn(props) {
+function SignIn() {
   const classes = useStyles();
   const [fields, setFields] = useFields({
     username: "",
