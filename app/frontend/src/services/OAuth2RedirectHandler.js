@@ -15,8 +15,8 @@ function OAuth2RedirectHandler() {
     
     const {setUserIsAuthenticated} = useAuth();
     const history = useHistory();
-    token = getUrlParameter('token');
-    error = getUrlParameter('error');  
+    const token = getUrlParameter('token');
+    const error = getUrlParameter('error');  
 
     if(token) {
         localStorage.setItem(ACCESS_TOKEN, token);
