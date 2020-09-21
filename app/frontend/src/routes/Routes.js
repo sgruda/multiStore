@@ -6,6 +6,7 @@ import SignIn from "../pages/SignIn"
 import SignUp from "../pages/SignUp"
 import Admin from "../pages/Admin"
 import NotFound from "../pages/NotFound";
+import OAuth2RedirectHandler from '../services/OAuth2RedirectHandler';
 
 export default function Routes() {
   return (
@@ -21,6 +22,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/signup">
         <SignUp />
+      </Route>
+      <Route exact path="/oauth2/redirect">
+        <OAuth2RedirectHandler />
       </Route>
       <Route>
         <NotFound />

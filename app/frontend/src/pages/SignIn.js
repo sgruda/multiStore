@@ -8,6 +8,8 @@ import AuthenticationService from '../services/AuthenticationService';
 import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
+import  SocialButtons from '../components/SocialButtons';
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -32,12 +34,20 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  socialButtons: {
+    padding: 10,
+    width: '47%'
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#4285F4",
+    "&:hover": {
+      backgroundColor: "#2c0fab"
+    }
   },
 }));
 
@@ -118,6 +128,11 @@ function SignIn() {
           >
             Sign In
           </Button>
+          {/* <Container className={classes.submit} > */}
+            <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
+                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
+                          className={classes.socialButtons} />
+          {/* </Container> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -18,7 +19,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user.OAuth2UserInfoFac
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import java.util.Optional;
-
+@Log
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -28,7 +29,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException ex) {
@@ -44,11 +44,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
         Optional<AccountEntity> accountOptional = accountRepository.findByEmail(oAuth2UserInfo.getEmail());
         AccountEntity account;
         if(accountOptional.isPresent()) {
             account = accountOptional.get();
+            log.severe("WTF++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            log.severe("account.getProvider() = " + account.getProvider());
+            log.severe("oAuth2UserRequest.getClientRegistration().getRegistrationId() = " + oAuth2UserRequest.getClientRegistration().getRegistrationId());
+            log.severe("AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId())) = " + AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+            log.severe("if = " + !account.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId())));
             if(!account.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         account.getProvider() + " account. Please use your " + account.getProvider() +
@@ -64,12 +68,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private AccountEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         AccountEntity account = new AccountEntity();
-
-        account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()));
         account.setProviderId(oAuth2UserInfo.getId());
         account.setFirstname(oAuth2UserInfo.getFirstname());
         account.setLastname(oAuth2UserInfo.getLastname());
         account.setEmail(oAuth2UserInfo.getEmail());
+        log.severe("WTF  registerNewUser account = " + account.toString());
 //        account.setImageUrl(oAuth2UserInfo.getImageUrl());
         return accountRepository.save(account);
     }
