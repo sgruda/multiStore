@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
+// import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import { Button, Container } from "@material-ui/core";
 import GOOGLE_LOGO from "../images/google-logo.svg";
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
   
-function SocialSignup() {
+function SocialSignup({GOOGLE_AUTH_URL, GOOGLE_TEXT, FACEBOOK_AUTH_URL, FACEBOOK_TEXT}) {
     const classes = useStyles();
 
     const GoogleIcon = () => {
@@ -51,14 +51,14 @@ function SocialSignup() {
                     <Grid item xs={12} sm={6}>
                         <Button href={GOOGLE_AUTH_URL} className={classes.buttonRoot}  startIcon={<GoogleIcon />} variant="contained">                    
                             <Typography  variant="body2" component="h2">
-                                Sign up with Google
+                                {GOOGLE_TEXT}
                             </Typography>                
                         </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Button href={FACEBOOK_AUTH_URL} className={classes.buttonRoot}  startIcon={<FacebookIcon />} variant="contained">                    
                             <Typography  variant="body2" component="h2">
-                                Sign up with Facebook
+                                {FACEBOOK_TEXT}
                             </Typography>
                         </Button>
                     </Grid>

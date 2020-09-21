@@ -8,6 +8,7 @@ import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
 import  SocialSignup from '../components/SocialSignup';
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -92,7 +93,8 @@ function SignUp() {
     <div>
         <div>
         <Container className={classes.socialSignup} >
-           <SocialSignup />
+           <SocialSignup GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
+                        FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"/>
         </Container>
 
         <Container component="main" maxWidth="xs">
