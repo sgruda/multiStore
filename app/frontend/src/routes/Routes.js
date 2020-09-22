@@ -23,9 +23,9 @@ export default function Routes() {
       <Route exact path="/signup">
         <SignUp />
       </Route>
-      <Route exact path="/oauth2/redirect">
+      {/* <Route exact path="/oauth2/redirect">
         <OAuth2RedirectHandler />
-      </Route>
+      </Route> */}
       <Route>
         <NotFound />
       </Route>
