@@ -10,14 +10,19 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OAuth2AuthenticationProcessingException;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user.OAuth2UserInfo;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user.OAuth2UserInfoFactory;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
+import java.util.Collections;
 import java.util.Optional;
 @Log
 @Service
@@ -25,6 +30,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    AccessLevelRepository accessLevelRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -48,11 +55,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         AccountEntity account;
         if(accountOptional.isPresent()) {
             account = accountOptional.get();
-            log.severe("WTF++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            log.severe("account.getProvider() = " + account.getProvider());
-            log.severe("oAuth2UserRequest.getClientRegistration().getRegistrationId() = " + oAuth2UserRequest.getClientRegistration().getRegistrationId());
-            log.severe("AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId())) = " + AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-            log.severe("if = " + !account.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId())));
             if(!account.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         account.getProvider() + " account. Please use your " + account.getProvider() +
@@ -68,19 +70,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private AccountEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         AccountEntity account = new AccountEntity();
-        account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()));
+        account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         account.setProviderId(oAuth2UserInfo.getId());
-        account.setFirstname(oAuth2UserInfo.getFirstname());
-        account.setLastname(oAuth2UserInfo.getLastname());
+        account.setName(oAuth2UserInfo.getName());
         account.setEmail(oAuth2UserInfo.getEmail());
+        AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
+                .orElseThrow(() -> new AppException("User Role not set."));
+
+        account.setAccessLevelEntities(Collections.singleton(clientRole));
         log.severe("WTF  registerNewUser account = " + account.toString());
 //        account.setImageUrl(oAuth2UserInfo.getImageUrl());
         return accountRepository.save(account);
     }
 
     private AccountEntity updateExistingUser(AccountEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setFirstname(oAuth2UserInfo.getFirstname());
-        existingUser.setLastname(oAuth2UserInfo.getLastname());
+        existingUser.setName(oAuth2UserInfo.getName());
 //        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return accountRepository.save(existingUser);
     }

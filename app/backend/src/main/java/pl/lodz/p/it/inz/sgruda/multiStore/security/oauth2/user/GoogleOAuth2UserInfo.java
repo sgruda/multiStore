@@ -17,16 +17,11 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getFirstname() {
+    public String getName() {
         log.severe("WTF attributes.get(name ) = " + attributes.get("name").toString().split(" "));
         log.severe("WTF attributes.get(profile ) = " + attributes.get("profile"));
-        return (String) attributes.get("firstname");
+        return (String) attributes.get("name");
     }
-    @Override
-    public String getLastname() {
-        return (String) attributes.get("lastname");
-    }
-
     @Override
     public String getEmail() {
         return (String) attributes.get("email");

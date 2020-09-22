@@ -37,12 +37,8 @@ public class AccountEntity {
     private long id;
 
     @Basic
-    @Column(name = "firstname", nullable = false, length = 32)
-    private String firstname;
-
-    @Basic
-    @Column(name = "lastname", nullable = false, length = 32)
-    private String lastname;
+    @Column(name = "name", nullable = false, length = 32)
+    private String name;
 
     @Basic
     @Email
@@ -51,17 +47,17 @@ public class AccountEntity {
 
     @Setter(lombok.AccessLevel.NONE)
     @Basic
-    @Column(name = "veryfication_token", nullable = true, length = 32)
+    @Column(name = "veryfication_token", length = 32)
     private String veryficationToken;
 
 
     @Basic
-    @Column(table = "account_login_data", name = "username", nullable = false, length = 32)
+    @Column(table = "account_login_data", name = "username", length = 32)
     private String username;
 
     @JsonIgnore
     @Basic
-    @Column(table = "account_login_data", name = "password", nullable = false, length = 64)
+    @Column(table = "account_login_data", name = "password", length = 64)
     private String password;
 
     @Basic
@@ -82,7 +78,7 @@ public class AccountEntity {
 //    @OneToMany(mappedBy = "accountEntity")
 //    private Collection<AccessLevelEntity> accessLevelEntityCollectionccessLevelEntity = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "account_access_level_mapping",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "access_level_id"))
@@ -99,16 +95,23 @@ public class AccountEntity {
     private String providerId;
 
     public AccountEntity(String firstname, String lastname, @Email String email, String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.name = firstname + lastname;
         this.email = email;
         this.username = username;
         this.password = password;
         this.veryficationToken = "test";
-        this.provider = AuthProvider.SYSTEM;
+        this.provider = AuthProvider.system;
         this.providerId = "test";
     }
-
+    public AccountEntity(String name, @Email String email, String username, String password) {
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.veryficationToken = "test";
+        this.provider = AuthProvider.system;
+        this.providerId = "test";
+    }
     public AccountEntity() {
 
     }
@@ -119,8 +122,7 @@ public class AccountEntity {
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
         return id == that.id &&
-                Objects.equals(firstname, that.firstname) &&
-                Objects.equals(lastname, that.lastname) &&
+                Objects.equals(name, that.name) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
@@ -130,6 +132,6 @@ public class AccountEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email, veryficationToken, username, password, active, confirmed);
+        return Objects.hash(id, name, email, veryficationToken, username, password, active, confirmed);
     }
 }

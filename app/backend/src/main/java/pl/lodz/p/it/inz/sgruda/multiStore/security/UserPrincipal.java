@@ -41,7 +41,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
-
+public UserPrincipal(Long id, String name, String email,  Collection<? extends GrantedAuthority> authorities) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.authorities = authorities;
+}
     public static UserPrincipal create(AccountEntity account) {
         List<GrantedAuthority> authorities = account.getAccessLevelEntities().stream().map(role ->
                 new SimpleGrantedAuthority(role.getRoleName().name())
@@ -49,7 +54,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
         return new UserPrincipal(
                 account.getId(),
-                account.getFirstname() + account.getLastname(),
+                account.getName(),
                 account.getUsername(),
                 account.getEmail(),
                 account.getPassword(),
