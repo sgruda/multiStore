@@ -77,7 +77,7 @@ public class AuthenticationEndpoint {
         }
 
         // Creating user's account
-        AccountEntity account = new AccountEntity(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(),
+        AccountEntity account = new AccountEntity(signUpRequest.getName(), signUpRequest.getEmail(),
                 signUpRequest.getUsername(), signUpRequest.getPassword());
 
         account.setPassword(passwordEncoder.encode(account.getPassword()));
