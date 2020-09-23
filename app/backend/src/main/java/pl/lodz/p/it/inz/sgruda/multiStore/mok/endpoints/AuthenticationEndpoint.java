@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.endpoints;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
-
+@Log
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationEndpoint {
@@ -77,10 +78,8 @@ public class AuthenticationEndpoint {
         }
 
         // Creating user's account
-        AccountEntity account = new AccountEntity(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(),
-                signUpRequest.getUsername(), signUpRequest.getPassword());
-
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        AccountEntity account = new AccountEntity(signUpRequest.getFirstname(), signUpRequest.getLastname(),
+                signUpRequest.getEmail(), signUpRequest.getUsername(), passwordEncoder.encode(signUpRequest.getPassword()));
 
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
                 .orElseThrow(() -> new AppException("User Role not set."));

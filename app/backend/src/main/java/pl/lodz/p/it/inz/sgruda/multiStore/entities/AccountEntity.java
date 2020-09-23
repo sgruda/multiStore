@@ -1,35 +1,27 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.*;
-
-
-@ToString
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "account_data", schema = "public",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"email", "veryfication_token"})
-})
+                @UniqueConstraint(columnNames = {"email"})
+        })
 @TableGenerator(name = "AccountIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
-               valueColumnName = "id_range", pkColumnValue = "account_login_data")
-@SecondaryTables({
-        @SecondaryTable(name = "account_login_data", schema = "public", uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"username"})
-                })
-})
-public class AccountEntity {
-
+        valueColumnName = "id_range", pkColumnValue = "account_data")
+public class AccountEntity implements Serializable {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
@@ -37,50 +29,17 @@ public class AccountEntity {
     private long id;
 
     @Basic
-    @Column(name = "firstname", nullable = false, length = 32)
-    private String firstname;
+    @Column(name = "first_name", nullable = false, length = 32)
+    private String firstName;
 
     @Basic
-    @Column(name = "lastname", nullable = false, length = 32)
-    private String lastname;
+    @Column(name = "last_name", nullable = false, length = 32)
+    private String lastName;
 
     @Basic
     @Email
-    @Column(name = "email", nullable = false, length = 32)
+    @Column(name = "email", nullable = false)
     private String email;
-
-    @Setter(lombok.AccessLevel.NONE)
-    @Basic
-    @Column(name = "veryfication_token", nullable = true, length = 32)
-    private String veryficationToken;
-
-
-    @Basic
-    @Column(table = "account_login_data", name = "username", nullable = false, length = 32)
-    private String username;
-
-    @JsonIgnore
-    @Basic
-    @Column(table = "account_login_data", name = "password", nullable = false, length = 64)
-    private String password;
-
-    @Basic
-    @Column(table = "account_login_data", name = "active", nullable = false)
-    private boolean active;
-
-    @Basic
-    @Column(table = "account_login_data", name = "confirmed", nullable = false)
-    private boolean confirmed;
-
-    @Getter(lombok.AccessLevel.NONE)
-    @Setter(lombok.AccessLevel.NONE)
-    @Basic
-    @Column(table = "account_login_data", name = "version", nullable = false)
-    private long version;
-
-
-//    @OneToMany(mappedBy = "accountEntity")
-//    private Collection<AccessLevelEntity> accessLevelEntityCollectionccessLevelEntity = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "account_access_level_mapping",
@@ -89,47 +48,105 @@ public class AccountEntity {
     private Set<AccessLevelEntity> accessLevelEntities = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "accountEntity")
-    private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
+    @Basic
+    @Column(name = "active", nullable = false)
+    private boolean active;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @Basic
+    @Column(name = "provider_id", nullable = true)
     private String providerId;
 
-    public AccountEntity(String firstname, String lastname, @Email String email, String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    @Setter(lombok.AccessLevel.NONE)
+    @Basic
+    @Column(name = "version", nullable = false)
+    private long version;
+
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "authentication_data_id", referencedColumnName = "id")
+    private AuthenticationDataEntity authenticationDataEntity;
+
+
+    public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider, String providerId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.username = username;
-        this.password = password;
-        this.veryficationToken = "test";
-        this.provider = AuthProvider.SYSTEM;
-        this.providerId = "test";
+        this.active = true;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
+
+    public AccountEntity(String firstName, String lastName, @Email String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.active = true;
+        this.authenticationDataEntity = new AuthenticationDataEntity(username, password);
+        this.provider = AuthProvider.system;
     }
 
     public AccountEntity() {
-
+        this.authenticationDataEntity = new AuthenticationDataEntity();
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
-        return id == that.id &&
-                Objects.equals(firstname, that.firstname) &&
-                Objects.equals(lastname, that.lastname) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(active, that.active) &&
-                Objects.equals(confirmed, that.confirmed);
+        return  firstName.equals(that.firstName) &&
+                lastName.equals(that.lastName) &&
+                email.equals(that.email) &&
+                accessLevelEntities.equals(that.accessLevelEntities) &&
+                provider == that.provider &&
+                active == that.active &&
+                authenticationDataEntity.equals(that.authenticationDataEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email, veryficationToken, username, password, active, confirmed);
+        return Objects.hash(firstName, lastName, email, accessLevelEntities, provider, active, authenticationDataEntity);
+    }
+
+    public String getUsername() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getUsername();
+        return null;
+    }
+    public void setUsername(String username) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setUsername(username);
+    }
+    public String getPassword() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getPassword();
+        return null;
+    }
+    public void setPassword(String password) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setPassword(password);
+    }
+    public String getVeryficationToken() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getVeryficationToken();
+        return null;
+    }
+    public boolean isEmailVerified() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.isEmailVerified();
+        return false;
+    }
+    public void setEmailVerified(boolean emailVerified) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setEmailVerified(emailVerified);
+    }
+    public ForgotPasswordTokenEntity getForgotPasswordTokenEntity() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getForgotPasswordTokenEntity();
+        return null;
     }
 }

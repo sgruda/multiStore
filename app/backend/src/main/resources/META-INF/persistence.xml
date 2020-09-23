@@ -7,6 +7,7 @@
 
         <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity</class>
         <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity</class>
+        <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity</class>
         <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/docker"/>
