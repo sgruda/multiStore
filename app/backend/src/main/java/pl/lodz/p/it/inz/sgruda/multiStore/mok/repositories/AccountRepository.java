@@ -1,6 +1,8 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 
@@ -15,9 +17,16 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
 //    List<AccountEntity> findByIdIn(List<Long> userIds);
 
-//    Optional<AccountEntity> findByUsername(String username);
+    @Query("select account from AccountEntity account " +
+            "where account.authenticationDataEntity.username = :username")
+    Optional<AccountEntity> findByUsername(@Param("username") String username);
 
-//    Boolean existsByUsername(String username);
+
+    @Query("SELECT CASE WHEN COUNT(account) > 0 " +
+            "THEN true ELSE false END " +
+            "FROM AccountEntity account " +
+            "WHERE account.authenticationDataEntity.username = :username")
+    Boolean existsByUsername(@Param("username") String username);
 
     Boolean existsByEmail(String email);
 
