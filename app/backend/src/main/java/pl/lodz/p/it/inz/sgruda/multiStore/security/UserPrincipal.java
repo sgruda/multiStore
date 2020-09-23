@@ -1,158 +1,89 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@Getter
-//public class UserPrincipal implements OAuth2User, UserDetails {
-//    @Getter
-//    private Long id;
-////    private String name;
-//    private String username;
-////    private String email;
-//    private String password;
-//    @Getter @Setter
-//    private Collection<? extends GrantedAuthority> authorities;
-//    @Setter @Getter
-//    private Map<String, Object> attributes;
-
-//    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-//        this.id = id;
-////        this.name = name;
-//        this.username = username;
-////        this.email = email;
-//        this.password = password;
-//        this.authorities = authorities;
-//    }
-//public UserPrincipal(Long id, String username, String password,  Collection<? extends GrantedAuthority> authorities) {
-//    this.id = id;
-//    this.username = username;
-//    this.password = password;
-//    this.authorities = authorities;
-//    }
-//    @Override
-//    public String getName() {
-//        return String.valueOf(id);
-//    }
-//
-//    public static UserPrincipal create(AccountEntity account) {
-//        List<GrantedAuthority> authorities = account.getAccessLevelEntities().stream().map(role ->
-//                new SimpleGrantedAuthority(role.getRoleName().name())
-//        ).collect(Collectors.toList());
-//
-////        return new UserPrincipal(
-////                account.getId(),
-////                account.getName(),
-////                account.getUsername(),
-////                account.getEmail(),
-////                account.getPassword(),
-////                authorities
-////        );
-//        return new UserPrincipal(
-//                account.getId(),
-//                account.getUsername(),
-//                account.getPassword(),
-//                authorities
-//        );
-//    }
-//    public static UserPrincipal create(AccountEntity account, Map<String, Object> attributes) {
-//        UserPrincipal userPrincipal = UserPrincipal.create(account);
-//        userPrincipal.setAttributes(attributes);
-//        return userPrincipal;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return authorities;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        UserPrincipal that = (UserPrincipal) o;
-//        return Objects.equals(id, that.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id);
-//    }
-//}
 
 public class UserPrincipal implements OAuth2User, UserDetails {
+    @Getter
     private Long id;
+    @Getter
+    private String firstName;
+    @Getter
+    private String lastName;
+    @Getter
     private String email;
     private String username;
     private String password;
+    @Getter
+    private boolean active;
+    @Getter
+    private boolean emailVerified;
+    @Setter
     private Collection<? extends GrantedAuthority> authorities;
+    @Setter
     private Map<String, Object> attributes;
 
-    public UserPrincipal(Long id, String email, String password,String username, Collection<? extends GrantedAuthority> authorities) {
+
+    public UserPrincipal(Long id, String firstName, String lastName, String email, String username, String password, boolean active,
+                         boolean emailVerified, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.username = username;
+        this.password = password;
+        this.active = active;
+        this.emailVerified = emailVerified;
         this.authorities = authorities;
     }
-    public UserPrincipal(Long id, String email,  Collection<? extends GrantedAuthority> authorities) {
+
+    public UserPrincipal(Long id, String firstName, String lastName, String email, boolean active,
+                         Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.active = active;
         this.authorities = authorities;
     }
+
     public static UserPrincipal create(AccountEntity account) {
         List<GrantedAuthority> authorities = account.getAccessLevelEntities().stream().map(role ->
                 new SimpleGrantedAuthority(role.getRoleName().name())
         ).collect(Collectors.toList());
 
-//        return new UserPrincipal(
-//                account.getId(),
-//                account.getEmail(),
-//                account.getPassword(),
-//                account.getUsername(),
-//                authorities
-//        );
-        return new UserPrincipal(
-                account.getId(),
-                account.getEmail(),
-                authorities
-        );
+        if(account.getProvider().equals(AuthProvider.system))
+            return new UserPrincipal(
+                    account.getId(),
+                    account.getFirstName(),
+                    account.getLastName(),
+                    account.getEmail(),
+                    account.getUsername(),
+                    account.getPassword(),
+                    account.isActive(),
+                    account.isEmailVerified(),
+                    authorities
+            );
+        else
+            return new UserPrincipal(
+                    account.getId(),
+                    account.getFirstName(),
+                    account.getLastName(),
+                    account.getEmail(),
+                    account.isActive(),
+                    authorities
+
+            );
     }
 
     public static UserPrincipal create(AccountEntity user, Map<String, Object> attributes) {
@@ -161,13 +92,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return userPrincipal;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     @Override
     public String getPassword() {
@@ -186,7 +110,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isActive();
     }
 
     @Override
@@ -207,10 +131,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;
-    }
-
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
     }
 
     @Override
