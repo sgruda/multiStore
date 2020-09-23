@@ -32,10 +32,14 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     @Setter
     private Map<String, Object> attributes;
+    @Getter
+    private AuthProvider authProvider;
+    @Getter
+    private String providerId;
 
 
     public UserPrincipal(Long id, String firstName, String lastName, String email, String username, String password, boolean active,
-                         boolean emailVerified, Collection<? extends GrantedAuthority> authorities) {
+                         boolean emailVerified, AuthProvider authProvider, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,16 +48,19 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.password = password;
         this.active = active;
         this.emailVerified = emailVerified;
+        this.authProvider = authProvider;
         this.authorities = authorities;
     }
 
-    public UserPrincipal(Long id, String firstName, String lastName, String email, boolean active,
-                         Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String firstName, String lastName, String email, boolean active, AuthProvider authProvider,
+                         String providerId, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.active = active;
+        this.authProvider = authProvider;
+        this.providerId = providerId;
         this.authorities = authorities;
     }
 
@@ -72,6 +79,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                     account.getPassword(),
                     account.isActive(),
                     account.isEmailVerified(),
+                    account.getProvider(),
                     authorities
             );
         else
@@ -81,6 +89,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                     account.getLastName(),
                     account.getEmail(),
                     account.isActive(),
+                    account.getProvider(),
+                    account.getProviderId(),
                     authorities
 
             );
@@ -100,7 +110,10 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        if(this.authProvider.equals(AuthProvider.system))
+            return username;
+        else
+            return email;
     }
 
     @Override
