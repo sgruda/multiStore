@@ -1,8 +1,5 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -134,17 +131,26 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.username = username;
         this.authorities = authorities;
     }
-
+    public UserPrincipal(Long id, String email,  Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.email = email;
+        this.authorities = authorities;
+    }
     public static UserPrincipal create(AccountEntity account) {
         List<GrantedAuthority> authorities = account.getAccessLevelEntities().stream().map(role ->
                 new SimpleGrantedAuthority(role.getRoleName().name())
         ).collect(Collectors.toList());
 
+//        return new UserPrincipal(
+//                account.getId(),
+//                account.getEmail(),
+//                account.getPassword(),
+//                account.getUsername(),
+//                authorities
+//        );
         return new UserPrincipal(
                 account.getId(),
                 account.getEmail(),
-                account.getPassword(),
-                account.getUsername(),
                 authorities
         );
     }

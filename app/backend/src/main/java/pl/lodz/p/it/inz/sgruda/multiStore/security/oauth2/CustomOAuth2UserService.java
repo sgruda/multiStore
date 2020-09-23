@@ -72,7 +72,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         AccountEntity account = new AccountEntity();
         account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         account.setProviderId(oAuth2UserInfo.getId());
-        account.setName(oAuth2UserInfo.getName());
+        account.setFirstName(oAuth2UserInfo.getFirstName());
+        account.setLastName(oAuth2UserInfo.getLastName());
         account.setEmail(oAuth2UserInfo.getEmail());
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
                 .orElseThrow(() -> new AppException("User Role not set."));
@@ -84,7 +85,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private AccountEntity updateExistingUser(AccountEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
+        existingUser.setFirstName(oAuth2UserInfo.getFirstName());
+        existingUser.setLastName(oAuth2UserInfo.getLastName());
 //        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return accountRepository.save(existingUser);
     }
