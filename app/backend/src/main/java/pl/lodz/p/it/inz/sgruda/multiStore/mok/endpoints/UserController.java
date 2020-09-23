@@ -26,11 +26,11 @@ public class UserController {
         return userSummary;
     }
 
-//    @GetMapping("/user/checkUsernameAvailability")
-//    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
-//        Boolean isAvailable = !accountRepository.existsByUsername(username);
-//        return new UserIdentityAvailability(isAvailable);
-//    }
+    @GetMapping("/user/checkUsernameAvailability")
+    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
+        Boolean isAvailable = !accountRepository.existsByUsername(username);
+        return new UserIdentityAvailability(isAvailable);
+    }
 
     @GetMapping("/user/checkEmailAvailability")
     public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {

@@ -69,24 +69,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private AccountEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        AccountEntity account = new AccountEntity();
-        account.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-        account.setProviderId(oAuth2UserInfo.getId());
-        account.setFirstName(oAuth2UserInfo.getFirstName());
-        account.setLastName(oAuth2UserInfo.getLastName());
-        account.setEmail(oAuth2UserInfo.getEmail());
+        AccountEntity account = new AccountEntity(
+                        oAuth2UserInfo.getFirstName(),
+                        oAuth2UserInfo.getLastName(),
+                        oAuth2UserInfo.getEmail(),
+                        AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()),
+                        oAuth2UserInfo.getId()
+                );
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
-        log.severe("WTF  registerNewUser account = " + account.toString());
-//        account.setImageUrl(oAuth2UserInfo.getImageUrl());
+
         return accountRepository.save(account);
     }
 
     private AccountEntity updateExistingUser(AccountEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getFirstName());
         existingUser.setLastName(oAuth2UserInfo.getLastName());
+        existingUser.setEmail(oAuth2UserInfo.getEmail());
 //        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return accountRepository.save(existingUser);
     }

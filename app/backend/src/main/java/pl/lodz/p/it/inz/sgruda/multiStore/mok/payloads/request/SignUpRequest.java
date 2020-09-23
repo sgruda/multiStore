@@ -8,12 +8,12 @@ import javax.validation.constraints.*;
 @Setter
 public class SignUpRequest {
 
-//    @NotBlank
-////    @Size(min = 4, max = 40)
-//    private String firstname;
-//
-//    @NotBlank
-//    private String lastname;
+    @NotBlank
+//    @Size(min = 4, max = 40)
+    private String firstname;
+
+    @NotBlank
+    private String lastname;
 //
 //    @NotBlank
 ////    @Size(min = 3, max = 15)
@@ -27,8 +27,6 @@ public class SignUpRequest {
 //    @NotBlank
 ////    @Size(min = 6, max = 20)
 //    private String password;
-    @NotBlank
-    private String name;
 
     @NotBlank
     @Email

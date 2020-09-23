@@ -31,7 +31,7 @@ public class ForgotPasswordTokenEntity {
 
 //    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
 //    @OneToOne(optional = false)
-//    private AccountEntityOld accountEntity;
+//    private AccountEntity accountEntity;
 
     @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
