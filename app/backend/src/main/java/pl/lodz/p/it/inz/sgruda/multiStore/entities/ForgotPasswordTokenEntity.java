@@ -29,9 +29,9 @@ public class ForgotPasswordTokenEntity {
     private String hash;
 
 
-    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
-    @OneToOne(optional = false)
-    private AccountEntity accountEntity;
+//    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
+//    @OneToOne(optional = false)
+//    private AccountEntityOld accountEntity;
 
     @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
@@ -46,9 +46,7 @@ public class ForgotPasswordTokenEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ForgotPasswordTokenEntity that = (ForgotPasswordTokenEntity) o;
-        return id == that.id &&
-                version == that.version &&
-                Objects.equals(expireDate, that.expireDate) &&
+        return  Objects.equals(expireDate, that.expireDate) &&
                 Objects.equals(hash, that.hash);
     }
 

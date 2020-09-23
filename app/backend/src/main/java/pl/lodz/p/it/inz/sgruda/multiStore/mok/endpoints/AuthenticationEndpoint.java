@@ -64,35 +64,35 @@ public class AuthenticationEndpoint {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if(accountRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        if(accountRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        // Creating user's account
-        AccountEntity account = new AccountEntity(signUpRequest.getName(), signUpRequest.getEmail(),
-                signUpRequest.getUsername(), signUpRequest.getPassword());
-
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-
-        AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        account.setAccessLevelEntities(Collections.singleton(clientRole));
-
-        AccountEntity result = accountRepository.save(account);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
-
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+//        if(accountRepository.existsByUsername(signUpRequest.getUsername())) {
+//            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+//                    HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if(accountRepository.existsByEmail(signUpRequest.getEmail())) {
+//            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+//                    HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // Creating user's account
+//        AccountEntity account = new AccountEntity(signUpRequest.getName(), signUpRequest.getEmail(),
+//                signUpRequest.getUsername(), signUpRequest.getPassword());
+//
+//        account.setPassword(passwordEncoder.encode(account.getPassword()));
+//
+//        AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
+//                .orElseThrow(() -> new AppException("User Role not set."));
+//
+//        account.setAccessLevelEntities(Collections.singleton(clientRole));
+//
+//        AccountEntity result = accountRepository.save(account);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath().path("/api/users/{username}")
+//                .buildAndExpand(result.getUsername()).toUri();
+//
+//        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+//    }
 }
