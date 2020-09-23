@@ -3,14 +3,16 @@ GRANT ALL PRIVILEGES ON DATABASE docker TO docker;
 ---------------------------------------------------------------------------------------------------
 create table id_generator
 (
-    class_name varchar(255) not null
-        constraint id_generator_pkey
-            primary key,
-    id_range   bigint
+    id bigint not null
+		constraint id_generator_pk
+			primary key,
+	class_name varchar(32) not null,
+	id_range bigint not null
 );
 
 alter table id_generator
     owner to docker;
+
 
 create table access_level
 (
@@ -34,7 +36,10 @@ create table forgot_password_token
     hash        varchar(64) not null
         constraint uk_gqsdx7jsd43tlmhn0klc1wasg
             unique,
-    version     bigint      not null
+    version     bigint      not null,
+    account_id  bigint      not null
+        constraint uk_cf7via02khkvf4eufblqxcj2j
+            unique
 );
 
 alter table forgot_password_token
@@ -49,7 +54,7 @@ create table authentication_data
     password                 varchar(64) not null,
     username                 varchar(32) not null,
     version                  bigint      not null,
-    veryfication_token       varchar(32) not null,
+    veryfication_token       varchar(36) not null,
     forgot_password_token_id bigint
         constraint fkaiutrsj0e7ma9i15kenx8yxtr
             references forgot_password_token,
@@ -82,6 +87,10 @@ create table account_data
 alter table account_data
     owner to docker;
 
+alter table forgot_password_token
+    add constraint fk26u2y5lrl66ud5s7f2w9du361
+        foreign key (account_id) references account_data;
+
 create table account_access_level_mapping
 (
     account_id      bigint not null
@@ -96,6 +105,7 @@ create table account_access_level_mapping
 
 alter table account_access_level_mapping
     owner to docker;
+
 
 
 
