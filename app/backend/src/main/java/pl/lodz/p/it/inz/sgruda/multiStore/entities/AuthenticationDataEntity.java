@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class AuthenticationDataEntity implements Serializable {
 
     @Setter(lombok.AccessLevel.NONE)
     @Basic
-    @Column(name = "veryfication_token", nullable = false, length = 32)
+    @Column(name = "veryfication_token", nullable = false)
     private String veryficationToken;
 
     @Basic
@@ -41,7 +42,7 @@ public class AuthenticationDataEntity implements Serializable {
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "forgot_password_token_id", referencedColumnName = "id")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
@@ -55,9 +56,12 @@ public class AuthenticationDataEntity implements Serializable {
     public AuthenticationDataEntity(String username, String password) {
         this.username = username;
         this.password = password;
+        this.veryficationToken = UUID.randomUUID().toString();
     }
 
-    public AuthenticationDataEntity() {}
+    public AuthenticationDataEntity() {
+        this.veryficationToken = UUID.randomUUID().toString();
+    }
 
     @Override
     public boolean equals(Object o) {

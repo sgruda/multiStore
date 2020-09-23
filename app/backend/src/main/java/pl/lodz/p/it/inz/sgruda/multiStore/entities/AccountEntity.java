@@ -38,7 +38,7 @@ public class AccountEntity implements Serializable {
 
     @Basic
     @Email
-    @Column(name = "email", nullable = false, length = 32)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -65,21 +65,31 @@ public class AccountEntity implements Serializable {
     @Column(name = "version", nullable = false)
     private long version;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "authentication_data_id", referencedColumnName = "id")
     private AuthenticationDataEntity authenticationDataEntity;
 
 
-    public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider) {
+    public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider, String providerId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.active = true;
         this.provider = provider;
+        this.providerId = providerId;
+    }
+
+    public AccountEntity(String firstName, String lastName, @Email String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.active = true;
+        this.authenticationDataEntity = new AuthenticationDataEntity(username, password);
+        this.provider = AuthProvider.system;
     }
 
     public AccountEntity() {
-
+        this.authenticationDataEntity = new AuthenticationDataEntity();
     }
 
 
