@@ -101,4 +101,42 @@ public class AccountEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(firstName, lastName, email, accessLevelEntities, provider, active, authenticationDataEntity);
     }
+
+    public String getUsername() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getUsername();
+        return null;
+    }
+    public void setUsername(String username) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setUsername(username);
+    }
+    public String getPassword() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getPassword();
+        return null;
+    }
+    public void setPassword(String password) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setPassword(password);
+    }
+    public String getVeryficationToken() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getVeryficationToken();
+        return null;
+    }
+    public boolean isEmailVerified() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.isEmailVerified();
+        return false;
+    }
+    public void setEmailVerified(boolean emailVerified) {
+        if(this.authenticationDataEntity != null)
+            this.authenticationDataEntity.setEmailVerified(emailVerified);
+    }
+    public ForgotPasswordTokenEntity getForgotPasswordTokenEntity() {
+        if(this.authenticationDataEntity != null)
+            return this.authenticationDataEntity.getForgotPasswordTokenEntity();
+        return null;
+    }
 }
