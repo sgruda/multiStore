@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
+import OAuth2RedirectRoute from './OAuth2RedirectRoute';
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn"
 import SignUp from "../pages/SignUp"
 import Admin from "../pages/Admin"
 import NotFound from "../pages/NotFound";
-import OAuth2RedirectHandler from '../services/OAuth2RedirectHandler';
 
 export default function Routes() {
   return (
@@ -23,9 +23,9 @@ export default function Routes() {
       <Route exact path="/signup">
         <SignUp />
       </Route>
-      <Route exact path="/oauth2/redirect">
-        <OAuth2RedirectHandler />
-      </Route>
+      <OAuth2RedirectRoute exact path="/oauth2/redirect">
+        <Admin />
+      </OAuth2RedirectRoute>
       <Route>
         <NotFound />
       </Route>
