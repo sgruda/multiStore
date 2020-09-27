@@ -28,18 +28,18 @@ alter table access_level
 
 create table account_data
 (
-    id                     bigint       not null
+    id                     bigint      not null
         constraint account_data_pkey
             primary key,
-    active                 boolean      not null,
-    email                  varchar(255) not null
-        constraint uk6nyd9ykqgjm7n4ngreynnly8t
+    active                 boolean     not null,
+    email                  varchar(32) not null
+        constraint uk_6nyd9ykqgjm7n4ngreynnly8t
             unique,
-    first_name             varchar(32)  not null,
-    last_name              varchar(32)  not null,
+    first_name             varchar(32) not null,
+    last_name              varchar(32) not null,
     provider               varchar(255),
     provider_id            varchar(255),
-    version                bigint       not null,
+    version                bigint      not null,
     authentication_data_id bigint
 );
 
@@ -73,7 +73,9 @@ create table authentication_data
             primary key,
     email_verified           boolean      not null,
     password                 varchar(64)  not null,
-    username                 varchar(32)  not null,
+    username                 varchar(32)  not null
+        constraint uk_bbvlbdpgqb81arjatdxvo6e0f
+            unique,
     version                  bigint       not null,
     veryfication_token       varchar(255) not null,
     forgot_password_token_id bigint
@@ -110,10 +112,10 @@ alter table account_access_level_mapping
 
 
 
-insert into id_generator values (1,'account_data',50);
-insert into id_generator values (2,'authentication_data',50);
-insert into id_generator values (3,'access_level',50);
-insert into id_generator values (4,'forgot_password_token',50);
+insert into id_generator values ('account_data',50);
+insert into id_generator values ('authentication_data',50);
+insert into id_generator values ('access_level',50);
+insert into id_generator values ('forgot_password_token',50);
 INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
 INSERT INTO access_level VALUES(2, 'ROLE_EMPLOYEE');
 INSERT INTO access_level VALUES(1,'ROLE_ADMIN');
