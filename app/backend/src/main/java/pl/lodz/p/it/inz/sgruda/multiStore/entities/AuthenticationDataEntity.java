@@ -31,7 +31,7 @@ public class AuthenticationDataEntity implements Serializable {
     private String veryficationToken;
 
     @Basic
-    @Column(name = "username", nullable = false, length = 32)
+    @Column(name = "username", nullable = false, unique = true, length = 32)
     private String username;
 
     @Basic

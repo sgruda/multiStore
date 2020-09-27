@@ -38,7 +38,7 @@ public class AccountEntity implements Serializable {
 
     @Basic
     @Email
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true, length = 32)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
