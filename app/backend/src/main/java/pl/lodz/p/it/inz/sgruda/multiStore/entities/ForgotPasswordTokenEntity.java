@@ -29,9 +29,9 @@ public class ForgotPasswordTokenEntity {
     private String hash;
 
 
-//    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
-//    @OneToOne(optional = false)
-//    private AccountEntity accountEntity;
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
+    @OneToOne(optional = false)
+    private AccountEntity accountEntity;
 
     @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)

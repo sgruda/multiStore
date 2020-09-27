@@ -15,7 +15,7 @@
 	<description>Praca inzynierska</description>
 
 	<packaging>jar</packaging>
-	
+
 	<properties>
 		<java.version>14</java.version>
 		<javax.persistence.version>2.2</javax.persistence.version>
