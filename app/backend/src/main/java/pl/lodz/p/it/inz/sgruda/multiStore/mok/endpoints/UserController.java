@@ -1,4 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.endpoints;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +13,10 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 
+import javax.validation.Valid;
+
+@Log
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     @Autowired

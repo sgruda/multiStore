@@ -47,6 +47,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+        log.severe("WTF getScopes: " + oAuth2UserRequest.getAccessToken().getScopes());
+        log.severe("WTF getTokenType().getValue(): " + oAuth2UserRequest.getAccessToken().getTokenType().getValue());
+//        id_token
+        log.severe("WTF getTokenValue: " + oAuth2UserRequest.getAccessToken().getTokenValue());
+        log.severe("WTF getAdditionalParameters: " + oAuth2UserRequest.getAdditionalParameters().get("id_token"));//to
+
+
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
@@ -64,7 +71,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             account = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-
         return UserPrincipal.create(account, oAuth2User.getAttributes());
     }
 
