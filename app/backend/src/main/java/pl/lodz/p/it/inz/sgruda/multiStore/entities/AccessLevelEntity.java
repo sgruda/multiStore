@@ -1,12 +1,13 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
 import lombok.Getter;
+import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
-
+@ToString
 @Getter
 @Entity
 @Table(name = "access_level", schema = "public", uniqueConstraints = {

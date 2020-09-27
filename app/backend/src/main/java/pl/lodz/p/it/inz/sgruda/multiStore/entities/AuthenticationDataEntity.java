@@ -2,13 +2,14 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
-
+@ToString
 @Getter
 @Setter
 @Entity
@@ -46,7 +47,7 @@ public class AuthenticationDataEntity implements Serializable {
     @JoinColumn(name = "forgot_password_token_id", referencedColumnName = "id")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
-    @Getter(lombok.AccessLevel.NONE)
+//    @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version

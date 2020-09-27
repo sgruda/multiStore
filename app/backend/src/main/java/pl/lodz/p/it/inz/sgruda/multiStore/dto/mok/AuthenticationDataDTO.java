@@ -3,7 +3,9 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mok;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class AuthenticationDataDTO {

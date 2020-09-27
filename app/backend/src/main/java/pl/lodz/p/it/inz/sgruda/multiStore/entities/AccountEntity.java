@@ -3,6 +3,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
+@ToString
 @Getter
 @Setter
 @Entity

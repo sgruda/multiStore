@@ -1,31 +1,55 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.ForgotPasswordTokenDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
+@Log
+public class ForgotPasswordTokenMapper {
+    private HashGenerator hashGenerator;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ForgotPasswordTokenMapper {
-
-    String WITH_SECONDS= "yyyy-MM-dd HH:mm:ss";
-    ForgotPasswordTokenMapper INSTANCE = Mappers.getMapper(ForgotPasswordTokenMapper.class);
-
-    @Mapping(target = "accountUsername", source = "accountEntity")
-    @Mapping(target = "expireDate", dateFormat = WITH_SECONDS)
-    ForgotPasswordTokenDTO toForgotPasswordTokenDTO(ForgotPasswordTokenEntity forgotPasswordTokenEntity);
-
-    default String toAccountUsername(AccountEntity accountEntity) {
-        return accountEntity.getUsername();
+    public ForgotPasswordTokenMapper() {
+        this.hashGenerator = new HashGenerator();
     }
-    default String toIdHash(ForgotPasswordTokenEntity forgotPasswordTokenEntity) {
-        return HashGenerator.hash(forgotPasswordTokenEntity.getId());
+
+    public ForgotPasswordTokenDTO toDTO(ForgotPasswordTokenEntity entity) {
+        ForgotPasswordTokenDTO dto = new ForgotPasswordTokenDTO();
+        dto.setIdHash(hashGenerator.hash(entity.getId()));
+        dto.setExpireDate(entity.getExpireDate());
+        dto.setHash(entity.getHash());
+        dto.setOwnerUsername(entity.getAccountEntity().getUsername());
+        dto.setVersion(entity.getVersion());
+        dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getOwnerUsername(), dto.getVersion()));
+        return dto;
     }
-    default String sign(String idHash, String accountUsername, long version) {
-        return HashGenerator.sign(idHash, accountUsername, version);
+    public ForgotPasswordTokenEntity createFromDto(ForgotPasswordTokenDTO dto, AccountEntity owner) {
+        ForgotPasswordTokenEntity entity = new ForgotPasswordTokenEntity();
+        entity.setExpireDate(dto.getExpireDate());
+        entity.setHash(dto.getHash());
+        entity.setAccountEntity(owner);
+        return entity;
+    }
+
+
+    public ForgotPasswordTokenEntity updateEntity(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) throws DTOSignatureException, DTOVersionException {
+        checkSignature(dto);
+        checkVersion(entity, dto);
+
+        entity.setExpireDate(dto.getExpireDate());
+        entity.setHash(dto.getHash());
+        return entity;
+    }
+
+    private void checkSignature(ForgotPasswordTokenDTO dto) throws DTOSignatureException {
+        if(!hashGenerator.checkSignature(dto.getSignature(), dto.getIdHash(), dto.getOwnerUsername(), dto.getVersion())) {
+            throw new DTOSignatureException();
+        }
+    }
+    private void checkVersion(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) throws DTOVersionException {
+        if(entity.getVersion() != dto.getVersion())
+            throw new DTOVersionException();
     }
 }

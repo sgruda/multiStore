@@ -1,4 +1,4 @@
-package pl.lodz.p.it.inz.sgruda.multiStore.exceptions;
+package pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

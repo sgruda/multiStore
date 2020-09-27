@@ -1,42 +1,84 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+@Log
+public class AccountMapper {
+    private HashGenerator hashGenerator;
+    private AuthenticationDataMapper authenticationDataMapper;
 
-@Mapper(uses = ForgotPasswordTokenMapper.class,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface AccountMapper {
-    AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
+    public AccountMapper() {
+        this.hashGenerator = new HashGenerator();
+        this.authenticationDataMapper = new AuthenticationDataMapper();
+    }
 
-    AccountDTO toAccountDTO(AccountEntity accountEntity);
-    AccountEntity createNewAccountEntity(AccountDTO accountDTO);
-    void updateAccountEntityFromDTO(AccountDTO accountDTO, @MappingTarget AccountEntity accountEntity);
-    Collection<AccountDTO> toAccountDTOCollection(Collection<AccountEntity> accountEntityCollection);
+    public AccountDTO toDTO(AccountEntity entity) {
+        AccountDTO dto = new AccountDTO();
 
-    default Set<String> toRolesSet(Set<AccessLevelEntity> accessLevelEntitySet) {
-        return accessLevelEntitySet.stream()
+        dto.setIdHash(hashGenerator.hash(entity.getId()));
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setEmail(entity.getEmail());
+        dto.setRoles(
+                entity.getAccessLevelEntities()
+                .stream()
                 .map(AccessLevelEntity::getRoleName)
                 .map(RoleName::name)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet())
+        );
+        dto.setActive(entity.isActive());
+        dto.setAuthProvider(entity.getProvider().name());
+        if(entity.getAuthenticationDataEntity() != null)
+            dto.setAuthenticationDataDTO(authenticationDataMapper.toDTO(entity.getAuthenticationDataEntity()));
+        dto.setVersion(entity.getVersion());
+        dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getEmail(), dto.getVersion()));
+        return dto;
     }
-    default Set<AccessLevelEntity> toAccessLevelEntitySet(Set<String> rolesSet) {
-        return new HashSet<>();
+    public AccountEntity createFromDto(AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) {
+        AccountEntity entity = new AccountEntity();
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+        entity.setAccessLevelEntities(accessLevelEntitySet);
+        entity.setActive(dto.isActive());
+        entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
+        entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));
+        return entity;
     }
 
-    default String sign(String idHash, String email, long version) {
-        return HashGenerator.sign(idHash, email, version);
+    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
+        checkSignature(dto);
+        checkVersion(entity, dto);
+
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+        entity.setAccessLevelEntities(accessLevelEntitySet);
+        entity.setActive(dto.isActive());
+        entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
+        entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));
+        return entity;
     }
+    private void checkSignature(AccountDTO dto) throws DTOSignatureException {
+        if(!hashGenerator.checkSignature(dto.getSignature(), dto.getIdHash(), dto.getEmail(), dto.getVersion())) {
+            throw new DTOSignatureException();
+        }
+    }
+    private void checkVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
+        if(entity.getVersion() != dto.getVersion())
+            throw new DTOVersionException();
+    }
+
 
 }
+

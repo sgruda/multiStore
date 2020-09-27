@@ -1,30 +1,61 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.ForgotPasswordTokenDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
 
-@Mapper(uses = ForgotPasswordTokenMapper.class,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface AuthenticationDataMapper {
-    AuthenticationDataMapper INSTANCE = Mappers.getMapper(AuthenticationDataMapper.class);
 
-    @Mapping(target = "forgotPasswordTokenDTO", source = "forgotPasswordTokenEntity")
-    AuthenticationDataDTO toAuthenticationDataDTO(AuthenticationDataEntity authenticationDataEntity);
+public class AuthenticationDataMapper {
+    private HashGenerator hashGenerator;
+    private ForgotPasswordTokenMapper forgotPasswordTokenMapper;
 
-    default String toIdHash(ForgotPasswordTokenEntity forgotPasswordTokenEntity) {
-        return HashGenerator.hash(forgotPasswordTokenEntity.getId());
-    }
-    default String sign(String idHash, String username, long version) {
-        return HashGenerator.sign(idHash, username, version);
+    public AuthenticationDataMapper() {
+        this.hashGenerator = new HashGenerator();
+        this.forgotPasswordTokenMapper = new ForgotPasswordTokenMapper();
     }
 
-    AuthenticationDataEntity createNewAuthenticationData(AuthenticationDataDTO authenticationDataDTO);
-    void updateuthenticationDataEntityFromDTO(AuthenticationDataDTO authenticationDataDTO, @MappingTarget AuthenticationDataEntity authenticationDataEntity);
+    public AuthenticationDataDTO toDTO(AuthenticationDataEntity entity) {
+        AuthenticationDataDTO dto = new AuthenticationDataDTO();
+        dto.setIdHash(hashGenerator.hash(entity.getId()));
+        dto.setUsername(entity.getUsername());
+        dto.setPassword(entity.getPassword());
+        dto.setEmailVerified(entity.isEmailVerified());
+        if(entity.getForgotPasswordTokenEntity() != null)
+            dto.setForgotPasswordTokenDTO(forgotPasswordTokenMapper.toDTO(entity.getForgotPasswordTokenEntity()));
+        dto.setVersion(entity.getVersion());
+        dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getUsername(), dto.getVersion()));
+        return dto;
+    }
+    public AuthenticationDataEntity createFromDto(AuthenticationDataDTO dto, AccountEntity owner) {
+        AuthenticationDataEntity entity = new AuthenticationDataEntity();
+        entity.setUsername(dto.getUsername());
+        entity.setPassword(dto.getPassword());
+        entity.setEmailVerified(dto.isEmailVerified());
+        entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.createFromDto(dto.getForgotPasswordTokenDTO(), owner));
+        return entity;
+    }
+
+    public AuthenticationDataEntity updateEntity(AuthenticationDataEntity entity, AuthenticationDataDTO dto) throws DTOSignatureException, DTOVersionException {
+        checkSignature(dto);
+        checkVersion(entity, dto);
+
+        entity.setPassword(dto.getPassword());
+        entity.setEmailVerified(dto.isEmailVerified());
+        entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
+        return entity;
+    }
+    private void checkSignature(AuthenticationDataDTO dto) throws DTOSignatureException {
+        if(!hashGenerator.checkSignature(dto.getSignature(), dto.getIdHash(), dto.getUsername(), dto.getVersion())) {
+            throw new DTOSignatureException();
+        }
+    }
+    private void checkVersion(AuthenticationDataEntity entity, AuthenticationDataDTO dto) throws DTOVersionException {
+        if(entity.getVersion() != dto.getVersion())
+            throw new DTOVersionException();
+    }
 }

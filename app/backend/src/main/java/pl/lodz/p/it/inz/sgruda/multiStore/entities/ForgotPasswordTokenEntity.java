@@ -2,11 +2,12 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+@ToString
 @Getter
 @Setter
 @Entity
@@ -33,7 +34,7 @@ public class ForgotPasswordTokenEntity {
     @OneToOne(optional = false)
     private AccountEntity accountEntity;
 
-    @Getter(lombok.AccessLevel.NONE)
+//    @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version
