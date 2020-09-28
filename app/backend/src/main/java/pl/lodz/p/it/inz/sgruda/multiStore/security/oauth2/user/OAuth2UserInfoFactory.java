@@ -1,6 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user;
 
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OAuth2AuthenticationProcessingException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import java.util.Map;
