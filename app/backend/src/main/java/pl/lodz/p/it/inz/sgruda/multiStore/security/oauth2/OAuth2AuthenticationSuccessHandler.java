@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.BadRequestException;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.JwtTokenService;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenJWTService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.CookieUtils;
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private JwtTokenService tokenService;
+    private TokenJWTService tokenService;
 
     private AppProperties appProperties;
 
@@ -30,7 +30,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 
     @Autowired
-    OAuth2AuthenticationSuccessHandler(JwtTokenService tokenService, AppProperties appProperties,
+    OAuth2AuthenticationSuccessHandler(TokenJWTService tokenService, AppProperties appProperties,
                                        HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
         this.tokenService = tokenService;
         this.appProperties = appProperties;

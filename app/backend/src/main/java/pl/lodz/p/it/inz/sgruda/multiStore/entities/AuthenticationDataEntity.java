@@ -58,10 +58,14 @@ public class AuthenticationDataEntity implements Serializable {
         this.username = username;
         this.password = password;
         this.veryficationToken = UUID.randomUUID().toString();
+        this.emailVerified = false;
+        this.forgotPasswordTokenEntity = null;
     }
 
     public AuthenticationDataEntity() {
         this.veryficationToken = UUID.randomUUID().toString();
+        this.emailVerified = false;
+        this.forgotPasswordTokenEntity = null;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Log
 @Component
-public class JwtTokenService {
+public class TokenJWTService {
 
 
     @Value("${app.auth.jwt.secret}")
