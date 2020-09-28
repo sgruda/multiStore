@@ -1,12 +1,18 @@
-package pl.lodz.p.it.inz.sgruda.multiStore.exceptions;
+package pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth;
 
 import org.springframework.security.core.AuthenticationException;
 
 public class OAuth2AuthenticationProcessingException extends AuthenticationException {
-    public OAuth2AuthenticationProcessingException(String msg, Throwable t) {
-        super(msg, t);
+    static final public String KEY_OAUTH2_AUTHENTICATION_PROCESSING = "error.oauth2.authentication.processing";//Email not found from OAuth2 provider
+
+    public OAuth2AuthenticationProcessingException() {
+        super(KEY_OAUTH2_AUTHENTICATION_PROCESSING);
     }
 
+    public OAuth2AuthenticationProcessingException(Throwable t) {
+        super(KEY_OAUTH2_AUTHENTICATION_PROCESSING, t);
+    }
+//Email not found from OAuth2 provider
     public OAuth2AuthenticationProcessingException(String msg) {
         super(msg);
     }
