@@ -1,6 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
 import lombok.extern.java.Log;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
@@ -13,7 +14,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 import java.util.Set;
 import java.util.stream.Collectors;
 @Log
-public class AccountMapper {
+public class AccountMapper implements Mapper<AccountEntity, AccountDTO, Set<AccessLevelEntity>> {
     private HashGenerator hashGenerator;
     private AuthenticationDataMapper authenticationDataMapper;
 
@@ -22,6 +23,7 @@ public class AccountMapper {
         this.authenticationDataMapper = new AuthenticationDataMapper();
     }
 
+    @Override
     public AccountDTO toDTO(AccountEntity entity) {
         AccountDTO dto = new AccountDTO();
 
@@ -44,6 +46,7 @@ public class AccountMapper {
         dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getEmail(), dto.getVersion()));
         return dto;
     }
+    @Override
     public AccountEntity createFromDto(AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) {
         AccountEntity entity = new AccountEntity();
         entity.setFirstName(dto.getFirstName());
@@ -55,15 +58,16 @@ public class AccountMapper {
         entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));
         return entity;
     }
-
-    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
+    @Override
+//    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
+    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto) throws DTOSignatureException, DTOVersionException {
         checkSignature(dto);
         checkVersion(entity, dto);
 
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
-        entity.setAccessLevelEntities(accessLevelEntitySet);
+//        entity.setAccessLevelEntities(accessLevelEntitySet);
         entity.setActive(dto.isActive());
         entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
         entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));

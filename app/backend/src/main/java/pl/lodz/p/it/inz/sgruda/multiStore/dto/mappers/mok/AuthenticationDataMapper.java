@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.ForgotPasswordTokenDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
@@ -10,7 +11,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
 
 
-public class AuthenticationDataMapper {
+public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity, AuthenticationDataDTO, AccountEntity> {
     private HashGenerator hashGenerator;
     private ForgotPasswordTokenMapper forgotPasswordTokenMapper;
 
@@ -18,7 +19,7 @@ public class AuthenticationDataMapper {
         this.hashGenerator = new HashGenerator();
         this.forgotPasswordTokenMapper = new ForgotPasswordTokenMapper();
     }
-
+    @Override
     public AuthenticationDataDTO toDTO(AuthenticationDataEntity entity) {
         AuthenticationDataDTO dto = new AuthenticationDataDTO();
         dto.setIdHash(hashGenerator.hash(entity.getId()));
@@ -31,6 +32,7 @@ public class AuthenticationDataMapper {
         dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getUsername(), dto.getVersion()));
         return dto;
     }
+    @Override
     public AuthenticationDataEntity createFromDto(AuthenticationDataDTO dto, AccountEntity owner) {
         AuthenticationDataEntity entity = new AuthenticationDataEntity();
         entity.setUsername(dto.getUsername());
@@ -39,7 +41,7 @@ public class AuthenticationDataMapper {
         entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.createFromDto(dto.getForgotPasswordTokenDTO(), owner));
         return entity;
     }
-
+    @Override
     public AuthenticationDataEntity updateEntity(AuthenticationDataEntity entity, AuthenticationDataDTO dto) throws DTOSignatureException, DTOVersionException {
         checkSignature(dto);
         checkVersion(entity, dto);
