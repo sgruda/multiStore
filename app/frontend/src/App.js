@@ -44,27 +44,25 @@ function App(props) {
 
   // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   // const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
 
 
   useEffect(() => {
-     const user = AuthenticationService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (accessToken) {
+      setCurrentAccessToken(accessToken);
       // setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
       // setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
   }, []);
   
   const signOut = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem(ACCESS_TOKEN);
+    AuthenticationService.signOut();
     setUserIsAuthenticated(false);
     history.push("/")
   }
   return (
-    !currentUser &&
+    !currentAccessToken &&
     <div>
        <AppBar position="static" className={classes.appbar}>
           <Toolbar>

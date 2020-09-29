@@ -20,7 +20,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#2c0fab"
     }
   },
+  circularProgress: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
 }));
 
 function SignIn() {
@@ -59,20 +65,43 @@ function SignIn() {
   });
   const {setUserIsAuthenticated} = useAuth();
   const history = useHistory();
-
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
 
 
 
-  function signIn() {
-    return AuthenticationService.signIn(fields.username, fields.password)
-      .then(response => {
-         AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
-         history.push("/admin");
-        }).catch(e => {
-          onError(e);
+  function handleSignIn() {
+    setLoading(true);
+    // return signIn(fields.username, fields.password)
+    //   .then( () => {
+    //     //  AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
+    //      setUserIsAuthenticated(true);
+    //      history.push("/admin");
+    //     }).catch(e => {
+    //       onError(e);
+    //       onError(new Error("nie udało sie zalogowac"));
+    //     }
+    //   );
+
+      AuthenticationService.signIn(fields.username,  fields.password)
+      .then( () => {
+          setUserIsAuthenticated(true);
+          history.push("/admin");
+          // window.location.reload();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setLoading(false);
+          onError(error);
         }
       );
+      setLoading(false);
   }
 
   return (
@@ -85,7 +114,7 @@ function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit(signIn)}>
+        <form className={classes.form} noValidate onSubmit={handleSubmit(handleSignIn)}>
           <TextField
             value={ fields.username }
             onChange={ setFields }
@@ -125,9 +154,11 @@ function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={loading}
           >
             Sign In
           </Button>
+          {loading && <CircularProgress size={24} className={classes.circularProgress} />}
           {/* <Container className={classes.submit} > */}
             <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
                           FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
