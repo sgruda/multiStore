@@ -4,6 +4,19 @@ import { ACCESS_TOKEN } from '../config/config';
 const API_URL_SIGN_IN = 'https://localhost:8181/api/auth/signin'
 const API_URL_SIGN_UP = 'https://localhost:8181/api/auth/signup'
 
+const getAccessTokenFromStorage = () => {
+    return localStorage.getItem(ACCESS_TOKEN);
+}
+const parseJWT = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
 const signIn = (username, password) => {
     return axios
     .post(API_URL_SIGN_IN, {
@@ -12,7 +25,6 @@ const signIn = (username, password) => {
     })
     .then((response) => {
         if (response.status === 200 && response.data.accessToken) {
-            console.info("WTF " + response.data.accessToken)
             localStorage.setItem(ACCESS_TOKEN, JSON.parse(JSON.stringify( response.data)).accessToken);              
         }
         return response.data;
@@ -36,6 +48,8 @@ const signOut = () => {
 
     
 export default {
+    getAccessTokenFromStorage,
+    parseJWT,
     signIn,
     signUp,
     signOut,
