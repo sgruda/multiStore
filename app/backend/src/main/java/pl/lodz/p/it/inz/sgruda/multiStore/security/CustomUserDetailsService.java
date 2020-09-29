@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTVariousIDException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -29,11 +31,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     // This method is used by JWTAuthenticationFilter
     @Transactional
-    public UserDetails loadUserById(Long id) {
-        AccountEntity account = accountRepository.findById(id).orElseThrow(
-                () -> new UsernameNotFoundException("User not found with id : " + id)
+    public UserDetails loadUserByEmailAndCheckId(String email, String hashId) throws TokenJWTVariousIDException {
+        AccountEntity account = accountRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with email : " + email)
         );
-
+        HashGenerator hashGenerator = new HashGenerator();
+        if(!hashGenerator.checkHash(String.valueOf(account.getId()), hashId)) {
+            throw new TokenJWTVariousIDException();
+        }
         return UserPrincipal.create(account);
     }
 }

@@ -33,6 +33,7 @@ public class TokenJWTService {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", hashGenerator.hash(userPrincipal.getId()));
+        claims.put("email", userPrincipal.getEmail());
         claims.put("roles", userPrincipal.getAuthorities().stream()
                                          .map(GrantedAuthority::getAuthority)
                                          .collect(Collectors.toSet()));
@@ -44,13 +45,22 @@ public class TokenJWTService {
                 .compact();
     }
 
-    public Long getUserIdFromJWT(String token) {
+    public String getUserHashIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong(claims.getSubject());
+        return claims.getSubject();
+    }
+
+    public String getEmailFromJWT(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("email").toString();
     }
 
     public boolean validateToken(String authToken) {
