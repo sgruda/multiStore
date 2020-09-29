@@ -29,7 +29,7 @@ import java.util.Optional;
 @Log
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    
+
     private @Autowired AccountService accountService;
 
     @Override

@@ -3,15 +3,20 @@ package pl.lodz.p.it.inz.sgruda.multiStore.security;
 import io.jsonwebtoken.*;
 
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-import java.util.Date;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Log
 @Component
 public class TokenJWTService {
-
 
     @Value("${app.auth.jwt.secret}")
     private String jwtSecret;
@@ -20,16 +25,21 @@ public class TokenJWTService {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
-
+        HashGenerator hashGenerator = new HashGenerator();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("sub", hashGenerator.hash(userPrincipal.getId()));
+        claims.put("roles", userPrincipal.getAuthorities().stream()
+                                         .map(GrantedAuthority::getAuthority)
+                                         .collect(Collectors.toSet()));
+        claims.put("iss", now);
+        claims.put("exp", expiryDate);
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
+                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
