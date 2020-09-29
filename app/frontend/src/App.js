@@ -62,7 +62,7 @@ function App(props) {
     history.push("/")
   }
   return (
-    !currentAccessToken &&
+    // !currentAccessToken &&
     <div>
        <AppBar position="static" className={classes.appbar}>
           <Toolbar>
