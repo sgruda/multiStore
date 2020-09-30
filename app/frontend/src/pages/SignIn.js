@@ -8,6 +8,8 @@ import AuthenticationService from '../services/AuthenticationService';
 import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
+import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../config/config';
+
 import  SocialButtons from '../components/SocialButtons';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
@@ -63,7 +65,7 @@ function SignIn() {
     username: "",
     password: ""
   });
-  const {setUserIsAuthenticated} = useAuth();
+  const { setUserIsAuthenticated, setCurrentAccessToken } = useAuth();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
@@ -86,7 +88,8 @@ function SignIn() {
       AuthenticationService.signIn(fields.username,  fields.password)
       .then( () => {
           setUserIsAuthenticated(true);
-          history.push("/admin");
+          setCurrentAccessToken(AuthenticationService.getAccessTokenFromStorage());
+          history.push("/");
           // window.location.reload();
         },
         (error) => {

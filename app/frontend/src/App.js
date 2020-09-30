@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import PrivateRoute from './routes/PrivateRoute';
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext, useAuth } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 
@@ -90,9 +90,7 @@ function App(props) {
   // const [hasEmployeeRole, setHasEmployeeRole] = useState(false);
   // const [hasClientRole, setHasClientRole] = useState(false);
   // const [activeRole, setActiveRole] = useState(undefined);
-
-  const [userRoles, setUserRoles] = useState(undefined);
-
+  // const [userRoles, setUserRoles] = useState(undefined);
   const [activeRoleAdmin, setActiveRoleAdmin] = useState(false);
   const [activeRoleEmployee, setActiveRoleEmployee] = useState(false);
   const [activeRoleClient, setActiveRoleClient] = useState(false);
@@ -101,28 +99,28 @@ function App(props) {
 
 
   useEffect(() => {
-    const accessToken = AuthenticationService.getAccessTokenFromStorage();
-    console.info("accessToken " + accessToken)
-    if (accessToken) {
-      // const roles = AuthenticationService.parseJWT(accessToken).roles;
-      setUserRoles(AuthenticationService.parseJWT(currentAccessToken).roles);
-      setCurrentAccessToken(accessToken);
-      // setHasClientRole(roles.includes(ROLE_CLIENT));
-      // setHasEmployeeRole(roles.includes(ROLE_EMPLOYEE));
-      // setHasAdminRole(roles.includes(ROLE_ADMIN));
-      // if(hasClientRole) setActiveRole(ROLE_CLIENT);
-      // else if(hasEmployeeRole) setActiveRole(ROLE_EMPLOYEE);
-      // else if(hasAdminRole) setActiveRole(ROLE_ADMIN);
-      if(userRoles.includes(ROLE_CLIENT)) setActiveRoleClient(true);
-      else if(userRoles.includes(ROLE_EMPLOYEE)) setActiveRoleEmployee(true);
-      else if(userRoles.includes(ROLE_ADMIN)) setActiveRoleAdmin(true);
-      
-      // console.info("activeRole " + activeRole)
-      console.info("activeRoleAdmin " + activeRoleAdmin)
-      console.info("activeRoleEmployee " + activeRoleEmployee)
-      console.info("activeRoleClient " + activeRoleClient)
+    // const accessToken = AuthenticationService.getAccessTokenFromStorage();
+    console.info("accessToken2 " + currentAccessToken)
+    if (currentAccessToken) {
+      // setCurrentAccessToken(accessToken);
+      const roles = AuthenticationService.parseJWT(currentAccessToken).roles;
+      if(roles.includes(ROLE_CLIENT)) {
+        setActiveRoleClient(true);
+        setActiveRoleEmployee(false);
+        setActiveRoleAdmin(false);
+      }
+      else if(roles.includes(ROLE_EMPLOYEE)) {
+        setActiveRoleClient(false);
+        setActiveRoleEmployee(true);
+        setActiveRoleAdmin(false);
+      }
+      else if(roles.includes(ROLE_ADMIN)) {
+        setActiveRoleClient(false);
+        setActiveRoleEmployee(false);
+        setActiveRoleAdmin(true);
+      }
     }
-  }, []);
+  }, [currentAccessToken]);
   
   const signOut = () => {
     AuthenticationService.signOut();
@@ -133,14 +131,10 @@ function App(props) {
 
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
-  let roles = <li>test</li>
-  if(userRoles) {
-    roles = userRoles.map((number) =>  <li>{number}</li>);
-  }
+
   return (
     // !currentAccessToken &&
     <div>
-      {roles}
       <AppBar
         position="static"//fixed to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
         className={clsx(classes.appbar, {
@@ -149,7 +143,7 @@ function App(props) {
       >
        {/* <AppBar position="static" className={classes.appbar}> */}
           <Toolbar>
-            { userIsAuthenticated  &&
+            { ( userIsAuthenticated  &&  (activeRoleAdmin || activeRoleEmployee) ) &&
               <IconButton edge="start" color="inherit" aria-label="menu"
                 onClick={() => {setOpenDrawer(true);}} className={clsx(classes.menuButton, openDrawer && classes.hide)}>
                 <MenuIcon />
@@ -187,6 +181,7 @@ function App(props) {
           </IconButton>
         </div>
         <Divider />
+        { userIsAuthenticated  && activeRoleAdmin &&
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
@@ -195,7 +190,9 @@ function App(props) {
             </ListItem>
           ))}
         </List>
+        }
         <Divider />
+        { userIsAuthenticated  && activeRoleEmployee &&
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -204,11 +201,12 @@ function App(props) {
             </ListItem>
           ))}
         </List>
+}
       </Drawer>
 
 
 
-      <AuthContext.Provider value={{ userIsAuthenticated, setUserIsAuthenticated }}>
+      <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated }}>
         <Routes />
       </AuthContext.Provider>
     </div>
