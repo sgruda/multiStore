@@ -9,27 +9,16 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.AccountService;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user.OAuth2UserInfo;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user.OAuth2UserInfoFactory;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
-import java.util.Collections;
-import java.util.Optional;
 @Log
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    
+
     private @Autowired AccountService accountService;
 
     @Override

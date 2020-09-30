@@ -16,8 +16,8 @@ public class HashGenerator {
     }
 
 
-    public boolean checkPasswords(String password, String passwordHash) {
-        return BCrypt.checkpw(password, passwordHash);
+    public boolean checkHash(String text, String hashText) {
+        return BCrypt.checkpw(text, hashText);
     }
     public boolean checkSignature(String signature, String idHash, String param, long version) {
         return BCrypt.checkpw(signature, idHash + param + version);

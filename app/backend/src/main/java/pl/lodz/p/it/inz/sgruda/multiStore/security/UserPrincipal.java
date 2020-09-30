@@ -28,7 +28,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private boolean active;
     @Getter
     private boolean emailVerified;
-    @Setter
+    @Setter @Getter
     private Collection<? extends GrantedAuthority> authorities;
     @Setter
     private Map<String, Object> attributes;

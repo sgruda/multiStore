@@ -1,38 +1,28 @@
 import React from "react";
 import { ACCESS_TOKEN } from '../config/config';
-import { Route, useParams, useLocation} from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import NotAuthorized from '../pages/NotAuthorized';
 
-function OAuth2RedirectRoute({ component: Component, ...rest }) {
+function OAuth2Redirect(){
     const {setUserIsAuthenticated} = useAuth();
-    let location = useLocation()
+    const history = useHistory();
     const getUrlParameter  = (name) => {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
+        var results = regex.exec(history.location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
     const token = getUrlParameter('token');
     const error = getUrlParameter('error');  
-
+    history.replace("", null);
     if(token) {
         localStorage.setItem(ACCESS_TOKEN, token);
         setUserIsAuthenticated(true);
-        return (
-            <Route
-                {...rest}
-                render = {props =>
-                    <Component {...props} />
-                }
-            />
-        );
+        history.push("/admin");
     } else {
         setUserIsAuthenticated(false);
-        return (
-            <Route component={NotAuthorized} />
-        );
     }
+    return (<div></div>);
 }
 
-export default OAuth2RedirectRoute;
+export default OAuth2Redirect;

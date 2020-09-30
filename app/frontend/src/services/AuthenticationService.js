@@ -1,26 +1,59 @@
 import axios from 'axios';
+import { ACCESS_TOKEN } from '../config/config';
+import jsonwebtoken from 'jsonwebtoken' 
 
 const API_URL_SIGN_IN = 'https://localhost:8181/api/auth/signin'
 const API_URL_SIGN_UP = 'https://localhost:8181/api/auth/signup'
 
-class AuthenticationService {
-    signIn(username, password) {
-        return axios.post(API_URL_SIGN_IN, {username, password })
-    }
-    signUp(firstname, lastname, email, username, password) {
-        return axios.post(API_URL_SIGN_UP, {firstname, lastname, email, username, password })
-    }
-    saveTokenJWT(response) {
-        if (response.status === 200 && response.data.accessToken) {
-            localStorage.setItem("user", JSON.stringify(response.data));
-            return true;
-          }
-        return false;
-    }
-    getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
-    }
-
+const getAccessTokenFromStorage = () => {
+    return localStorage.getItem(ACCESS_TOKEN);
 }
+const parseJWT = (token) => {
+    // const base64Url = token.split('.')[1];
+    // const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    // const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    //     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    // }).join(''));
+    // return JSON.parse(jsonPayload);
+    const jwt = require("jsonwebtoken");
+    return jwt.decode(localStorage.getItem(ACCESS_TOKEN));
+};
 
-export default new AuthenticationService();
+
+const signIn = (username, password) => {
+    return axios
+    .post(API_URL_SIGN_IN, {
+        username, 
+        password 
+    })
+    .then((response) => {
+        if (response.status === 200 && response.data.accessToken) {
+            localStorage.setItem(ACCESS_TOKEN, JSON.parse(JSON.stringify( response.data)).accessToken); 
+        }
+        return response.data;
+    });
+};
+const signUp = (firstname, lastname, email, username, password) => {
+    return axios
+        .post(API_URL_SIGN_UP, {
+            firstname, 
+            lastname, 
+            email, 
+            username, 
+            password 
+        })
+};
+const signOut = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    };
+
+
+
+    
+export default {
+    getAccessTokenFromStorage,
+    parseJWT,
+    signIn,
+    signUp,
+    signOut,
+};
