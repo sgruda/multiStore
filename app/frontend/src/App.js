@@ -85,39 +85,21 @@ function App(props) {
   const history = useHistory();
 
   const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
-
-  // const [hasAdminRole, setHasAdminRole] = useState(false);
-  // const [hasEmployeeRole, setHasEmployeeRole] = useState(false);
-  // const [hasClientRole, setHasClientRole] = useState(false);
-  // const [activeRole, setActiveRole] = useState(undefined);
-  // const [userRoles, setUserRoles] = useState(undefined);
-  const [activeRoleAdmin, setActiveRoleAdmin] = useState(false);
-  const [activeRoleEmployee, setActiveRoleEmployee] = useState(false);
-  const [activeRoleClient, setActiveRoleClient] = useState(false);
-
+  const [activeRole, setActiveRole] = useState(undefined);
   const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
 
 
   useEffect(() => {
-    // const accessToken = AuthenticationService.getAccessTokenFromStorage();
-    console.info("accessToken2 " + currentAccessToken)
     if (currentAccessToken) {
-      // setCurrentAccessToken(accessToken);
       const roles = AuthenticationService.parseJWT(currentAccessToken).roles;
       if(roles.includes(ROLE_CLIENT)) {
-        setActiveRoleClient(true);
-        setActiveRoleEmployee(false);
-        setActiveRoleAdmin(false);
+        setActiveRole(ROLE_CLIENT);
       }
       else if(roles.includes(ROLE_EMPLOYEE)) {
-        setActiveRoleClient(false);
-        setActiveRoleEmployee(true);
-        setActiveRoleAdmin(false);
+        setActiveRole(ROLE_EMPLOYEE);
       }
       else if(roles.includes(ROLE_ADMIN)) {
-        setActiveRoleClient(false);
-        setActiveRoleEmployee(false);
-        setActiveRoleAdmin(true);
+        setActiveRole(ROLE_ADMIN);
       }
     }
   }, [currentAccessToken]);
@@ -143,7 +125,7 @@ function App(props) {
       >
        {/* <AppBar position="static" className={classes.appbar}> */}
           <Toolbar>
-            { ( userIsAuthenticated  &&  (activeRoleAdmin || activeRoleEmployee) ) &&
+            { ( userIsAuthenticated  &&  (activeRole === ROLE_ADMIN || activeRole === ROLE_EMPLOYEE) ) &&
               <IconButton edge="start" color="inherit" aria-label="menu"
                 onClick={() => {setOpenDrawer(true);}} className={clsx(classes.menuButton, openDrawer && classes.hide)}>
                 <MenuIcon />
@@ -153,7 +135,7 @@ function App(props) {
             <Typography variant="h6" className={classes.title} >
               <Button component={Link} to="/" color="inherit">EMPIK</Button>
             </Typography>
-              { userIsAuthenticated && activeRoleAdmin &&
+              { userIsAuthenticated && activeRole === ROLE_ADMIN &&
                 <Button component={Link} to="/admin" color="inherit">AdminPage</Button>
               }
               { userIsAuthenticated
@@ -181,7 +163,7 @@ function App(props) {
           </IconButton>
         </div>
         <Divider />
-        { userIsAuthenticated  && activeRoleAdmin &&
+        { userIsAuthenticated  && activeRole === ROLE_ADMIN &&
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
@@ -192,7 +174,7 @@ function App(props) {
         </List>
         }
         <Divider />
-        { userIsAuthenticated  && activeRoleEmployee &&
+        { userIsAuthenticated  && activeRole === ROLE_EMPLOYEE &&
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -201,7 +183,7 @@ function App(props) {
             </ListItem>
           ))}
         </List>
-}
+        }
       </Drawer>
 
 
