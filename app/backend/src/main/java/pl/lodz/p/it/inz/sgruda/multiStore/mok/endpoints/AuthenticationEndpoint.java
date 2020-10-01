@@ -52,6 +52,11 @@ public class AuthenticationEndpoint {
         String tokenJWT = accountService.authenticateUser(
                 loginRequest.getUsername(),
                 loginRequest.getPassword());
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return ResponseEntity.ok(new JwtAuthenticationResponse(tokenJWT));
     }
 

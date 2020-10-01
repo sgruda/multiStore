@@ -44,8 +44,8 @@ public class AuthenticationDataEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull(message = "{validation.notnull}")
-    @Size(min = 64, max = 64, message = "{validation.size}")
-    @Column(name = "password", nullable = false, length = 64)
+    @Size(min = 60, max = 60, message = "{validation.size}")
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Basic(optional = false)
