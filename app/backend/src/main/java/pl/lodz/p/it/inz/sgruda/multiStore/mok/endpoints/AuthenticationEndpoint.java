@@ -12,10 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
@@ -34,10 +33,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @Log
 @RestController
 @RequestMapping("/api/auth")
@@ -56,9 +57,6 @@ public class AuthenticationEndpoint {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-        //TODO VALIDATION
-
         AccountEntity accountEntity = new AccountEntity(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
@@ -83,15 +81,40 @@ public class AuthenticationEndpoint {
 
     @Getter
     private static class SignUpRequest {
-        private @NotBlank String firstName;
-        private @NotBlank String lastName;
-        private @NotBlank @Email String email;
-        private @NotBlank String password;
-        private @NotBlank String username;
+        @NotNull(message = "{validation.notnull}")
+        @Size(min = 1, max = 32, message = "{validation.size}")
+        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+        private String firstName;
+
+        @NotNull(message = "{validation.notnull}")
+        @Size(min = 1, max = 32, message = "{validation.size}")
+        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+        private String lastName;
+
+        @NotNull(message = "{validation.notnull}")
+        @Email(message = "{validation.email}")
+        @Size(min = 1, max = 32, message = "{validation.size}")
+        private String email;
+
+        @NotNull(message = "{validation.notnull}")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        private String password;
+
+        @NotNull(message = "{validation.notnull}")
+        @Size(min = 1, max = 32, message = "{validation.size}")
+        @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
+        private String username;
     }
     @Getter
     private static class LoginRequest {
-        private @NotBlank String username;
-        private @NotBlank String password;
+        @NotNull(message = "{validation.notnull}")
+        @Size(min = 1, max = 32, message = "{validation.size}")
+        @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
+        private String username;
+
+        @NotNull(message = "{validation.notnull}")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        private String password;
     }
+
 }
