@@ -163,13 +163,9 @@ function SignIn() {
             Sign In
           </Button>
           { loading && <CircularProgress size={70} className={classes.circularProgress} />}
-
-         
-
-
-            <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
-                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
-                          className={classes.socialButtons} />
+          <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
+                        FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
+                        className={classes.socialButtons} />
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

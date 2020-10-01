@@ -10,6 +10,7 @@ import { useFields } from '../hooks/FieldHook';
 import  SocialButtons from '../components/SocialButtons';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
+import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,6 +24,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#2c0fab"
     }
   },
+  circularProgress: {
+    position: 'absolute',
+    top: '42%',
+    left: '47%',
+    margin: theme.spacing(3, 0, 2),
+    color: "#4285F4",
+  },
 }));
 
 function SignUp() {
@@ -64,21 +76,30 @@ function SignUp() {
     confirmPassword: ""
   });
   const history = useHistory();
+
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
 
-
-  function signUp() {
-    return AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
+  function handleSignUp() {
+    setLoading(true);
+    AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
       .then(response => {
-        //  AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
-         console.info(response);
         if (response.status === 201) { 
             // history.push("/");
             setOpenDialog(true);
           }
-        }).catch(e => {
-          onError(e);
+        },
+        (error) => {
+          const resMessage =
+            (error.response && error.response.data && error.response.data.message) 
+            || error.message || error.toString();
+
+          setLoading(false);
+          setAlertErrorMessage(error.response.data.message.toString());
+          setOpenAlert(true);
         }
       );
   }
@@ -101,7 +122,7 @@ function SignUp() {
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit(signUp)}>
+              <form className={classes.form} noValidate onSubmit={handleSubmit(handleSignUp)}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -211,6 +232,15 @@ function SignUp() {
                   />
                   </Grid>
                 </Grid>
+                <Collapse in={openAlert}>
+                  <Alert severity="warning" action={
+                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenAlert(false); }}>
+                          <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                  }>
+                    {alertErrorMessage}
+                  </Alert>
+                </Collapse>
                 <Button
                   type="submit"
                   fullWidth
@@ -220,6 +250,7 @@ function SignUp() {
                 >
                   Sign Up
                 </Button>
+                { loading && <CircularProgress size={70} className={classes.circularProgress} />}
                 <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
                           FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
                           className={classes.socialButtons}/>
