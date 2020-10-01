@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import AuthenticationService from '../services/AuthenticationService';
-import { onError } from '../services/exceptions/ErrorService';
+// import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../config/config';
@@ -13,6 +13,7 @@ import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../config/config';
 import  SocialButtons from '../components/SocialButtons';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
+import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,7 +24,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,10 +55,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   circularProgress: {
-    display: 'flex',
-    '& > * + *': {
-      marginLeft: theme.spacing(2),
-    },
+    position: 'absolute',
+    top: '42%',
+    left: '47%',
+    margin: theme.spacing(3, 0, 2),
+    color: "#4285F4",
   },
 }));
 
@@ -67,44 +71,32 @@ function SignIn() {
   });
   const { setUserIsAuthenticated, setCurrentAccessToken } = useAuth();
   const history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
-
-
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
 
   function handleSignIn() {
     setLoading(true);
-    // return signIn(fields.username, fields.password)
-    //   .then( () => {
-    //     //  AuthenticationService.saveTokenJWT(response) ? setUserIsAuthenticated(true) : onError(new Error("nie udało sie zalogowac"))
-    //      setUserIsAuthenticated(true);
-    //      history.push("/admin");
-    //     }).catch(e => {
-    //       onError(e);
-    //       onError(new Error("nie udało sie zalogowac"));
-    //     }
-    //   );
 
       AuthenticationService.signIn(fields.username,  fields.password)
       .then( () => {
           setUserIsAuthenticated(true);
           setCurrentAccessToken(AuthenticationService.getAccessTokenFromStorage());
           history.push("/");
-          // window.location.reload();
+          setLoading(false)
         },
         (error) => {
           const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+            (error.response && error.response.data && error.response.data.message) 
+            || error.message || error.toString();
 
           setLoading(false);
-          onError(error);
+          setAlertErrorMessage(error.response.data.message.toString());
+          setOpenAlert(true);
         }
       );
-      setLoading(false);
   }
 
   return (
@@ -151,6 +143,15 @@ function SignIn() {
             error={errors.password ? true : false}
             helperText={errors.password ? "Password is required" : ""}
           />
+          <Collapse in={openAlert}>
+            <Alert severity="warning" action={
+                  <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenAlert(false); }}>
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+            }>
+              {alertErrorMessage}
+            </Alert>
+          </Collapse>
           <Button
             type="submit"
             fullWidth
@@ -161,12 +162,14 @@ function SignIn() {
           >
             Sign In
           </Button>
-          {loading && <CircularProgress size={24} className={classes.circularProgress} />}
-          {/* <Container className={classes.submit} > */}
+          { loading && <CircularProgress size={70} className={classes.circularProgress} />}
+
+         
+
+
             <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
                           FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
                           className={classes.socialButtons} />
-          {/* </Container> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
