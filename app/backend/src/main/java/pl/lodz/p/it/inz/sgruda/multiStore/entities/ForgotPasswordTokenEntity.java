@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
 @ToString
@@ -21,11 +24,15 @@ public class ForgotPasswordTokenEntity {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ForgotPasswordTokenIdGen")
     private long id;
 
-    @Basic
-    @Column(name = "expire_date", nullable = false)
+    @Basic(optional = false)
+    @Future(message = "{validation.date.future}")
+    @NotNull(message = "{validation.notnull}")
+    @Column(name = "expire_date", nullable = false, updatable = false)
     private LocalDateTime expireDate;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Size(min = 64, max = 64, message = "{validation.size}")
     @Column(name = "hash", nullable = false, unique = true, updatable = false, length = 64)
     private String hash;
 

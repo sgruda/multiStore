@@ -6,6 +6,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,19 +30,26 @@ public class AuthenticationDataEntity implements Serializable {
     private long id;
 
     @Setter(lombok.AccessLevel.NONE)
-    @Basic
+    @Basic(optional = false)
     @Column(name = "veryfication_token", nullable = false)
     private String veryficationToken;
 
-    @Basic
-    @Column(name = "username", nullable = false, unique = true, length = 32)
+
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Size(min = 1, max = 32, message = "{validation.size}")
+    @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
+    @Column(name = "username", nullable = false, unique = true, length = 32, updatable = false)
     private String username;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Size(min = 64, max = 64, message = "{validation.size}")
     @Column(name = "password", nullable = false, length = 64)
     private String password;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 

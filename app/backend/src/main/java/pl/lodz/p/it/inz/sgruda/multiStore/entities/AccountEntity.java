@@ -1,6 +1,5 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,6 +7,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -29,16 +31,25 @@ public class AccountEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountIdGen")
     private long id;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Size(min = 1, max = 32, message = "{validation.size}")
+    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
     @Column(name = "first_name", nullable = false, length = 32)
     private String firstName;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Size(min = 1, max = 32, message = "{validation.size}")
+    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
     @Column(name = "last_name", nullable = false, length = 32)
     private String lastName;
 
-    @Basic
-    @Email
+
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
+    @Email(message = "{validation.email}")
+    @Size(min = 1, max = 32, message = "{validation.size}")
     @Column(name = "email", nullable = false, unique = true, length = 32)
     private String email;
 
@@ -49,11 +60,13 @@ public class AccountEntity implements Serializable {
     private Set<AccessLevelEntity> accessLevelEntities = new HashSet<>();
 
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
     @Column(name = "active", nullable = false)
     private boolean active;
 
-    @NotNull
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
