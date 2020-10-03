@@ -16,6 +16,9 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 //    Optional<AccountEntity> findByUsernameOrEmail(String username, String email);
 
 //    List<AccountEntity> findByIdIn(List<Long> userIds);
+    @Query("select account from AccountEntity account " +
+            "where account.authenticationDataEntity.veryficationToken = :token")
+    Optional<AccountEntity> findByVeryficationToken(@Param("token") String token);
 
     @Query("select account from AccountEntity account " +
             "where account.authenticationDataEntity.username = :username")

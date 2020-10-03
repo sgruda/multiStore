@@ -17,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2WrongProviderExc
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
@@ -39,7 +40,7 @@ public class AccountService {
     private @Autowired PasswordEncoder passwordEncoder;
 
 
-    public String authenticateUser(String username, String password) {
+    public String authenticateAccount(String username, String password) {
          Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         username,
@@ -62,6 +63,19 @@ public class AccountService {
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
         return accountRepository.save(account);
+    }
+    public void verifyEmail(String veryficationToken) throws AccountNotExistsException, EmailAlreadyVerifyException {
+        Optional<AccountEntity> optionalAccountEntity= accountRepository.findByVeryficationToken(veryficationToken);
+        if(optionalAccountEntity.isPresent()) {
+            AccountEntity accountToConfirm = optionalAccountEntity.get();
+            if(accountToConfirm.isEmailVerified()) {
+                throw new EmailAlreadyVerifyException();
+            }
+            accountToConfirm.setEmailVerified(true);
+            accountRepository.save(accountToConfirm);
+        } else {
+            throw new AccountNotExistsException();
+        }
     }
     public AccountEntity registerAccountOAuth2(String registrationId, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId, oAuth2User.getAttributes());

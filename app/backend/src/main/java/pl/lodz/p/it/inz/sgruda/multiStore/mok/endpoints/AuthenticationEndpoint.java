@@ -22,16 +22,20 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.JwtAuthenticationResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.AccountService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.MailService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.net.URI;
@@ -46,17 +50,18 @@ public class AuthenticationEndpoint {
 
     private @Autowired AccountService accountService;
     private @Autowired PasswordEncoder passwordEncoder;
+    private @Autowired MailService mailService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        String tokenJWT = accountService.authenticateUser(
-                loginRequest.getUsername(),
-                loginRequest.getPassword());
+    public ResponseEntity<?> authenticateAccount(@Valid @RequestBody SignInRequest signInRequest) {
+        String tokenJWT = accountService.authenticateAccount(
+                signInRequest.getUsername(),
+                signInRequest.getPassword());
         return ResponseEntity.ok(new JwtAuthenticationResponse(tokenJWT));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody SignUpRequest signUpRequest) {
         AccountEntity accountEntity = new AccountEntity(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
@@ -72,11 +77,31 @@ public class AuthenticationEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
+        String link = "https://localhost:8181/verify-email?token=" + resultAccount.getVeryficationToken();
+
+        try {
+            mailService.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            log.severe("Problem z mailem");
+        }
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(resultAccount.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestParam("token") String veryficationToken) {
+        try {
+            accountService.verifyEmail(veryficationToken);
+            return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));
+        } catch (AppBaseException e) {
+            log.severe("AuthenticationEndpoint.verifyEmail() " + e.getMessage());
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Getter
@@ -106,7 +131,7 @@ public class AuthenticationEndpoint {
         private String username;
     }
     @Getter
-    private static class LoginRequest {
+    private static class SignInRequest {
         @NotNull(message = "{validation.notnull}")
         @Size(min = 1, max = 32, message = "{validation.size}")
         @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
