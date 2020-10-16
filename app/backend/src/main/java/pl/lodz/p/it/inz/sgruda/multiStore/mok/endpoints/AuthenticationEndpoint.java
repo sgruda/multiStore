@@ -12,6 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +48,9 @@ import java.util.Map;
 
 @Log
 @RestController
+@Transactional(
+        propagation = Propagation.NEVER
+)
 @RequestMapping("/api/auth")
 public class AuthenticationEndpoint {
 
@@ -78,13 +84,13 @@ public class AuthenticationEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         String link = "https://localhost:8181/verify-email?token=" + resultAccount.getVeryficationToken();
-
-        try {
-            mailService.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            log.severe("Problem z mailem");
-        }
+//
+//        try {
+//            mailService.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//            log.severe("Problem z mailem");
+//        }
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
