@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="test">
+
+        <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity</class>
+        <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity</class>
+        <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity</class>
+        <class>pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/docker"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit></persistence>
