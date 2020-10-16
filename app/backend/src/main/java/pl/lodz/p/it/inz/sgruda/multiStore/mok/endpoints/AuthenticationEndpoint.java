@@ -92,7 +92,7 @@ public class AuthenticationEndpoint {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
-    @GetMapping("/verify-email")
+    @PostMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String veryficationToken) {
         try {
             accountService.verifyEmail(veryficationToken);
