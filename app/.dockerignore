@@ -1,1 +1,4 @@
-./frontend/node-modules
+./frontend/node_modules
+./frontend/build
+./backend/.idea
+./backend/.mvn

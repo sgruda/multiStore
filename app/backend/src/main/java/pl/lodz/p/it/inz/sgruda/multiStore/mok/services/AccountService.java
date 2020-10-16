@@ -9,6 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
@@ -32,6 +35,11 @@ import java.util.Optional;
 
 @Log
 @Service
+@Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        propagation = Propagation.REQUIRES_NEW,
+        timeout = 5
+)
 public class AccountService {
     private @Autowired AuthenticationManager authenticationManager;
     private @Autowired TokenJWTService tokenService;
