@@ -1,5 +1,4 @@
 GRANT ALL PRIVILEGES ON DATABASE docker TO docker;
-
 ---------------------------------------------------------------------------------------------------
 create table id_generator
 (
@@ -106,7 +105,6 @@ create table account_access_level_mapping
 
 alter table account_access_level_mapping
     owner to docker;
-
 
 
 
