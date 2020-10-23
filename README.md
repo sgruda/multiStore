@@ -1,1 +1,1 @@
-# praca-inzynierska
+# Spring Boot + ReactJS + PostgreSQL
