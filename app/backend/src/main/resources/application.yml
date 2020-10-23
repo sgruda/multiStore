@@ -80,6 +80,7 @@ app:
 #      - https://localhost:8181/oauth2/callback/google
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
+
 server:
   port: 8181
   ssl:
