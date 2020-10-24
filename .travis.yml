@@ -1,3 +1,6 @@
+language: java
+jdk:
+- openjdk14
 services: docker
 env:
   global:
@@ -14,11 +17,11 @@ before_install:
 - gcloud auth configure-docker    # enable "docker push" to gcr
 - gcloud config set project "${GCP_PROJECT_ID}"
 - gcloud components install beta  # until Cloud Run is generally available (GA)
-install: true # no-op
+install: 
+- docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app
 script:
 - |
   set -ex;
-  docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app && \
   docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
   gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
     --image="${IMAGE}:${TRAVIS_COMMIT}" \

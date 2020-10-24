@@ -4,19 +4,19 @@ spring:
 #    username: docker
 #    password: docker
     mok:
-      url: ${DATASOURCE_MOK_URL}
-      username: ${DATASOURCE_MOK_USERNAME}
-      password: ${DATASOURCE_MOK_PASSWORD}
+      url: DATASOURCE_MOK_URL
+      username: DATASOURCE_MOK_USERNAME
+      password: DATASOURCE_MOK_PASSWORD
       driverClassName: org.postgresql.Driver
     mop:
-      url: ${DATASOURCE_MOP_URL}
-      username: ${DATASOURCE_MOP_USERNAME}
-      password: ${DATASOURCE_MOP_PASSWORD}
+      url: DATASOURCE_MOP_URL
+      username: DATASOURCE_MOP_USERNAME
+      password: DATASOURCE_MOP_PASSWORD
       driverClassName: org.postgresql.Driver
     moz:
-      url: ${DATASOURCE_MOZ_URL}
-      username: ${DATASOURCE_MOZ_USERNAME}
-      password: ${DATASOURCE_MOZ_PASSWORD}
+      url: DATASOURCE_MOZ_URL
+      username: DATASOURCE_MOZ_USERNAME
+      password: DATASOURCE_MOZ_PASSWORD
       driverClassName: org.postgresql.Driver
 
 
@@ -33,15 +33,15 @@ spring:
       client:
         registration:
           google:
-            clientId: ${OAUTH2_GOOGLE_CLIENT_ID}
-            clientSecret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
+            clientId: OAUTH2_GOOGLE_CLIENT_ID
+            clientSecret: OAUTH2_GOOGLE_CLIENT_SECRET
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           facebook:
-            clientId: ${OAUTH2_FACEBOOK_CLIENT_ID}
-            clientSecret: ${OAUTH2_FACEBOOK_CLIENT_SECRET}
+            clientId: OAUTH2_FACEBOOK_CLIENT_ID
+            clientSecret: OAUTH2_FACEBOOK_CLIENT_SECRET
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -54,8 +54,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${SEND_EMAIL_ADDRESS}
-    password: ${SEND_EMAIL_PASSWORD}
+    username: SEND_EMAIL_ADDRESS
+    password: SEND_EMAIL_PASSWORD
     properties:
       mail:
         smtp:
@@ -66,7 +66,7 @@ spring:
 app:
   auth:
     jwt:
-      secret: ${AUTH_JWT_SECRET}
+      secret: AUTH_JWT_SECRET
       expiration:
         mili-sec: 864000000
 
