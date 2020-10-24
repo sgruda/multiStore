@@ -9,7 +9,7 @@ services:
       context: app # Use an image built from the specified dockerfile in the `src` directory.
       dockerfile: Dockerfile
     ports:
-      - "8181:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
       - db # This service depends on postgres database. Start that first.

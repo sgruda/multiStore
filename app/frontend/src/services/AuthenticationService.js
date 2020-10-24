@@ -2,8 +2,8 @@ import axios from 'axios';
 import { ACCESS_TOKEN } from '../config/config';
 import jsonwebtoken from 'jsonwebtoken' 
 
-const API_URL_SIGN_IN = 'https://localhost:8181/api/auth/signin'
-const API_URL_SIGN_UP = 'https://localhost:8181/api/auth/signup'
+const API_URL_SIGN_IN = 'http://localhost:8080/api/auth/signin'
+const API_URL_SIGN_UP = 'http://localhost:8080/api/auth/signup'
 
 const getAccessTokenFromStorage = () => {
     return localStorage.getItem(ACCESS_TOKEN);

@@ -1,8 +1,8 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-#    username: docker
-#    password: docker
+    #    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    #    username: docker
+    #    password: docker
     mok:
       url: ${DATASOURCE_MOK_URL}
       username: ${DATASOURCE_MOK_USERNAME}
@@ -66,7 +66,7 @@ spring:
 app:
   auth:
     jwt:
-      secret: ${AUTH_JWT_SECRET}
+      secret: AUTH_JWT_SECRET
       expiration:
         mili-sec: 864000000
 
@@ -77,6 +77,6 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
-#      - https://localhost:8181/oauth2/callback/google
+      #      - https://localhost:8181/oauth2/callback/google
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
