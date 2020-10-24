@@ -1,0 +1,28 @@
+services: docker
+env:
+  global:
+  - GCP_PROJECT_ID=multistore-289010
+  - IMAGE=gcr.io/multistore-289010/multistore-app
+  - CLOUD_RUN_SERVICE=multistore-app
+  - CLOUD_RUN_REGION=europe-north1
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1 # prevent gcloud from prompting
+before_install:
+- openssl aes-256-cbc -K $encrypted_98d237b7dbf4_key -iv $encrypted_98d237b7dbf4_iv -in google-key.json.enc -out google-key.json -d
+- curl https://sdk.cloud.google.com | bash > /dev/null
+- source "$HOME/google-cloud-sdk/path.bash.inc"
+- gcloud auth activate-service-account --key-file=google-key.json
+- gcloud auth configure-docker    # enable "docker push" to gcr
+- gcloud config set project "${GCP_PROJECT_ID}"
+- gcloud components install beta  # until Cloud Run is generally available (GA)
+install: true # no-op
+script:
+- |
+  set -ex;
+  docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app && \
+  docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
+  gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
+    --image="${IMAGE}:${TRAVIS_COMMIT}" \
+    --platform=managed \
+    --region="${CLOUD_RUN_REGION}" \
+    --allow-unauthenticated;
+  set +x
