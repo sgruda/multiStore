@@ -19,7 +19,7 @@ before_install:
 - gcloud components install beta  # until Cloud Run is generally available (GA)
 install: 
 - docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app
-deploy:
+script:
 - |
   set -ex;
   docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
