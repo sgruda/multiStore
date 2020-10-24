@@ -66,7 +66,7 @@ spring:
 app:
   auth:
     jwt:
-      secret: AUTH_JWT_SECRET
+      secret: ${AUTH_JWT_SECRET}
       expiration:
         mili-sec: 864000000
 
