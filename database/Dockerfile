@@ -1,4 +1,4 @@
-FROM postgres:12.4-alpine
+FROM postgres:13.0-alpine
 
 ENV POSTGRES_USER docker
 ENV POSTGRES_PASSWORD docker
