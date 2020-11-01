@@ -1,8 +1,8 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-#    username: docker
-#    password: docker
+    #    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    #    username: docker
+    #    password: docker
     mok:
       url: DATASOURCE_MOK_URL
       username: DATASOURCE_MOK_USERNAME
@@ -40,7 +40,7 @@ spring:
               - email
               - profile
           facebook:
-            clientId: OAUTH2_FACEBOOK_CLIENT_ID
+            clientId: OAUTH2_FACEBOOK_CLIENT_ID}
             clientSecret: OAUTH2_FACEBOOK_CLIENT_SECRET
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
@@ -77,16 +77,6 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
-#      - https://localhost:8181/oauth2/callback/google
+      #      - https://localhost:8181/oauth2/callback/google
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
-
-server:
-  port: 8181
-  ssl:
-    key-alias: selfsigned
-    key-password: password
-    key-store: src/main/resources/tmp_keystore.jks
-    key-store-provider: SUN
-    key-store-password: password
-    key-store-type: JKS

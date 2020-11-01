@@ -3,13 +3,13 @@ version: '3.7'
 # Define services
 services:
   # App backend service
-  app:
+  backend:
     # Configuration for building the docker image for the backend service
     build:
-      context: app # Use an image built from the specified dockerfile in the `src` directory.
+      context: app/backend # Use an image built from the specified dockerfile in the `src` directory.
       dockerfile: Dockerfile
     ports:
-      - "8181:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
       - db # This service depends on postgres database. Start that first.
@@ -19,6 +19,18 @@ services:
       SPRING_DATASOURCE_PASSWORD: docker      
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend-network
+      - frontend-network
+  frontend: 
+    build:
+      context: app/frontend
+      dockerfile: Dockerfile
+    ports: 
+      - "5000:5000"
+    restart: always
+    depends_on: 
+      - backend
+    networks: 
+      - frontend-network
   db:
     build:
       context: database # Use an image built from the specified dockerfile in the `database` directory.
@@ -37,3 +49,4 @@ volumes:
 # Networks to be created to facilitate communication between containers
 networks:
   backend-network:
+  frontend-network:
