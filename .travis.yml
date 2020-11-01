@@ -18,20 +18,20 @@ before_install:
 - gcloud config set project "${GCP_PROJECT_ID}"
 - gcloud components install beta  # until Cloud Run is generally available (GA)
 install: 
-- docker build -t "${APP_BACKEND}:${TRAVIS_COMMIT}" ./app/backend
-- docker build -t "${APP_FRONTEND}:${TRAVIS_COMMIT}" ./app/frontend
+- docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app/backend
+- docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app/frontend
 script:
 - |
   set -ex;
-  docker push "${APP_BACKEND}:${TRAVIS_COMMIT}" && \
+  docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
   gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
-    --image="${APP_BACKEND}:${TRAVIS_COMMIT}" \
+    --image="${IMAGE}:${TRAVIS_COMMIT}" \
     --platform=managed \
     --region="${CLOUD_RUN_REGION}" \
     --allow-unauthenticated;
-  docker push "${APP_FRONTEND}:${TRAVIS_COMMIT}" && \
+  docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
   gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
-    --image="${APP_FRONTEND}:${TRAVIS_COMMIT}" \
+    --image="${IMAGE}:${TRAVIS_COMMIT}" \
     --platform=managed \
     --region="${CLOUD_RUN_REGION}" \
     --allow-unauthenticated;
