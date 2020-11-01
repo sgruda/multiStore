@@ -5,9 +5,11 @@ services: docker
 env:
   global:
   - GCP_PROJECT_ID=multistore-289010
-  - IMAGE=gcr.io/multistore-289010/multistore-app
-  - CLOUD_RUN_SERVICE=multistore-app
-  - CLOUD_RUN_REGION=europe-north1
+  - IMAGE_BACKEND=gcr.io/multistore-289010/app_backend
+  - IMAGE_FRONTEND=gcr.io/multistore-289010/app_frontend
+  - CLOUD_RUN_SERVICE_BACKEND=multistore-backend
+  - CLOUD_RUN_SERVICE_FRONTEND=multistore-app-frontend
+  - CLOUD_RUN_REGION=europe-west3
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1 # prevent gcloud from prompting
 before_install:
 - openssl aes-256-cbc -K $encrypted_98d237b7dbf4_key -iv $encrypted_98d237b7dbf4_iv -in google-key.json.enc -out google-key.json -d
@@ -18,20 +20,20 @@ before_install:
 - gcloud config set project "${GCP_PROJECT_ID}"
 - gcloud components install beta  # until Cloud Run is generally available (GA)
 install: 
-- docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app/backend
-- docker build -t "${IMAGE}:${TRAVIS_COMMIT}" ./app/frontend
+- docker build -t "${IMAGE_BACKEND}:${TRAVIS_COMMIT}" ./app/backend
+- docker build -t "${IMAGE_FRONTEND}:${TRAVIS_COMMIT}" ./app/frontend
 script:
 - |
   set -ex;
-  docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
-  gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
-    --image="${IMAGE}:${TRAVIS_COMMIT}" \
+  docker push "${IMAGE_BACKEND}:${TRAVIS_COMMIT}" && \
+  gcloud beta run deploy "${CLOUD_RUN_SERVICE_BACKEND}" \
+    --image="${IMAGE_BACKEND}:${TRAVIS_COMMIT}" \
     --platform=managed \
     --region="${CLOUD_RUN_REGION}" \
     --allow-unauthenticated;
-  docker push "${IMAGE}:${TRAVIS_COMMIT}" && \
-  gcloud beta run deploy "${CLOUD_RUN_SERVICE}" \
-    --image="${IMAGE}:${TRAVIS_COMMIT}" \
+  docker push "${IMAGE_FRONTEND}:${TRAVIS_COMMIT}" && \
+  gcloud beta run deploy "${CLOUD_RUN_SERVICE_FRONTEND}" \
+    --image="${IMAGE_FRONTEND}:${TRAVIS_COMMIT}" \
     --platform=managed \
     --region="${CLOUD_RUN_REGION}" \
     --allow-unauthenticated;
