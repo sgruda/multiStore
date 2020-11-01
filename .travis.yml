@@ -18,7 +18,7 @@ before_install:
 - gcloud config set project "${GCP_PROJECT_ID}"
 - gcloud components install beta  # until Cloud Run is generally available (GA)
 install: 
-- docker build -t "APP_BACKEND:${TRAVIS_COMMIT}" ./app/backend/.
+- docker build -t "APP_BACKEND:${TRAVIS_COMMIT}" ./app
 - docker build -t "APP_FRONTEND:${TRAVIS_COMMIT}" ./app/frontend/.
 script:
 - |
