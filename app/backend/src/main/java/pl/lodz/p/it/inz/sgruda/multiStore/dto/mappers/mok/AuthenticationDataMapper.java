@@ -24,7 +24,6 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
         AuthenticationDataDTO dto = new AuthenticationDataDTO();
         dto.setIdHash(hashGenerator.hash(entity.getId()));
         dto.setUsername(entity.getUsername());
-        dto.setPassword(entity.getPassword());
         dto.setEmailVerified(entity.isEmailVerified());
         if(entity.getForgotPasswordTokenEntity() != null)
             dto.setForgotPasswordTokenDTO(forgotPasswordTokenMapper.toDTO(entity.getForgotPasswordTokenEntity()));
@@ -46,7 +45,8 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
         checkSignature(dto);
         checkVersion(entity, dto);
 
-        entity.setPassword(dto.getPassword());
+        if(dto.getPassword() != null)
+            entity.setPassword(dto.getPassword());
         entity.setEmailVerified(dto.isEmailVerified());
         entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
         return entity;
