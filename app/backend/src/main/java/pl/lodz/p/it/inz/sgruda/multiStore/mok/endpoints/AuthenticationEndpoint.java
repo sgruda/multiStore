@@ -80,6 +80,7 @@ public class AuthenticationEndpoint {
         try {
             resultAccount = accountService.registerAccount(accountEntity);
         } catch (AppBaseException e) {
+            log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
@@ -104,7 +105,7 @@ public class AuthenticationEndpoint {
             accountService.verifyEmail(veryficationToken);
             return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));
         } catch (AppBaseException e) {
-            log.severe("AuthenticationEndpoint.verifyEmail() " + e.getMessage());
+            log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
