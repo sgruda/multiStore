@@ -1,4 +1,4 @@
-package pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response;
+package pl.lodz.p.it.inz.sgruda.multiStore.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
