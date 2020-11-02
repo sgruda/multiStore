@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTHasBeenExpiredException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,14 +64,21 @@ public class TokenJWTService {
 
         return claims.get("email").toString();
     }
+    private long getExpiryDateMiliSec(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
 
-    public boolean validateToken(String authToken) {
-        try {
+        return Long.parseLong(claims.get("exp").toString());
+    }
+
+    public boolean validateToken(String authToken) throws TokenJWTHasBeenExpiredException {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Date now = new Date();
+            if(getExpiryDateMiliSec(authToken) <= now.getTime()) {
+                throw new TokenJWTHasBeenExpiredException();
+            }
             return true;
-        } catch (Exception ex) {
-            log.severe(ex.getMessage());
-        }
-        return false;
     }
 }

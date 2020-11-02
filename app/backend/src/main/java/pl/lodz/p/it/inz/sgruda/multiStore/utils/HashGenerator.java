@@ -5,6 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @NoArgsConstructor
 public class HashGenerator {
+//    @Value("${app.auth.bcrypt.secret.salt}")
+//    private String saltBCrypt;
+
     public String hash(String toHash) {
         return  BCrypt.hashpw(toHash, BCrypt.gensalt());
     }
