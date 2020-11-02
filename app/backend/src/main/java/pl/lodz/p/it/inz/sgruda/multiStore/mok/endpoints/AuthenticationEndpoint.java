@@ -1,50 +1,25 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.endpoints;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.JwtAuthenticationResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.AccountService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.MailService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Log
 @RestController

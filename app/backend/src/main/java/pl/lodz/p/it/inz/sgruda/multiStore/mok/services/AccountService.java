@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2WrongProviderException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
@@ -67,7 +67,7 @@ public class AccountService {
         }
 
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
-                .orElseThrow(() -> new AppException("User Role not set."));
+                .orElseThrow(() -> new HttpBaseException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
         return accountRepository.save(account);
@@ -99,7 +99,7 @@ public class AccountService {
                 oAuth2UserInfo.getId()
         );
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
-                .orElseThrow(() -> new AppException("User Role not set."));
+                .orElseThrow(() -> new HttpBaseException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
 

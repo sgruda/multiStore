@@ -6,7 +6,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.BadRequestException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.BadRequestException;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenJWTService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.CookieUtils;
 
