@@ -12,14 +12,19 @@ import org.springframework.stereotype.Service;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.AccountService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OAuth2Service;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 
 @Log
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private @Autowired AccountService accountService;
+    private OAuth2Service oAuth2Service;
+
+    @Autowired
+    public CustomOAuth2UserService(OAuth2Service oAuth2Service) {
+        this.oAuth2Service = oAuth2Service;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -37,9 +42,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         AccountEntity account;
         try {
-            account = accountService.updateAccountOAuth2(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User);
+            account = oAuth2Service.updateAccountOAuth2(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User);
         } catch (AccountNotExistsException e) {
-            account = accountService.registerAccountOAuth2(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User);
+            account = oAuth2Service.registerAccountOAuth2(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User);
         }
         return UserPrincipal.create(account, oAuth2User.getAttributes());
     }

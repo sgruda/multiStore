@@ -1,16 +1,14 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.utils;
 
-import lombok.extern.java.Log;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTHasBeenExpiredException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +40,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+        } catch(TokenJWTHasBeenExpiredException ex) {
+            log.severe("Error: " + ex);
         } catch (Exception ex) {
             log.severe("Could not set user authentication in security context " + ex.getMessage());
         }
