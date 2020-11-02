@@ -14,8 +14,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.payloads.response.JwtAuthenticationResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.AccountService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.MailService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AuthService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -29,13 +30,22 @@ import java.net.URI;
 @RequestMapping("/api/auth")
 public class AuthenticationEndpoint {
 
-    private @Autowired AccountService accountService;
-    private @Autowired PasswordEncoder passwordEncoder;
-    private @Autowired MailService mailService;
+    private AuthService authService;
+    private MailVerifierService mailVerifierService;
+    private PasswordEncoder passwordEncoder;
+    private MailSenderServiceImpl mailSenderServiceImpl;
+
+    @Autowired
+    public AuthenticationEndpoint(AuthService authService, MailVerifierService mailVerifierService, PasswordEncoder passwordEncoder, MailSenderServiceImpl mailSenderServiceImpl) {
+        this.authService = authService;
+        this.mailVerifierService = mailVerifierService;
+        this.passwordEncoder = passwordEncoder;
+        this.mailSenderServiceImpl = mailSenderServiceImpl;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateAccount(@Valid @RequestBody SignInRequest signInRequest) {
-        String tokenJWT = accountService.authenticateAccount(
+        String tokenJWT = authService.authenticateAccount(
                 signInRequest.getUsername(),
                 signInRequest.getPassword());
         return ResponseEntity.ok(new JwtAuthenticationResponse(tokenJWT));
@@ -53,7 +63,7 @@ public class AuthenticationEndpoint {
 
         AccountEntity resultAccount;
         try {
-            resultAccount = accountService.registerAccount(accountEntity);
+            resultAccount = authService.registerAccount(accountEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -62,7 +72,7 @@ public class AuthenticationEndpoint {
         String link = "https://localhost:8181/verify-email?token=" + resultAccount.getVeryficationToken();
 //
 //        try {
-//            mailService.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
+//            mailSenderServiceImpl.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
 //        } catch (MessagingException e) {
 //            e.printStackTrace();
 //            log.severe("Problem z mailem");
@@ -77,7 +87,7 @@ public class AuthenticationEndpoint {
     @PostMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String veryficationToken) {
         try {
-            accountService.verifyEmail(veryficationToken);
+            mailVerifierService.verifyEmail(veryficationToken);
             return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
