@@ -79,3 +79,15 @@ app:
       - http://localhost:3000/oauth2/redirect
       - http://localhost:5000/oauth2/redirect
       - https://multistore-app-frontend-yka4rjl6za-ey.a.run.app/oauth2/redirect
+logging:
+  level:
+    ROOT: INFO
+    org:
+      #      springframework:
+      #        orm:
+      #         jpa: DEBUG
+      hibernate:
+        engine:
+          transaction:
+            internal:
+              TransactionImpl: DEBUG
