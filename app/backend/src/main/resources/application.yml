@@ -40,7 +40,7 @@ spring:
               - email
               - profile
           facebook:
-            clientId: OAUTH2_FACEBOOK_CLIENT_ID}
+            clientId: OAUTH2_FACEBOOK_CLIENT_ID
             clientSecret: OAUTH2_FACEBOOK_CLIENT_SECRET
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
@@ -77,6 +77,17 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
-      #      - https://localhost:8181/oauth2/callback/google
-      - myandroidapp://oauth2/redirect
-      - myiosapp://oauth2/redirect
+      - http://localhost:5000/oauth2/redirect
+      - https://multistore-app-frontend-yka4rjl6za-ey.a.run.app/oauth2/redirect
+logging:
+  level:
+    ROOT: INFO
+    org:
+      #      springframework:
+      #        orm:
+      #         jpa: DEBUG
+      hibernate:
+        engine:
+          transaction:
+            internal:
+              TransactionImpl: DEBUG

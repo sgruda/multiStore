@@ -1,6 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt;
 
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 
 public class TokenJWTVariousIDException extends AppBaseException {
     static final public String KEY_JWT_VARIOUS_ID = "error.jwt.various.id";
