@@ -61,8 +61,8 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO, Set<Acce
     @Override
 //    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
     public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto) throws DTOSignatureException, DTOVersionException {
-        checkSignature(dto);
-        checkVersion(entity, dto);
+//        checkSignature(dto);
+//        checkVersion(entity, dto);
 
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
@@ -73,16 +73,12 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO, Set<Acce
         entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));
         return entity;
     }
-    private void checkSignature(AccountDTO dto) throws DTOSignatureException {
+    public void checkCorrectness(AccountEntity entity, AccountDTO dto) throws DTOSignatureException, DTOVersionException {
         if(!hashGenerator.checkSignature(dto.getSignature(), dto.getIdHash(), dto.getEmail(), dto.getVersion())) {
             throw new DTOSignatureException();
         }
-    }
-    private void checkVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
         if(entity.getVersion() != dto.getVersion())
             throw new DTOVersionException();
     }
-
-
 }
 
