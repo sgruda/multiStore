@@ -74,6 +74,7 @@ public class AccountEntity implements Serializable {
     @Column(name = "provider_id", nullable = true)
     private String providerId;
 
+    @Version
     @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
