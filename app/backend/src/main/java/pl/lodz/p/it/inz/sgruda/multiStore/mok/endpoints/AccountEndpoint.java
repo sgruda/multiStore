@@ -38,10 +38,10 @@ public class AccountEndpoint {
 
     @GetMapping("/account")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAccountByUsername(@RequestParam(value = "username") String username) {
+    public ResponseEntity<?> getAccountByEmail(@RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {
-            accountEntity = accountDetailsService.getAccount(username);
+            accountEntity = accountDetailsService.getAccountByEmail(email);
         } catch (AccountNotExistsException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -53,10 +53,10 @@ public class AccountEndpoint {
     }
     @GetMapping("/me")
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAccount(@CurrentUser UserPrincipal currentUser) {
+    public ResponseEntity<?> getAccountByCurrentUser(@CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            accountEntity = accountDetailsService.getAccount(currentUser.getUsername());
+            accountEntity = accountDetailsService.getAccountByEmail(currentUser.getEmail());
         } catch (AccountNotExistsException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

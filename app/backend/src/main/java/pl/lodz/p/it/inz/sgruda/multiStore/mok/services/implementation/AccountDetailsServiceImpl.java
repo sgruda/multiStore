@@ -30,8 +30,14 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public AccountEntity getAccount(String username) throws AccountNotExistsException {
+    public AccountEntity getAccountByUsername(String username) throws AccountNotExistsException {
         return accountRepository.findByUsername(username)
+                .orElseThrow(() -> new AccountNotExistsException());
+    }
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
+    public AccountEntity getAccountByEmail(String mail) throws AccountNotExistsException {
+        return accountRepository.findByEmail(mail)
                 .orElseThrow(() -> new AccountNotExistsException());
     }
 }

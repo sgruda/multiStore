@@ -4,5 +4,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 
 public interface AccountDetailsService {
-    AccountEntity getAccount(String username) throws AccountNotExistsException;
+    AccountEntity getAccountByUsername(String username) throws AccountNotExistsException;
+    AccountEntity getAccountByEmail(String mail) throws AccountNotExistsException;
 }
