@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
@@ -41,11 +39,9 @@ public class AccountActivityEndpoint {
 
     @PostMapping("/account/block")
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
-        log.severe("WTF dto " + accountDTO.toString());
         AccountEntity accountEntity;
         try {
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-            log.severe("WTF enity " + accountEntity.toString());
         } catch (AccountNotExistsException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

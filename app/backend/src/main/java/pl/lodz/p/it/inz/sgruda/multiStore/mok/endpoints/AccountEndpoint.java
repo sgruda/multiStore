@@ -50,12 +50,9 @@ public class AccountEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
-        log.severe("AccountEndpoint getAccountByEmail entity " + accountEntity.toString());
         AccountMapper accountMapper = new AccountMapper();
         AccountDTO accountDTO = accountMapper.toDTO(accountEntity);
-        log.severe("AccountEndpoint getAccountByEmail accountDTO przed " + accountDTO.toString());
         signAccountDTOUtil.signAccountDTO(accountDTO);
-        log.severe("AccountEndpoint getAccountByEmail accountDTO    po " + accountDTO.toString());
         return ResponseEntity.ok(accountDTO);
     }
     @GetMapping("/me")

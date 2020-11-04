@@ -6,26 +6,36 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
 public class CheckerAccountDTO {
-    private CheckerDTO checkerDTO;
+    private SignatureDTOUtil signatureDTOUtil;
 
     @Autowired
-    public CheckerAccountDTO(CheckerDTO checkerDTO) {
-        this.checkerDTO = checkerDTO;
+    public CheckerAccountDTO(SignatureDTOUtil signatureDTOUtil) {
+        this.signatureDTOUtil = signatureDTOUtil;
     }
 
     public void checkIntegrity(AccountEntity entity, AccountDTO dto) throws DTOVersionException, DTOSignatureException {
         if(dto != null && entity != null) {
-            checkerDTO.checkIntegrity(entity, dto);
+            this.checkSignatureAndVersion(entity, dto);
             if(dto.getAuthenticationDataDTO() != null) {
-               checkerDTO.checkIntegrity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
+                this.checkSignatureAndVersion(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
                 if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    checkerDTO.checkIntegrity(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
+                    this.checkSignatureAndVersion(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
                             dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
                 }
             }
+        }
+    }
+    private void checkSignatureAndVersion(VersionGetter entity, SignatureVerifiability dto) throws DTOSignatureException, DTOVersionException {
+        if(!signatureDTOUtil.checkSignatureDTO(dto)) {
+            throw new DTOSignatureException();
+        }
+        if(entity.getVersion() != dto.getVersion()) {
+            throw new DTOVersionException();
         }
     }
 
