@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTVariousIDException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -35,8 +35,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         AccountEntity account = accountRepository.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with email : " + email)
         );
-        HashGenerator hashGenerator = new HashGenerator();
-        if(!hashGenerator.checkHash(String.valueOf(account.getId()), hashId)) {
+        HashMethod hashMethod = new HashMethod();
+        if(!hashMethod.hash(String.valueOf(account.getId())).equals(hashId)) {
             throw new TokenJWTVariousIDException();
         }
         return UserPrincipal.create(account);
