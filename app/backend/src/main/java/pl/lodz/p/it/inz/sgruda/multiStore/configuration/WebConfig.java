@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.AccountInterceptor;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.AccountInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

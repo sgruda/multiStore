@@ -3,11 +3,13 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 @ToString
@@ -17,7 +19,7 @@ import java.util.Objects;
 @Table(name = "forgot_password_token", schema = "public")
 @TableGenerator(name = "ForgotPasswordTokenIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
                 valueColumnName = "id_range", pkColumnValue = "forgot_password_token")
-public class ForgotPasswordTokenEntity {
+public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)

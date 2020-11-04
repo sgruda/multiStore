@@ -20,6 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountDetails
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
 
 @Log
 @RestController
@@ -29,10 +30,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 @RequestMapping("/api/accounts")
 public class AccountEndpoint {
     private AccountDetailsService accountDetailsService;
+    private SignAccountDTOUtil signAccountDTOUtil;
 
     @Autowired
-    public AccountEndpoint(AccountDetailsService accountDetailsService) {
+    public AccountEndpoint(AccountDetailsService accountDetailsService, SignAccountDTOUtil signAccountDTOUtil) {
         this.accountDetailsService = accountDetailsService;
+        this.signAccountDTOUtil = signAccountDTOUtil;
     }
 
 
@@ -49,6 +52,7 @@ public class AccountEndpoint {
         }
         AccountMapper accountMapper = new AccountMapper();
         AccountDTO accountDTO = accountMapper.toDTO(accountEntity);
+        signAccountDTOUtil.signAccountDTO(accountDTO);
         return ResponseEntity.ok(accountDTO);
     }
     @GetMapping("/me")
@@ -64,6 +68,7 @@ public class AccountEndpoint {
         }
         AccountMapper accountMapper = new AccountMapper();
         AccountDTO accountDTO = accountMapper.toDTO(accountEntity);
+        signAccountDTOUtil.signAccountDTO(accountDTO);
         return ResponseEntity.ok(accountDTO);
     }
 }

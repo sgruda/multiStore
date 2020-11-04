@@ -3,6 +3,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -22,7 +23,7 @@ import java.util.UUID;
         })
 @TableGenerator(name = "AuthenticationDataTokenIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "authentication_data")
-public class AuthenticationDataEntity implements Serializable {
+public class AuthenticationDataEntity implements Serializable, VersionGetter {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
@@ -94,4 +95,5 @@ public class AuthenticationDataEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(veryficationToken, username, password, emailVerified, forgotPasswordTokenEntity);
     }
+
 }

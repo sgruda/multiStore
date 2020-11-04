@@ -1,4 +1,4 @@
-package pl.lodz.p.it.inz.sgruda.multiStore.utils;
+package pl.lodz.p.it.inz.sgruda.multiStore.utils.components;
 
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;

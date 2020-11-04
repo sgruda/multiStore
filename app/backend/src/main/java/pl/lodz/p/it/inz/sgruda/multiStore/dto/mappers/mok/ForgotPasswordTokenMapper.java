@@ -5,25 +5,22 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.ForgotPasswordTokenDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 @Log
 public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEntity, ForgotPasswordTokenDTO, AccountEntity> {
-    private HashGenerator hashGenerator;
+    private HashMethod hashMethod;
 
     public ForgotPasswordTokenMapper() {
-        this.hashGenerator = new HashGenerator();
+        this.hashMethod = new HashMethod();
     }
     @Override
     public ForgotPasswordTokenDTO toDTO(ForgotPasswordTokenEntity entity) {
         ForgotPasswordTokenDTO dto = new ForgotPasswordTokenDTO();
-        dto.setIdHash(hashGenerator.hash(entity.getId()));
+        dto.setIdHash(hashMethod.hash(entity.getId()));
         dto.setExpireDate(entity.getExpireDate());
         dto.setHash(entity.getHash());
         dto.setOwnerUsername(entity.getAccountEntity().getUsername());
         dto.setVersion(entity.getVersion());
-        dto.setSignature(hashGenerator.sign(dto.getIdHash(), dto.getOwnerUsername(), dto.getVersion()));
         return dto;
     }
     @Override
@@ -36,22 +33,9 @@ public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEnti
     }
 
     @Override
-    public ForgotPasswordTokenEntity updateEntity(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) throws DTOSignatureException, DTOVersionException {
-        checkSignature(dto);
-        checkVersion(entity, dto);
-
+    public ForgotPasswordTokenEntity updateEntity(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) {
         entity.setExpireDate(dto.getExpireDate());
         entity.setHash(dto.getHash());
         return entity;
-    }
-
-    private void checkSignature(ForgotPasswordTokenDTO dto) throws DTOSignatureException {
-        if(!hashGenerator.checkSignature(dto.getSignature(), dto.getIdHash(), dto.getOwnerUsername(), dto.getVersion())) {
-            throw new DTOSignatureException();
-        }
-    }
-    private void checkVersion(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) throws DTOVersionException {
-        if(entity.getVersion() != dto.getVersion())
-            throw new DTOVersionException();
     }
 }
