@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,7 +25,7 @@ import java.util.Set;
         })
 @TableGenerator(name = "AccountIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "account_data")
-public class AccountEntity implements Serializable {
+public class AccountEntity implements Serializable, VersionGetter {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
@@ -164,4 +165,5 @@ public class AccountEntity implements Serializable {
             return this.authenticationDataEntity.getForgotPasswordTokenEntity();
         return null;
     }
+
 }

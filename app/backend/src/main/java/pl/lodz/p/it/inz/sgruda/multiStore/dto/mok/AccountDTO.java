@@ -5,14 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class AccountDTO {
+public @Data class AccountDTO implements SignatureVerifiability {
     private String idHash;
     private String firstName;
     private String lastName;
@@ -23,5 +26,11 @@ public @Data class AccountDTO {
     private AuthenticationDataDTO authenticationDataDTO;
     private long version;
     private String signature;
+
+    @Override
+    public List<String> specifySigningParams() {
+        return Arrays.asList(idHash, email, String.valueOf(version));
+    }
+
 
 }
