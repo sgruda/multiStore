@@ -64,10 +64,9 @@ spring:
             enable: true
 
 app:
+  signature:
+    secret: SIGNATURE_SECRET
   auth:
-    bcrypt:
-      secret:
-        salt: BCRYPT_SALT
     jwt:
       secret: AUTH_JWT_SECRET
       expiration:
