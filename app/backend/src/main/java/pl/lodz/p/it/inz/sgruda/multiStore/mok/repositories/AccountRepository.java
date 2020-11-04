@@ -1,5 +1,8 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,9 +22,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     Optional<AccountEntity> findByEmail(String email);
 
-//    Optional<AccountEntity> findByUsernameOrEmail(String username, String email);
-
-//    List<AccountEntity> findByIdIn(List<Long> userIds);
     @Query("select account from AccountEntity account " +
             "where account.authenticationDataEntity.veryficationToken = :token")
     Optional<AccountEntity> findByVeryficationToken(@Param("token") String token);
@@ -28,7 +29,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
     @Query("select account from AccountEntity account " +
             "where account.authenticationDataEntity.username = :username")
     Optional<AccountEntity> findByUsername(@Param("username") String username);
-
 
     @Query("SELECT CASE WHEN COUNT(account) > 0 " +
             "THEN true ELSE false END " +
@@ -38,4 +38,10 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     Boolean existsByEmail(String email);
 
+    Page<AccountEntity> findByActive(boolean active, Pageable pageable);
+
+
+    Page<AccountEntity> findByFirstNameContaining(String textToSearch, Pageable pageable);
+
+    List<AccountEntity> findByFirstNameContaining(String textToSearch, Sort sort);
 }
