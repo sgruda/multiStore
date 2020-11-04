@@ -20,6 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountDetails
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
 
 @Log
 @RestController
@@ -29,10 +30,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 @RequestMapping("/api/accounts")
 public class AccountEndpoint {
     private AccountDetailsService accountDetailsService;
+    private SignAccountDTOUtil signAccountDTOUtil;
 
     @Autowired
-    public AccountEndpoint(AccountDetailsService accountDetailsService) {
+    public AccountEndpoint(AccountDetailsService accountDetailsService, SignAccountDTOUtil signAccountDTOUtil) {
         this.accountDetailsService = accountDetailsService;
+        this.signAccountDTOUtil = signAccountDTOUtil;
     }
 
 
@@ -47,8 +50,12 @@ public class AccountEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
+        log.severe("AccountEndpoint getAccountByEmail entity " + accountEntity.toString());
         AccountMapper accountMapper = new AccountMapper();
         AccountDTO accountDTO = accountMapper.toDTO(accountEntity);
+        log.severe("AccountEndpoint getAccountByEmail accountDTO przed " + accountDTO.toString());
+        signAccountDTOUtil.signAccountDTO(accountDTO);
+        log.severe("AccountEndpoint getAccountByEmail accountDTO    po " + accountDTO.toString());
         return ResponseEntity.ok(accountDTO);
     }
     @GetMapping("/me")
@@ -64,6 +71,7 @@ public class AccountEndpoint {
         }
         AccountMapper accountMapper = new AccountMapper();
         AccountDTO accountDTO = accountMapper.toDTO(accountEntity);
+        signAccountDTOUtil.signAccountDTO(accountDTO);
         return ResponseEntity.ok(accountDTO);
     }
 }

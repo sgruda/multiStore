@@ -3,16 +3,13 @@ package pl.lodz.p.it.inz.sgruda.multiStore.security;
 import io.jsonwebtoken.*;
 
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTHasBeenExpiredException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashGenerator;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,14 +24,14 @@ public class TokenJWTService {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
-        HashGenerator hashGenerator = new HashGenerator();
+        HashMethod hashMethod = new HashMethod();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", hashGenerator.hash(userPrincipal.getId()));
+        claims.put("sub", hashMethod.hash(userPrincipal.getId()));
         claims.put("email", userPrincipal.getEmail());
         claims.put("roles", userPrincipal.getAuthorities().stream()
                                          .map(GrantedAuthority::getAuthority)
