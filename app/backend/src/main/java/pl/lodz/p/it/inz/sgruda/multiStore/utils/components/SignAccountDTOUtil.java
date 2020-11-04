@@ -27,17 +27,4 @@ public class SignAccountDTOUtil {
             }
         }
     }
-    public boolean checkSignatureAccountDTO(AccountDTO dto) {
-        boolean result = false;
-        if(dto != null) {
-            result = signatureDTOUtil.checkSignatureDTO(dto);
-            if(dto.getAuthenticationDataDTO() != null) {
-                result = signatureDTOUtil.checkSignatureDTO(dto.getAuthenticationDataDTO());
-                if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    result = signatureDTOUtil.checkSignatureDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
-                }
-            }
-        }
-        return result;
-    }
 }
