@@ -52,13 +52,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
                     )
     Page<AccountEntity> findByTextInNameOrEmail(String textToSearch, Pageable pageable);
 
-    @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE  " +
-                "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
-                "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
-                "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%')) " +
-            "ORDER BY :sort")
-    List<AccountEntity> findByTextInNameOrEmail(String textToSearch, Sort sort);
 
     @Query(value = "SELECT account FROM AccountEntity account " +
             "WHERE " +
@@ -76,14 +69,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
                     )
     Page<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Pageable pageable, boolean active);
 
-    @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE " +
-                "account.active = :active AND " +
-                    "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
-                    "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
-                    "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%'))" +
-            " ORDER BY :sort")
-    List<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Sort sort, boolean active);
 
     Page<AccountEntity> findAllByActiveEquals(Pageable pageable, boolean active);
     List<AccountEntity> findAllByActiveEquals(Sort sort, boolean active);

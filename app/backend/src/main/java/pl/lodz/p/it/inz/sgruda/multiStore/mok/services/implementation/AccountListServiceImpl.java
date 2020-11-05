@@ -31,11 +31,6 @@ public class AccountListServiceImpl implements AccountListService {
     }
 
     @Override
-    public Page<AccountEntity> getAccounts(Pageable pageable) {
-        return accountRepository.findAll(pageable);
-    }
-
-    @Override
     public Page<AccountEntity> getFilteredAccounts(String textToSearch, Pageable pageable, Boolean active) {
         if(textToSearch != null) {
             if(active != null)
@@ -47,21 +42,6 @@ public class AccountListServiceImpl implements AccountListService {
                 return accountRepository.findAllByActiveEquals(pageable, active.booleanValue());
             else
                 return accountRepository.findAll(pageable);
-        }
-    }
-
-    @Override
-    public List<AccountEntity> getFilteredAccounts(String textToSearch, Sort sort, Boolean active) {
-        if(textToSearch != null) {
-            if(active != null)
-                return accountRepository.findByTextInNameOrEmailAndFilteredByActive(textToSearch, sort, active.booleanValue());
-            else
-                return accountRepository.findByTextInNameOrEmail(textToSearch, sort);
-        } else {
-            if(active != null)
-                return accountRepository.findAllByActiveEquals(sort, active.booleanValue());
-            else
-                return accountRepository.findAll(sort);
         }
     }
 }
