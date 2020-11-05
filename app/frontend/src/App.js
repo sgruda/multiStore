@@ -91,7 +91,7 @@ function App(props) {
 
   useEffect(() => {
     if (currentAccessToken) {
-      const roles = AuthenticationService.parseJWT(currentAccessToken).roles;
+      const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
       if(roles.includes(ROLE_CLIENT)) {
         setActiveRole(ROLE_CLIENT);
       }
@@ -103,13 +103,6 @@ function App(props) {
       }
     }
   }, [currentAccessToken]);
-  
-  const signOut = () => {
-    AuthenticationService.signOut();
-    setUserIsAuthenticated(false);
-    history.push("/")
-  }
-
 
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -142,7 +135,10 @@ function App(props) {
                 ? <>
                     <ProfileSpeedDial 
                       setUserIsAuthenticated={setUserIsAuthenticated} 
-                      history={history}/>
+                      history={history}
+                      activeRole={activeRole}
+                      setActiveRole={setActiveRole}
+                    />
                   </>
                 : <>
                     <Button component={Link} to="/signin" color="inherit">Sign in</Button>

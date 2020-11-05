@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import AuthenticationService from '../services/AuthenticationService';
+import CurrentRoleChanger from './CurrentRoleChanger';
 
 import { makeStyles } from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/lab/SpeedDial';
@@ -10,6 +11,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import { Group } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function SpeedDialTooltipOpen({setUserIsAuthenticated, history}) {
+function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setActiveRole}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [hidden, setHidden] = React.useState(false);
-
   const handleVisibility = () => {
     setHidden((prevHidden) => !prevHidden);
   };
@@ -45,12 +48,18 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history}) {
   const handleSpeedDialActionClick = (e, operation) => {
     e.preventDefault();
     if(operation == "handleProfile") {
+        handleProfile();
     } else if(operation == "handleCurrentAccessLevel") {
     } else if(operation == "handleSignOut") {
         handleSignOut();
     }
   }
+  const handleProfile = () => {
 
+  }
+  const handleCurrentAccessLevel = () => {
+
+  }
   const handleSignOut = () => {
         AuthenticationService.signOut();
         setUserIsAuthenticated(false);
@@ -65,29 +74,41 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history}) {
   
   return (
     <div className={classes.root}>
-      <Button onClick={handleVisibility}></Button>
-      <Backdrop open={open} />
-      <SpeedDial
-        ariaLabel="Profile Account SpeedDial"
-        hidden={hidden}
-        icon={<AccountCircleIcon className={classes.accountIcon}/>}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-        direction="down"
-      >
-        {actions.map((action) => (
-          <SpeedDialAction 
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={(e) => {
-                handleSpeedDialActionClick(e, action.operation);
-           }}
-          />
-        ))}
-      </SpeedDial>
+    <Container component="main" maxWidth="xs">
+        <Grid container>
+            <Grid item>
+            <Button onClick={handleVisibility}></Button>
+            <Backdrop open={open} />
+            <SpeedDial
+                ariaLabel="Profile Account SpeedDial"
+                hidden={hidden}
+                icon={<AccountCircleIcon className={classes.accountIcon}/>}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                open={open}
+                direction="down"
+            >
+                {actions.map((action) => (
+                <SpeedDialAction 
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                    onClick={(e) => {
+                        handleSpeedDialActionClick(e, action.operation);
+                }}
+                />
+                ))}
+            </SpeedDial>
+            </Grid>
+            <Grid item>
+                <CurrentRoleChanger
+                    currentActiveRole={activeRole}
+                    setCurrentActiveRole={setActiveRole}
+                />
+            </Grid>
+      </Grid>
+    </Container>
     </div>
-  );
+    );
 }
 export default SpeedDialTooltipOpen;
