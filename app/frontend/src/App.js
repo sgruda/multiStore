@@ -140,8 +140,9 @@ function App(props) {
               }
               { userIsAuthenticated
                 ? <>
-                    <Button onClick={signOut} color="inherit">Sign out</Button>
-                    <ProfileSpeedDial setUserIsAuthenticated={setUserIsAuthenticated} history={history}/>
+                    <ProfileSpeedDial 
+                      setUserIsAuthenticated={setUserIsAuthenticated} 
+                      history={history}/>
                   </>
                 : <>
                     <Button component={Link} to="/signin" color="inherit">Sign in</Button>
