@@ -40,49 +40,48 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
 
     @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE ( " +
-                "(account.firstName LIKE %:textToSearch%) " +
-                "OR (account.lastName LIKE %:textToSearch%) " +
-                "OR (account.email LIKE %:textToSearch%) " +
-            ")",
+            "WHERE " +
+                "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%'))",
             countQuery = "SELECT count(account) FROM AccountEntity account " +
-                    "WHERE ( " +
-                        "(account.firstName LIKE %:textToSearch%) " +
-                        "OR (account.lastName LIKE %:textToSearch%) " +
-                        "OR (account.email LIKE %:textToSearch%) " +
-                    ")")
+                    "WHERE " +
+                        "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                        "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                        "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%')) "
+                    )
     Page<AccountEntity> findByTextInNameOrEmail(String textToSearch, Pageable pageable);
 
     @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE ( " +
-                "(account.firstName LIKE %:textToSearch%) " +
-                "OR (account.lastName LIKE %:textToSearch%) " +
-                "OR (account.email LIKE %:textToSearch%) " +
-            ") " +
+            "WHERE  " +
+                "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%')) " +
             "ORDER BY :sort")
     List<AccountEntity> findByTextInNameOrEmail(String textToSearch, Sort sort);
 
     @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE ( " +
-                "(account.active = :active) " +
-                "AND (account.firstName LIKE %:textToSearch%) " +
-                "OR (account.lastName LIKE %:textToSearch%) " +
-                "OR (account.email LIKE %:textToSearch%) " +
-            ")",
+            "WHERE " +
+                "account.active = :active AND " +
+                    "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                    "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                    "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%')) ",
+
             countQuery = "SELECT count(account) FROM AccountEntity account " +
-                    "WHERE ( " +
-                        "(account.firstName LIKE %:textToSearch%) " +
-                        "OR (account.lastName LIKE %:textToSearch%) " +
-                        "OR (account.email LIKE %:textToSearch%) " +
-                    ")")
+                    "WHERE " +
+                        "account.active = :active AND " +
+                            "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                            "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                            "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%')) "
+                    )
     Page<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Pageable pageable, boolean active);
 
     @Query(value = "SELECT account FROM AccountEntity account " +
-            "WHERE ( " +
-                "(account.active = :active) " +
-                "AND (account.firstName LIKE %:textToSearch%) " +
-                "OR (account.lastName LIKE %:textToSearch%) " +
-                "OR (account.email LIKE %:textToSearch%)" +
-            ") ORDER BY :sort")
+            "WHERE " +
+                "account.active = :active AND " +
+                    "(UPPER(account.firstName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                    "OR UPPER(account.lastName) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
+                    "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%'))" +
+            " ORDER BY :sort")
     List<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Sort sort, boolean active);
 }
