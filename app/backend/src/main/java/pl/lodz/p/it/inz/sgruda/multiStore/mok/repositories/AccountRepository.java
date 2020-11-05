@@ -40,8 +40,10 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     Page<AccountEntity> findByActive(boolean active, Pageable pageable);
 
+    @Query(value = "SELECT account FROM AccountEntity account WHERE ((account.firstName LIKE %?1%) OR (account.lastName LIKE %?1%) OR (account.email LIKE %?1%))",
+            countQuery = "SELECT count(account) FROM AccountEntity account WHERE ((account.firstName LIKE ?1) OR (account.lastName LIKE ?1) OR (account.email LIKE ?1))")
+    Page<AccountEntity> findByTextInNameOrEmail(String textToSearch, Pageable pageable);
 
-    Page<AccountEntity> findByFirstNameContaining(String textToSearch, Pageable pageable);
-
-    List<AccountEntity> findByFirstNameContaining(String textToSearch, Sort sort);
+    @Query(value = "SELECT account FROM AccountEntity account WHERE ((account.firstName LIKE %?1%) OR (account.lastName LIKE %?1%) OR (account.email LIKE %?1%)) ORDER BY ?2")
+    List<AccountEntity> findByTextInNameOrEmail(String textToSearch, Sort sort);
 }

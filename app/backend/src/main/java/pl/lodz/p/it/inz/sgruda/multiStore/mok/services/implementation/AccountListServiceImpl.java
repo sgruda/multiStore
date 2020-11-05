@@ -37,12 +37,12 @@ public class AccountListServiceImpl implements AccountListService {
 
     @Override
     public Page<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Pageable pageable) {
-        return accountRepository.findByFirstNameContaining(textToSearch, pageable);
+        return accountRepository.findByTextInNameOrEmail(textToSearch, pageable);
     }
 
     @Override
     public List<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Sort sort) {
-        return accountRepository.findByFirstNameContaining(textToSearch, sort);
+        return accountRepository.findByTextInNameOrEmail(textToSearch, sort);
     }
 
     @Override

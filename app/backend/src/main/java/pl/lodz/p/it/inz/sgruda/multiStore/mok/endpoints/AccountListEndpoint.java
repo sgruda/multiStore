@@ -23,10 +23,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListSer
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log
@@ -51,10 +48,9 @@ public class AccountListEndpoint {
             @RequestParam(required = false) String textToSearch,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "lastName, desc") String[] sort) {
+            @RequestParam(defaultValue = "lastName, asc") String[] sort) {
 
             List<Order> orders = new ArrayList<>();
-        log.severe("Hello");
             if (sort[0].contains(",")) {
                 // will sort more than 2 fields
                 // sortOrder="field, direction"
@@ -94,6 +90,6 @@ public class AccountListEndpoint {
     }
 
     private Sort.Direction getSortDirection(String direction) {
-        return direction.equals("asc") ? Sort.Direction.ASC :  Sort.Direction.DESC;
+        return direction.equals("desc") ? Sort.Direction.DESC :  Sort.Direction.ASC;
     }
 }
