@@ -22,12 +22,12 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     Optional<AccountEntity> findByEmail(String email);
 
-    @Query("select account from AccountEntity account " +
-            "where account.authenticationDataEntity.veryficationToken = :token")
+    @Query("SELECT account FROM AccountEntity account " +
+            "WHERE account.authenticationDataEntity.veryficationToken = :token")
     Optional<AccountEntity> findByVeryficationToken(@Param("token") String token);
 
-    @Query("select account from AccountEntity account " +
-            "where account.authenticationDataEntity.username = :username")
+    @Query("SELECT account FROM AccountEntity account " +
+            "WHERE account.authenticationDataEntity.username = :username")
     Optional<AccountEntity> findByUsername(@Param("username") String username);
 
     @Query("SELECT CASE WHEN COUNT(account) > 0 " +
@@ -38,12 +38,51 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     Boolean existsByEmail(String email);
 
-    Page<AccountEntity> findByActive(boolean active, Pageable pageable);
 
-    @Query(value = "SELECT account FROM AccountEntity account WHERE ((account.firstName LIKE %?1%) OR (account.lastName LIKE %?1%) OR (account.email LIKE %?1%))",
-            countQuery = "SELECT count(account) FROM AccountEntity account WHERE ((account.firstName LIKE ?1) OR (account.lastName LIKE ?1) OR (account.email LIKE ?1))")
+    @Query(value = "SELECT account FROM AccountEntity account " +
+            "WHERE ( " +
+                "(account.firstName LIKE %:textToSearch%) " +
+                "OR (account.lastName LIKE %:textToSearch%) " +
+                "OR (account.email LIKE %:textToSearch%) " +
+            ")",
+            countQuery = "SELECT count(account) FROM AccountEntity account " +
+                    "WHERE ( " +
+                        "(account.firstName LIKE %:textToSearch%) " +
+                        "OR (account.lastName LIKE %:textToSearch%) " +
+                        "OR (account.email LIKE %:textToSearch%) " +
+                    ")")
     Page<AccountEntity> findByTextInNameOrEmail(String textToSearch, Pageable pageable);
 
-    @Query(value = "SELECT account FROM AccountEntity account WHERE ((account.firstName LIKE %?1%) OR (account.lastName LIKE %?1%) OR (account.email LIKE %?1%)) ORDER BY ?2")
+    @Query(value = "SELECT account FROM AccountEntity account " +
+            "WHERE ( " +
+                "(account.firstName LIKE %:textToSearch%) " +
+                "OR (account.lastName LIKE %:textToSearch%) " +
+                "OR (account.email LIKE %:textToSearch%) " +
+            ") " +
+            "ORDER BY :sort")
     List<AccountEntity> findByTextInNameOrEmail(String textToSearch, Sort sort);
+
+    @Query(value = "SELECT account FROM AccountEntity account " +
+            "WHERE ( " +
+                "(account.active = :active) " +
+                "AND (account.firstName LIKE %:textToSearch%) " +
+                "OR (account.lastName LIKE %:textToSearch%) " +
+                "OR (account.email LIKE %:textToSearch%) " +
+            ")",
+            countQuery = "SELECT count(account) FROM AccountEntity account " +
+                    "WHERE ( " +
+                        "(account.firstName LIKE %:textToSearch%) " +
+                        "OR (account.lastName LIKE %:textToSearch%) " +
+                        "OR (account.email LIKE %:textToSearch%) " +
+                    ")")
+    Page<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Pageable pageable, boolean active);
+
+    @Query(value = "SELECT account FROM AccountEntity account " +
+            "WHERE ( " +
+                "(account.active = :active) " +
+                "AND (account.firstName LIKE %:textToSearch%) " +
+                "OR (account.lastName LIKE %:textToSearch%) " +
+                "OR (account.email LIKE %:textToSearch%)" +
+            ") ORDER BY :sort")
+    List<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Sort sort, boolean active);
 }
