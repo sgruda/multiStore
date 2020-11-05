@@ -48,36 +48,21 @@ public class AccountListEndpoint {
             @RequestParam(required = false) String textToSearch,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "lastName, asc") String[] sort) {
+            @RequestParam(defaultValue = "lastName, asc") String[] sort,
+            @RequestParam(required = false) Boolean active) {
 
-            List<Order> orders = new ArrayList<>();
-            if (sort[0].contains(",")) {
-                // will sort more than 2 fields
-                // sortOrder="field, direction"
-                for (String sortOrder : sort) {
-                    String[] _sort = sortOrder.split(",");
-                    orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
-                }
-            } else {
-                // sort=[field, direction]
-                orders.add(new Order(getSortDirection(sort[1]), sort[0]));
-            }
-
+            List<Order> orders = getSortOrder(sort);
             Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
             Page<AccountEntity> pageAccountEntities;
-            if (textToSearch == null)
-                pageAccountEntities = accountListService.getAccounts(pagingSort);
-            else
-                pageAccountEntities = accountListService.getAccountsByTextInNameOrEmail(textToSearch, pagingSort);
+            pageAccountEntities = accountListService.getFilteredAccounts(textToSearch, pagingSort, active);
 
-            List<AccountDTO> accountDTOS;
             AccountMapper accountMapper = new AccountMapper();
+            List<AccountDTO> accountDTOS;
             accountDTOS = pageAccountEntities.getContent().stream()
                             .map(entity -> accountMapper.toDTO(entity))
                             .collect(Collectors.toList());
             accountDTOS.forEach(dto -> signAccountDTOUtil.signAccountDTO(dto));
-
 
             Map<String, Object> response = new HashMap<>();
             response.put("accounts", accountDTOS);
@@ -85,11 +70,25 @@ public class AccountListEndpoint {
             response.put("totalItems", pageAccountEntities.getTotalElements());
             response.put("totalPages", pageAccountEntities.getTotalPages());
 
-//            return new ResponseEntity<>(response, HttpStatus.OK);
             return ResponseEntity.ok(response);
     }
 
     private Sort.Direction getSortDirection(String direction) {
         return direction.equals("desc") ? Sort.Direction.DESC :  Sort.Direction.ASC;
+    }
+    private List<Order> getSortOrder(String[] sort) {
+        List<Order> orders = new ArrayList<>();
+        if (sort[0].contains(",")) {
+            // will sort more than 2 fields
+            // sortOrder="field, direction"
+            for (String sortOrder : sort) {
+                String[] _sort = sortOrder.split(",");
+                orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
+            }
+        } else {
+            // sort=[field, direction]
+            orders.add(new Order(getSortDirection(sort[1]), sort[0]));
+        }
+        return orders;
     }
 }

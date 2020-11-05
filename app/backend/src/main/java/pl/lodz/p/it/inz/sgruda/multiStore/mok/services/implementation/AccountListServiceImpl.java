@@ -36,17 +36,32 @@ public class AccountListServiceImpl implements AccountListService {
     }
 
     @Override
-    public Page<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Pageable pageable) {
-        return accountRepository.findByTextInNameOrEmail(textToSearch, pageable);
+    public Page<AccountEntity> getFilteredAccounts(String textToSearch, Pageable pageable, Boolean active) {
+        if(textToSearch != null) {
+            if(active != null)
+                return accountRepository.findByTextInNameOrEmailAndFilteredByActive(textToSearch, pageable, active.booleanValue());
+            else
+                return accountRepository.findByTextInNameOrEmail(textToSearch, pageable);
+        } else {
+            if(active != null)
+                return accountRepository.findAllByActiveEquals(pageable, active.booleanValue());
+            else
+                return accountRepository.findAll(pageable);
+        }
     }
 
     @Override
-    public List<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Sort sort) {
-        return accountRepository.findByTextInNameOrEmail(textToSearch, sort);
-    }
-
-    @Override
-    public Page<AccountEntity> getAccountsByActive(boolean active, Pageable pageable) {
-        return accountRepository.findByActive(active, pageable);
+    public List<AccountEntity> getFilteredAccounts(String textToSearch, Sort sort, Boolean active) {
+        if(textToSearch != null) {
+            if(active != null)
+                return accountRepository.findByTextInNameOrEmailAndFilteredByActive(textToSearch, sort, active.booleanValue());
+            else
+                return accountRepository.findByTextInNameOrEmail(textToSearch, sort);
+        } else {
+            if(active != null)
+                return accountRepository.findAllByActiveEquals(sort, active.booleanValue());
+            else
+                return accountRepository.findAll(sort);
+        }
     }
 }

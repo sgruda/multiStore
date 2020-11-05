@@ -84,4 +84,7 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
                     "OR UPPER(account.email) LIKE CONCAT('%', UPPER(:textToSearch), '%'))" +
             " ORDER BY :sort")
     List<AccountEntity> findByTextInNameOrEmailAndFilteredByActive(String textToSearch, Sort sort, boolean active);
+
+    Page<AccountEntity> findAllByActiveEquals(Pageable pageable, boolean active);
+    List<AccountEntity> findAllByActiveEquals(Sort sort, boolean active);
 }

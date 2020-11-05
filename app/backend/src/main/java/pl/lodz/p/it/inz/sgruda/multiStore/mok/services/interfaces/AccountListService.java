@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface AccountListService {
     Page<AccountEntity> getAccounts(Pageable pageable);
-    Page<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Pageable pageable);
-    List<AccountEntity> getAccountsByTextInNameOrEmail(String textToSearch, Sort sort);
-    Page<AccountEntity> getAccountsByActive(boolean active, Pageable pageable);
+    Page<AccountEntity> getFilteredAccounts(String textToSearch, Pageable pageable, Boolean active);
+    List<AccountEntity> getFilteredAccounts(String textToSearch, Sort sort, Boolean active);
 }
