@@ -7,6 +7,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Admin from "../pages/Admin";
 import NotFound from "../pages/NotFound";
+import AccountList from '../pages/AccountList';
 
 export default function Routes() {
   return (
@@ -15,7 +16,7 @@ export default function Routes() {
           <Home />
       </Route>
       <PrivateRoute exact path="/admin">
-          <Admin />
+          <AccountList />
       </PrivateRoute>
       <Route exact path="/signin">
         <SignIn />
