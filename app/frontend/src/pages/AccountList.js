@@ -118,14 +118,12 @@ function AccountList() {
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
 
-    // const calculateEmptyRows = () => rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
-    const emptyRows = () => rowsPerPage - Math.min(rowsPerPage, accounts.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
 
 
     
     async function getAccounts() {
-        // setLoadingData(true);
         await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + '-' + order, filterActiveAccounts)
         .then(response => {
             if (response.status === 200) { 
@@ -147,8 +145,7 @@ function AccountList() {
                 setAccounts(accounts);
                 setPage(response.data.currentPage);
                 setTotalPages( response.data.totalItems);
-                // paginationInfo.totalPages = response.data.totalPages;
-\            }
+            }
         },
             (error) => {
             const resMessage =
@@ -159,8 +156,8 @@ function AccountList() {
     }
 
     useEffect(() => {
-\        if (loadingData) {
-\            setLoadingData(false);
+        if (loadingData) {
+            setLoadingData(false);
             getAccounts();
         }
     }, [page, accounts]);
@@ -255,6 +252,7 @@ function AccountList() {
       control={<Switch checked={dense} onChange={handleChangeDense} />}
       label="Dense padding"
     />
+    emptyRows: {emptyRows}
   </div>
   );
 //     <TableContainer component={Paper}>
