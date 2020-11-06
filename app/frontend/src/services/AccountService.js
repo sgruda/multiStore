@@ -4,9 +4,6 @@ import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT} from '../config/config';
  
 class AccountService { 
 
-  // getAccounts() { 
-  //   return axios.get(API_URL_ACCOUNTS, { headers: AuthorizationHeader() }); 
-  // } 
   getAccounts(textToSearch, page, size, sort, active) { 
     const API_URL_ACCOUNTS_PAGINATION = API_URL_ACCOUNTS + '?page=' + page + '&size=' + size + '&sort=' + sort;
     if(textToSearch == null && active == null)

@@ -48,24 +48,17 @@ const useStyles = makeStyles({
 function AccountList() {
     const classes = useStyles();
 
+    const [firstLoading, setFirstLoading] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
-    const paginationInfo = [{
-        currentPage: 0,
-        totalItems: 0,
-        totalPages: 0
-    }];
-    const requestParams = [{
-        textToSearch: null,
-        page: 0,
-        size: 5,
-        sort: [],
-        active: null
-    }];
+    // const paginationInfo = [{
+    //     totalPages: 0
+    // }];
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
+    const [totalItems, setTotalPages] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [textToSearch, setTextToSearch] = useState(null);
@@ -79,9 +72,9 @@ function AccountList() {
     
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-        const newSelecteds = accounts.map((n) => n.name);
-        setSelected(newSelecteds);
-        return;
+            const newSelecteds = accounts.map((n) => n.name);
+            setSelected(newSelecteds);
+            return;
         }
         setSelected([]);
     };
@@ -110,14 +103,12 @@ function AccountList() {
     const handleChangePage = (event, newPage) => {
         setLoadingData(true);
         setPage(newPage);
-        getAccounts();
     };
 
     const handleChangeRowsPerPage = (event) => {
         setLoadingData(true);
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-        getAccounts();
     };
 
     const handleChangeDense = (event) => {
@@ -126,14 +117,16 @@ function AccountList() {
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, accounts.length - page * rowsPerPage);
+
+    // const calculateEmptyRows = () => rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
+    const emptyRows = () => rowsPerPage - Math.min(rowsPerPage, accounts.length - page * rowsPerPage);
 
 
 
     
     async function getAccounts() {
         // setLoadingData(true);
-        await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + ', ' + order, filterActiveAccounts)
+        await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + '-' + order, filterActiveAccounts)
         .then(response => {
             if (response.status === 200) { 
                 const accounts = response.data.accounts.map(account => {
@@ -152,11 +145,10 @@ function AccountList() {
                     };
                 });
                 setAccounts(accounts);
-                paginationInfo.currentPage = response.data.currentPage;
-                paginationInfo.totalItems = response.data.totalItems;
-                paginationInfo.totalPages = response.data.totalPages;
-                setLoadingData(false);
-            }
+                setPage(response.data.currentPage);
+                setTotalPages( response.data.totalItems);
+                // paginationInfo.totalPages = response.data.totalPages;
+\            }
         },
             (error) => {
             const resMessage =
@@ -167,8 +159,8 @@ function AccountList() {
     }
 
     useEffect(() => {
-        if (loadingData) {
-            setLoadingData(false);
+\        if (loadingData) {
+\            setLoadingData(false);
             getAccounts();
         }
     }, [page, accounts]);
@@ -252,7 +244,7 @@ function AccountList() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={accounts.length}
+        count={totalItems}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
