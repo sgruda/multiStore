@@ -9,7 +9,7 @@ import AuthenticationService from './services/AuthenticationService';
 
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from './config/config';
 
-
+import ProfileSpeedDial from "./components/ProfileSpeedDial";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -30,18 +30,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   appbar : {
+    height: 80,
     backgroundColor: "#4285F4",
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-  },
-  root: {
-    flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -89,9 +88,10 @@ function App(props) {
   const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
 
 
+
   useEffect(() => {
     if (currentAccessToken) {
-      const roles = AuthenticationService.parseJWT(currentAccessToken).roles;
+      const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
       if(roles.includes(ROLE_CLIENT)) {
         setActiveRole(ROLE_CLIENT);
       }
@@ -103,13 +103,6 @@ function App(props) {
       }
     }
   }, [currentAccessToken]);
-  
-  const signOut = () => {
-    AuthenticationService.signOut();
-    setUserIsAuthenticated(false);
-    history.push("/")
-  }
-
 
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -139,7 +132,14 @@ function App(props) {
                 <Button component={Link} to="/admin" color="inherit">AdminPage</Button>
               }
               { userIsAuthenticated
-                ? <Button onClick={signOut} color="inherit">Sign out</Button>
+                ? <>
+                    <ProfileSpeedDial 
+                      setUserIsAuthenticated={setUserIsAuthenticated} 
+                      history={history}
+                      activeRole={activeRole}
+                      setActiveRole={setActiveRole}
+                    />
+                  </>
                 : <>
                     <Button component={Link} to="/signin" color="inherit">Sign in</Button>
                     <Button component={Link} to="/signup" color="inherit">Sign up</Button>
@@ -147,7 +147,6 @@ function App(props) {
               }
           </Toolbar>
       </AppBar>
-
       <Drawer
         className={classes.drawer}
         variant="persistent"
