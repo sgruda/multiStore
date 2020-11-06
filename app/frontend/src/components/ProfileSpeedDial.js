@@ -67,8 +67,12 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
 
   };
   const handleCurrentAccessLevel = (event) => {
-    setAnchorElPopper(anchorElPopper ? null : event.currentTarget);
+    setAnchorElPopper(event.currentTarget);
     setOpenPopper(!openPopper);
+  };
+  const handleClosePopper = (event) => {
+    handleCurrentAccessLevel(event);
+    handleCloseSpeedDial();
   };
   const handleSignOut = () => {
         AuthenticationService.signOut();
@@ -108,7 +112,8 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
                 }}
                 />
                 ))}
-                <Grid item>
+            </SpeedDial>
+            <Grid item>
                   <Popper open={openPopper} anchorEl={anchorElPopper} placement="left" transition>
                     {({ TransitionProps }) => (
                       <Fade {...TransitionProps} timeout={350}>
@@ -116,16 +121,14 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
                           <CurrentRoleChanger
                             currentActiveRole={activeRole}
                             setCurrentActiveRole={setActiveRole}
-                            handleClosePopper={handleCurrentAccessLevel}
+                            handleClosePopper={handleClosePopper}
                           />
                         </Paper>
                       </Fade>
                     )}
                   </Popper>
                 </Grid>
-            </SpeedDial>
             </Grid>
-
       </Grid>
     </Container>
     </div>
