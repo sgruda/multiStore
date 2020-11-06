@@ -62,14 +62,14 @@ function AccountList() {
         sort: [],
         active: null
     }];
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('lastName');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('lastName');
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(0);
+    const [dense, setDense] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [textToSearch, setTextToSearch] = useState(null);
+    const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -108,12 +108,16 @@ function AccountList() {
 
 
     const handleChangePage = (event, newPage) => {
+        setLoadingData(true);
         setPage(newPage);
+        getAccounts();
     };
 
     const handleChangeRowsPerPage = (event) => {
+        setLoadingData(true);
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+        getAccounts();
     };
 
     const handleChangeDense = (event) => {
@@ -129,7 +133,7 @@ function AccountList() {
     
     async function getAccounts() {
         // setLoadingData(true);
-        await AccountService.getAccounts()
+        await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + ', ' + order, filterActiveAccounts)
         .then(response => {
             if (response.status === 200) { 
                 const accounts = response.data.accounts.map(account => {
@@ -151,9 +155,7 @@ function AccountList() {
                 paginationInfo.currentPage = response.data.currentPage;
                 paginationInfo.totalItems = response.data.totalItems;
                 paginationInfo.totalPages = response.data.totalPages;
-                // setLoadingData(false);
-                console.log("loading " +loadingData)
-                console.log("data " + response.data.totalItems)
+                setLoadingData(false);
             }
         },
             (error) => {
@@ -165,7 +167,6 @@ function AccountList() {
     }
 
     useEffect(() => {
-        console.log("loading " +loadingData)
         if (loadingData) {
             setLoadingData(false);
             getAccounts();
