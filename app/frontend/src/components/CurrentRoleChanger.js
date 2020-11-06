@@ -13,6 +13,7 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
 import AuthenticationService from '../services/AuthenticationService'
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,9 +27,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  buttons: {
+    marginLeft: theme.spacing(6),
+  },
 }));
 
-function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole}) {
+function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClosePopper}) {
   const classes = useStyles();
   const userRoles = AuthenticationService.getParsedJWT().roles;
   const options = userRoles.map((role) =>  
@@ -36,7 +40,7 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole}) {
   );
 
   return (
-    <Card className={classes.root} variant="outlined">
+    <Card className={classes.root} variant="outlined" justify="center">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Choose role
@@ -52,9 +56,11 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole}) {
         <FormHelperText>Your current role: {currentActiveRole}</FormHelperText>
       </FormControl>
       </CardContent>
-      {/* <CardActions>
-        <Button size="small">Accept</Button>
-      </CardActions> */}
+      <CardActions>
+        <Container justify="center" className={classes.buttons}>
+           <Button onClick={(event) => handleClosePopper(event)} size="small">Close</Button>
+        </Container>
+      </CardActions>
     </Card>
   );
 }

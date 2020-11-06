@@ -15,6 +15,10 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { Group } from "@material-ui/icons";
 
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+import Paper from '@material-ui/core/Paper';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: 90,
@@ -31,18 +35,21 @@ const useStyles = makeStyles((theme) => ({
 
 function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setActiveRole}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [hidden, setHidden] = React.useState(false);
-  const handleVisibility = () => {
-    setHidden((prevHidden) => !prevHidden);
-  };
+  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
+  const [hiddenSpeedDial, setHiddenSpeedDial] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [anchorElPopper, setAnchorElPopper] = React.useState(null);
+  const [openPopper, setOpenPopper] = React.useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleVisibilitySpeedDial = () => {
+    setHiddenSpeedDial((prevHidden) => !prevHidden);
+    // setHiddenSpeedDial(false);
+  };
+  const handleOpenSpeedDial = () => {
+    setOpenSpeedDial(true);
+  };
+  const handleCloseSpeedDial = () => {
+    setOpenSpeedDial(false);
   };
 
   const handleSpeedDialActionClick = (e, operation) => {
@@ -50,16 +57,19 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
     if(operation == "handleProfile") {
         handleProfile();
     } else if(operation == "handleCurrentAccessLevel") {
+      handleCurrentAccessLevel(e);
     } else if(operation == "handleSignOut") {
         handleSignOut();
     }
   }
+
   const handleProfile = () => {
 
-  }
-  const handleCurrentAccessLevel = () => {
-
-  }
+  };
+  const handleCurrentAccessLevel = (event) => {
+    setAnchorElPopper(anchorElPopper ? null : event.currentTarget);
+    setOpenPopper(!openPopper);
+  };
   const handleSignOut = () => {
         AuthenticationService.signOut();
         setUserIsAuthenticated(false);
@@ -71,21 +81,21 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
     { icon: <SettingsIcon className={classes.actionIcon}/>, name: 'Current access level', operation: "handleCurrentAccessLevel"},
     { icon: <ExitToAppIcon className={classes.actionIcon}/>, name: 'Sign out',  operation: "handleSignOut"},
   ];
-  
+
   return (
     <div className={classes.root}>
     <Container component="main" maxWidth="xs">
         <Grid container>
             <Grid item>
-            <Button onClick={handleVisibility}></Button>
-            <Backdrop open={open} />
+            <Button onClick={handleVisibilitySpeedDial}></Button>
+            <Backdrop open={openSpeedDial} />
             <SpeedDial
                 ariaLabel="Profile Account SpeedDial"
-                hidden={hidden}
+                hidden={hiddenSpeedDial}
                 icon={<AccountCircleIcon className={classes.accountIcon}/>}
-                onClose={handleClose}
-                onOpen={handleOpen}
-                open={open}
+                onClose={handleCloseSpeedDial}
+                onOpen={handleOpenSpeedDial}
+                open={openSpeedDial}
                 direction="down"
             >
                 {actions.map((action) => (
@@ -98,14 +108,24 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
                 }}
                 />
                 ))}
+                <Grid item>
+                  <Popper open={openPopper} anchorEl={anchorElPopper} placement="left" transition>
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={350}>
+                        <Paper>
+                          <CurrentRoleChanger
+                            currentActiveRole={activeRole}
+                            setCurrentActiveRole={setActiveRole}
+                            handleClosePopper={handleCurrentAccessLevel}
+                          />
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                </Grid>
             </SpeedDial>
             </Grid>
-            <Grid item>
-                <CurrentRoleChanger
-                    currentActiveRole={activeRole}
-                    setCurrentActiveRole={setActiveRole}
-                />
-            </Grid>
+
       </Grid>
     </Container>
     </div>
