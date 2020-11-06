@@ -4,31 +4,48 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useAuth } from "../context/AuthContext";
 import { useFields } from '../hooks/FieldHook';
 
+
+
+
+
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
+
+
+
 
 import AccountService from '../services/AccountService';
 
 
-    const columns = [
-        { field: 'idHash', hide: true, },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
-        { field: 'email', headerName: 'Email', width: 200, },
-        { field: 'active', headerName: 'Active', width: 90,},
-        { field: 'roles', headerName: 'Roles', width: 300, },
-        // { field: 'fullName', headerName: 'Full name', sortable: false, width: 160, },
-        // description: 'This column has a value getter and is not sortable.', 
-        // valueGetter: (params) =>
-        //     `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-        // },
-     ];
-  
-    // const accounts = [
-    //     { id: 1, lastName: 'Snow', firstName: 'Jon', email: 'jon.snow@gmail.com', roles: ["CLIENT", "EMPLOYEE", "ADMIN"], active: true }
-    // ]
+
+
+const useStyles = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+
+
+    doneIcon: {
+        color: "#0bb00d",
+    },
+    clearIcon: {
+        color: "#eb1e1e"
+    },
+  });
+
+
 
 function AccountList() {
+    const classes = useStyles();
+
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
     const [page, setPage] = React.useState(1);
@@ -90,19 +107,36 @@ function AccountList() {
     }, [page, accounts]);
 
   return (
-    <div style={{ height: 400, width: '90%' }}>
-      <DataGrid rows={accounts} 
-                columns={columns}  
-                pagination
-                pageSize={requestParams.size} 
-                rowsPerPageOptions={[5,10,100]}
-                paginationMode='server'
-                sortingMode='server'
-                onPageChange={handlePageChange}
-                loading={loadingData}
-                rowCount={paginationInfo.totalItems}
-        />
-    </div>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">First Name</TableCell>
+            <TableCell align="center">Last Name</TableCell>
+            <TableCell align="center">Email</TableCell>
+            <TableCell align="center">Active</TableCell>
+            <TableCell align="center">Roles</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {accounts.map((account) => (
+            <TableRow key={account.idHash}>
+                <TableCell component="th" scope="row">
+                    {account.firstName}
+                </TableCell>
+                <TableCell align="center">{account.lastName}</TableCell>
+                <TableCell align="center">{account.email}</TableCell>
+                <TableCell align="center">
+                  {account.active 
+                  ? <DoneIcon className={classes.doneIcon}/> 
+                  : <ClearIcon className={classes.clearIcon}/> }
+                </TableCell>
+                <TableCell align="center">{account.roles}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
