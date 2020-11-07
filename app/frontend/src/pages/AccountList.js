@@ -30,6 +30,7 @@ import Box from '@material-ui/core/Box';
 
 import AccountService from '../services/AccountService';
 
+import AccountsTableHeader from '../components/table/AccountsTableHeader'
 
 
 
@@ -97,7 +98,6 @@ function AccountList() {
         setLoadingData(true);
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-        console.log("WUT handleChangeRowsPerPage")
     };
 
     const handleChangeDense = (event) => {
@@ -113,7 +113,6 @@ function AccountList() {
 
     const isSelected = (name) => selectedId === name ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
-
 
 
     
@@ -150,21 +149,11 @@ function AccountList() {
     }
 
     useEffect(() => {
-      console.log("WUT useEffect")
         if (loadingData) {
             setLoadingData(false);
             getAccounts();
         }
     }, [page, rowsPerPage, accounts, order, orderBy]);
-
-
-
-
-
-
-
-
-
 
 
     const headerCells = [
@@ -174,58 +163,6 @@ function AccountList() {
       { id: 'active', disablePadding: false, label: 'Active' },
       { id: 'userRoles',  disablePadding: false, label: 'User Roles' },
     ];
-
-    function EnhancedTableHead({classes, order, orderBy, onRequestSort}) {
-      const createSortHandler = (property) => (event) => {
-         onRequestSort(event, property);
-      };
-  
-    return (
-      <TableHead>
-        <TableRow>
-          {headerCells.map((headCell) => (
-            <TableCell className={classes.tableCellHeader}
-              key={headCell.id}
-              align="center"
-            >
-              <TableSortLabel 
-                active={orderBy === headCell.id && headCell.id !== 'userRoles'}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                hideSortIcon={headCell.id === 'userRoles'}
-                onClick={createSortHandler(headCell.id)}
-              >
-              <Typography>
-                <Box fontWeight="fontWeightBold" m={1}>
-                   {headCell.label}
-                </Box>
-              </Typography>
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-  
-  // EnhancedTableHead.propTypes = {
-  //   classes: PropTypes.object.isRequired,
-  //   // numSelected: PropTypes.number.isRequired,
-  //   onRequestSort: PropTypes.func.isRequired,
-  //   // onSelectAllClick: PropTypes.func.isRequired,
-  //   // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  //   orderBy: PropTypes.string.isRequired,
-  //   // rowCount: PropTypes.number.isRequired,
-  // };
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className={classes.root}>
@@ -238,11 +175,13 @@ function AccountList() {
           size={dense ? 'small' : 'medium'}
           aria-label="enhanced table"
         >
-          <EnhancedTableHead
+          <AccountsTableHeader
+            headerCells={headerCells}
             classes={classes}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
+            fieldToIgnoreSorting='userRoles'
           />
           <TableBody>
             {accounts.map((account) => {
