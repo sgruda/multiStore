@@ -24,7 +24,6 @@ const useStyles = makeStyles({
     },
     tableCellHeader: {
       fontSize: 15,
-      color: "#000000",
       backgroundColor: "#66bae8",
     },
     tableRow: {
@@ -187,7 +186,7 @@ function AccountsList() {
       />
     </Paper>
     <FormControlLabel
-      control={<Switch checked={dense} onChange={handleChangeDense} />}
+      control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
       label="Dense padding"
     />
   </div>
