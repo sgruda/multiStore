@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     },
     tableRow: {
       "&.Mui-selected, &.Mui-selected:hover": {
-        backgroundColor: "#b8ddf2",
+        backgroundColor: "#7cc3eb",
         "& > .MuiTableCell-root": {
         }
       }
@@ -62,17 +62,6 @@ const useStyles = makeStyles({
     clearIcon: {
         color: "#eb1e1e"
     },
-    // visuallyHidden: {
-    //   border: 0,
-    //   clip: 'rect(0 0 0 0)',
-    //   height: 1,
-    //   margin: -1,
-    //   overflow: 'hidden',
-    //   padding: 0,
-    //   position: 'absolute',
-    //   top: 20,
-    //   width: 1,
-    // },
   });
 
 
@@ -171,37 +160,6 @@ function AccountList() {
 
 
 
-    // function descendingComparator(a, b, orderBy) {
-    //   if (b[orderBy] < a[orderBy]) {
-    //     return -1;
-    //   }
-    //   if (b[orderBy] > a[orderBy]) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    
-    // function getComparator(order, orderBy) {
-    //   return order === 'desc'
-    //     ? (a, b) => descendingComparator(a, b, orderBy)
-    //     : (a, b) => -descendingComparator(a, b, orderBy);
-    // }
-    
-    // function stableSort(array, comparator) {
-    //   const stabilizedThis = array.map((el, index) => [el, index]);
-    //   stabilizedThis.sort((a, b) => {
-    //     const order = comparator(a[0], b[0]);
-    //     if (order !== 0) return order;
-    //     return a[1] - b[1];
-    //   });
-    //   return stabilizedThis.map((el) => el[0]);
-    // }
-
-
-
-
-
-
 
 
 
@@ -228,12 +186,11 @@ function AccountList() {
             <TableCell className={classes.tableCellHeader}
               key={headCell.id}
               align="center"
-              // padding={headCell.disablePadding ? 'none' : 'default'}
-              // sortDirection={orderBy === headCell.id ? order : false}
             >
-              <TableSortLabel
-                // active={orderBy === headCell.id}
+              <TableSortLabel 
+                active={orderBy === headCell.id && headCell.id !== 'userRoles'}
                 direction={orderBy === headCell.id ? order : 'asc'}
+                hideSortIcon={headCell.id === 'userRoles'}
                 onClick={createSortHandler(headCell.id)}
               >
               <Typography>
@@ -241,11 +198,6 @@ function AccountList() {
                    {headCell.label}
                 </Box>
               </Typography>
-                 {/* {orderBy === headerCells.id ? (
-                  <span className={classes.visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </span>
-                ) : null} */}
               </TableSortLabel>
             </TableCell>
           ))}
