@@ -24,7 +24,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 
 import AccountService from '../services/AccountService';
@@ -35,6 +36,11 @@ import AccountService from '../services/AccountService';
 const useStyles = makeStyles({
     table: {
       minWidth: 650,
+    },
+    tableCellHeader: {
+      fontSize: 15,
+      color: "#000000",
+      backgroundColor: "#66bae8",
     },
     tableRow: {
       "&.Mui-selected, &.Mui-selected:hover": {
@@ -209,7 +215,7 @@ const handleSelectAllClick = () => {
       <TableHead>
         <TableRow>
           {headerCells.map((headCell) => (
-            <TableCell
+            <TableCell className={classes.tableCellHeader}
               key={headCell.id}
               align="center"
               padding={headCell.disablePadding ? 'none' : 'default'}
@@ -220,7 +226,12 @@ const handleSelectAllClick = () => {
                 direction={orderBy === headerCells.id ? order : 'asc'}
                 onClick={createSortHandler(headerCells.id)}
               > */}
-                {headCell.label}
+              <Typography>
+                <Box fontWeight="fontWeightBold" m={1}>
+                   {headCell.label}
+                </Box>
+              </Typography>
+                {/* {headCell.label} */}
                 {/* {orderBy === headerCells.id ? (
                   <span className={classes.visuallyHidden}>
                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
