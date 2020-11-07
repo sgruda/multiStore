@@ -33,13 +33,14 @@ import MailIcon from '@material-ui/icons/Mail';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
+const appBarHeight = 80;
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginTop: 90,
   },
   appbar : {
-    height: 80,
+    height: appBarHeight,
     backgroundColor: "#4285F4",
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -56,17 +57,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4285F4",
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    // transition: theme.transitions.create(['margin', 'width'], {
-    //   easing: theme.transitions.easing.easeOut,
-    //   duration: theme.transitions.duration.enteringScreen,
-    // }),
   },
   hide: {
     display: 'none',
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
@@ -75,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+    height: appBarHeight,
     // // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
@@ -133,7 +130,7 @@ function App(props) {
               <Button component={Link} to="/" color="inherit">EMPIK</Button>
             </Typography>
               { userIsAuthenticated && activeRole === ROLE_ADMIN &&
-                <Button component={Link} to="/admin" color="inherit">AdminPage</Button>
+                <></>
               }
               { userIsAuthenticated
                 ? <>
@@ -153,7 +150,7 @@ function App(props) {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={openDrawer}
         classes={{
