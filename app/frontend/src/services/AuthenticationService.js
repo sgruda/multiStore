@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { ACCESS_TOKEN } from '../config/config';
-import jsonwebtoken from 'jsonwebtoken' 
+import jsonwebtoken from 'jsonwebtoken' ;
+import {API_URL_SIGN_IN, API_URL_SIGN_UP} from '../config/config';
 
-const API_URL_SIGN_IN = 'http://localhost:8080/api/auth/signin'
-const API_URL_SIGN_UP = 'http://localhost:8080/api/auth/signup'
 
 const getAccessTokenFromStorage = () => {
     return localStorage.getItem(ACCESS_TOKEN);
 }
-const parseJWT = () => {
+const getParsedJWT = () => {
     const jwt = require("jsonwebtoken");
     return jwt.decode(localStorage.getItem(ACCESS_TOKEN));
 };
@@ -45,7 +44,7 @@ const signOut = () => {
     
 export default {
     getAccessTokenFromStorage,
-    parseJWT,
+    getParsedJWT,
     signIn,
     signUp,
     signOut,

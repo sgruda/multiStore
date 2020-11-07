@@ -9,7 +9,7 @@ import AuthenticationService from './services/AuthenticationService';
 
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from './config/config';
 
-
+import ProfileSpeedDial from "./components/ProfileSpeedDial";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -30,18 +30,23 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import PeopleIcon from '@material-ui/icons/People';
+// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
+const appBarHeight = 80;
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: 90,
+  },
   appbar : {
+    height: appBarHeight,
     backgroundColor: "#4285F4",
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-  },
-  root: {
-    flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -53,17 +58,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4285F4",
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    // transition: theme.transitions.create(['margin', 'width'], {
-    //   easing: theme.transitions.easing.easeOut,
-    //   duration: theme.transitions.duration.enteringScreen,
-    // }),
   },
   hide: {
     display: 'none',
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
@@ -72,10 +72,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+    height: appBarHeight,
+    backgroundColor: "#4285F4",
     // // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
+  listItem: {
+    '&:hover $item': {
+      backgroundColor: '#7cc3eb'
+    }
+  },
+  item: {},
 }));
 
 
@@ -89,9 +97,10 @@ function App(props) {
   const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
 
 
+
   useEffect(() => {
     if (currentAccessToken) {
-      const roles = AuthenticationService.parseJWT(currentAccessToken).roles;
+      const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
       if(roles.includes(ROLE_CLIENT)) {
         setActiveRole(ROLE_CLIENT);
       }
@@ -103,28 +112,24 @@ function App(props) {
       }
     }
   }, [currentAccessToken]);
-  
-  const signOut = () => {
-    AuthenticationService.signOut();
-    setUserIsAuthenticated(false);
-    history.push("/")
-  }
 
 
-
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const adminToolbarListItem = [
+    { id: 'accountList', name: 'Account List', path: '/admin/accountsList' },
+  ];
 
   return (
     // !currentAccessToken &&
-    <div>
+    <div className={classes.root}>
       <AppBar
-        position="static"//fixed to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
+        position="fixed"//fixed/static to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
         className={clsx(classes.appbar, {
           [classes.appBarShift]: openDrawer,
         })}
       >
        {/* <AppBar position="static" className={classes.appbar}> */}
-          <Toolbar>
+          <Toolbar position="fixed">
             { ( userIsAuthenticated  &&  (activeRole === ROLE_ADMIN || activeRole === ROLE_EMPLOYEE) ) &&
               <IconButton edge="start" color="inherit" aria-label="menu"
                 onClick={() => {setOpenDrawer(true);}} className={clsx(classes.menuButton, openDrawer && classes.hide)}>
@@ -136,10 +141,17 @@ function App(props) {
               <Button component={Link} to="/" color="inherit">EMPIK</Button>
             </Typography>
               { userIsAuthenticated && activeRole === ROLE_ADMIN &&
-                <Button component={Link} to="/admin" color="inherit">AdminPage</Button>
+                <></>
               }
               { userIsAuthenticated
-                ? <Button onClick={signOut} color="inherit">Sign out</Button>
+                ? <>
+                    <ProfileSpeedDial 
+                      setUserIsAuthenticated={setUserIsAuthenticated} 
+                      history={history}
+                      activeRole={activeRole}
+                      setActiveRole={setActiveRole}
+                    />
+                  </>
                 : <>
                     <Button component={Link} to="/signin" color="inherit">Sign in</Button>
                     <Button component={Link} to="/signup" color="inherit">Sign up</Button>
@@ -147,10 +159,9 @@ function App(props) {
               }
           </Toolbar>
       </AppBar>
-
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={openDrawer}
         classes={{
@@ -164,11 +175,18 @@ function App(props) {
         </div>
         <Divider />
         { userIsAuthenticated  && activeRole === ROLE_ADMIN &&
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        <List className={classes.listItem}>
+          {adminToolbarListItem.map((item) => (
+            <ListItem 
+                className={classes.item}
+                button 
+                key={item.id} 
+                onClick={() => history.push(item.path)}
+            >
+              <ListItemIcon>
+                <PeopleIcon/>
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
             </ListItem>
           ))}
         </List>

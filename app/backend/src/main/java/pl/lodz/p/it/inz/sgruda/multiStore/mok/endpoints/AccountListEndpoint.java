@@ -48,7 +48,7 @@ public class AccountListEndpoint {
             @RequestParam(required = false) String textToSearch,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "lastName, asc") String[] sort,
+            @RequestParam(defaultValue = "lastName-asc") String[] sort,
             @RequestParam(required = false) Boolean active) {
 
             List<Order> orders = getSortOrder(sort);
@@ -78,11 +78,11 @@ public class AccountListEndpoint {
     }
     private List<Order> getSortOrder(String[] sort) {
         List<Order> orders = new ArrayList<>();
-        if (sort[0].contains(",")) {
+        if (sort[0].contains("-")) {
             // will sort more than 2 fields
             // sortOrder="field, direction"
             for (String sortOrder : sort) {
-                String[] _sort = sortOrder.split(",");
+                String[] _sort = sortOrder.split("-");
                 orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
             }
         } else {

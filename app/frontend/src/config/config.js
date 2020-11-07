@@ -1,12 +1,18 @@
 // export const API_BASE_URL = "http://localhost:8080";
-// export const API_BASE_URL = 'https://multistore-app-yka4rjl6za-lz.a.run.app';
-// export const API_BASE_URL = process.env.API_BASE_URL;
 export const API_BASE_URL = 'https://multistore-backend-yka4rjl6za-ey.a.run.app';
+export const API_URL_SIGN_IN = API_BASE_URL + "/api/auth/signin";
+export const API_URL_SIGN_UP = API_BASE_URL + "/api/auth/signup";
+export const API_URL_ACCOUNTS = API_BASE_URL + "/api/accounts";
+export const API_URL_SINGLE_ACCOUNT = API_BASE_URL + "/api/accounts/account";
+export const API_URL_MY_ACCOUNT = API_BASE_URL + "/api/accounts/me";
+export const API_URL_BLOCK_ACCOUNT = API_BASE_URL + "/api/accounts/account/block";
+export const API_URL_UNBLOCK_ACCOUNT = API_BASE_URL + "/api/accounts/account/unblock";
+
 
 export const ACCESS_TOKEN = 'accessToken';
 
-// export const REACT_APP_URL = 'http://localhost:5000';
-// export const REACT_APP_URL = process.env.REACT_APP_URL;
+
+// export const REACT_APP_URL = 'http://localhost:3000';
 export const REACT_APP_URL =  'https://multistore-app-frontend-yka4rjl6za-ey.a.run.app';
 
 export const OAUTH2_REDIRECT_URI = REACT_APP_URL + '/oauth2/redirect';
