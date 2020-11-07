@@ -73,10 +73,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(0, 1),
     height: appBarHeight,
+    backgroundColor: "#4285F4",
     // // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
+  listItem: {
+    '&:hover $item': {
+      backgroundColor: '#7cc3eb'
+    }
+  },
+  item: {},
 }));
 
 
@@ -107,8 +114,7 @@ function App(props) {
   }, [currentAccessToken]);
 
 
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-
+  const [openDrawer, setOpenDrawer] = useState(false);
   const adminToolbarListItem = [
     { id: 'accountList', name: 'Account List', path: '/admin/accountsList' },
   ];
@@ -169,9 +175,14 @@ function App(props) {
         </div>
         <Divider />
         { userIsAuthenticated  && activeRole === ROLE_ADMIN &&
-        <List>
+        <List className={classes.listItem}>
           {adminToolbarListItem.map((item) => (
-            <ListItem button key={item.id} onClick={() => history.push(item.path)}>
+            <ListItem 
+                className={classes.item}
+                button 
+                key={item.id} 
+                onClick={() => history.push(item.path)}
+            >
               <ListItemIcon>
                 <PeopleIcon/>
               </ListItemIcon>
