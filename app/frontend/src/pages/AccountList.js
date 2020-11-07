@@ -97,6 +97,7 @@ function AccountList() {
         setLoadingData(true);
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+        console.log("WUT handleChangeRowsPerPage")
     };
 
     const handleChangeDense = (event) => {
@@ -149,11 +150,12 @@ function AccountList() {
     }
 
     useEffect(() => {
+      console.log("WUT useEffect")
         if (loadingData) {
             setLoadingData(false);
             getAccounts();
         }
-    }, [page, accounts, order, orderBy]);
+    }, [page, rowsPerPage, accounts, order, orderBy]);
 
 
 
@@ -173,8 +175,7 @@ function AccountList() {
       { id: 'userRoles',  disablePadding: false, label: 'User Roles' },
     ];
 
-    function EnhancedTableHead(props) {
-      const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    function EnhancedTableHead({classes, order, orderBy, onRequestSort}) {
       const createSortHandler = (property) => (event) => {
          onRequestSort(event, property);
       };
@@ -206,15 +207,15 @@ function AccountList() {
     );
   }
   
-  EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    // numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    // onSelectAllClick: PropTypes.func.isRequired,
-    // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    // rowCount: PropTypes.number.isRequired,
-  };
+  // EnhancedTableHead.propTypes = {
+  //   classes: PropTypes.object.isRequired,
+  //   // numSelected: PropTypes.number.isRequired,
+  //   onRequestSort: PropTypes.func.isRequired,
+  //   // onSelectAllClick: PropTypes.func.isRequired,
+  //   // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  //   orderBy: PropTypes.string.isRequired,
+  //   // rowCount: PropTypes.number.isRequired,
+  // };
 
 
 
@@ -239,12 +240,9 @@ function AccountList() {
         >
           <EnhancedTableHead
             classes={classes}
-            // numSelected={5}
             order={order}
             orderBy={orderBy}
-            // onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            // rowCount={totalItems}
           />
           <TableBody>
             {accounts.map((account) => {
