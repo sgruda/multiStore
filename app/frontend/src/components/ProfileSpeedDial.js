@@ -88,7 +88,7 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
 
   return (
     <div className={classes.root}>
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" position="fixed">
         <Grid container>
             <Grid item>
             <Button onClick={handleVisibilitySpeedDial}></Button>

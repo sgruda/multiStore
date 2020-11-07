@@ -34,6 +34,10 @@ import MailIcon from '@material-ui/icons/Mail';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: 90,
+  },
   appbar : {
     height: 80,
     backgroundColor: "#4285F4",
@@ -109,15 +113,15 @@ function App(props) {
 
   return (
     // !currentAccessToken &&
-    <div>
+    <div className={classes.root}>
       <AppBar
-        position="static"//fixed to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
+        position="fixed"//fixed/static to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
         className={clsx(classes.appbar, {
           [classes.appBarShift]: openDrawer,
         })}
       >
        {/* <AppBar position="static" className={classes.appbar}> */}
-          <Toolbar>
+          <Toolbar position="fixed">
             { ( userIsAuthenticated  &&  (activeRole === ROLE_ADMIN || activeRole === ROLE_EMPLOYEE) ) &&
               <IconButton edge="start" color="inherit" aria-label="menu"
                 onClick={() => {setOpenDrawer(true);}} className={clsx(classes.menuButton, openDrawer && classes.hide)}>
