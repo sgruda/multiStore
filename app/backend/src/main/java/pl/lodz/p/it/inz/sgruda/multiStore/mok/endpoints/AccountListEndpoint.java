@@ -50,8 +50,7 @@ public class AccountListEndpoint {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "lastName-asc") String[] sort,
             @RequestParam(required = false) Boolean active) {
-log.severe("WTF ");
-        Arrays.stream(sort).forEach((s) -> {log.severe("for each " + s);});
+
             List<Order> orders = getSortOrder(sort);
             Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
