@@ -1,19 +1,9 @@
 import React, {useState, useEffect} from "react";
-import { Button } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
-import { useAuth } from "../context/AuthContext";
-import { useFields } from '../hooks/FieldHook';
-
-
-
-
-
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -21,15 +11,9 @@ import DoneIcon from '@material-ui/icons/Done';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
-import Checkbox from '@material-ui/core/Checkbox';
-import PropTypes from 'prop-types';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 
 import AccountService from '../services/AccountService';
-
 import AccountsTableHeader from '../components/table/AccountsTableHeader'
 
 
@@ -67,10 +51,9 @@ const useStyles = makeStyles({
 
 
 
-function AccountList() {
+function AccountsList() {
     const classes = useStyles();
 
-    const [firstLoading, setFirstLoading] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
     const [order, setOrder] = useState('asc');
@@ -237,4 +220,4 @@ function AccountList() {
   );
 }
 
-export default AccountList;
+export default AccountsList;
