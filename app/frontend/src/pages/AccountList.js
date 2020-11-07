@@ -62,6 +62,17 @@ const useStyles = makeStyles({
     clearIcon: {
         color: "#eb1e1e"
     },
+    // visuallyHidden: {
+    //   border: 0,
+    //   clip: 'rect(0 0 0 0)',
+    //   height: 1,
+    //   margin: -1,
+    //   overflow: 'hidden',
+    //   padding: 0,
+    //   position: 'absolute',
+    //   top: 20,
+    //   width: 1,
+    // },
   });
 
 
@@ -82,11 +93,6 @@ function AccountList() {
     const [textToSearch, setTextToSearch] = useState(null);
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
     
     const handleClick = (event, id) => {
       id === selectedId ? setSelectedId('') : setSelectedId(id);
@@ -106,6 +112,13 @@ function AccountList() {
 
     const handleChangeDense = (event) => {
         setDense(event.target.checked);
+    };
+
+    const handleRequestSort = (event, property) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+      setLoadingData(true);
     };
 
     const isSelected = (name) => selectedId === name ? true : false;
@@ -151,38 +164,38 @@ function AccountList() {
             setLoadingData(false);
             getAccounts();
         }
-    }, [page, accounts]);
+    }, [page, accounts, order, orderBy]);
 
 
 
 
 
 
-    function descendingComparator(a, b, orderBy) {
-      if (b[orderBy] < a[orderBy]) {
-        return -1;
-      }
-      if (b[orderBy] > a[orderBy]) {
-        return 1;
-      }
-      return 0;
-    }
+    // function descendingComparator(a, b, orderBy) {
+    //   if (b[orderBy] < a[orderBy]) {
+    //     return -1;
+    //   }
+    //   if (b[orderBy] > a[orderBy]) {
+    //     return 1;
+    //   }
+    //   return 0;
+    // }
     
-    function getComparator(order, orderBy) {
-      return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-    }
+    // function getComparator(order, orderBy) {
+    //   return order === 'desc'
+    //     ? (a, b) => descendingComparator(a, b, orderBy)
+    //     : (a, b) => -descendingComparator(a, b, orderBy);
+    // }
     
-    function stableSort(array, comparator) {
-      const stabilizedThis = array.map((el, index) => [el, index]);
-      stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-      });
-      return stabilizedThis.map((el) => el[0]);
-    }
+    // function stableSort(array, comparator) {
+    //   const stabilizedThis = array.map((el, index) => [el, index]);
+    //   stabilizedThis.sort((a, b) => {
+    //     const order = comparator(a[0], b[0]);
+    //     if (order !== 0) return order;
+    //     return a[1] - b[1];
+    //   });
+    //   return stabilizedThis.map((el) => el[0]);
+    // }
 
 
 
@@ -193,23 +206,20 @@ function AccountList() {
 
 
 
-const handleSelectAllClick = () => {
-  console.log("SIEEEEEEEEEEMAhandleSelectAllClick ")
-}
 
     const headerCells = [
-      { id: 'firstName', numeric: false, disablePadding: true, label: 'First Name' },
-      { id: 'lastName', numeric: false, disablePadding: false, label: 'Last Name' },
-      { id: 'email', numeric: false, disablePadding: false, label: 'E-Mail' },
-      { id: 'active', numeric: false, disablePadding: false, label: 'Active' },
-      { id: 'userRoles', numeric: false, disablePadding: false, label: 'User Roles' },
+      { id: 'firstName', disablePadding: true, label: 'First Name' },
+      { id: 'lastName', disablePadding: false, label: 'Last Name' },
+      { id: 'email', disablePadding: false, label: 'E-Mail' },
+      { id: 'active', disablePadding: false, label: 'Active' },
+      { id: 'userRoles',  disablePadding: false, label: 'User Roles' },
     ];
 
     function EnhancedTableHead(props) {
       const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
       const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
-    };
+         onRequestSort(event, property);
+      };
   
     return (
       <TableHead>
@@ -218,26 +228,25 @@ const handleSelectAllClick = () => {
             <TableCell className={classes.tableCellHeader}
               key={headCell.id}
               align="center"
-              padding={headCell.disablePadding ? 'none' : 'default'}
+              // padding={headCell.disablePadding ? 'none' : 'default'}
               // sortDirection={orderBy === headCell.id ? order : false}
             >
-              {/* <TableSortLabel
-                active={orderBy === headerCells.id}
-                direction={orderBy === headerCells.id ? order : 'asc'}
-                onClick={createSortHandler(headerCells.id)}
-              > */}
+              <TableSortLabel
+                // active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
               <Typography>
                 <Box fontWeight="fontWeightBold" m={1}>
                    {headCell.label}
                 </Box>
               </Typography>
-                {/* {headCell.label} */}
-                {/* {orderBy === headerCells.id ? (
+                 {/* {orderBy === headerCells.id ? (
                   <span className={classes.visuallyHidden}>
                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                   </span>
-                ) : null}
-              </TableSortLabel> */}
+                ) : null} */}
+              </TableSortLabel>
             </TableCell>
           ))}
         </TableRow>
@@ -248,10 +257,10 @@ const handleSelectAllClick = () => {
   EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
     // numSelected: PropTypes.number.isRequired,
-    // onRequestSort: PropTypes.func.isRequired,
+    onRequestSort: PropTypes.func.isRequired,
     // onSelectAllClick: PropTypes.func.isRequired,
     // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    // orderBy: PropTypes.string.isRequired,
+    orderBy: PropTypes.string.isRequired,
     // rowCount: PropTypes.number.isRequired,
   };
 
@@ -279,10 +288,10 @@ const handleSelectAllClick = () => {
           <EnhancedTableHead
             classes={classes}
             // numSelected={5}
-            // order={order}
-            // orderBy={orderBy}
+            order={order}
+            orderBy={orderBy}
             // onSelectAllClick={handleSelectAllClick}
-            // onRequestSort={handleRequestSort}
+            onRequestSort={handleRequestSort}
             // rowCount={totalItems}
           />
           <TableBody>
@@ -299,7 +308,7 @@ const handleSelectAllClick = () => {
                   classes={{ hover: classes.hover }}
                   className={classes.tableRow}
                 >
-                    <TableCell component="th" scope="row" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCell}>
                         {account.firstName}
                     </TableCell>
                     <TableCell align="center" className={classes.tableCell}>{account.lastName}</TableCell>
