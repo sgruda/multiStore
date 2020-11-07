@@ -14,9 +14,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 
 import AccountService from '../services/AccountService';
-import AccountsTableHeader from '../components/table/AccountsTableHeader';
-import AccountsTableBody from '../components/table/AccountsTableBody';
-import AccountsTableToolbar from '../components/table/AccountsTableToolbar';
+import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
+import AccountsTableBody from '../components/accounts/AccountsTableBody';
+import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
 
 const useStyles = makeStyles({
     table: {
@@ -62,6 +62,7 @@ function AccountsList() {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
     const [selectedId, setSelectedId] = useState('');
+    const [selectedEmail, setSelectedEmail] = useState('');
     const [page, setPage] = useState(0);
     const [totalItems, setTotalPages] = useState(0);
     const [dense, setDense] = useState(false);
@@ -70,7 +71,8 @@ function AccountsList() {
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
     
-    const handleClick = (event, id) => {
+    const handleClick = (event, id, email) => {
+      email === selectedEmail ? setSelectedEmail('') : setSelectedEmail(email);
       id === selectedId ? setSelectedId('') : setSelectedId(id);
     };
 
@@ -130,6 +132,7 @@ function AccountsList() {
             const resMessage =
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
+                console.error("AccountList: " + resMessage);
             }
         );
     }
@@ -154,7 +157,7 @@ function AccountsList() {
     <div className={classes.root}>
     <Paper className={classes.paper}>
       <AccountsTableToolbar 
-        selectedAccountId={selectedId}
+        selectedAccountMail={selectedEmail}
       />
       <TableContainer>
         <Table
