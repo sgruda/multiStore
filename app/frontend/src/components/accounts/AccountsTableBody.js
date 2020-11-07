@@ -21,7 +21,7 @@ function AccountsTableBody({accounts, handleClickAccount, isSelected, classes, e
               return (
                 <TableRow key={account.id}
                   hover
-                  onClick={(event) => handleClickAccount(event, account.id)}
+                  onClick={(event) => handleClickAccount(event, account.id, account.email)}
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   key={account.id}
