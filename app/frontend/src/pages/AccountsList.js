@@ -16,7 +16,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import AccountService from '../services/AccountService';
 import AccountsTableHeader from '../components/table/AccountsTableHeader';
 import AccountsTableBody from '../components/table/AccountsTableBody';
-
+import AccountsTableToolbar from '../components/table/AccountsTableToolbar';
 
 const useStyles = makeStyles({
     table: {
@@ -45,6 +45,10 @@ const useStyles = makeStyles({
     },
     clearIcon: {
         color: "#eb1e1e"
+    },
+    toolbar: {
+      backgroundColor: 'red',
+      minWidth: 650,
     },
   });
 
@@ -149,7 +153,9 @@ function AccountsList() {
   return (
     <div className={classes.root}>
     <Paper className={classes.paper}>
-      {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+      <AccountsTableToolbar 
+        selectedAccountId={selectedId}
+      />
       <TableContainer>
         <Table
           className={classes.table}
