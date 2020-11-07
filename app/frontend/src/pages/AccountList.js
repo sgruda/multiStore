@@ -21,6 +21,9 @@ import DoneIcon from '@material-ui/icons/Done';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
+import Checkbox from '@material-ui/core/Checkbox';
+import PropTypes from 'prop-types';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 
 
@@ -33,22 +36,16 @@ const useStyles = makeStyles({
     table: {
       minWidth: 650,
     },
-
     tableRow: {
-      // "&$hover:hover": {
-      //   color: "#000000",
-      //   backgroundColor: "#42b6f4",
       "&.Mui-selected, &.Mui-selected:hover": {
         backgroundColor: "#b8ddf2",
         "& > .MuiTableCell-root": {
-          // color: "yellow"
         }
       }
     },
     tableCell: {
       "$hover:hover &": {
         backgroundColor: "#9cd2f0",
-        // color: "yellow",
       }
     },
     hover: {},
@@ -69,9 +66,6 @@ function AccountList() {
     const [firstLoading, setFirstLoading] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
-    // const paginationInfo = [{
-    //     totalPages: 0
-    // }];
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
     const [selectedId, setSelectedId] = useState('');
@@ -189,6 +183,77 @@ function AccountList() {
 
 
 
+
+
+
+
+const handleSelectAllClick = () => {
+  console.log("SIEEEEEEEEEEMAhandleSelectAllClick ")
+}
+
+    const headerCells = [
+      { id: 'firstName', numeric: false, disablePadding: true, label: 'First Name' },
+      { id: 'lastName', numeric: false, disablePadding: false, label: 'Last Name' },
+      { id: 'email', numeric: false, disablePadding: false, label: 'E-Mail' },
+      { id: 'active', numeric: false, disablePadding: false, label: 'Active' },
+      { id: 'userRoles', numeric: false, disablePadding: false, label: 'User Roles' },
+    ];
+
+    function EnhancedTableHead(props) {
+      const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+      const createSortHandler = (property) => (event) => {
+      onRequestSort(event, property);
+    };
+  
+    return (
+      <TableHead>
+        <TableRow>
+          {headerCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align="center"
+              padding={headCell.disablePadding ? 'none' : 'default'}
+              // sortDirection={orderBy === headCell.id ? order : false}
+            >
+              {/* <TableSortLabel
+                active={orderBy === headerCells.id}
+                direction={orderBy === headerCells.id ? order : 'asc'}
+                onClick={createSortHandler(headerCells.id)}
+              > */}
+                {headCell.label}
+                {/* {orderBy === headerCells.id ? (
+                  <span className={classes.visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </span>
+                ) : null}
+              </TableSortLabel> */}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+  
+  EnhancedTableHead.propTypes = {
+    classes: PropTypes.object.isRequired,
+    // numSelected: PropTypes.number.isRequired,
+    // onRequestSort: PropTypes.func.isRequired,
+    // onSelectAllClick: PropTypes.func.isRequired,
+    // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+    // orderBy: PropTypes.string.isRequired,
+    // rowCount: PropTypes.number.isRequired,
+  };
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className={classes.root}>
     <Paper className={classes.paper}>
@@ -200,17 +265,17 @@ function AccountList() {
           size={dense ? 'small' : 'medium'}
           aria-label="enhanced table"
         >
-          {/* <EnhancedTableHead
+          <EnhancedTableHead
             classes={classes}
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
-          /> */}
+            // numSelected={5}
+            // order={order}
+            // orderBy={orderBy}
+            // onSelectAllClick={handleSelectAllClick}
+            // onRequestSort={handleRequestSort}
+            // rowCount={totalItems}
+          />
           <TableBody>
-            {accounts.map((account, index) => {
+            {accounts.map((account) => {
               const isItemSelected = isSelected(account.id);
               return (
                 <TableRow key={account.id}
@@ -261,37 +326,6 @@ function AccountList() {
     />
   </div>
   );
-//     <TableContainer component={Paper}>
-//       <Table className={classes.table} aria-label="simple table">
-//         <TableHead>
-//           <TableRow>
-//             <TableCell align="center">First Name</TableCell>
-//             <TableCell align="center">Last Name</TableCell>
-//             <TableCell align="center">Email</TableCell>
-//             <TableCell align="center">Active</TableCell>
-//             <TableCell align="center">Roles</TableCell>
-//           </TableRow>
-//         </TableHead>
-        // <TableBody>
-        //   {accounts.map((account) => (
-        //     <TableRow key={account.idHash}>
-        //         <TableCell component="th" scope="row">
-        //             {account.firstName}
-        //         </TableCell>
-        //         <TableCell align="center">{account.lastName}</TableCell>
-        //         <TableCell align="center">{account.email}</TableCell>
-        //         <TableCell align="center">
-        //           {account.active 
-        //           ? <DoneIcon className={classes.doneIcon}/> 
-        //           : <ClearIcon className={classes.clearIcon}/> }
-        //         </TableCell>
-        //         <TableCell align="center">{account.roles}</TableCell>
-        //     </TableRow>
-        //   ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   );
 }
 
 export default AccountList;
