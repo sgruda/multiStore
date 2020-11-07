@@ -14,8 +14,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 
 import AccountService from '../services/AccountService';
-import AccountsTableHeader from '../components/table/AccountsTableHeader'
-
+import AccountsTableHeader from '../components/table/AccountsTableHeader';
+import AccountsTableBody from '../components/table/AccountsTableBody';
 
 
 const useStyles = makeStyles({
@@ -166,40 +166,14 @@ function AccountsList() {
             onRequestSort={handleRequestSort}
             fieldToIgnoreSorting='userRoles'
           />
-          <TableBody>
-            {accounts.map((account) => {
-              const isItemSelected = isSelected(account.id);
-              return (
-                <TableRow key={account.id}
-                  hover
-                  onClick={(event) => handleClick(event, account.id)}
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={account.id}
-                  selected={isItemSelected}
-                  classes={{ hover: classes.hover }}
-                  className={classes.tableRow}
-                >
-                    <TableCell align="center" className={classes.tableCell}>
-                        {account.firstName}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>{account.lastName}</TableCell>
-                    <TableCell align="center" className={classes.tableCell}>{account.email}</TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                        {account.active 
-                        ? <DoneIcon className={classes.doneIcon}/> 
-                        : <ClearIcon className={classes.clearIcon}/> }
-                        </TableCell>
-                    <TableCell className={classes.tableCell} align="center">{account.roles}</TableCell>
-                </TableRow>
-                );
-            })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
+          <AccountsTableBody
+            accounts={accounts}
+            handleClickAccount={handleClick}
+            isSelected={isSelected}
+            classes={classes}
+            emptyRows={emptyRows}
+            dense={dense}
+          />
         </Table>
       </TableContainer>
       <TablePagination
