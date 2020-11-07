@@ -15,7 +15,7 @@ export default function Routes() {
       <Route exact path="/">
           <Home />
       </Route>
-      <PrivateRoute exact path="/admin">
+      <PrivateRoute exact path="/admin/accountsList">
           <AccountsList />
       </PrivateRoute>
       <Route exact path="/signin">

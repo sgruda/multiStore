@@ -30,6 +30,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import PeopleIcon from '@material-ui/icons/People';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
@@ -108,6 +109,10 @@ function App(props) {
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
+  const adminToolbarListItem = [
+    { id: 'accountList', name: 'Account List', path: '/admin/accountsList' },
+  ];
+
   return (
     // !currentAccessToken &&
     <div className={classes.root}>
@@ -165,10 +170,12 @@ function App(props) {
         <Divider />
         { userIsAuthenticated  && activeRole === ROLE_ADMIN &&
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {adminToolbarListItem.map((item) => (
+            <ListItem button key={item.id} onClick={() => history.push(item.path)}>
+              <ListItemIcon>
+                <PeopleIcon/>
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
             </ListItem>
           ))}
         </List>
