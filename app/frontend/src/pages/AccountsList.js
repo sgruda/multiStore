@@ -61,7 +61,6 @@ function AccountsList() {
     const [accounts, setAccounts] = useState([]);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
-    const [selectedId, setSelectedId] = useState('');
     const [selectedEmail, setSelectedEmail] = useState('');
     const [page, setPage] = useState(0);
     const [totalItems, setTotalPages] = useState(0);
@@ -71,9 +70,8 @@ function AccountsList() {
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
     
-    const handleClick = (event, id, email) => {
+    const handleClick =  (email) => {
       email === selectedEmail ? setSelectedEmail('') : setSelectedEmail(email);
-      id === selectedId ? setSelectedId('') : setSelectedId(id);
     };
 
 
@@ -99,7 +97,7 @@ function AccountsList() {
       setLoadingData(true);
     };
 
-    const isSelected = (name) => selectedId === name ? true : false;
+    const isSelected = (mail) => selectedEmail === mail ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
 
