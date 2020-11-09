@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     },
     tableCell: {
       "$hover:hover &": {
-        backgroundColor: "#9cd2f0",
+        backgroundColor: "#d3ebf8",
       }
     },
     hover: {},

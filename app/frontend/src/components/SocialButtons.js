@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
       height: 40,
       backgroundColor: "white",
       borderRadius: 2,
-      marginLeft: '-200%',
+    //   marginLeft: '-200%',
+    //   alignContent: "flex-start",
     },
     buttonRoot: {
       margin: theme.spacing(1, 0, 1),
@@ -45,17 +46,23 @@ function SocialSignup({GOOGLE_AUTH_URL, GOOGLE_TEXT, FACEBOOK_AUTH_URL, FACEBOOK
     
     return (
         <div>
-            <Grid container spacing={1}>
-                <Button href={GOOGLE_AUTH_URL} className={classes.buttonRoot}  startIcon={<GoogleIcon />} variant="contained" fullWidth>                    
-                    <Typography  variant="body2" component="h2">
-                        {GOOGLE_TEXT}
-                    </Typography>                
-                </Button>
-                <Button href={FACEBOOK_AUTH_URL} className={classes.buttonRoot}  startIcon={<FacebookIcon />} variant="contained" fullWidth>                    
-                    <Typography  variant="body2" component="h2">
-                        {FACEBOOK_TEXT}
-                    </Typography>
-                </Button>
+            <Grid container spacing={1} xs={12} alignItems="flex-end">
+                    <Button onClick={ () => window.location.href = GOOGLE_AUTH_URL } className={classes.buttonRoot}  variant="contained" fullWidth>                    
+                        <GoogleIcon/>
+                        <Grid item xs={12} justify="center">
+                            <Typography  variant="body2" component="h2">
+                                {GOOGLE_TEXT}
+                            </Typography>    
+                        </Grid>            
+                    </Button>
+                    <Button onClick={ () => window.location.href = FACEBOOK_AUTH_URL } className={classes.buttonRoot}  variant="contained" fullWidth>                    
+                        <FacebookIcon/>
+                        <Grid item xs={12} justify="center">
+                            <Typography  variant="body2" component="h2">
+                                {FACEBOOK_TEXT}
+                            </Typography>
+                        </Grid>  
+                    </Button>
                 </Grid>
         </div>
     );
