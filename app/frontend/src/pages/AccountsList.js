@@ -62,6 +62,7 @@ function AccountsList() {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
     const [selectedEmail, setSelectedEmail] = useState('');
+    const [selectedName, setSelectedName] = useState('');
     const [page, setPage] = useState(0);
     const [totalItems, setTotalPages] = useState(0);
     const [dense, setDense] = useState(false);
@@ -70,8 +71,14 @@ function AccountsList() {
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
     
-    const handleClick =  (email) => {
-      email === selectedEmail ? setSelectedEmail('') : setSelectedEmail(email);
+    const handleClick =  (email, name) => {
+      if(email === selectedEmail) {
+        setSelectedEmail('');
+        setSelectedName('');
+      } else {
+        setSelectedEmail(email);
+        setSelectedName(name);
+      }
     };
 
 
@@ -156,6 +163,7 @@ function AccountsList() {
     <Paper className={classes.paper}>
       <AccountsTableToolbar 
         selectedAccountMail={selectedEmail}
+        selectedAccountName={selectedName}
       />
       <TableContainer>
         <Table
