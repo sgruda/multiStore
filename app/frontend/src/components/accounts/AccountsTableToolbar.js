@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-function AccountsTableToolbar({selectedAccountMail, selectedAccountName, setTextToSearch}) {
+function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch}) {
     const classes = useStyles();
     const aboutAccount = 'Name: ' + selectedAccountName; 
     const [expandedDetails, setExpandedDetails] = useState(false);
@@ -66,8 +66,8 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, setText
     const handleExpandedSearching = () => {
       setExpandedSearching(!expandedSearching);
     }
-    const handleSearch = () => {
-      setTextToSearch(fields.textToSearch);
+    const handleSearchText = () => {
+      handleSearch(fields.textToSearch);
     }
 
     useEffect(() => {
@@ -107,7 +107,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, setText
             ) : (
               <Grid container justify="center"  xs={12}>
                 <Collapse in={expandedSearching} timeout="auto" unmountOnExit>
-                  <form noValidate onSubmit={handleSubmit(handleSearch)}>
+                  <form noValidate onSubmit={handleSubmit(handleSearchText)}>
                     <Grid item xs={12} >
                       <TextField
                         value={ fields.textToSearch }
@@ -125,9 +125,6 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, setText
                     </Grid>
                     <Grid item  xs={12} alignItems="center">
                       <Tooltip title="Search">
-                        {/* <IconButton aria-label="Search" type="submit" fullWidth>
-                            <SearchIcon />
-                        </IconButton> */}
                         <Button aria-label="Search" type="submit" fullWidth startIcon={<SearchIcon/>}>
                             Search
                         </Button>

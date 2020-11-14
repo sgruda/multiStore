@@ -103,6 +103,11 @@ function AccountsList() {
       setOrderBy(property);
       setLoadingData(true);
     };
+    
+    const handleSearch = (text) => {
+      setTextToSearch(text);
+      setLoadingData(true);
+    }
 
     const isSelected = (mail) => selectedEmail === mail ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
@@ -147,7 +152,7 @@ function AccountsList() {
             setLoadingData(false);
             getAccounts();
         }
-    }, [page, rowsPerPage, accounts, order, orderBy]);
+    }, [loadingData]);
 
 
     const headerCells = [
@@ -164,6 +169,7 @@ function AccountsList() {
       <AccountsTableToolbar 
         selectedAccountMail={selectedEmail}
         selectedAccountName={selectedName}
+        handleSearch={handleSearch}
       />
       <TableContainer>
         <Table
