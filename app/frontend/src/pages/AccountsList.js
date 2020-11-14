@@ -11,12 +11,13 @@ import DoneIcon from '@material-ui/icons/Done';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
-
+import SyncIcon from '@material-ui/icons/Sync';
 
 import AccountService from '../services/AccountService';
 import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
 import AccountsTableBody from '../components/accounts/AccountsTableBody';
 import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
     table: {
@@ -106,6 +107,11 @@ function AccountsList() {
     
     const handleSearch = (text) => {
       setTextToSearch(text);
+      setPage(0);
+      setLoadingData(true);
+    }
+
+    const handleRefresh = () => {
       setLoadingData(true);
     }
 
@@ -210,6 +216,12 @@ function AccountsList() {
       control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
       label="Dense padding"
     />
+    <Button
+      startIcon={<SyncIcon size="large" color="primary"/>}
+      onClick={handleRefresh}
+    >
+      Refresh data
+    </Button>
   </div>
   );
 }
