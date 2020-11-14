@@ -13,9 +13,11 @@ import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
 const useStyles = makeStyles({
     doneIcon: {
         color: "#0bb00d",
+        height: 18,
     },
     clearIcon: {
-        color: "#eb1e1e"
+        color: "#eb1e1e",
+        height: 18,
     },
     text: {
         backgroundColor: "#7cc3eb"
@@ -87,23 +89,51 @@ function AccountDetails({selectedAccountMail}) {
                         : <ClearIcon className={classes.clearIcon}/> }
                 </Typography>
             </Grid>
-            <Grid conrainer xs={12} justify="flex-start">
-                <Grid item xs={6}>
-                    <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        Roles:
-                    </Typography>
-                    <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        {ROLE_CLIENT}:  { roleClientActive
+            <Grid item xs={6}>
+                {account.authProvider === "system"
+                ?  
+                <Grid container xs={12} justify="center" alignItems="stretch">
+                    <Grid item xs={12}>
+                        <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
+                            Username: {account.authenticationDataDTO.username}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
+                            E-mail verified: {account.authenticationDataDTO.emailVerified 
                                             ? <DoneIcon className={classes.doneIcon}/> 
-                                            : <ClearIcon className={classes.clearIcon}/> }
-                        {ROLE_EMPLOYEE}:  { roleEmployeeActive
-                                            ? <DoneIcon className={classes.doneIcon}/> 
-                                            : <ClearIcon className={classes.clearIcon}/> }
-                        {ROLE_ADMIN}:  { roleAdminActive
-                                            ? <DoneIcon className={classes.doneIcon}/> 
-                                            : <ClearIcon className={classes.clearIcon}/> }
-                    </Typography>
+                                            : <ClearIcon className={classes.clearIcon}/> 
+                                            }
+                        </Typography>
+                    </Grid> 
                 </Grid>
+                :
+                <></>         
+                }
+            </Grid>
+            <Grid item xs={6}>
+                <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
+                    Account type: {account.authProvider}
+                </Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
+                    Roles:
+                </Typography>
+                <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
+                    {ROLE_CLIENT}:  { roleClientActive
+                                        ? <DoneIcon className={classes.doneIcon}/> 
+                                        : <ClearIcon className={classes.clearIcon}/> 
+                                        }
+                    {ROLE_EMPLOYEE}:  { roleEmployeeActive
+                                        ? <DoneIcon className={classes.doneIcon}/> 
+                                        : <ClearIcon className={classes.clearIcon}/> 
+                                        }
+                    {ROLE_ADMIN}:  { roleAdminActive
+                                        ? <DoneIcon className={classes.doneIcon}/> 
+                                        : <ClearIcon className={classes.clearIcon}/> 
+                                        }
+                </Typography>
             </Grid>
         </Grid>
     );
