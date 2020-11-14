@@ -18,6 +18,7 @@ import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
 import AccountsTableBody from '../components/accounts/AccountsTableBody';
 import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
 import { Button } from "@material-ui/core";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const useStyles = makeStyles({
     table: {
@@ -112,6 +113,15 @@ function AccountsList() {
     }
 
     const handleRefresh = () => {
+      setOrder('asc');
+      setOrderBy('lastName');
+      setSelectedName('');
+      setSelectedEmail('');
+      setDense(false);
+      setTextToSearch(null);
+      setRowsPerPage(5);
+      setPage(0);
+      setFilterActiveAccounts(null);
       setLoadingData(true);
     }
 
@@ -157,8 +167,6 @@ function AccountsList() {
         if (loadingData) {
             setLoadingData(false);
             getAccounts();
-            if(textToSearch !== null)
-              setTextToSearch(null);
         }
     }, [loadingData]);
 
