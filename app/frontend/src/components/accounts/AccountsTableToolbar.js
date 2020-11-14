@@ -49,12 +49,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
+function AccountsTableToolbar({selectedAccountMail, selectedAccountName, setTextToSearch}) {
     const classes = useStyles();
     const aboutAccount = 'Name: ' + selectedAccountName; 
     const [expandedDetails, setExpandedDetails] = useState(false);
     const [expandedSearching, setExpandedSearching] = useState(false);
-    // const [textToSearch, setTextToSearch] = useState("");
     const [fields, setFields] = useFields({
       textToSearch: ""
     });
@@ -68,7 +67,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
       setExpandedSearching(!expandedSearching);
     }
     const handleSearch = () => {
-
+      setTextToSearch(fields.textToSearch);
     }
 
     useEffect(() => {
@@ -82,7 +81,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
             [classes.highlight]: selectedAccountMail !== '',
           })}
         >
-          <Grid container justify="center">
+          <Grid container justify="center" xs={12}>
             <Grid item xs={12}>
               <Typography className={classes.title} variant="h6" id="tableTitle" component="div" align="center">
                 Accounts
@@ -106,32 +105,34 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
                 </Grid>
               </Grid>
             ) : (
-              <Grid container justify="center">
+              <Grid container justify="center"  xs={12}>
                 <Collapse in={expandedSearching} timeout="auto" unmountOnExit>
                   <form noValidate onSubmit={handleSubmit(handleSearch)}>
-                    <TextField
-                      value={ fields.textToSearch }
-                      onChange={ setFields }
-                      name="textToSearch"
-                      required
-                      fullWidth
-                      id="textToSearch"
-                      label="Search"
+                    <Grid item xs={12} >
+                      <TextField
+                        value={ fields.textToSearch }
+                        onChange={ setFields }
+                        name="textToSearch"
+                        required
+                        fullWidth
+                        id="textToSearch"
+                        label="Search"
 
-                      inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
-                      error={errors.textToSearch ? true : false}
-                      helperText={errors.textToSearch ? "Incorrect entry." : ""}
-                    />
-                  <Tooltip title="Search">
-                    <IconButton aria-label="Search" type="submit">
-                        <SearchIcon />
-                    </IconButton>
-                    {/* <Button
-                  type="submit"
-                >
-                  Search
-                </Button> */}
-                  </Tooltip>
+                        inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
+                        error={errors.textToSearch ? true : false}
+                        helperText={errors.textToSearch ? "Incorrect entry." : ""}
+                      />
+                    </Grid>
+                    <Grid item  xs={12} alignItems="center">
+                      <Tooltip title="Search">
+                        {/* <IconButton aria-label="Search" type="submit" fullWidth>
+                            <SearchIcon />
+                        </IconButton> */}
+                        <Button aria-label="Search" type="submit" fullWidth startIcon={<SearchIcon/>}>
+                            Search
+                        </Button>
+                      </Tooltip>
+                    </Grid>
                   </form>
                 </Collapse>
               </Grid>
