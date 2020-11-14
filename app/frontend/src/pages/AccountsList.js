@@ -106,8 +106,9 @@ function AccountsList() {
       setLoadingData(true);
     };
     
-    const handleSearch = (text) => {
+    const handleSearch = (text, activity) => {
       setTextToSearch(text);
+      setFilterActiveAccounts(activity);
       setPage(0);
       setLoadingData(true);
     }

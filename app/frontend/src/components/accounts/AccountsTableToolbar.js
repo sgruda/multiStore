@@ -10,7 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
 import SearchIcon from '@material-ui/icons/Search';
 import Collapse from '@material-ui/core/Collapse';
-import { Grid } from "@material-ui/core";
+import { Divider, Grid } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import AccountDetails from '../accounts/AccountDetails';
+import AccountsActivityFilter from './AccountsActivityFilter';
 import { useFields } from '../../hooks/FieldHook';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
       textToSearch: ""
     });
     const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+    const [activeAccounts, setActiveAccounts] = useState(null);
 
 
     const handleExpandDetails = () => {
@@ -66,8 +68,8 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
     const handleExpandedSearching = () => {
       setExpandedSearching(!expandedSearching);
     }
-    const handleSearchText = () => {
-      handleSearch(fields.textToSearch);
+    const handleSearchAccounts = () => {
+      handleSearch(fields.textToSearch, activeAccounts);
     }
 
     useEffect(() => {
@@ -107,22 +109,25 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
             ) : (
               <Grid container justify="center"  xs={12}>
                 <Collapse in={expandedSearching} timeout="auto" unmountOnExit>
-                  <form noValidate onSubmit={handleSubmit(handleSearchText)}>
+                  <form noValidate onSubmit={handleSubmit(handleSearchAccounts)}>
                     <Grid item xs={12} >
                       <TextField
                         value={ fields.textToSearch }
                         onChange={ setFields }
                         name="textToSearch"
-                        required
                         fullWidth
                         id="textToSearch"
                         label="Search"
 
-                        inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
+                        inputRef={register({ pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
                         error={errors.textToSearch ? true : false}
                         helperText={errors.textToSearch ? "Incorrect entry." : ""}
                       />
                     </Grid>
+                    <Divider/>
+                    <AccountsActivityFilter
+                      setFilterActiveAccounts={setActiveAccounts}
+                    />
                     <Grid item  xs={12} alignItems="center">
                       <Tooltip title="Search">
                         <Button aria-label="Search" type="submit" fullWidth startIcon={<SearchIcon/>}>
