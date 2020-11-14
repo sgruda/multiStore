@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,22 +14,23 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
+import AccountDetails from '../accounts/AccountDetails';
+
 const useStyles = makeStyles((theme) => ({
     root: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
-      backgroundColor: "#4285F4"
+      backgroundColor: "#7cc3eb"
     },
     highlight: {
-        backgroundColor: "#26a315",
+        backgroundColor: "#7cc3eb",
     },
     title: {
-      // flex: '1 1 100%',
       fontWeight: "fontWeightBold",
     },
     accountText: {
       fontWeight: "fontWeightBold",
-      backgroundColor: "#26a315"
+      backgroundColor: "#7cc3eb"
     },
     expand: {
       transform: 'rotate(0deg)',
@@ -55,6 +56,11 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
       setExpandedDetails(!expandedDetails);
     }
 
+
+    useEffect(() => {
+      setExpandedDetails(false);
+    }, [selectedAccountMail]);
+
     return (
         <Toolbar
           className={clsx(classes.root, {
@@ -78,14 +84,9 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName}) {
                 </Grid>
                 <Grid item xs={12}>
                 <Collapse in={expandedDetails} timeout="auto" unmountOnExit>
-                  <Typography paragraph  align="center">
-                    Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                    heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                    browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                    and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-                    pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                    saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                  </Typography>
+                  <AccountDetails
+                    selectedAccountMail={selectedAccountMail}
+                  />
                 </Collapse>
                 </Grid>
               </Grid>

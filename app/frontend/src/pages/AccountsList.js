@@ -50,7 +50,7 @@ const useStyles = makeStyles({
       backgroundColor: 'red',
       minWidth: 650,
     },
-  });
+});
 
 
 
