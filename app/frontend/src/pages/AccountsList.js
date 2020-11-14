@@ -157,6 +157,8 @@ function AccountsList() {
         if (loadingData) {
             setLoadingData(false);
             getAccounts();
+            if(textToSearch !== null)
+              setTextToSearch(null);
         }
     }, [loadingData]);
 
