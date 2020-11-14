@@ -11,12 +11,14 @@ import DoneIcon from '@material-ui/icons/Done';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
-
+import SyncIcon from '@material-ui/icons/Sync';
 
 import AccountService from '../services/AccountService';
 import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
 import AccountsTableBody from '../components/accounts/AccountsTableBody';
 import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
+import { Button } from "@material-ui/core";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const useStyles = makeStyles({
     table: {
@@ -35,7 +37,7 @@ const useStyles = makeStyles({
     },
     tableCell: {
       "$hover:hover &": {
-        backgroundColor: "#9cd2f0",
+        backgroundColor: "#d3ebf8",
       }
     },
     hover: {},
@@ -50,7 +52,7 @@ const useStyles = makeStyles({
       backgroundColor: 'red',
       minWidth: 650,
     },
-  });
+});
 
 
 
@@ -61,8 +63,8 @@ function AccountsList() {
     const [accounts, setAccounts] = useState([]);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('lastName');
-    const [selectedId, setSelectedId] = useState('');
     const [selectedEmail, setSelectedEmail] = useState('');
+    const [selectedName, setSelectedName] = useState('');
     const [page, setPage] = useState(0);
     const [totalItems, setTotalPages] = useState(0);
     const [dense, setDense] = useState(false);
@@ -71,9 +73,14 @@ function AccountsList() {
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
 
     
-    const handleClick = (event, id, email) => {
-      email === selectedEmail ? setSelectedEmail('') : setSelectedEmail(email);
-      id === selectedId ? setSelectedId('') : setSelectedId(id);
+    const handleClick =  (email, name) => {
+      if(email === selectedEmail) {
+        setSelectedEmail('');
+        setSelectedName('');
+      } else {
+        setSelectedEmail(email);
+        setSelectedName(name);
+      }
     };
 
 
@@ -98,8 +105,28 @@ function AccountsList() {
       setOrderBy(property);
       setLoadingData(true);
     };
+    
+    const handleSearch = (text, activity) => {
+      setTextToSearch(text);
+      setFilterActiveAccounts(activity);
+      setPage(0);
+      setLoadingData(true);
+    }
 
-    const isSelected = (name) => selectedId === name ? true : false;
+    const handleRefresh = () => {
+      setOrder('asc');
+      setOrderBy('lastName');
+      setSelectedName('');
+      setSelectedEmail('');
+      setDense(false);
+      setTextToSearch(null);
+      setRowsPerPage(5);
+      setPage(0);
+      setFilterActiveAccounts(null);
+      setLoadingData(true);
+    }
+
+    const isSelected = (mail) => selectedEmail === mail ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
 
@@ -142,7 +169,7 @@ function AccountsList() {
             setLoadingData(false);
             getAccounts();
         }
-    }, [page, rowsPerPage, accounts, order, orderBy]);
+    }, [loadingData]);
 
 
     const headerCells = [
@@ -158,6 +185,8 @@ function AccountsList() {
     <Paper className={classes.paper}>
       <AccountsTableToolbar 
         selectedAccountMail={selectedEmail}
+        selectedAccountName={selectedName}
+        handleSearch={handleSearch}
       />
       <TableContainer>
         <Table
@@ -198,6 +227,12 @@ function AccountsList() {
       control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
       label="Dense padding"
     />
+    <Button
+      startIcon={<SyncIcon size="large" color="primary"/>}
+      onClick={handleRefresh}
+    >
+      Refresh data
+    </Button>
   </div>
   );
 }
