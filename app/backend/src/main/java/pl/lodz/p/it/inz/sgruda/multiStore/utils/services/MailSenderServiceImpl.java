@@ -22,13 +22,18 @@ public class MailSenderServiceImpl implements MailSenderService {
         this.javaMailSender = javaMailSender;
     }
 
-    private void sendMail(String to, String subject, String text, boolean isHtmlContent) throws MessagingException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-        mimeMessageHelper.setTo(to);
-        mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setText(text, isHtmlContent);
-        javaMailSender.send(mimeMessage);
+    @Async
+    @Override
+    public void sendPasswordResetMail(String email, String resetToken) throws MessagingException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<a href=\"");
+        stringBuilder.append(REDIRECT_SERVER_URI);
+        stringBuilder.append("/reset-password?token=");
+        stringBuilder.append(resetToken);
+        stringBuilder.append("\">");
+        stringBuilder.append("mail.account.reset.password.body");
+        stringBuilder.append("</a>");
+        sendMail(email, "mail.account.reset.password.subject", stringBuilder.toString(), true);
     }
 
     @Async
@@ -44,5 +49,13 @@ public class MailSenderServiceImpl implements MailSenderService {
         stringBuilder.append("</a>");
         sendMail(email, "mail.account.confirm.subject", stringBuilder.toString(), true);
 
+    }
+    private void sendMail(String to, String subject, String text, boolean isHtmlContent) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(text, isHtmlContent);
+        javaMailSender.send(mimeMessage);
     }
 }
