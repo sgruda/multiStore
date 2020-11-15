@@ -16,8 +16,11 @@ import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AuthService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.net.URI;
@@ -33,7 +36,7 @@ public class AuthenticationEndpoint {
     private AuthService authService;
     private MailVerifierService mailVerifierService;
     private PasswordEncoder passwordEncoder;
-    private MailSenderServiceImpl mailSenderServiceImpl;
+    private MailSenderService mailSenderServiceImpl;
 
     @Autowired
     public AuthenticationEndpoint(AuthService authService, MailVerifierService mailVerifierService, PasswordEncoder passwordEncoder, MailSenderServiceImpl mailSenderServiceImpl) {
@@ -52,7 +55,7 @@ public class AuthenticationEndpoint {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
         AccountEntity accountEntity = new AccountEntity(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
@@ -69,14 +72,12 @@ public class AuthenticationEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
-        String link = "https://localhost:8181/verify-email?token=" + resultAccount.getVeryficationToken();
-//
-//        try {
-//            mailSenderServiceImpl.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//            log.severe("Problem z mailem");
-//        }
+
+        try {
+            mailSenderServiceImpl.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken());
+        } catch (MessagingException e) {
+            log.severe("Problem z mailem " + e);
+        }
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
