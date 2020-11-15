@@ -1,4 +1,4 @@
-GRANT ALL PRIVILEGES ON DATABASE docker TO docker;
+GRANT ALL PRIVILEGES ON DATABASE multistore TO root;
 ---------------------------------------------------------------------------------------------------
 create table id_generator
 (
@@ -9,7 +9,7 @@ create table id_generator
 );
 
 alter table id_generator
-    owner to docker;
+    owner to root;
 
 
 create table access_level
@@ -23,7 +23,7 @@ create table access_level
 );
 
 alter table access_level
-    owner to docker;
+    owner to root;
 
 create table account_data
 (
@@ -43,7 +43,7 @@ create table account_data
 );
 
 alter table account_data
-    owner to docker;
+    owner to root;
 
 create table forgot_password_token
 (
@@ -63,7 +63,7 @@ create table forgot_password_token
 );
 
 alter table forgot_password_token
-    owner to docker;
+    owner to root;
 
 create table authentication_data
 (
@@ -85,7 +85,7 @@ create table authentication_data
 );
 
 alter table authentication_data
-    owner to docker;
+    owner to root;
 
 alter table account_data
     add constraint fk9fq7f9e4tkkiya8n63h847yb8
@@ -104,14 +104,27 @@ create table account_access_level_mapping
 );
 
 alter table account_access_level_mapping
-    owner to docker;
+    owner to root;
+
+
+
+-- USERS AND PRIVILEGES
+CREATE USER mok WITH PASSWORD 'mok123';
+GRANT SELECT, UPDATE ON id_generator TO mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON forgot_password_token TO mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON authentication_data TO mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON account_data TO mok;
+GRANT SELECT ON access_level TO mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON account_access_level_mapping TO mok;
+
+CREATE USER mop WITH PASSWORD 'mop123';
+CREATE USER moz WITH PASSWORD 'moz123';
 
 
 
 
-
-INSERT INTO id_generator VALUES ('account_data',50);
-INSERT INTO id_generator VALUES ('authentication_data',50);
+INSERT INTO id_generator VALUES ('account_data',100);
+INSERT INTO id_generator VALUES ('authentication_data',100);
 INSERT INTO id_generator VALUES ('access_level',50);
 INSERT INTO id_generator VALUES ('forgot_password_token',50);
 INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
