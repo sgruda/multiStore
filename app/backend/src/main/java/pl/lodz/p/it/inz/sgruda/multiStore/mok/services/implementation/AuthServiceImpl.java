@@ -70,6 +70,6 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new HttpBaseException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
-        return accountRepository.save(account);
+        return accountRepository.saveAndFlush(account);
     }
 }
