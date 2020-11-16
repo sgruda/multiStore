@@ -55,7 +55,7 @@ public class AuthenticationEndpoint {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody SignUpRequest signUpRequest) {
         AccountEntity accountEntity = new AccountEntity(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
