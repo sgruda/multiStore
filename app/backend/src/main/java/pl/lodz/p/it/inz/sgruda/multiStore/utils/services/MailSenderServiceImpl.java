@@ -26,14 +26,9 @@ public class MailSenderServiceImpl implements MailSenderService {
     @Override
     public void sendPasswordResetMail(String email, String resetToken) throws MessagingException {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<a href=\"");
-        stringBuilder.append(REDIRECT_SERVER_URI);
-        stringBuilder.append("/reset-password?token=");
-        stringBuilder.append(resetToken);
-        stringBuilder.append("\">");
         stringBuilder.append("mail.account.reset.password.body");
-        stringBuilder.append("</a>");
-        sendMail(email, "mail.account.reset.password.subject", stringBuilder.toString(), true);
+        stringBuilder.append(resetToken);
+        sendMail(email, "mail.account.reset.password.subject", stringBuilder.toString(), false);
     }
 
     @Async

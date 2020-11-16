@@ -29,13 +29,13 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @Basic(optional = false)
     @Future(message = "{validation.date.future}")
     @NotNull(message = "{validation.notnull}")
-    @Column(name = "expire_date", nullable = false, updatable = false)
+    @Column(name = "expire_date", nullable = false)
     private LocalDateTime expireDate;
 
     @Basic(optional = false)
     @NotNull(message = "{validation.notnull}")
     @Size(min = 64, max = 64, message = "{validation.size}")
-    @Column(name = "hash", nullable = false, unique = true, updatable = false, length = 64)
+    @Column(name = "hash", nullable = false, unique = true, length = 64)
     private String hash;
 
 
