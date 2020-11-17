@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
@@ -53,7 +54,7 @@ public class AccountOwnerOperationsEndpoint {
         try {
             checkerAccountDTO.checkIntegrity(accountEntity, accountDTO);
             ownPasswordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
-        } catch (DTOSignatureException | DTOVersionException e) {
+        } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);

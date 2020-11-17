@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnPasswordChangeService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 @Log
 @Service
@@ -30,8 +32,11 @@ public class OwnPasswordChangeServiceImpl implements OwnPasswordChangeService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public void changePassword(AccountEntity accountEntity, String newEncodedPassword) {
-        accountEntity.setPassword(newEncodedPassword);
+    public void changePassword(AccountEntity accountEntity, String newEncodedPassword) throws OperationDisabledForAccountException {
+        if(accountEntity.getProvider() == AuthProvider.system)
+             accountEntity.setPassword(newEncodedPassword);
+        else
+            throw new OperationDisabledForAccountException();
     }
 
     @Override
