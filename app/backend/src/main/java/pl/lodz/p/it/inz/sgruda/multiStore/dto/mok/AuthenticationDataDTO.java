@@ -24,14 +24,12 @@ public @Data class AuthenticationDataDTO implements SignatureVerifiability {
     @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
     private String username;
 
-    @NotNull(message = "{validation.notnull}")
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
     private String password;
     @NotNull(message = "{validation.notnull}")
     private boolean emailVerified;
 
     @Valid
-    @NotNull(message = "{validation.notnull}")
     private ForgotPasswordTokenDTO forgotPasswordTokenDTO;
 
     @NotNull(message = "{validation.notnull}")
