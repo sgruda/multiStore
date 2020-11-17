@@ -4,6 +4,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,7 @@ public class AccountActivityEndpoint {
     }
 
     @PostMapping("/account/block")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
@@ -59,6 +61,7 @@ public class AccountActivityEndpoint {
     }
 
     @PostMapping("/account/unblock")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
