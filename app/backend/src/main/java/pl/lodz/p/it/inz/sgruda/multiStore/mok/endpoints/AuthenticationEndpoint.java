@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
@@ -86,9 +87,9 @@ public class AuthenticationEndpoint {
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
     @PostMapping("/verify-email")
-    public ResponseEntity<?> verifyEmail(@RequestParam("token") String veryficationToken) {
+    public ResponseEntity<?> verifyEmail(@Valid @RequestBody Token veryficationToken) {
         try {
-            mailVerifierService.verifyEmail(veryficationToken);
+            mailVerifierService.verifyEmail(veryficationToken.getVeryficationToken());
             return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -97,6 +98,12 @@ public class AuthenticationEndpoint {
         }
     }
 
+    @Getter
+    private static class Token {
+        @Pattern(regexp = "[0-9a-zA-Z-]+", message = "{validation.pattern}")
+        @Size(min = 36, max = 36, message = "{validation.size}")
+        private String veryficationToken;
+    }
     @Getter
     private static class SignUpRequest {
         @NotNull(message = "{validation.notnull}")
