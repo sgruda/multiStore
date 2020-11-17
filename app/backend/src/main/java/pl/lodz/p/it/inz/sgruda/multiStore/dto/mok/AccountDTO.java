@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
+import javax.persistence.Basic;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Arrays;
@@ -19,6 +20,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class AccountDTO implements SignatureVerifiability {
+    @Size(min = 64, max = 64)
+    @NotNull(message = "{validation.notnull}")
+    @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
     private String idHash;
 
     @NotNull(message = "{validation.notnull}")
@@ -37,12 +41,18 @@ public @Data class AccountDTO implements SignatureVerifiability {
     private String email;
     private Set<String> roles = new HashSet<>();
     private boolean active;
+
+    @Basic(optional = false)
+    @NotNull(message = "{validation.notnull}")
     private String authProvider;
 
-    @NotNull
+    @NotNull(message = "{validation.notnull}")
     @Valid
     private AuthenticationDataDTO authenticationDataDTO;
+
+    @NotNull(message = "{validation.notnull}")
     private long version;
+    @NotNull(message = "{validation.notnull}")
     private String signature;
 
     @Override
