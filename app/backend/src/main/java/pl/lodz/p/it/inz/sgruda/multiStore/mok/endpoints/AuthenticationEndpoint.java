@@ -27,6 +27,7 @@ import javax.validation.constraints.*;
 import java.net.URI;
 
 @Log
+@Validated
 @RestController
 @Transactional(
         propagation = Propagation.NEVER
@@ -87,9 +88,12 @@ public class AuthenticationEndpoint {
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
     @PostMapping("/verify-email")
-    public ResponseEntity<?> verifyEmail(@Valid @RequestBody Token veryficationToken) {
+    public ResponseEntity<?> verifyEmail(@Valid  @NotNull(message = "{validation.notnull}")
+                                                 @Pattern(regexp = "[0-9a-zA-Z-]+", message = "{validation.pattern}")
+                                                 @Size(min = 36, max = 36, message = "{validation.size}")
+                                             @RequestParam("token") String veryficationToken) {
         try {
-            mailVerifierService.verifyEmail(veryficationToken.getVeryficationToken());
+            mailVerifierService.verifyEmail(veryficationToken);
             return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -98,12 +102,6 @@ public class AuthenticationEndpoint {
         }
     }
 
-    @Getter
-    private static class Token {
-        @Pattern(regexp = "[0-9a-zA-Z-]+", message = "{validation.pattern}")
-        @Size(min = 36, max = 36, message = "{validation.size}")
-        private String veryficationToken;
-    }
     @Getter
     private static class SignUpRequest {
         @NotNull(message = "{validation.notnull}")

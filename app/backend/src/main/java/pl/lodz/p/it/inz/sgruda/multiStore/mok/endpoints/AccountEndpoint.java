@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,14 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 @Log
+@Validated
 @RestController
 @Transactional(
         propagation = Propagation.NEVER
@@ -41,7 +49,10 @@ public class AccountEndpoint {
 
     @GetMapping("/account")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAccountByEmail(@RequestParam(value = "email") String email) {
+    public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "{validation.notnull}")
+                                                        @Email(message = "{validation.email}")
+                                                        @Size(min = 1, max = 32, message = "{validation.size}")
+                                               @RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {
             accountEntity = accountDetailsService.getAccountByEmail(email);

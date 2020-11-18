@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.ResetPasswordService;
@@ -22,6 +23,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Log
+@Validated
 @RestController
 @Transactional(
         propagation = Propagation.NEVER,
@@ -39,8 +41,11 @@ public class ResetPasswordEndpoint {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PutMapping("/api/auth/reset-password/{email}")
-    public ResponseEntity<?> resetPassword(@PathVariable String email) {
+    @PutMapping("/api/auth/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid      @NotNull(message = "{validation.notnull}")
+                                                       @Email(message = "{validation.email}")
+                                                       @Size(min = 1, max = 32, message = "{validation.size}")
+                                           @RequestParam("email") String email) {
         try {
             String tokenToReset = resetPasswordService.resetPassword(email);
             mailSenderService.sendPasswordResetMail(email, tokenToReset);
