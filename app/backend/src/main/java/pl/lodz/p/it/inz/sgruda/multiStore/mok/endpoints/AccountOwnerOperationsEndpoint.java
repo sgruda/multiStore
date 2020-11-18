@@ -50,16 +50,11 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
+            checkerAccountDTO.checkSignature(accountDTO);
             if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = ownPasswordChangeService.getAccountByEmail(accountDTO.getEmail());
-        } catch (AppBaseException e) {
-            log.severe("Error: " + e);
-            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
-                    HttpStatus.NOT_FOUND);
-        }
-        try {
-            checkerAccountDTO.checkIntegrity(accountEntity, accountDTO);
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
             ownPasswordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -74,15 +69,9 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
+            checkerAccountDTO.checkSignature(accountDTO);
             accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
-        } catch (AccountNotExistsException e) {
-            log.severe("Error: " + e);
-            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
-                    HttpStatus.NOT_FOUND);
-        }
-        try {
-            checkerAccountDTO.checkIntegrity(accountEntity, accountDTO); //nie działa, trzeba przenieść sprawdzanie sygnatury dto na samą góre metody
-            //bez sprawdzania wersji (potrzebna encja), wersje sie sprawdzi pozniej, bo tak mozna edytowac maila i bedzie tego szukac
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
             accountMapper.updateEntity(accountEntity, accountDTO);
             ownAccountEditService.editAccount(accountEntity);
@@ -91,6 +80,6 @@ public class AccountOwnerOperationsEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(new ApiResponse(true, "account.password.change.correctly."));
+        return ResponseEntity.ok(new ApiResponse(true, "account.edit.correctly."));
     }
 }
