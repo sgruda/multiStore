@@ -162,6 +162,23 @@ public class AccountDetailsEndpoint {
         return ResponseEntity.ok(new ApiResponse(true, "mail.registration.resend.correctly"));
     }
 
+    @PostMapping("/remove")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> removeAccountWithNotVerifiedEmail(@Valid @RequestBody AccountDTO accountDTO) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkSignature(accountDTO);
+            accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(accountDTO.getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            notEmailVerifiedAccountService.removeAccountWithNotVerifiedEmail(accountEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.removed.correctly."));
+    }
+
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest) {

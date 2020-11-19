@@ -6,4 +6,5 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsExcepti
 
 public interface NotEmailVerifiedAccountService {
     AccountEntity getAccountByEmailIfNotVerified(String mail) throws AppBaseException;
+    void removeAccountWithNotVerifiedEmail(AccountEntity accountEntity) throws AppBaseException;
 }

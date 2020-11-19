@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,6 +36,7 @@ public class NotEmailVerifiedAccountServiceImpl implements NotEmailVerifiedAccou
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public AccountEntity getAccountByEmailIfNotVerified(String mail) throws AppBaseException {
         Optional<AccountEntity> opt =  accountRepository.findByEmail(mail);
         if(opt.isEmpty())
@@ -45,5 +47,15 @@ public class NotEmailVerifiedAccountServiceImpl implements NotEmailVerifiedAccou
         if(accountEntity.getAuthenticationDataEntity().isEmailVerified())
             throw new EmailAlreadyVerifyException();
         return accountEntity;
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void removeAccountWithNotVerifiedEmail(AccountEntity accountEntity) throws AppBaseException {
+        if(accountEntity.getProvider() != AuthProvider.system)
+            throw new OperationDisabledForAccountException();
+        if(accountEntity.getAuthenticationDataEntity().isEmailVerified())
+            throw new EmailAlreadyVerifyException();
+        accountRepository.delete(accountEntity);
     }
 }

@@ -81,7 +81,7 @@ public class AccountEntity implements Serializable, VersionGetter {
     @Column(name = "version", nullable = false)
     private long version;
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "authentication_data_id", referencedColumnName = "id")
     private AuthenticationDataEntity authenticationDataEntity;
 
