@@ -206,7 +206,7 @@ function App(props) {
 
 
 
-      <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated }}>
+      <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole}}>
         <Routes />
       </AuthContext.Provider>
     </div>
