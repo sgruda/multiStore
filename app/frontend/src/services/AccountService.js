@@ -1,6 +1,6 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
-import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT} from '../config/config';
+import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT} from '../config/config';
  
 class AccountService { 
 
@@ -20,6 +20,10 @@ class AccountService {
   getSingleAccount(email) { 
     return axios.get(API_URL_SINGLE_ACCOUNT + '?email=' + email, { headers: AuthorizationHeader() }); 
   } 
+
+  getUserAccount() { 
+    return axios.get(API_URL_MY_ACCOUNT, { headers: AuthorizationHeader() }); 
+  }
  
 } 
  

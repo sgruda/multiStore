@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import AuthenticationService from '../services/AuthenticationService';
 import CurrentRoleChanger from './CurrentRoleChanger';
 
@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setActiveRole}) {
   const classes = useStyles();
-  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
-  const [hiddenSpeedDial, setHiddenSpeedDial] = React.useState(false);
+  const [openSpeedDial, setOpenSpeedDial] = useState(false);
+  const [hiddenSpeedDial, setHiddenSpeedDial] = useState(false);
 
-  const [anchorElPopper, setAnchorElPopper] = React.useState(null);
-  const [openPopper, setOpenPopper] = React.useState(false);
+  const [anchorElPopper, setAnchorElPopper] = useState(null);
+  const [openPopper, setOpenPopper] = useState(false);
 
   const handleVisibilitySpeedDial = () => {
     setHiddenSpeedDial((prevHidden) => !prevHidden);
@@ -64,7 +64,8 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
   }
 
   const handleProfile = () => {
-
+    setOpenSpeedDial(false);
+    history.push("/profile")
   };
   const handleCurrentAccessLevel = (event) => {
     setAnchorElPopper(event.currentTarget);
