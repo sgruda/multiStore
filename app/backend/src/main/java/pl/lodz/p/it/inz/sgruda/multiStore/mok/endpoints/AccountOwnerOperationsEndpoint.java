@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @Transactional(
         propagation = Propagation.NEVER
 )
-@RequestMapping("/api/accounts/me")
+@RequestMapping("/api/account/me")
 public class AccountOwnerOperationsEndpoint {
     private OwnPasswordChangeService ownPasswordChangeService;
     private OwnAccountEditService ownAccountEditService;

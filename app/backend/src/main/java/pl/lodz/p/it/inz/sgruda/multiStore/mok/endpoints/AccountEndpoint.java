@@ -35,7 +35,7 @@ import javax.validation.constraints.Size;
 @Transactional(
         propagation = Propagation.NEVER
 )
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/account")
 public class AccountEndpoint {
     private AccountDetailsService accountDetailsService;
     private SignAccountDTOUtil signAccountDTOUtil;

@@ -20,6 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.CreateAccountService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.PasswordChangeService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
@@ -43,24 +44,45 @@ import java.util.Set;
 @Transactional(
         propagation = Propagation.NEVER
 )
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/account")
 public class AccountDetailsEndpoint {
     private CreateAccountService createAccountService;
     private MailSenderService mailSenderService;
     private PasswordEncoder passwordEncoder;
     private CheckerAccountDTO checkerAccountDTO;
     private AccountEditService accountEditService;
+    private PasswordChangeService passwordChangeService;
 
     @Autowired
     public AccountDetailsEndpoint(CreateAccountService createAccountService, MailSenderService mailSenderService,
-                                  PasswordEncoder passwordEncoder, CheckerAccountDTO checkerAccountDTO, AccountEditService accountEditService) {
+                                  PasswordEncoder passwordEncoder, CheckerAccountDTO checkerAccountDTO,
+                                  AccountEditService accountEditService, PasswordChangeService passwordChangeService) {
         this.createAccountService = createAccountService;
         this.mailSenderService = mailSenderService;
         this.passwordEncoder = passwordEncoder;
         this.checkerAccountDTO = checkerAccountDTO;
         this.accountEditService = accountEditService;
+        this.passwordChangeService = passwordChangeService;
     }
 
+    @PutMapping("/change-password")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkSignature(accountDTO);
+            if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
+                throw new AppBaseException("error.password.can.not.be.null");
+            accountEntity = passwordChangeService.getAccountByEmail(accountDTO.getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            passwordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.password.change.correctly."));
+    }
 
     @PutMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
