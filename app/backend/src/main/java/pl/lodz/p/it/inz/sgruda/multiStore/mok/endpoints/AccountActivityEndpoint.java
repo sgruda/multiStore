@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Transactional(
         propagation = Propagation.NEVER
 )
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/account")
 public class AccountActivityEndpoint {
     private AccountActivityService accountActivityService;
     private CheckerAccountDTO checkerAccountDTO;
@@ -36,7 +36,7 @@ public class AccountActivityEndpoint {
         this.checkerAccountDTO = checkerAccountDTO;
     }
 
-    @PostMapping("/account/block")
+    @PostMapping("/block")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
@@ -53,7 +53,7 @@ public class AccountActivityEndpoint {
         return ResponseEntity.ok(new ApiResponse(true, "account.block.correctly."));
     }
 
-    @PostMapping("/account/unblock")
+    @PostMapping("/unblock")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
