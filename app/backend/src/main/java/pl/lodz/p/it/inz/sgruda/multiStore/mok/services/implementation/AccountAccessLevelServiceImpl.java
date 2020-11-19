@@ -12,6 +12,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RemovingAllAccessLevelsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
@@ -57,7 +58,17 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void removeAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSet) throws AppBaseException {
-
+        Set<AccessLevelEntity> accessLevelEntitySet = accountEntity.getAccessLevelEntities();
+        if(accessLevelSet.size() >= accessLevelEntitySet.size())
+            throw new RemovingAllAccessLevelsException();
+        for(String roleString : accessLevelSet) {
+            if(!roleString.matches("(ROLE_CLIENT|ROLE_EMPLOYEE|ROLE_ADMIN)")) {
+                throw new IncorrectRoleNameException();
+            }
+            Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
+            if(opt.isPresent())
+                accessLevelEntitySet.remove(opt.get());
+        }
     }
 
     @Override

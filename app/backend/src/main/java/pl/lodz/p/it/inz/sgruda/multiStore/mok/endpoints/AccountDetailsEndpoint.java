@@ -123,6 +123,22 @@ public class AccountDetailsEndpoint {
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.access.level.added.correctly."));
     }
+    @PutMapping("/remove-access-level")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> removeAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkSignature(accountDTO);
+            accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            accountAccessLevelService.removeAccessLevel(accountEntity, accountDTO.getRoles());
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.access.level.removed.correctly."));
+    }
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
