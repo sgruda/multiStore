@@ -18,10 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountEditService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.CreateAccountService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.PasswordChangeService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
@@ -41,6 +38,7 @@ import java.util.Set;
 
 
 @Log
+@Validated
 @RestController
 @Transactional(
         propagation = Propagation.NEVER
@@ -54,12 +52,13 @@ public class AccountDetailsEndpoint {
     private AccountEditService accountEditService;
     private PasswordChangeService passwordChangeService;
     private AccountAccessLevelService accountAccessLevelService;
+    private NotEmailVerifiedAccountService notEmailVerifiedAccountService;
 
     @Autowired
     public AccountDetailsEndpoint(CreateAccountService createAccountService, MailSenderService mailSenderService,
                                   PasswordEncoder passwordEncoder, CheckerAccountDTO checkerAccountDTO,
                                   AccountEditService accountEditService, PasswordChangeService passwordChangeService,
-                                AccountAccessLevelService accountAccessLevelService) {
+                                AccountAccessLevelService accountAccessLevelService, NotEmailVerifiedAccountService notEmailVerifiedAccountService) {
         this.createAccountService = createAccountService;
         this.mailSenderService = mailSenderService;
         this.passwordEncoder = passwordEncoder;
@@ -67,6 +66,7 @@ public class AccountDetailsEndpoint {
         this.accountEditService = accountEditService;
         this.passwordChangeService = passwordChangeService;
         this.accountAccessLevelService = accountAccessLevelService;
+        this.notEmailVerifiedAccountService = notEmailVerifiedAccountService;
     }
 
     @PutMapping("/change-password")
@@ -138,6 +138,28 @@ public class AccountDetailsEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.access.level.removed.correctly."));
+    }
+    @PostMapping("/send-email-verification")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "{validation.notnull}")
+                                                                    @Email(message = "{validation.email}")
+                                                                    @Size(min = 1, max = 32, message = "{validation.size}")
+                                                            @RequestParam(value = "email") String email) {
+        AccountEntity accountEntity;
+        try {
+            accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(email);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken());
+        } catch (MessagingException e) {
+            log.severe("Problem z mailem " + e);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "mail.registration.resend.correctly"));
     }
 
     @PostMapping("/create")
