@@ -68,9 +68,12 @@ app:
     secret: SIGNATURE_SECRET
   auth:
     jwt:
-      secret: AUTH_JWT_SECRET
+      secret: JWT_SECRET
       expiration:
-        mili-sec: 864000000
+        mili-sec: JWT_EXPIRATION_MILI_SEC
+    forgotPasswordToken:
+      expiration:
+        mili-sec: FORGOT_PASSWORD_TOKEN_EXPIRATION_MILI_SEC
 
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,
