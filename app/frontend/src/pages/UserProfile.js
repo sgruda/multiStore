@@ -29,6 +29,16 @@ const useStyles = makeStyles((theme) => ({
       height: theme.spacing(7),
       backgroundColor: theme.palette.primary.main,
     },
+    paperOne: {
+        backgroundColor: "#b7e1f7",
+        margin: `${theme.spacing(1)}px auto`,
+        padding: theme.spacing(1),
+    },
+    paperTwo: {
+        backgroundColor: "#d3ebf8",
+        margin: `${theme.spacing(1)}px auto`,
+        padding: theme.spacing(1),
+    },
     doneIcon: {
         color: "#0bb00d",
         height: 18,
@@ -86,29 +96,33 @@ function UserProfile() {
             <Typography component="h1" variant="h5">
             Your Profile
             </Typography>
-            <Grid container xs={12} >
+            <Grid container xs={12}>
                 <Grid xs={12}>
                     <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        <Grid item xs={12}><Paper elevation={3}>First name: {account.firstName}</Paper></Grid>
-                        <Grid item xs={12}>Last name: {account.lastName}</Grid>
-                        <Grid item xs={12}>E-mail: {account.email}</Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>First name: {account.firstName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Last name: {account.lastName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>E-mail: {account.email}</Paper></Grid>
                         <Grid xs={12}>
-                        Active: 
-                        {account.active 
-                            ? <DoneIcon className={classes.doneIcon}/> 
-                            : <ClearIcon className={classes.clearIcon}/> }
+                            <Paper className={classes.paperTwo} elevation={3}>
+                            Active: 
+                            {account.active 
+                                ? <DoneIcon className={classes.doneIcon}/> 
+                                : <ClearIcon className={classes.clearIcon}/> }
+                            </Paper>
                         </Grid>
-                        <Grid item xs={12}>Account type: {account.authProvider}</Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>Account type: {account.authProvider}</Paper></Grid>
                         <Grid item xs={12}>
                             {account.authProvider === "system"
                             ?  
                             <Grid container xs={12}>
-                                <Grid item xs={12}>Username: {account.authenticationDataDTO.username}</Grid>
+                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Username: {account.authenticationDataDTO.username}</Paper></Grid>
                                 <Grid item xs={12}>
+                                    <Paper className={classes.paperOne} elevation={3}>
                                         E-mail verified: {account.authenticationDataDTO.emailVerified 
                                                         ? <DoneIcon className={classes.doneIcon}/> 
                                                         : <ClearIcon className={classes.clearIcon}/> 
                                                         }
+                                    </Paper>
                                 </Grid> 
                             </Grid>
                             :
@@ -116,6 +130,7 @@ function UserProfile() {
                             }
                         </Grid>
                         <Grid item xs={12}>
+                            <Paper className={classes.paperTwo} elevation={3}>
                             Roles:
                             {ROLE_CLIENT}:  { roleClientActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
@@ -129,6 +144,7 @@ function UserProfile() {
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
+                            </Paper>
                         </Grid>
                     </Typography>
                 </Grid>
