@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
 import java.util.Arrays;
@@ -22,7 +24,7 @@ public class SignatureDTOUtilTest {
     @Test
     void signingTest() {
         HashMethod hashMethod = new HashMethod();
-        TestDTO dto = new TestDTO(hashMethod.hash(5), "jan.kowalski@gmail.com", 0);
+        TestDTO dto = new TestDTO(hashMethod.hash(5), "jan.kowalski@gmail.com", 0, AuthProvider.system.name());
         String badSignature = "ecddd611a9752fa9482670af8ff7483ade932d89feb7af8d5039b4952ff5093f_BAD";
         signatureDTOUtil.signDTO(dto);
 
@@ -51,6 +53,11 @@ public class SignatureDTOUtilTest {
         dto.setVersion(version + 1);
         Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
         dto.setVersion(version);
+
+        String provider = dto.getAuthProvider();
+        dto.setAuthProvider(AuthProvider.facebook.name());
+        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        dto.setAuthProvider(provider);
     }
 
     @Data
@@ -58,17 +65,19 @@ public class SignatureDTOUtilTest {
         String idHash;
         String param;
         long version;
+        String authProvider;
         String signature;
 
-        public TestDTO(String idHash, String param, long version) {
+        public TestDTO(String idHash, String param, long version, String authProvider) {
             this.idHash = idHash;
             this.param = param;
             this.version = version;
+            this.authProvider = authProvider;
         }
 
         @Override
         public List<String> specifySigningParams() {
-            return Arrays.asList(idHash, param, String.valueOf(version));
+            return Arrays.asList(idHash, param, authProvider, String.valueOf(version));
         }
 
     }

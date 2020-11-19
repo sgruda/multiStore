@@ -57,7 +57,7 @@ public @Data class AccountDTO implements SignatureVerifiability {
 
     @Override
     public List<String> specifySigningParams() {
-        return Arrays.asList(idHash, email, String.valueOf(version));
+        return Arrays.asList(idHash, email, authProvider, String.valueOf(version));
     }
 
 
