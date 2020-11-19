@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.CreateAccountService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.PasswordChangeService;
@@ -52,17 +53,20 @@ public class AccountDetailsEndpoint {
     private CheckerAccountDTO checkerAccountDTO;
     private AccountEditService accountEditService;
     private PasswordChangeService passwordChangeService;
+    private AccountAccessLevelService accountAccessLevelService;
 
     @Autowired
     public AccountDetailsEndpoint(CreateAccountService createAccountService, MailSenderService mailSenderService,
                                   PasswordEncoder passwordEncoder, CheckerAccountDTO checkerAccountDTO,
-                                  AccountEditService accountEditService, PasswordChangeService passwordChangeService) {
+                                  AccountEditService accountEditService, PasswordChangeService passwordChangeService,
+                                AccountAccessLevelService accountAccessLevelService) {
         this.createAccountService = createAccountService;
         this.mailSenderService = mailSenderService;
         this.passwordEncoder = passwordEncoder;
         this.checkerAccountDTO = checkerAccountDTO;
         this.accountEditService = accountEditService;
         this.passwordChangeService = passwordChangeService;
+        this.accountAccessLevelService = accountAccessLevelService;
     }
 
     @PutMapping("/change-password")
@@ -101,6 +105,23 @@ public class AccountDetailsEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.edit.correctly."));
+    }
+
+    @PutMapping("/add-access-level")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> addAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkSignature(accountDTO);
+            accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            accountAccessLevelService.addAccessLevel(accountEntity, accountDTO.getRoles());
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.access.level.added.correctly."));
     }
 
     @PostMapping("/create")

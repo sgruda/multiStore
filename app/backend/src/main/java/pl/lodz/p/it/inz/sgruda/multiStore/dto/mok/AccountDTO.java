@@ -39,6 +39,8 @@ public @Data class AccountDTO implements SignatureVerifiability {
     @Email(message = "{validation.email}")
     @Size(min = 1, max = 32, message = "{validation.size}")
     private String email;
+
+    @NotNull(message = "{validation.notnull}")
     private Set<String> roles = new HashSet<>();
     private boolean active;
 
