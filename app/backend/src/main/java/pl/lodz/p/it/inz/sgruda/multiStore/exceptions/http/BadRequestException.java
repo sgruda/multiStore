@@ -1,7 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class BadRequestException extends HttpBaseException {
     static final public HttpStatus HTTP_STATUS = HttpStatus.BAD_REQUEST;

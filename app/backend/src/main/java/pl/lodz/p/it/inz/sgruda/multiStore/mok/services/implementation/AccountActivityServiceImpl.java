@@ -11,7 +11,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountDetailsService;
 
 @Log
 @Service

@@ -1,6 +1,9 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mok;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
 import javax.validation.constraints.NotNull;

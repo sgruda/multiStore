@@ -2,7 +2,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 public class ResourceNotFoundException extends HttpBaseException {

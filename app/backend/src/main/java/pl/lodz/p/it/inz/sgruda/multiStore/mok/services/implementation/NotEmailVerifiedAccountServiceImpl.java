@@ -13,8 +13,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsExcepti
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.NotEmailVerifiedAccountService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 

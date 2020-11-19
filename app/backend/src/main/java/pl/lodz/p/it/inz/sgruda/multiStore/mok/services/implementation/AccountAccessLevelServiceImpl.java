@@ -16,10 +16,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RemovingAllAccessLevels
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 

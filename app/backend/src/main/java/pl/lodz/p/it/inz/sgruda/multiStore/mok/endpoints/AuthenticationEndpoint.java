@@ -13,17 +13,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AuthService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
+import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.net.URI;
 
 @Log

@@ -2,16 +2,10 @@ package pl.lodz.p.it.inz.sgruda.multiStore.utils;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Log
 @NoArgsConstructor
