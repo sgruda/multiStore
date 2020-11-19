@@ -40,7 +40,8 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
         if(dto.getPassword() != null)
             entity.setPassword(dto.getPassword());
         entity.setEmailVerified(dto.isEmailVerified());
-        entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
+        if(dto.getForgotPasswordTokenDTO() != null)
+            entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
         return entity;
     }
 }

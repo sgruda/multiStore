@@ -18,22 +18,35 @@ public class CheckerAccountDTO {
         this.signatureDTOUtil = signatureDTOUtil;
     }
 
-    public void checkIntegrity(AccountEntity entity, AccountDTO dto) throws DTOVersionException, DTOSignatureException {
-        if(dto != null && entity != null) {
-            this.checkSignatureAndVersion(entity, dto);
+    public void checkSignature(AccountDTO dto) throws DTOSignatureException {
+        if(dto != null) {
+            this.checkSignatureSingleDTO(dto);
             if(dto.getAuthenticationDataDTO() != null) {
-                this.checkSignatureAndVersion(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
+                this.checkSignatureSingleDTO(dto.getAuthenticationDataDTO());
                 if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    this.checkSignatureAndVersion(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
+                    this.checkSignatureSingleDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
+                }
+            }
+        }
+    }
+    public void checkVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
+        if(dto != null && entity != null) {
+            this.checkVersionSingleDTO(entity, dto);
+            if(dto.getAuthenticationDataDTO() != null) {
+                this.checkVersionSingleDTO(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
+                if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
+                    this.checkVersionSingleDTO(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
                             dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
                 }
             }
         }
     }
-    private void checkSignatureAndVersion(VersionGetter entity, SignatureVerifiability dto) throws DTOSignatureException, DTOVersionException {
+    private void checkSignatureSingleDTO(SignatureVerifiability dto) throws DTOSignatureException {
         if(!signatureDTOUtil.checkSignatureDTO(dto)) {
             throw new DTOSignatureException();
         }
+    }
+    private void checkVersionSingleDTO(VersionGetter entity, SignatureVerifiability dto) throws  DTOVersionException {
         if(entity.getVersion() != dto.getVersion()) {
             throw new DTOVersionException();
         }

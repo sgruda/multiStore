@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.PasswordChangeService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
 @Log
 @Service
@@ -19,25 +21,21 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivit
         propagation = Propagation.REQUIRES_NEW,
         timeout = 5
 )
-public class AccountActivityServiceImpl implements AccountActivityService {
-
+public class PasswordChangeServiceImpl implements PasswordChangeService {
     private AccountRepository accountRepository;
 
     @Autowired
-    public AccountActivityServiceImpl(AccountRepository accountRepository) {
+    public PasswordChangeServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void blockAccount(AccountEntity accountEntity) {
-        accountEntity.setActive(false);
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void unblockAccount(AccountEntity accountEntity) {
-        accountEntity.setActive(true);
+    public void changePassword(AccountEntity accountEntity, String newEncodedPassword) throws OperationDisabledForAccountException {
+        if(accountEntity.getProvider() == AuthProvider.system)
+            accountEntity.setPassword(newEncodedPassword);
+        else
+            throw new OperationDisabledForAccountException();
     }
 
     @Override

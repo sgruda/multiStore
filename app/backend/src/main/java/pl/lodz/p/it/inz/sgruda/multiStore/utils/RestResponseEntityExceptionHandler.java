@@ -6,11 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
@@ -27,4 +31,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         });
         return new ResponseEntity(new ApiResponse(false, errors.toString()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+        List<String> errors = new ArrayList<>();
+        ex.getConstraintViolations().forEach((error) -> {
+            String errorMessage = error.getMessage();
+            errors.add(errorMessage);
+        });
+        return new ResponseEntity(new ApiResponse(false, errors.toString()), HttpStatus.BAD_REQUEST);
+    }
+
 }

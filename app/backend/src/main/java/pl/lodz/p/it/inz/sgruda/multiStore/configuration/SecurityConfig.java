@@ -1,10 +1,5 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.configuration;
 
-import org.springframework.http.HttpMethod;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.CustomUserDetailsService;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.RestAuthenticationEntryPoint;
-import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenAuthenticationFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.CustomUserDetailsService;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.RestAuthenticationEntryPoint;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenAuthenticationFilter;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.CustomOAuth2UserService;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.OAuth2AuthenticationFailureHandler;

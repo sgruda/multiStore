@@ -5,7 +5,6 @@ import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 @ToString
 @Getter

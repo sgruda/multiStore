@@ -38,7 +38,6 @@ public class MailVerifierServiceImpl implements MailVerifierService {
                 throw new EmailAlreadyVerifyException();
             }
             accountToConfirm.setEmailVerified(true);
-            accountRepository.save(accountToConfirm);
         } else {
             throw new AccountNotExistsException();
         }

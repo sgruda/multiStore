@@ -16,7 +16,8 @@ import java.util.Optional;
 
 @Repository
 @Transactional(
-        propagation = Propagation.MANDATORY
+        propagation = Propagation.MANDATORY,
+        transactionManager = "mokTransactionManager"
 )
 public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 

@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
-
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OAuth2Service;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 

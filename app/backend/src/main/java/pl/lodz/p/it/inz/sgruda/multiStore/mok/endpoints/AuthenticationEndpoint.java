@@ -8,21 +8,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AuthService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
+import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.net.URI;
 
 @Log
+@Validated
 @RestController
 @Transactional(
         propagation = Propagation.NEVER
@@ -33,7 +40,7 @@ public class AuthenticationEndpoint {
     private AuthService authService;
     private MailVerifierService mailVerifierService;
     private PasswordEncoder passwordEncoder;
-    private MailSenderServiceImpl mailSenderServiceImpl;
+    private MailSenderService mailSenderServiceImpl;
 
     @Autowired
     public AuthenticationEndpoint(AuthService authService, MailVerifierService mailVerifierService, PasswordEncoder passwordEncoder, MailSenderServiceImpl mailSenderServiceImpl) {
@@ -69,14 +76,12 @@ public class AuthenticationEndpoint {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
-        String link = "https://localhost:8181/verify-email?token=" + resultAccount.getVeryficationToken();
-//
-//        try {
-//            mailSenderServiceImpl.sendMail(resultAccount.getEmail(), "rejestracja", link, false);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//            log.severe("Problem z mailem");
-//        }
+
+        try {
+            mailSenderServiceImpl.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken());
+        } catch (MessagingException e) {
+            log.severe("Problem z mailem " + e);
+        }
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
@@ -85,7 +90,10 @@ public class AuthenticationEndpoint {
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
     @PostMapping("/verify-email")
-    public ResponseEntity<?> verifyEmail(@RequestParam("token") String veryficationToken) {
+    public ResponseEntity<?> verifyEmail(@Valid  @NotNull(message = "{validation.notnull}")
+                                                 @Pattern(regexp = "[0-9a-zA-Z-]+", message = "{validation.pattern}")
+                                                 @Size(min = 36, max = 36, message = "{validation.size}")
+                                             @RequestParam("token") String veryficationToken) {
         try {
             mailVerifierService.verifyEmail(veryficationToken);
             return ResponseEntity.ok(new ApiResponse(true, "account.email.correctly.verified"));

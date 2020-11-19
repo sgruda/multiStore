@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 @Transactional(
-        propagation = Propagation.MANDATORY
+        propagation = Propagation.MANDATORY,
+        transactionManager = "mokTransactionManager"
 )
 public interface AccessLevelRepository  extends JpaRepository<AccessLevelEntity, Long> {
     Optional<AccessLevelEntity> findByRoleName(RoleName roleName);
