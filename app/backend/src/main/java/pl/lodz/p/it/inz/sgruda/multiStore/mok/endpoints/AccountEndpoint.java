@@ -47,7 +47,7 @@ public class AccountEndpoint {
     }
 
 
-    @GetMapping("/account")
+    @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "{validation.notnull}")
                                                         @Email(message = "{validation.email}")

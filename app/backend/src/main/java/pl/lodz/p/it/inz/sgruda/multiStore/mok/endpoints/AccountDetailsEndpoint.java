@@ -6,25 +6,28 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.CreateAccountService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 
 import javax.mail.MessagingException;
 import javax.management.relation.Role;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -45,16 +48,42 @@ public class AccountDetailsEndpoint {
     private CreateAccountService createAccountService;
     private MailSenderService mailSenderService;
     private PasswordEncoder passwordEncoder;
+    private CheckerAccountDTO checkerAccountDTO;
+    private AccountEditService accountEditService;
 
     @Autowired
-    public AccountDetailsEndpoint(CreateAccountService createAccountService, MailSenderService mailSenderService, PasswordEncoder passwordEncoder) {
+    public AccountDetailsEndpoint(CreateAccountService createAccountService, MailSenderService mailSenderService,
+                                  PasswordEncoder passwordEncoder, CheckerAccountDTO checkerAccountDTO, AccountEditService accountEditService) {
         this.createAccountService = createAccountService;
         this.mailSenderService = mailSenderService;
         this.passwordEncoder = passwordEncoder;
+        this.checkerAccountDTO = checkerAccountDTO;
+        this.accountEditService = accountEditService;
+    }
+
+
+    @PutMapping("/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkSignature(accountDTO);
+            accountEntity = accountEditService.getAccountByEmail(accountDTO.getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            AccountMapper accountMapper = new AccountMapper();
+            accountMapper.updateEntity(accountEntity, accountDTO);
+            accountEditService.editAccount(accountEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.edit.correctly."));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAccount(@RequestBody CreateAccountRequest accountRequest) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest accountRequest) {
         AccountEntity accountEntity = new AccountEntity(
                 accountRequest.getFirstName(),
                 accountRequest.getLastName(),

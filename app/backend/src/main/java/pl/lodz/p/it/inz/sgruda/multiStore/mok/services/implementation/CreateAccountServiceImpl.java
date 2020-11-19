@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,6 +42,7 @@ public class CreateAccountServiceImpl implements CreateAccountService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public AccountEntity createAccount(AccountEntity accountEntity, Set<String> roles) throws AppBaseException {
         if(accountRepository.existsByUsername(accountEntity.getUsername())) {
             throw new UsernameAlreadyExistsException();
