@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
-
+import AccountEdit from '../components/accounts/AccountEdit';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +15,9 @@ import { Button } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
         color: "#eb1e1e",
         height: 18,
     },
+    editButton: {
+        backgroundColor: "#4285F4",
+        "&:hover": {
+          backgroundColor: "#2c0fab"
+        }
+      },
   }));
 
 function UserProfile() {
@@ -56,6 +65,12 @@ function UserProfile() {
     const [roleClientActive, setRoleClientActive] = useState(false);
     const [roleEmployeeActive, setRoleEmployeeActive] = useState(false);
     const [roleAdminActive, setRoleAdminActive] = useState(false);
+
+    const [openEdit, setOpenEdit] = useState(false);
+
+    const handleEdit = () => {
+        setOpenEdit(!openEdit);
+    }
 
     async function getAccount() {
         await AccountService.getUserAccount()
@@ -146,6 +161,27 @@ function UserProfile() {
                                             }
                             </Paper>
                         </Grid>
+                        <Grid item xs={12}>
+                            {/* <Paper className={classes.paperOne} elevation={3}> */}
+                                <Button onClick={handleEdit} fullWidth className={classes.editButton}>Edit</Button>
+                            {/* </Paper> */}
+                        </Grid>
+                        <Dialog
+                            open={openEdit}
+                            onClose={handleEdit}
+                            aria-describedby="dialog-edit"
+                        >
+                            <DialogContent>
+                                <AccountEdit
+                                    account={account}
+                                />     
+                            </DialogContent>
+                            {/* <DialogActions>
+                            <Button onClick={handleCloseDialog} color="primary" autoFocus>
+                                OK
+                            </Button>
+                            </DialogActions> */}
+                        </Dialog>
                     </Typography>
                 </Grid>
             </Grid>

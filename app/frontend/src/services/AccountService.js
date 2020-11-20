@@ -1,7 +1,8 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
-import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT} from '../config/config';
- 
+import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY_ACCOUNT_EDIT} from '../config/config';
+import {ACCESS_TOKEN} from '../config/config';
+
 class AccountService { 
 
   getAccounts(textToSearch, page, size, sort, active) { 
@@ -24,7 +25,10 @@ class AccountService {
   getUserAccount() { 
     return axios.get(API_URL_MY_ACCOUNT, { headers: AuthorizationHeader() }); 
   }
+
+  editUserAccount(account) {
+    return axios.put(API_URL_MY_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()})
+  }
  
 } 
- 
 export default new AccountService(); 
