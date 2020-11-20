@@ -219,6 +219,7 @@ function AccountDetails({selectedAccountMail}) {
                                     account={account}
                                     handleClose={handleChangePassword}
                                     apiMethod={AccountService.changePassword}
+                                    adminView={true}
                                 />     
                             </DialogContent>
                         </Dialog>

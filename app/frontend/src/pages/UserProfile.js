@@ -215,6 +215,7 @@ function UserProfile() {
                                     account={account}
                                     handleClose={handleChangePassword}
                                     apiMethod={AccountService.changeOwnPassword}
+                                    adminView={false}
                                 />     
                             </DialogContent>
                         </Dialog>

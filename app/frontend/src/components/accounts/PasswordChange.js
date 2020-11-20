@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../context/AuthContext";
 import AccountService from '../../services/AccountService';
 
 import TextField from '@material-ui/core/TextField';
@@ -59,9 +58,8 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-function PasswordChange({account, handleClose, apiMethod}) {
+function PasswordChange({account, handleClose, apiMethod, adminView}) {
   const classes = useStyles();
-  const {activeRole} = useAuth();
   const [fields, setFields] = useFields({
     oldPassword: '',
     newPassword: '',
@@ -119,7 +117,7 @@ function PasswordChange({account, handleClose, apiMethod}) {
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
                 <Grid container spacing={2}>
-                  { (activeRole === ROLE_ADMIN) ?
+                  { adminView ?
                       <></>
                     :
                     <Grid item xs={12}>
