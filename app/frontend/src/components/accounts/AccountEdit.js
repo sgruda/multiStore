@@ -16,9 +16,12 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
 import Alert from '@material-ui/lab/Alert';
 import SyncIcon from '@material-ui/icons/Sync';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -66,12 +69,20 @@ function AccountEdit({account, handleClose}) {
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
-  
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+
+  const handleConfirmDialog = () => {
+    setOpenConfirmDialog(!openConfirmDialog);
+  }
+
   const handleEdit = () => {
     account.firstName = fields.firstName;
     account.lastName = fields.lastName;
     editAccount();
+    handleConfirmDialog();
   }
+
+
   async function editAccount() {
     await AccountService.editUserAccount(account)
     .then(response => {
@@ -103,7 +114,7 @@ function AccountEdit({account, handleClose}) {
             <Typography component="h1" variant="h5">
                 Edit profile
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit(handleEdit)}>
+            <form className={classes.form} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
                 <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
                     <TextField
@@ -197,23 +208,25 @@ function AccountEdit({account, handleClose}) {
                         </Collapse>
                     </Grid>
                 </Grid>
-                {/* <Dialog
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-describedby="dialog-description"
+                <Dialog
+                    open={openConfirmDialog}
+                    onClose={handleConfirmDialog}
+                    aria-describedby="dialog-description"
                 >
                     <DialogContent>
                     <DialogContentText id="dialog-description">
-                        Registration has been done!
-                        Confirm your accont (e-mail with activation link)
+                       Are you sure?
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary" autoFocus>
-                        OK
+                    <Button onClick={handleEdit} color="primary" autoFocus>
+                        Yes
+                    </Button>
+                    <Button onClick={handleConfirmDialog} color="primary" autoFocus>
+                        No
                     </Button>
                     </DialogActions>
-                </Dialog> */}
+                </Dialog>
             </form>
             </div>
         </Container>
