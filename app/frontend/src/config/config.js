@@ -5,6 +5,7 @@ export const API_URL_SIGN_UP = API_BASE_URL + "/api/auth/signup";
 export const API_URL_ACCOUNTS = API_BASE_URL + "/api/accounts";
 export const API_URL_SINGLE_ACCOUNT = API_BASE_URL + "/api/account";
 export const API_URL_SINGLE_ACCOUNT_EDIT = API_URL_SINGLE_ACCOUNT + "/edit";
+export const API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD = API_URL_SINGLE_ACCOUNT + '/change-password';
 export const API_URL_MY_ACCOUNT = API_BASE_URL + "/api/account/me";
 export const API_URL_MY_ACCOUNT_EDIT = API_URL_MY_ACCOUNT + "/edit";
 export const API_URL_MY_ACCOUNT_CHANGE_PASSWORD = API_URL_MY_ACCOUNT + "/change-password";
