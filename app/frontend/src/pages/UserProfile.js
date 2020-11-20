@@ -4,6 +4,7 @@ import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
 import AccountEdit from '../components/accounts/AccountEdit';
 import PasswordChange from '../components/accounts/PasswordChange';
+import { useAuth } from "../context/AuthContext";
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -59,8 +60,9 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-function UserProfile() {
+function UserProfile(adminView) {
     const classes = useStyles();
+    const {activeRole} = useAuth();
     const [loadingData, setLoadingData] = useState(true);
     const [account, setAccount] = useState(Object);
     const [roleClientActive, setRoleClientActive] = useState(false);
@@ -84,7 +86,7 @@ function UserProfile() {
         setOpenChangePassword(false);
         setLoadingData(true);
     }
-    async function getAccount() {
+    async function getAccount() { 
         await AccountService.getUserAccount()
         .then(response => {
             if (response.status === 200) { 
@@ -107,9 +109,15 @@ function UserProfile() {
     }
 
     useEffect(() => {
-        if (loadingData) {
+        adminView=false
+        console.log('adminView ' + adminView)
+        if (loadingData && adminView) {
             setLoadingData(false);
             getAccount();
+        }
+        else {
+            setLoadingData(false);
+            // getAccount();
         }
     }, [loadingData]);
 
@@ -121,7 +129,7 @@ function UserProfile() {
                 <AccountBoxIcon fontSize="large"/>
             </Avatar>
             <Typography component="h1" variant="h5">
-            Your Profile
+            Profile
             </Typography>
             <Grid container xs={12}>
                 <Grid xs={12}>
@@ -200,6 +208,7 @@ function UserProfile() {
                                 <AccountEdit
                                     account={account}
                                     handleClose={handleCloseEdit}
+                                    apiMethod={AccountService.editUserAccount}
                                 />     
                             </DialogContent>
                         </Dialog>

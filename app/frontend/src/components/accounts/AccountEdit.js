@@ -22,6 +22,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { useApiMethod } from '@material-ui/data-grid';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-function AccountEdit({account, handleClose}) {
+function AccountEdit({account, handleClose, apiMethod}) {
   const classes = useStyles();
   const [fields, setFields] = useFields({
     firstName: account.firstName,
@@ -84,7 +85,7 @@ function AccountEdit({account, handleClose}) {
 
 
   async function editAccount() {
-    await AccountService.editUserAccount(account)
+    await apiMethod(account)
     .then(response => {
         if (response.status === 200) { 
             setAlertInfoMessage('response.data');

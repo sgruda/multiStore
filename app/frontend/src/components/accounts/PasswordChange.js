@@ -201,7 +201,7 @@ function PasswordChange({account, handleClose, apiMethod}) {
                         color="primary"
                         className={classes.buttonEdit}
                         >
-                        Edit
+                        Change
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
