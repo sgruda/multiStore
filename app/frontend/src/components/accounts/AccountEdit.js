@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
 import AccountService from '../../services/AccountService';
+import ConfirmDialog from '../ConfirmDialog';
+import AcceptButtons from '../AcceptButtons';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -22,7 +24,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { useApiMethod } from '@material-ui/data-grid';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,24 +38,6 @@ const useStyles = makeStyles((theme) => ({
       form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(2),
-      },
-      buttonEdit: {
-        backgroundColor: "#51c953",
-        "&:hover": {
-          backgroundColor: "#0bb00d"
-        }
-      },
-      buttonCancel: {
-        backgroundColor: "#e35656",
-        "&:hover": {
-          backgroundColor: "#eb1e1e"
-        }
-      },
-      buttonRefresh: {
-        backgroundColor: "#4285F4",
-        "&:hover": {
-          backgroundColor: "#2c0fab"
-        }
       },
 }));
 
@@ -170,64 +153,16 @@ function AccountEdit({account, handleClose, apiMethod}) {
                     {alertInfoMessage}
                 </Alert>
                 </Collapse>
-                <Grid container xs={12}>
-                    <Grid item xs={6}>
-                        <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        color="primary"
-                        className={classes.buttonEdit}
-                        >
-                        Edit
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        className={classes.buttonCancel}
-                        >
-                        Cancel
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Collapse in={showRefresh}>
-                            
-                                <Button
-                                onClick={handleClose}
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                className={classes.buttonRefresh}
-                                startIcon={<SyncIcon size="large" color="primary"/>}
-                                >
-                                Refresh data
-                                </Button>
-                        </Collapse>
-                    </Grid>
-                </Grid>
-                <Dialog
-                    open={openConfirmDialog}
-                    onClose={handleConfirmDialog}
-                    aria-describedby="dialog-description"
-                >
-                    <DialogContent>
-                    <DialogContentText id="dialog-description">
-                       Are you sure?
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={handleEdit} color="primary" autoFocus>
-                        Yes
-                    </Button>
-                    <Button onClick={handleConfirmDialog} color="primary" autoFocus>
-                        No
-                    </Button>
-                    </DialogActions>
-                </Dialog>
+                <AcceptButtons
+                  submitButtonTitle="Edit"
+                  handleClose={handleClose}
+                  showRefreshButton={showRefresh}
+                />
+                <ConfirmDialog
+                  openConfirmDialog={openConfirmDialog}
+                  setOpenConfirmDialog={setOpenConfirmDialog}
+                  handleConfirmAction={handleEdit}
+                />
             </form>
             </div>
         </Container>

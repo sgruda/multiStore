@@ -4,6 +4,7 @@ import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
 import AccountService from '../../services/AccountService';
 import ConfirmDialog from '../ConfirmDialog';
+import AcceptButtons from '../AcceptButtons';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -38,24 +39,6 @@ const useStyles = makeStyles((theme) => ({
       form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(2),
-      },
-      buttonEdit: {
-        backgroundColor: "#51c953",
-        "&:hover": {
-          backgroundColor: "#0bb00d"
-        }
-      },
-      buttonCancel: {
-        backgroundColor: "#e35656",
-        "&:hover": {
-          backgroundColor: "#eb1e1e"
-        }
-      },
-      buttonRefresh: {
-        backgroundColor: "#4285F4",
-        "&:hover": {
-          backgroundColor: "#2c0fab"
-        }
       },
 }));
 
@@ -198,44 +181,11 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                     {alertInfoMessage}
                 </Alert>
                 </Collapse>
-                <Grid container xs={12}>
-                    <Grid item xs={6}>
-                        <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        color="primary"
-                        className={classes.buttonEdit}
-                        >
-                        Change
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button
-                        onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        className={classes.buttonCancel}
-                      >
-                        Cancel
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Collapse in={showRefresh}>
-                          <Button
-                            onClick={handleClose}
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            className={classes.buttonRefresh}
-                            startIcon={<SyncIcon size="large" color="primary"/>}
-                          >
-                            Refresh data
-                          </Button>
-                        </Collapse>
-                    </Grid>
-                </Grid>
+                <AcceptButtons
+                  submitButtonTitle="Change"
+                  handleClose={handleClose}
+                  showRefreshButton={showRefresh}
+                />
                 <ConfirmDialog
                   openConfirmDialog={openConfirmDialog}
                   setOpenConfirmDialog={setOpenConfirmDialog}

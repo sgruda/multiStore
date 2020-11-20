@@ -7,7 +7,7 @@ import SyncIcon from '@material-ui/icons/Sync';
 
 
 const useStyles = makeStyles(({
-      buttonEdit: {
+      buttonSubmit: {
         backgroundColor: "#51c953",
         "&:hover": {
           backgroundColor: "#0bb00d"
@@ -38,7 +38,7 @@ function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
                 variant="contained"
                 fullWidth
                 color="primary"
-                className={classes.buttonEdit}
+                className={classes.buttonSubmit}
                 >
                 {submitButtonTitle}
                 </Button>
@@ -55,7 +55,7 @@ function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
                 </Button>
             </Grid>
             <Grid item xs={12}>
-                <Collapse in={showRefreshButtons}>
+                <Collapse in={showRefreshButton}>
                     <Button
                     onClick={handleClose}
                     variant="contained"
