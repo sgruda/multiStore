@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../context/AuthContext";
 import AccountService from '../../services/AccountService';
 
 import TextField from '@material-ui/core/TextField';
@@ -22,6 +23,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { ROLE_ADMIN } from '../../config/config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -59,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 function PasswordChange({account, handleClose, apiMethod}) {
   const classes = useStyles();
+  const {activeRole} = useAuth();
   const [fields, setFields] = useFields({
     oldPassword: '',
     newPassword: '',
@@ -116,24 +119,28 @@ function PasswordChange({account, handleClose, apiMethod}) {
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
                 <Grid container spacing={2}>
+                  { (activeRole === ROLE_ADMIN) ?
+                      <></>
+                    :
                     <Grid item xs={12}>
-                    <TextField
-                      value={ fields.oldPassword }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="oldPassword"
-                      label="Present password"
-                      type="password"
-                      id="oldPassword"
-                      autoComplete="oldPassword"
+                      <TextField
+                        value={ fields.oldPassword }
+                        onChange={ setFields }
+                        variant="outlined"
+                        required
+                        fullWidth
+                        name="oldPassword"
+                        label="Present password"
+                        type="password"
+                        id="oldPassword"
+                        autoComplete="oldPassword"
 
-                      inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
-                      error={errors.oldPassword ? true : false}
-                      helperText={errors.oldPassword ? "Password is required (must have 8 digits and...)" : ""}
-                  />
-                </Grid>
+                        inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
+                        error={errors.oldPassword ? true : false}
+                        helperText={errors.oldPassword ? "Password is required (must have 8 digits and...)" : ""}
+                      />
+                    </Grid>
+                  } 
                 <Grid item xs={12}>
                     <TextField
                       value={ fields.newPassword }
@@ -205,36 +212,35 @@ function PasswordChange({account, handleClose, apiMethod}) {
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
-                        <Button
+                      <Button
                         onClick={handleClose}
                         variant="contained"
                         color="primary"
                         fullWidth
                         className={classes.buttonCancel}
-                        >
+                      >
                         Cancel
-                        </Button>
+                      </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Collapse in={showRefresh}>
-                            
-                                <Button
-                                onClick={handleClose}
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                className={classes.buttonRefresh}
-                                startIcon={<SyncIcon size="large" color="primary"/>}
-                                >
-                                Refresh data
-                                </Button>
+                          <Button
+                            onClick={handleClose}
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            className={classes.buttonRefresh}
+                            startIcon={<SyncIcon size="large" color="primary"/>}
+                          >
+                            Refresh data
+                          </Button>
                         </Collapse>
                     </Grid>
                 </Grid>
                 <Dialog
-                    open={openConfirmDialog}
-                    onClose={handleConfirmDialog}
-                    aria-describedby="dialog-description"
+                  open={openConfirmDialog}
+                  onClose={handleConfirmDialog}
+                  aria-describedby="dialog-description"
                 >
                     <DialogContent>
                     <DialogContentText id="dialog-description">

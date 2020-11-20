@@ -1,7 +1,7 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
 import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY_ACCOUNT_EDIT, 
-  API_URL_MY_ACCOUNT_CHANGE_PASSWORD, API_URL_SINGLE_ACCOUNT_EDIT} from '../config/config';
+  API_URL_MY_ACCOUNT_CHANGE_PASSWORD, API_URL_SINGLE_ACCOUNT_EDIT, API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD} from '../config/config';
 
 class AccountService { 
 
@@ -27,17 +27,21 @@ class AccountService {
   }
 
   editUserAccount(account) {
-    return axios.put(API_URL_MY_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()})
+    return axios.put(API_URL_MY_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()});
   }
 
   editAccount(account) {
-    return axios.put(API_URL_SINGLE_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()})
+    return axios.put(API_URL_SINGLE_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()});
   }
 
   changeOwnPassword(account, newPassword) {
     const data = {'newPassword': newPassword,
-                  'accountDTO': account}
-    return axios.put(API_URL_MY_ACCOUNT_CHANGE_PASSWORD, data, { headers: AuthorizationHeader()})
+                  'accountDTO': account};
+    return axios.put(API_URL_MY_ACCOUNT_CHANGE_PASSWORD, data, { headers: AuthorizationHeader()});
+  }
+  changePassword(account, newPassword) {
+    account.authenticationDataDTO.password = newPassword;
+    return axios.put(API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD, account, { headers: AuthorizationHeader()});
   }
  
 } 

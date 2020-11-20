@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import AccountEdit from '../../components/accounts/AccountEdit';
+import PasswordChange from './PasswordChange';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -214,12 +215,11 @@ function AccountDetails({selectedAccountMail}) {
                             aria-describedby="dialog-change-password"
                         >
                             <DialogContent>
-                                zmiana hasla
-                                {/* <PasswordChange
+                                <PasswordChange
                                     account={account}
                                     handleClose={handleChangePassword}
-                                    apiMethod={AccountService.changeOwnPassword}
-                                />      */}
+                                    apiMethod={AccountService.changePassword}
+                                />     
                             </DialogContent>
                         </Dialog>
                     </Typography>
