@@ -54,8 +54,7 @@ public class AccountOwnerOperationsEndpoint {
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = ownPasswordChangeService.getAccountByEmail(request.getAccountDTO().getEmail());
             checkerAccountDTO.checkVersion(accountEntity, request.getAccountDTO());
-            ownPasswordChangeService.changePassword(accountEntity, request.getAccountDTO().getAuthenticationDataDTO().getPassword(),
-                    request.getOldPassword());
+            ownPasswordChangeService.changePassword(accountEntity, request.getNewPassword(), request.getAccountDTO().getAuthenticationDataDTO().getPassword());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -86,7 +85,7 @@ public class AccountOwnerOperationsEndpoint {
     private static class ChangePasswordRequest {
         @NotNull(message = "{validation.notnull}")
         @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
-        private String oldPassword;
+        private String newPassword;
 
         @NotNull(message = "{validation.notnull}")
         @Valid
