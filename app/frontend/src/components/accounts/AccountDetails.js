@@ -117,12 +117,11 @@ function AccountDetails({selectedAccountMail}) {
     }
 
     useEffect(() => {
-        setLoadingData(true);
         if (loadingData) {
             setLoadingData(false);
             getAccount();
         }
-    }, [selectedAccountMail]);
+    }, [selectedAccountMail, loadingData]);
 
     return (
         <Container component="main" maxWidth="sm">
@@ -205,7 +204,7 @@ function AccountDetails({selectedAccountMail}) {
                                 <AccountEdit
                                     account={account}
                                     handleClose={handleCloseEdit}
-                                    apiMethod={AccountService.editUserAccount}
+                                    apiMethod={AccountService.editAccount}
                                 />     
                             </DialogContent>
                         </Dialog>
