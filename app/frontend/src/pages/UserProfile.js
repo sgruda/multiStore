@@ -173,6 +173,7 @@ function UserProfile() {
                                             }
                             </Paper>
                         </Grid>
+                        {account.authProvider === 'system' ? 
                         <Grid container xs={12}>
                             <Grid item xs={6}>
                                 <Button 
@@ -189,6 +190,7 @@ function UserProfile() {
                                 >Change password</Button>
                             </Grid>
                         </Grid>
+                        :<></>}
                         <Dialog
                             open={openEdit}
                             onClose={handleCloseEdit}
