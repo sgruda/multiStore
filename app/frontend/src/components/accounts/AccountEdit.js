@@ -16,7 +16,9 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
 import Alert from '@material-ui/lab/Alert';
+import SyncIcon from '@material-ui/icons/Sync';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,9 +46,15 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: "#eb1e1e"
         }
       },
+      buttonRefresh: {
+        backgroundColor: "#4285F4",
+        "&:hover": {
+          backgroundColor: "#2c0fab"
+        }
+      },
 }));
 
-function AccountEdit({account}) {
+function AccountEdit({account, handleClose}) {
   const classes = useStyles();
   const [fields, setFields] = useFields({
     firstName: account.firstName,
@@ -54,8 +62,11 @@ function AccountEdit({account}) {
   });
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [openAlert, setOpenAlert] = useState(false);
-  const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
-
+  const [alertErrorMessage, setAlertErrorMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [alertInfoMessage, setAlertInfoMessage] = useState('');
+  const [showRefresh, setShowRefresh] = useState(false);
+  
   const handleEdit = () => {
     account.firstName = fields.firstName;
     account.lastName = fields.lastName;
@@ -65,9 +76,8 @@ function AccountEdit({account}) {
     await AccountService.editUserAccount(account)
     .then(response => {
         if (response.status === 200) { 
-            console.log("200")
-            console.log(response)
-            console.log(response.data)
+            setAlertInfoMessage('response.data');
+            setOpenSuccessAlert(true);
         }
     },
         (error) => {
@@ -75,6 +85,9 @@ function AccountEdit({account}) {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AccountEdit: " + resMessage);
+            setAlertErrorMessage(error.response.data.message.toString());
+            setOpenAlert(true);
+            setShowRefresh(true);
         }
     );
   }
@@ -136,6 +149,15 @@ function AccountEdit({account}) {
                     {alertErrorMessage}
                 </Alert>
                 </Collapse>
+                <Collapse in={openSuccessAlert}>
+                <Alert severity="success" action={
+                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenSuccessAlert(false); }}>
+                        <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                }>
+                    {alertInfoMessage}
+                </Alert>
+                </Collapse>
                 <Grid container xs={12}>
                     <Grid item xs={6}>
                         <Button
@@ -150,7 +172,7 @@ function AccountEdit({account}) {
                     </Grid>
                     <Grid item xs={6}>
                         <Button
-                        onClick={()=>console.log("ok")}
+                        onClick={handleClose}
                         variant="contained"
                         color="primary"
                         fullWidth
@@ -158,6 +180,21 @@ function AccountEdit({account}) {
                         >
                         Cancel
                         </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Collapse in={showRefresh}>
+                            
+                                <Button
+                                onClick={handleClose}
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                className={classes.buttonRefresh}
+                                startIcon={<SyncIcon size="large" color="primary"/>}
+                                >
+                                Refresh data
+                                </Button>
+                        </Collapse>
                     </Grid>
                 </Grid>
                 {/* <Dialog

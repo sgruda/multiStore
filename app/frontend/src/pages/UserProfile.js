@@ -68,10 +68,13 @@ function UserProfile() {
 
     const [openEdit, setOpenEdit] = useState(false);
 
-    const handleEdit = () => {
-        setOpenEdit(!openEdit);
+    const handleOpenEdit = () => {
+        setOpenEdit(true);
     }
-
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+        setLoadingData(true);
+    }
     async function getAccount() {
         await AccountService.getUserAccount()
         .then(response => {
@@ -162,25 +165,23 @@ function UserProfile() {
                             </Paper>
                         </Grid>
                         <Grid item xs={12}>
-                            {/* <Paper className={classes.paperOne} elevation={3}> */}
-                                <Button onClick={handleEdit} fullWidth className={classes.editButton}>Edit</Button>
-                            {/* </Paper> */}
+                            <Button 
+                                onClick={handleOpenEdit} 
+                                fullWidth 
+                                className={classes.editButton}
+                            >Edit</Button>
                         </Grid>
                         <Dialog
                             open={openEdit}
-                            onClose={handleEdit}
+                            onClose={handleCloseEdit}
                             aria-describedby="dialog-edit"
                         >
                             <DialogContent>
                                 <AccountEdit
                                     account={account}
+                                    handleClose={handleCloseEdit}
                                 />     
                             </DialogContent>
-                            {/* <DialogActions>
-                            <Button onClick={handleCloseDialog} color="primary" autoFocus>
-                                OK
-                            </Button>
-                            </DialogActions> */}
                         </Dialog>
                     </Typography>
                 </Grid>
