@@ -17,9 +17,9 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import AccountDetails from '../accounts/AccountDetails';
+import AccountDetails from '../AccountDetails';
 import AccountsActivityFilter from './AccountsActivityFilter';
-import { useFields } from '../../hooks/FieldHook';
+import { useFields } from '../../../hooks/FieldHook';
 
 const useStyles = makeStyles((theme) => ({
     root: {

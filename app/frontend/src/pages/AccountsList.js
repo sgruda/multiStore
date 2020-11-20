@@ -14,9 +14,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
 
 import AccountService from '../services/AccountService';
-import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
-import AccountsTableBody from '../components/accounts/AccountsTableBody';
-import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
+import AccountsTableHeader from '../components/accounts/table/AccountsTableHeader';
+import AccountsTableBody from '../components/accounts/table/AccountsTableBody';
+import AccountsTableToolbar from '../components/accounts/table/AccountsTableToolbar';
 import { Button } from "@material-ui/core";
 import zIndex from "@material-ui/core/styles/zIndex";
 
