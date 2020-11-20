@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
 import AccountService from '../../services/AccountService';
+import ConfirmDialog from '../ConfirmDialog';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -235,25 +236,11 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                         </Collapse>
                     </Grid>
                 </Grid>
-                <Dialog
-                  open={openConfirmDialog}
-                  onClose={handleConfirmDialog}
-                  aria-describedby="dialog-description"
-                >
-                    <DialogContent>
-                    <DialogContentText id="dialog-description">
-                       Are you sure?
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={handleChangePassword} color="primary" autoFocus>
-                        Yes
-                    </Button>
-                    <Button onClick={handleConfirmDialog} color="primary" autoFocus>
-                        No
-                    </Button>
-                    </DialogActions>
-                </Dialog>
+                <ConfirmDialog
+                  openConfirmDialog={openConfirmDialog}
+                  setOpenConfirmDialog={setOpenConfirmDialog}
+                  handleConfirmAction={handleChangePassword}
+                />
             </form>
             </div>
         </Container>
