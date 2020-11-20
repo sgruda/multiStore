@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mok.endpoints;
 
+import lombok.Getter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Log
 @RestController
@@ -33,27 +36,26 @@ public class AccountOwnerOperationsEndpoint {
     private OwnPasswordChangeService ownPasswordChangeService;
     private OwnAccountEditService ownAccountEditService;
     private CheckerAccountDTO checkerAccountDTO;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountOwnerOperationsEndpoint(OwnPasswordChangeService ownPasswordChangeService, CheckerAccountDTO checkerAccountDTO, PasswordEncoder passwordEncoder, OwnAccountEditService ownAccountEditService) {
+    public AccountOwnerOperationsEndpoint(OwnPasswordChangeService ownPasswordChangeService, CheckerAccountDTO checkerAccountDTO, OwnAccountEditService ownAccountEditService) {
         this.ownPasswordChangeService = ownPasswordChangeService;
         this.checkerAccountDTO = checkerAccountDTO;
-        this.passwordEncoder = passwordEncoder;
         this.ownAccountEditService = ownAccountEditService;
     }
 
     @PutMapping("/change-password")
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
-            if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
+            checkerAccountDTO.checkSignature(request.getAccountDTO());
+            if(request.getAccountDTO().getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
-            accountEntity = ownPasswordChangeService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
-            ownPasswordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
+            accountEntity = ownPasswordChangeService.getAccountByEmail(request.getAccountDTO().getEmail());
+            checkerAccountDTO.checkVersion(accountEntity, request.getAccountDTO());
+            ownPasswordChangeService.changePassword(accountEntity, request.getAccountDTO().getAuthenticationDataDTO().getPassword(),
+                    request.getOldPassword());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -79,5 +81,15 @@ public class AccountOwnerOperationsEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.edit.correctly."));
+    }
+    @Getter
+    private static class ChangePasswordRequest {
+        @NotNull(message = "{validation.notnull}")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        private String oldPassword;
+
+        @NotNull(message = "{validation.notnull}")
+        @Valid
+        private AccountDTO accountDTO;
     }
 }
