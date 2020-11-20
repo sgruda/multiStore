@@ -2,29 +2,17 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
-import AccountService from '../../services/AccountService';
 import ConfirmDialog from '../ConfirmDialog';
 import AcceptButtons from '../AcceptButtons';
+import AlertApiResponseHandler from '../AlertApiResponseHandler';
 
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Alert from '@material-ui/lab/Alert';
-import SyncIcon from '@material-ui/icons/Sync';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import { ROLE_ADMIN } from '../../config/config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,8 +38,8 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
     confirmNewPassword: '',
   });
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
-  const [openAlert, setOpenAlert] = useState(false);
-  const [alertErrorMessage, setAlertErrorMessage] = useState('');
+  const [openWarningAlert, setOpenWarningAlert] = useState(false);
+  const [alertWarningMessage, setAlertWarningMessage] = useState('');
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
@@ -81,8 +69,8 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("PasswordChange: " + resMessage);
-            setAlertErrorMessage(error.response.data.message.toString());
-            setOpenAlert(true);
+            setAlertWarningMessage(error.response.data.message.toString());
+            setOpenWarningAlert(true);
             setShowRefresh(true);
         }
     );
@@ -163,24 +151,14 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                   />
                   </Grid>
                 </Grid>
-                <Collapse in={openAlert}>
-                <Alert severity="warning" action={
-                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenAlert(false); }}>
-                        <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                }>
-                    {alertErrorMessage}
-                </Alert>
-                </Collapse>
-                <Collapse in={openSuccessAlert}>
-                <Alert severity="success" action={
-                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenSuccessAlert(false); }}>
-                        <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                }>
-                    {alertInfoMessage}
-                </Alert>
-                </Collapse>
+                <AlertApiResponseHandler
+                  openWarningAlert={openWarningAlert}
+                  setOpenWarningAlert={setOpenWarningAlert}
+                  openSuccessAlert={openSuccessAlert}
+                  setOpenSuccessAlert={setOpenSuccessAlert}
+                  alertWarningMessage={alertWarningMessage}
+                  alertInfoMessage={alertInfoMessage}
+                />
                 <AcceptButtons
                   submitButtonTitle="Change"
                   handleClose={handleClose}
