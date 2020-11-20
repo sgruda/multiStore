@@ -4,7 +4,6 @@ import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
 import AccountEdit from '../components/accounts/AccountEdit';
 import PasswordChange from '../components/accounts/PasswordChange';
-import { useAuth } from "../context/AuthContext";
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -60,9 +59,8 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-function UserProfile(adminView) {
+function UserProfile() {
     const classes = useStyles();
-    const {activeRole} = useAuth();
     const [loadingData, setLoadingData] = useState(true);
     const [account, setAccount] = useState(Object);
     const [roleClientActive, setRoleClientActive] = useState(false);
@@ -109,11 +107,7 @@ function UserProfile(adminView) {
     }
 
     useEffect(() => {
-        if (loadingData && adminView) {
-            setLoadingData(false);
-            // getAccount();
-        }
-        else {
+        if (loadingData) {
             setLoadingData(false);
             getAccount();
         }
