@@ -109,15 +109,13 @@ function UserProfile(adminView) {
     }
 
     useEffect(() => {
-        adminView=false
-        console.log('adminView ' + adminView)
         if (loadingData && adminView) {
             setLoadingData(false);
-            getAccount();
+            // getAccount();
         }
         else {
             setLoadingData(false);
-            // getAccount();
+            getAccount();
         }
     }, [loadingData]);
 
