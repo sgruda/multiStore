@@ -49,10 +49,13 @@ public class AccountOwnerOperationsEndpoint {
 
     @PutMapping("/change-password")
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
             checkerAccountDTO.checkSignature(request.getAccountDTO());
+            if(!currentUser.getEmail().equals(request.getAccountDTO().getEmail())) {
+                throw new OperationDisabledForAccountException();
+            }
             if(request.getAccountDTO().getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = ownPasswordChangeService.getAccountByEmail(request.getAccountDTO().getEmail());
