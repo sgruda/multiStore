@@ -17,9 +17,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnAccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnPasswordChangeService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
 
 import javax.validation.Valid;
@@ -65,10 +68,13 @@ public class AccountOwnerOperationsEndpoint {
 
     @PutMapping("/edit")
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
             checkerAccountDTO.checkSignature(accountDTO);
+            if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
+                throw new OperationDisabledForAccountException();
+            }
             accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
             checkerAccountDTO.checkVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
