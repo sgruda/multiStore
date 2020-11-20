@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
 import AccountEdit from '../components/accounts/AccountEdit';
+import PasswordChange from '../components/accounts/PasswordChange';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -67,12 +68,20 @@ function UserProfile() {
     const [roleAdminActive, setRoleAdminActive] = useState(false);
 
     const [openEdit, setOpenEdit] = useState(false);
+    const [openChangePassword, setOpenChangePassword] = useState(false);
 
     const handleOpenEdit = () => {
         setOpenEdit(true);
     }
+    const handleOpenChangePassword = () => {
+        setOpenChangePassword(true);
+    }
     const handleCloseEdit = () => {
         setOpenEdit(false);
+        setLoadingData(true);
+    }
+    const handleChangePassword = () => {
+        setOpenChangePassword(false);
         setLoadingData(true);
     }
     async function getAccount() {
@@ -164,12 +173,21 @@ function UserProfile() {
                                             }
                             </Paper>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button 
-                                onClick={handleOpenEdit} 
-                                fullWidth 
-                                className={classes.editButton}
-                            >Edit</Button>
+                        <Grid container xs={12}>
+                            <Grid item xs={6}>
+                                <Button 
+                                    onClick={handleOpenEdit} 
+                                    fullWidth 
+                                    className={classes.editButton}
+                                >Edit</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button 
+                                    onClick={handleOpenChangePassword} 
+                                    fullWidth 
+                                    className={classes.editButton}
+                                >Change password</Button>
+                            </Grid>
                         </Grid>
                         <Dialog
                             open={openEdit}
@@ -180,6 +198,19 @@ function UserProfile() {
                                 <AccountEdit
                                     account={account}
                                     handleClose={handleCloseEdit}
+                                />     
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog
+                            open={openChangePassword}
+                            onClose={handleChangePassword}
+                            aria-describedby="dialog-change-password"
+                        >
+                            <DialogContent>
+                                <PasswordChange
+                                    account={account}
+                                    handleClose={handleChangePassword}
+                                    apiMethod={AccountService.changeOwnPassword}
                                 />     
                             </DialogContent>
                         </Dialog>

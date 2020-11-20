@@ -1,6 +1,6 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
-import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY_ACCOUNT_EDIT} from '../config/config';
+import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY_ACCOUNT_EDIT, API_URL_MY_ACCOUNT_CHANGE_PASSWORD} from '../config/config';
 import {ACCESS_TOKEN} from '../config/config';
 
 class AccountService { 
@@ -28,6 +28,12 @@ class AccountService {
 
   editUserAccount(account) {
     return axios.put(API_URL_MY_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()})
+  }
+
+  changeOwnPassword(account, newPassword) {
+    const data = {'newPassword': newPassword,
+                  'accountDTO': account}
+    return axios.put(API_URL_MY_ACCOUNT_CHANGE_PASSWORD, data, { headers: AuthorizationHeader()})
   }
  
 } 
