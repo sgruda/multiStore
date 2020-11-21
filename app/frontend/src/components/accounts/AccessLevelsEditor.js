@@ -14,7 +14,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import { Button } from '@material-ui/core';
-
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -58,45 +62,43 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
 
-  const [roleClient, setRoleClient] = useState(false);
-  const [roleEmployee, setRoleEmployee] = useState(false);
-  const [roleAdmin, setRoleAdmin] = useState(false);
+  const [roles, setRoles] = useState({
+    client: account.roles.includes(ROLE_CLIENT) ? true : false,
+    employee: account.roles.includes(ROLE_EMPLOYEE) ? true : false,
+    admin: account.roles.includes(ROLE_ADMIN) ? true : false,
+  });
+  const handleChangeCheckbox = (event) => {
+    setRoles({ ...roles, [event.target.name]: event.target.checked });
+  };
 
   const handleConfirmDialog = () => {
     setOpenConfirmDialog(!openConfirmDialog);
   }
 
-  const handleAddAccessLevels = () => {
-    // account.firstName = fields.firstName;
-    // account.lastName = fields.lastName;
-    // editAccount();
+  const handleEditAccessLevels = () => {
+    apiMethodExecution();
     handleConfirmDialog();
   }
-
-  const initRoles = () => {
-    if(account.roles.includes(ROLE_CLIENT))
-        setRoleClient(true);
-    if(account.roles.includes(ROLE_EMPLOYEE))
-        setRoleEmployee(true);
-    if(account.roles.includes(ROLE_ADMIN))
-        setRoleAdmin(true);
-  }
-
+const log = () => {
+  console.log("wtf")
+}
   const convertRolesToList = () => {
-    let roles;
-    if(roleClient)
-      roles.add(ROLE_CLIENT);
-    if(roleEmployee)
-      roles.add(', ' + ROLE_EMPLOYEE);
-    if(roleAdmin)
-      roles.add(', ' + ROLE_ADMIN);
-    return roles;
+    let rolesArray = [];
+    if(roles.client)
+      rolesArray.push(ROLE_CLIENT);
+    if(roles.employee)
+      rolesArray.push(ROLE_EMPLOYEE);
+    if(roles.admin)
+      rolesArray.push(ROLE_ADMIN);
+      console.log("rolesArray")
+      console.log(rolesArray)
+    return rolesArray;
   }
 
   async function apiMethodExecution() {
     const roles = convertRolesToList();
-    console.log("Roles " + roles)
     await apiMethod(account, roles)
     .then(response => {
         if (response.status === 200) { 
@@ -116,10 +118,6 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
     );
   }
 
-  useEffect(() => {
-    initRoles();
-  }, []);
-
   return (
     <div>
         <Container component="main" maxWidth="xs" >
@@ -131,9 +129,21 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
             <Typography component="h1" variant="h5">
                 {operationTitle} access level
             </Typography>
-            
-            <Button onClick={apiMethodExecution}>Click</Button>
-
+            <form className={classes.formControl} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox checked={roles.client} onChange={handleChangeCheckbox} name="client" />}
+                  label="Role Client"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={roles.employee} onChange={handleChangeCheckbox} name="employee" />}
+                  label="Role Employee"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={roles.admin} onChange={handleChangeCheckbox} name="admin" />}
+                  label="Role Admin"
+                />
+              </FormGroup>
             <AlertApiResponseHandler
               openWarningAlert={openWarningAlert}
               setOpenWarningAlert={setOpenWarningAlert}
@@ -150,8 +160,9 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
             <ConfirmDialog
               openConfirmDialog={openConfirmDialog}
               setOpenConfirmDialog={setOpenConfirmDialog}
-              handleConfirmAction={handleAddAccessLevels}
+              handleConfirmAction={handleEditAccessLevels}
             />
+            </form>
             </div>
         </Container>
     </div >
