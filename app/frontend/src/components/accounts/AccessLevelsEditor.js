@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, roles, setRoles}) {
+function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, clientRole, employeeRole, adminRole, setClientRole, setEmployeeRole, setAdminRole}) {
   const classes = useStyles();
   const [openWarningAlert, setOpenWarningAlert] = useState(false);
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
@@ -58,11 +58,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, ro
   const [showRefresh, setShowRefresh] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const {handleSubmit } = useForm({mode: "onSubmit"}); 
-
-  const handleChangeCheckbox = (event) => {
-    setRoles({ ...roles, [event.target.name]: event.target.checked });
-  };
-
+  
   const handleConfirmDialog = () => {
     setOpenConfirmDialog(!openConfirmDialog);
   }
@@ -74,11 +70,11 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, ro
 
   const convertRolesToList = () => {
     let rolesArray = [];
-    if(roles.client)
+    if(clientRole)
       rolesArray.push(ROLE_CLIENT);
-    if(roles.employee)
+    if(employeeRole)
       rolesArray.push(ROLE_EMPLOYEE);
-    if(roles.admin)
+    if(adminRole)
       rolesArray.push(ROLE_ADMIN);
     return rolesArray;
   }
@@ -118,15 +114,15 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, ro
             <form className={classes.formControl} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
               <FormGroup>
                 <FormControlLabel
-                  control={<Checkbox checked={roles.client} onChange={handleChangeCheckbox} name="client" />}
+                  control={<Checkbox checked={clientRole} onChange={(event)=>setClientRole(event.target.checked)} name="client" />}
                   label="Role Client"
                 />
                 <FormControlLabel
-                  control={<Checkbox checked={roles.employee} onChange={handleChangeCheckbox} name="employee" />}
+                  control={<Checkbox checked={employeeRole} onChange={(event)=>setEmployeeRole(event.target.checked)} name="employee" />}
                   label="Role Employee"
                 />
                 <FormControlLabel
-                  control={<Checkbox checked={roles.admin} onChange={handleChangeCheckbox} name="admin" />}
+                  control={<Checkbox checked={adminRole} onChange={(event)=>setAdminRole(event.target.checked)} name="admin" />}
                   label="Role Admin"
                 />
               </FormGroup>

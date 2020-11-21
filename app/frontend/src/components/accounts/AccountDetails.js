@@ -74,11 +74,15 @@ function AccountDetails({selectedAccountMail}) {
     const classes = useStyles();
     const [account, setAccount] = useState(Object);
     const [loadingData, setLoadingData] = useState(true);
-    const [roles, setRoles] = useState({
-        client: false,
-        employee: false,
-        admin: false,
-    });
+    // const [roles, setRoles] = useState({
+    //     client: false,
+    //     employee: false,
+    //     admin: false,
+    // });
+    const [clientRole, setClientRole] = useState(false);
+    const [employeeRole, setEmployeeRole] = useState(false);
+    const [adminRole, setAdminRole] = useState(false);
+
 
     const [openEdit, setOpenEdit] = useState(false);
     const [openChangePassword, setOpenChangePassword] = useState(false);
@@ -119,9 +123,9 @@ function AccountDetails({selectedAccountMail}) {
         .then(response => {
             if (response.status === 200) { 
                 setAccount(response.data);               
-                response.data.roles.includes(ROLE_CLIENT) ? roles.client = true : roles.client = false;
-                response.data.roles.includes(ROLE_EMPLOYEE) ? roles.employee = true : roles.employee = false;
-                response.data.roles.includes(ROLE_ADMIN) ? roles.admin = true : roles.admin = false;
+                response.data.roles.includes(ROLE_CLIENT) ? setClientRole(true) : setClientRole(false);
+                response.data.roles.includes(ROLE_EMPLOYEE) ? setEmployeeRole(true) : setEmployeeRole(false);
+                response.data.roles.includes(ROLE_ADMIN) ? setAdminRole(true) : setAdminRole(false);
             }
         },
             (error) => {
@@ -180,19 +184,19 @@ function AccountDetails({selectedAccountMail}) {
                         <Grid item xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
                             Roles:
-                            {account.roles}
-                            {/* {ROLE_CLIENT}:  { account.roles.includes(ROLE_CLIENT)
+                            {/* {account.roles} */}
+                            {ROLE_CLIENT}:  { clientRole
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
-                            {ROLE_EMPLOYEE}:  { account.roles.includes(ROLE_EMPLOYEE)
+                            {ROLE_EMPLOYEE}:  { employeeRole
                                                 ? <DoneIcon className={classes.doneIcon}/> 
                                                 : <ClearIcon className={classes.clearIcon}/> 
                                                 }
-                            {ROLE_ADMIN}:  { account.roles.includes(ROLE_ADMIN)
+                            {ROLE_ADMIN}:  { adminRole
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
-                                            } */}
+                                            }
                             </Paper>
                         </Grid>
                         <Grid container xs={12} spacing={1} justify="center">
@@ -267,8 +271,12 @@ function AccountDetails({selectedAccountMail}) {
                                     handleClose={handleCloseAddAccessLevel}
                                     apiMethod={AccountService.addAccessLevel}
                                     operationTitle="Add"
-                                    roles={roles}
-                                    setRoles={setRoles}
+                                    clientRole={clientRole}
+                                    employeeRole={employeeRole}
+                                    adminRole={adminRole}
+                                    setClientRole={setClientRole}
+                                    setEmployeeRole={setEmployeeRole}
+                                    setAdminRole={setAdminRole}
                                 />     
                             </DialogContent>
                         </Dialog>
@@ -283,8 +291,12 @@ function AccountDetails({selectedAccountMail}) {
                                     handleClose={handleCloseRemoveAccessLevel}
                                     apiMethod={AccountService.removeAccessLevel}
                                     operationTitle="Remove"
-                                    roles={roles}
-                                    setRoles={setRoles}
+                                    clientRole={clientRole}
+                                    employeeRole={employeeRole}
+                                    adminRole={adminRole}
+                                    setClientRole={setClientRole}
+                                    setEmployeeRole={setEmployeeRole}
+                                    setAdminRole={setAdminRole}
                                 />     
                             </DialogContent>
                         </Dialog>
