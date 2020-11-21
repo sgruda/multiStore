@@ -1,7 +1,8 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
 import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY_ACCOUNT_EDIT, 
-  API_URL_MY_ACCOUNT_CHANGE_PASSWORD, API_URL_SINGLE_ACCOUNT_EDIT, API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD} from '../config/config';
+  API_URL_MY_ACCOUNT_CHANGE_PASSWORD, API_URL_SINGLE_ACCOUNT_EDIT, API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD,
+  API_URL_SINGLE_ACCOUNT_ADD_ACCESS_LEVEL, API_URL_SINGLE_ACCOUNT_REMOVE_ACCESS_LEVEL} from '../config/config';
 
 class AccountService { 
 
@@ -39,9 +40,19 @@ class AccountService {
                   'accountDTO': account};
     return axios.put(API_URL_MY_ACCOUNT_CHANGE_PASSWORD, data, { headers: AuthorizationHeader()});
   }
+
   changePassword(account, newPassword) {
     account.authenticationDataDTO.password = newPassword;
     return axios.put(API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD, account, { headers: AuthorizationHeader()});
+  }
+
+  addAccessLevel(account, roles) {
+    account.roles = roles;
+    return axios.put(API_URL_SINGLE_ACCOUNT_ADD_ACCESS_LEVEL, account, { headers: AuthorizationHeader()});
+  }
+  removeAccessLevel(account, roles) {
+    account.roles = roles;
+    return axios.put(API_URL_SINGLE_ACCOUNT_REMOVE_ACCESS_LEVEL, account, { headers: AuthorizationHeader()});
   }
  
 } 

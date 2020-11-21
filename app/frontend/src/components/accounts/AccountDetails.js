@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from './PasswordChange';
+import AccessLevelsEditor from './AccessLevelsEditor';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -79,12 +80,28 @@ function AccountDetails({selectedAccountMail}) {
 
     const [openEdit, setOpenEdit] = useState(false);
     const [openChangePassword, setOpenChangePassword] = useState(false);
+    const [openAddAccessLevel, setOpenAddAccessLevel] = useState(false);
+    const [openRemoveAccessLevel, setOpenRemoveAccessLevel] = useState(false);
 
     const handleOpenEdit = () => {
         setOpenEdit(true);
     }
     const handleOpenChangePassword = () => {
         setOpenChangePassword(true);
+    }
+    const handleOpenAddAccessLevel = () => {
+        setOpenAddAccessLevel(true);
+    }
+    const handleOpenRemoveAccessLevel = () => {
+        setOpenRemoveAccessLevel(true);
+    }
+    const handleCloseAddAccessLevel = () => {
+        setOpenAddAccessLevel(false);
+        setLoadingData(true);
+    }
+    const handleCloseRemoveAccessLevel = () => {
+        setOpenRemoveAccessLevel(false);
+        setLoadingData(true);
     }
     const handleCloseEdit = () => {
         setOpenEdit(false);
@@ -178,8 +195,9 @@ function AccountDetails({selectedAccountMail}) {
                                             }
                             </Paper>
                         </Grid>
+                        <Grid container xs={12} spacing={1} justify="center">
                         {account.authProvider === 'system' ? 
-                        <Grid container xs={12}>
+                        <Grid container xs={12} spacing={1} justify="center">
                             <Grid item xs={6}>
                                 <Button 
                                     onClick={handleOpenEdit} 
@@ -196,6 +214,21 @@ function AccountDetails({selectedAccountMail}) {
                             </Grid>
                         </Grid>
                         :<></>}
+                            <Grid item xs={6}>
+                                <Button 
+                                    onClick={handleOpenAddAccessLevel} 
+                                    fullWidth 
+                                    className={classes.editButton}
+                                >Add acccess level</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button 
+                                    onClick={handleOpenRemoveAccessLevel} 
+                                    fullWidth 
+                                    className={classes.editButton}
+                                >Remove acccess level</Button>
+                            </Grid>
+                        </Grid>
                         <Dialog
                             open={openEdit}
                             onClose={handleCloseEdit}
@@ -220,6 +253,34 @@ function AccountDetails({selectedAccountMail}) {
                                     handleClose={handleChangePassword}
                                     apiMethod={AccountService.changePassword}
                                     adminView={true}
+                                />     
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog
+                            open={openAddAccessLevel}
+                            onClose={handleCloseAddAccessLevel}
+                            aria-describedby="dialog-add"
+                        >
+                            <DialogContent>
+                                <AccessLevelsEditor
+                                    account={account}
+                                    handleClose={handleCloseAddAccessLevel}
+                                    apiMethod={AccountService.addAccessLevel}
+                                    operationTitle="Add"
+                                />     
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog
+                            open={openRemoveAccessLevel}
+                            onClose={handleCloseRemoveAccessLevel}
+                            aria-describedby="dialog-add"
+                        >
+                            <DialogContent>
+                                <AccessLevelsEditor
+                                    account={account}
+                                    handleClose={handleCloseRemoveAccessLevel}
+                                    apiMethod={AccountService.removeAccessLevel}
+                                    operationTitle="Remove"
                                 />     
                             </DialogContent>
                         </Dialog>
