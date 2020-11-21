@@ -41,9 +41,9 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void addAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSet) throws AppBaseException {
+    public void addAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSetToAdd) throws AppBaseException {
         Set<AccessLevelEntity> accessLevelEntitySet = accountEntity.getAccessLevelEntities();
-        for(String roleString : accessLevelSet) {
+        for(String roleString : accessLevelSetToAdd) {
             if(!roleString.matches("(ROLE_CLIENT|ROLE_EMPLOYEE|ROLE_ADMIN)")) {
                 throw new IncorrectRoleNameException();
             }
@@ -55,11 +55,11 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void removeAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSet) throws AppBaseException {
+    public void removeAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSetToRemove) throws AppBaseException {
         Set<AccessLevelEntity> accessLevelEntitySet = accountEntity.getAccessLevelEntities();
-        if(accessLevelSet.size() >= accessLevelEntitySet.size())
+        if(accessLevelSetToRemove.size() >= accessLevelEntitySet.size())
             throw new RemovingAllAccessLevelsException();
-        for(String roleString : accessLevelSet) {
+        for(String roleString : accessLevelSetToRemove) {
             if(!roleString.matches("(ROLE_CLIENT|ROLE_EMPLOYEE|ROLE_ADMIN)")) {
                 throw new IncorrectRoleNameException();
             }
