@@ -49,7 +49,6 @@ public @Data class AccountDTO implements SignatureVerifiability {
     @NotNull(message = "{validation.notnull}")
     private String authProvider;
 
-    @NotNull(message = "{validation.notnull}")
     @Valid
     private AuthenticationDataDTO authenticationDataDTO;
 
