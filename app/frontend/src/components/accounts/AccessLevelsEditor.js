@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
+function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, roles, setRoles}) {
   const classes = useStyles();
   const [openWarningAlert, setOpenWarningAlert] = useState(false);
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
@@ -59,11 +59,6 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const {handleSubmit } = useForm({mode: "onSubmit"}); 
 
-  const [roles, setRoles] = useState({
-    client: account.roles.includes(ROLE_CLIENT) ? true : false,
-    employee: account.roles.includes(ROLE_EMPLOYEE) ? true : false,
-    admin: account.roles.includes(ROLE_ADMIN) ? true : false,
-  });
   const handleChangeCheckbox = (event) => {
     setRoles({ ...roles, [event.target.name]: event.target.checked });
   };
