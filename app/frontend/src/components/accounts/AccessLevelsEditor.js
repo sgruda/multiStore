@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
-import AccountService from '../../services/AccountService';
 import ConfirmDialog from '../ConfirmDialog';
 import AcceptButtons from '../AcceptButtons';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
@@ -13,9 +11,6 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import { Button } from '@material-ui/core';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -62,7 +57,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+  const {handleSubmit } = useForm({mode: "onSubmit"}); 
 
   const [roles, setRoles] = useState({
     client: account.roles.includes(ROLE_CLIENT) ? true : false,
@@ -81,9 +76,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle}) {
     apiMethodExecution();
     handleConfirmDialog();
   }
-const log = () => {
-  console.log("wtf")
-}
+
   const convertRolesToList = () => {
     let rolesArray = [];
     if(roles.client)
@@ -92,8 +85,6 @@ const log = () => {
       rolesArray.push(ROLE_EMPLOYEE);
     if(roles.admin)
       rolesArray.push(ROLE_ADMIN);
-      console.log("rolesArray")
-      console.log(rolesArray)
     return rolesArray;
   }
 
