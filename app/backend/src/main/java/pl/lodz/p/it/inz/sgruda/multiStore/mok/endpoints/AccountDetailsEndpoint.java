@@ -132,7 +132,7 @@ public class AccountDetailsEndpoint {
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.access.level.removed.correctly."));
     }
-    @PostMapping("/send-email-verification")
+    @PutMapping("/send-email-verification")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "{validation.notnull}")
                                                                     @Email(message = "{validation.email}")
