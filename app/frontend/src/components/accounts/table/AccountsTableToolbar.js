@@ -71,7 +71,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
     const handleSearchAccounts = () => {
       handleSearch(fields.textToSearch, activeAccounts);
     }
-    const afterDeleteAccount = () => {
+    const handleHardRefresh = () => {
       setSelectedEmail('');
       setExpandedDetails(false);
       setLoadingAccountList(true);
@@ -108,7 +108,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
                 <Collapse in={expandedDetails} timeout="auto" unmountOnExit>
                   <AccountDetails
                     selectedAccountMail={selectedAccountMail}
-                    afterDeleteAccount={afterDeleteAccount}
+                    handleHardRefresh={handleHardRefresh}
                   />
                 </Collapse>
                 </Grid>

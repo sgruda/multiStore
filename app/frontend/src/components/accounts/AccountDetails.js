@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function AccountDetails({selectedAccountMail, afterDeleteAccount}) {
+function AccountDetails({selectedAccountMail, handleHardRefresh}) {
     const classes = useStyles();
     const [account, setAccount] = useState(Object);
     const [loadingData, setLoadingData] = useState(true);
@@ -142,6 +142,9 @@ function AccountDetails({selectedAccountMail, afterDeleteAccount}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("SelectedAccountDetails: " + resMessage);
+                if(resMessage === "error.account.not.exists") {
+                    handleHardRefresh();
+                }
             }
         );
     }
@@ -233,7 +236,7 @@ function AccountDetails({selectedAccountMail, afterDeleteAccount}) {
                                     <RemoveUnconfirmedAccountButton
                                         account={account}
                                         buttonStyle={classes.removeButton}
-                                        afterDeleteAccount={afterDeleteAccount}
+                                        afterDeleteAccount={handleHardRefresh}
                                         handleRefresh={ () => setLoadingData(true)}
                                     /> 
                             :<></>}
