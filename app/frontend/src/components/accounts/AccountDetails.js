@@ -4,6 +4,7 @@ import PasswordChange from './PasswordChange';
 import AccessLevelsEditor from './AccessLevelsEditor';
 import ActivitySwitch from './ActivitySwitch';
 import SendConfirmEmailButton from './SendConfirmEmailButton';
+import RemoveUnconfirmedAccountButton from './RemoveUnconfirmedAccountButton';
 import AccountService from '../../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
 
@@ -67,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#2c0fab"
         }
     },
+    removeButton: {
+        backgroundColor: "#e35656",
+        "&:hover": {
+        backgroundColor: "#eb1e1e"
+        }
+    },
 }));
 
 
@@ -111,6 +118,13 @@ function AccountDetails({selectedAccountMail}) {
     const handleChangePassword = () => {
         setOpenChangePassword(false);
         setLoadingData(true);
+    }
+
+    const treeButtons = (yes) => {
+        if(yes)
+            return 4;
+        else
+            return 6;
     }
 
     async function getAccount() {
@@ -200,19 +214,27 @@ function AccountDetails({selectedAccountMail}) {
                         <Grid container xs={12} spacing={1} justify="center">
                         {account.authProvider === 'system' ? 
                         <Grid container xs={12} spacing={1} justify="center">
-                            <Grid item xs={6}>
+                            <Grid item xs={treeButtons(!account.authenticationDataDTO.emailVerified)}>
                                 <Button 
                                     onClick={handleOpenEdit} 
                                     fullWidth 
                                     className={classes.editButton}
                                 >Edit</Button>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={treeButtons(!account.authenticationDataDTO.emailVerified)}>
                                 <Button 
                                     onClick={handleOpenChangePassword} 
                                     fullWidth 
                                     className={classes.editButton}
                                 >Change password</Button>
+                            </Grid>
+                            <Grid item xs={4}>
+                            {!account.authenticationDataDTO.emailVerified ?
+                                    <RemoveUnconfirmedAccountButton
+                                        account={account}
+                                        buttonStyle={classes.removeButton}
+                                    /> 
+                            :<></>}
                             </Grid>
                         </Grid>
                         :<></>}

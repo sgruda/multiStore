@@ -1,18 +1,14 @@
 import React, {useState, useEffect} from "react";
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
+import ConfirmDialog from '../ConfirmDialog';
 
 import Typography from '@material-ui/core/Typography';
 import { Button } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Collapse from '@material-ui/core/Collapse';
-import SyncIcon from '@material-ui/icons/Sync';
-import { makeStyles } from '@material-ui/core/styles';
 
 
-function SendConfirmEmailButton({account}) {
+function RemoveUnconfirmedAccountButton({account, buttonStyle}) {
     const [emailVerified, setEmailVerified] = useState(false);
     const [disabledButton, setDisabledButton] = useState(false);
 
@@ -20,16 +16,24 @@ function SendConfirmEmailButton({account}) {
     const [alertWarningMessage, setAlertWarningMessage] = useState('');
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [alertInfoMessage, setAlertInfoMessage] = useState('');
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-    const handleClick = () => {
+    const handleConfirmDialog = () => {
+      setOpenConfirmDialog(!openConfirmDialog);
+    }
+
+    const handleRemove = () => {
         setDisabledButton(true);
         if(!emailVerified)
-            sendMail();
+            removeAccount();
     };
 
-    async function sendMail() {
-        await AccountService.sendMail(account.email)
+    async function removeAccount() {
+        await AccountService.removeSingleAccount(account)
         .then(response => {
+            console.log('response')
+            console.log(response)
+
             if (response.status === 200) { 
                 setAlertInfoMessage('response.data');
                 setOpenSuccessAlert(true);
@@ -39,7 +43,7 @@ function SendConfirmEmailButton({account}) {
             const resMessage =
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
-                console.error("SendConfirmEmailButton: " + resMessage);
+                console.error("RemoveUnconrfimedAccount: " + resMessage);
                 setAlertWarningMessage(error.response.data.message.toString());
                 setOpenWarningAlert(true);
             }
@@ -55,11 +59,12 @@ function SendConfirmEmailButton({account}) {
         <Typography color="inherit" variant="subtitle1" component="div"  align="center">
             <Paper elevation={3}>
                 <Button 
-                    onClick={handleClick}
+                    onClick={handleConfirmDialog}
                     fullWidth
                     disabled={disabledButton}
+                    className={buttonStyle}
                 >
-                    Send confirmation mail</Button>
+                    Remove</Button>
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
                   setOpenWarningAlert={setOpenWarningAlert}
@@ -68,8 +73,13 @@ function SendConfirmEmailButton({account}) {
                   alertWarningMessage={alertWarningMessage}
                   alertInfoMessage={alertInfoMessage}
                 />
+                <ConfirmDialog
+                  openConfirmDialog={openConfirmDialog}
+                  setOpenConfirmDialog={setOpenConfirmDialog}
+                  handleConfirmAction={handleRemove}
+                />
             </Paper>
         </Typography>
     );
 }
-export default SendConfirmEmailButton;
+export default RemoveUnconfirmedAccountButton;
