@@ -168,7 +168,7 @@ function SignIn() {
                         className={classes.socialButtons} />
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to="/reset-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
