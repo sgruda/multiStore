@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch}) {
+function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch, setLoadingAccountList}) {
     const classes = useStyles();
     const aboutAccount = 'Name: ' + selectedAccountName; 
     const [expandedDetails, setExpandedDetails] = useState(false);
@@ -75,6 +75,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
     useEffect(() => {
       setExpandedDetails(false);
       setExpandedSearching(false);
+      setLoadingAccountList(true)
     }, [selectedAccountMail]);
 
     return (
