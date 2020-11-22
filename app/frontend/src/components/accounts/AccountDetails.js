@@ -2,11 +2,12 @@ import React, {useState, useEffect} from "react";
 import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from './PasswordChange';
 import AccessLevelsEditor from './AccessLevelsEditor';
+import ActivitySwitch from './ActivitySwitch';
+import AccountService from '../../services/AccountService';
+import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
 
-import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -15,10 +16,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import AccountService from '../../services/AccountService';
-import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
+
 
 const useStyles = makeStyles((theme) => ({
     doneIcon: {
@@ -74,20 +73,15 @@ function AccountDetails({selectedAccountMail}) {
     const classes = useStyles();
     const [account, setAccount] = useState(Object);
     const [loadingData, setLoadingData] = useState(true);
-    // const [roles, setRoles] = useState({
-    //     client: false,
-    //     employee: false,
-    //     admin: false,
-    // });
     const [clientRole, setClientRole] = useState(false);
     const [employeeRole, setEmployeeRole] = useState(false);
     const [adminRole, setAdminRole] = useState(false);
-
 
     const [openEdit, setOpenEdit] = useState(false);
     const [openChangePassword, setOpenChangePassword] = useState(false);
     const [openAddAccessLevel, setOpenAddAccessLevel] = useState(false);
     const [openRemoveAccessLevel, setOpenRemoveAccessLevel] = useState(false);
+
 
     const handleOpenEdit = () => {
         setOpenEdit(true);
@@ -154,13 +148,12 @@ function AccountDetails({selectedAccountMail}) {
                         <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>First name: {account.firstName}</Paper></Grid>
                         <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Last name: {account.lastName}</Paper></Grid>
                         <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>E-mail: {account.email}</Paper></Grid>
-                        <Grid xs={12}>
-                            <Paper className={classes.paperTwo} elevation={3}>
-                            Active: 
-                            {account.active 
-                                ? <DoneIcon className={classes.doneIcon}/> 
-                                : <ClearIcon className={classes.clearIcon}/> }
-                            </Paper>
+                        <Grid item xs={12}>
+                            <ActivitySwitch
+                                classes={classes}
+                                account={account}
+                                setLoadingData={setLoadingData}
+                            />
                         </Grid>
                         <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>Account type: {account.authProvider}</Paper></Grid>
                         <Grid item xs={12}>
