@@ -7,10 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
@@ -36,7 +33,7 @@ public class AccountActivityEndpoint {
         this.checkerAccountDTO = checkerAccountDTO;
     }
 
-    @PostMapping("/block")
+    @PutMapping("/block")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
@@ -53,7 +50,7 @@ public class AccountActivityEndpoint {
         return ResponseEntity.ok(new ApiResponse(true, "account.block.correctly."));
     }
 
-    @PostMapping("/unblock")
+    @PutMapping("/unblock")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
