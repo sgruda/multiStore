@@ -3,6 +3,7 @@ import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from './PasswordChange';
 import AccessLevelsEditor from './AccessLevelsEditor';
 import ActivitySwitch from './ActivitySwitch';
+import SendConfirmEmailButton from './SendConfirmEmailButton';
 import AccountService from '../../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
 
@@ -165,7 +166,11 @@ function AccountDetails({selectedAccountMail}) {
                                     <Paper className={classes.paperOne} elevation={3}>
                                         E-mail verified: {account.authenticationDataDTO.emailVerified 
                                                         ? <DoneIcon className={classes.doneIcon}/> 
-                                                        : <ClearIcon className={classes.clearIcon}/> 
+                                                        : <div> 
+                                                            <ClearIcon className={classes.clearIcon}/> 
+                                                            <SendConfirmEmailButton
+                                                                account={account}                                                            />
+                                                          </div>
                                                         }
                                     </Paper>
                                 </Grid> 
