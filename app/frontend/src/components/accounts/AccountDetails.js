@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function AccountDetails({selectedAccountMail}) {
+function AccountDetails({selectedAccountMail, afterDeleteAccount}) {
     const classes = useStyles();
     const [account, setAccount] = useState(Object);
     const [loadingData, setLoadingData] = useState(true);
@@ -233,6 +233,8 @@ function AccountDetails({selectedAccountMail}) {
                                     <RemoveUnconfirmedAccountButton
                                         account={account}
                                         buttonStyle={classes.removeButton}
+                                        afterDeleteAccount={afterDeleteAccount}
+                                        handleRefresh={ () => setLoadingData(true)}
                                     /> 
                             :<></>}
                             </Grid>

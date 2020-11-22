@@ -188,6 +188,7 @@ function AccountsList() {
         selectedAccountName={selectedName}
         handleSearch={handleSearch}
         setLoadingAccountList={setLoadingData}
+        setSelectedEmail={setSelectedEmail}
       />
       <TableContainer>
         <Table

@@ -37,7 +37,7 @@ class AccountService {
     return axios.put(API_URL_SINGLE_ACCOUNT_EDIT, account, { headers: AuthorizationHeader()});
   }
 
-  removeSingleAccount(account) { 
+  removeSingleAccount(account) {  
     return axios.post(API_URL_SINGLE_ACCOUNT_REMOVE, account, { headers: AuthorizationHeader() }); 
   } 
 

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch, setLoadingAccountList}) {
+function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch, setLoadingAccountList, setSelectedEmail}) {
     const classes = useStyles();
     const aboutAccount = 'Name: ' + selectedAccountName; 
     const [expandedDetails, setExpandedDetails] = useState(false);
@@ -70,6 +70,11 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
     }
     const handleSearchAccounts = () => {
       handleSearch(fields.textToSearch, activeAccounts);
+    }
+    const afterDeleteAccount = () => {
+      setSelectedEmail('');
+      setExpandedDetails(false);
+      setLoadingAccountList(true);
     }
 
     useEffect(() => {
@@ -103,6 +108,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
                 <Collapse in={expandedDetails} timeout="auto" unmountOnExit>
                   <AccountDetails
                     selectedAccountMail={selectedAccountMail}
+                    afterDeleteAccount={afterDeleteAccount}
                   />
                 </Collapse>
                 </Grid>
