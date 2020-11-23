@@ -7,8 +7,9 @@ import AuthenticationService from '../services/AuthenticationService';
 import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
-import  SocialButtons from '../components/SocialButtons';
+import SocialButtons from '../components/SocialButtons';
 import AddAccountForm from '../components/accounts/AddAccountForm';
+import SimpleAlert from '../components/SimpleAlert';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import Alert from '@material-ui/lab/Alert';
@@ -129,15 +130,12 @@ function SignUp() {
                   register={register}
                   errors={errors}
                 />
-                <Collapse in={openAlert}>
-                  <Alert severity="warning" action={
-                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenAlert(false); }}>
-                          <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                  }>
-                    {alertErrorMessage}
-                  </Alert>
-                </Collapse>
+                <SimpleAlert
+                  openAlert={openAlert}
+                  severityAlert="warning"
+                  setOpenAlert={setOpenAlert}
+                  alertMessage={alertErrorMessage}
+                />
                 <Button
                   type="submit"
                   fullWidth
