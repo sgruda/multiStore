@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import AuthenticationService from '../services/AuthenticationService';
-import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
 import SocialButtons from '../components/SocialButtons';
@@ -13,20 +12,16 @@ import SimpleAlert from '../components/simple/SimpleAlert';
 import SimpleDialog from '../components/simple/SimpleDialog';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
-import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -82,9 +77,13 @@ function SignUp() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
 
-  function handleSignUp() {
+  const handleSignUp = () => {
     setLoading(true);
-    AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
+    signUp();
+  }
+
+  async function signUp() {
+    await AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
       .then(response => {
         if (response.status === 201) { 
             // history.push("/");
@@ -96,14 +95,14 @@ function SignUp() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
 
-          setLoading(false);
           setAlertErrorMessage(error.response.data.message.toString());
           setOpenAlert(true);
         }
       );
+      setLoading(false);
   }
 
-  const handleCloseDialog = (event, reason) => {
+  const handleCloseDialog = () => {
     setOpenDialog(false);
     history.push("/")
   }
