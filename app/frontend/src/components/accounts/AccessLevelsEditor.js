@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import ConfirmDialog from '../ConfirmDialog';
 import AcceptButtons from '../AcceptButtons';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
+import AccessLevelsCheckboxForm from '../simple/AccessLevelCheckboxForm';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from '../../config/config';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,9 +12,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -112,38 +111,32 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, cl
                 {operationTitle} access level
             </Typography>
             <form className={classes.formControl} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox checked={clientRole} onChange={(event)=>setClientRole(event.target.checked)} name="client" />}
-                  label="Role Client"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={employeeRole} onChange={(event)=>setEmployeeRole(event.target.checked)} name="employee" />}
-                  label="Role Employee"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={adminRole} onChange={(event)=>setAdminRole(event.target.checked)} name="admin" />}
-                  label="Role Admin"
-                />
-              </FormGroup>
-            <AlertApiResponseHandler
-              openWarningAlert={openWarningAlert}
-              setOpenWarningAlert={setOpenWarningAlert}
-              openSuccessAlert={openSuccessAlert}
-              setOpenSuccessAlert={setOpenSuccessAlert}
-              alertWarningMessage={alertWarningMessage}
-              alertInfoMessage={alertInfoMessage}
-            />
-            <AcceptButtons
-              submitButtonTitle={operationTitle}
-              handleClose={handleClose}
-              showRefreshButton={showRefresh}
-            />
-            <ConfirmDialog
-              openConfirmDialog={openConfirmDialog}
-              setOpenConfirmDialog={setOpenConfirmDialog}
-              handleConfirmAction={handleEditAccessLevels}
-            />
+              <AccessLevelsCheckboxForm
+                clientRole={clientRole}
+                employeeRole={employeeRole}
+                adminRole={adminRole}
+                setClientRole={setClientRole}
+                setEmployeeRole={setEmployeeRole}
+                setAdminRole={setAdminRole}
+              />
+              <AlertApiResponseHandler
+                openWarningAlert={openWarningAlert}
+                setOpenWarningAlert={setOpenWarningAlert}
+                openSuccessAlert={openSuccessAlert}
+                setOpenSuccessAlert={setOpenSuccessAlert}
+                alertWarningMessage={alertWarningMessage}
+                alertInfoMessage={alertInfoMessage}
+              />
+              <AcceptButtons
+                submitButtonTitle={operationTitle}
+                handleClose={handleClose}
+                showRefreshButton={showRefresh}
+              />
+              <ConfirmDialog
+                openConfirmDialog={openConfirmDialog}
+                setOpenConfirmDialog={setOpenConfirmDialog}
+                handleConfirmAction={handleEditAccessLevels}
+              />
             </form>
             </div>
         </Container>
