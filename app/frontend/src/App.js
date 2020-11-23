@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import PrivateRoute from './routes/PrivateRoute';
 import { AuthContext, useAuth } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
-
 
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from './config/config';
 
@@ -18,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { LinkSharp } from "@material-ui/icons";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
@@ -79,11 +77,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
   },
   listItem: {
-    '&:hover $item': {
+  },
+  item: {
+    '&:hover': {
       backgroundColor: '#7cc3eb'
     }
   },
-  item: {},
 }));
 
 
@@ -116,7 +115,8 @@ function App(props) {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const adminToolbarListItem = [
-    { id: 'accountList', name: 'Account List', path: '/admin/accountsList' },
+    { id: 'accountList', name: 'Account List', path: '/admin/accountsList', icon: <PeopleIcon/>},
+    { id: 'accountCreation', name: 'Create Account', path: '/admin/addAccount', icon:  <PersonAddIcon/>},
   ];
 
   return (
@@ -184,7 +184,7 @@ function App(props) {
                 onClick={() => history.push(item.path)}
             >
               <ListItemIcon>
-                <PeopleIcon/>
+                {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItem>

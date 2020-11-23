@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp";
 import Admin from "../pages/Admin";
 import NotFound from "../pages/NotFound";
 import AccountsList from '../pages/AccountsList';
+import AddAccount from '../pages/AddAccount';
 import UserProfile from '../pages/UserProfile';
 import ResetPassword from '../pages/ResetPassword';
 import MailVeryfication from '../pages/MailVeryfication';
@@ -21,6 +22,9 @@ export default function Routes() {
       </Route>
       <AdminRoute exact path="/admin/accountsList">
           <AccountsList />
+      </AdminRoute>
+      <AdminRoute exact path="/admin/addAccount">
+          <AddAccount />
       </AdminRoute>
       <PrivateRoute exact path="/profile">
           <UserProfile/>
