@@ -18,7 +18,7 @@ function OAuth2Redirect(){
     if(token) {
         localStorage.setItem(ACCESS_TOKEN, token);
         setUserIsAuthenticated(true);
-        history.push("/admin");
+        history.push("/");
     } else {
         setUserIsAuthenticated(false);
     }
