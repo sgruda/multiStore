@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from "react-hook-form";
 import { useHistory} from "react-router-dom";
 
 import AccountService from '../services/AccountService';
 import AlertApiResponseHandler from '../components/AlertApiResponseHandler';
-import { useFields } from '../hooks/FieldHook';
-
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import MailIcon from '@material-ui/icons/Mail';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,7 +50,6 @@ function MailVerification() {
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
-  const [openDialog, setOpenDialog] = useState(false);
 
   const getTokenFromURL = () => {
         var regex = new RegExp('[\\?&]token=([^&#]*)');
