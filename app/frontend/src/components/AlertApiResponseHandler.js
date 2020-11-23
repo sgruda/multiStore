@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleAlert from './SimpleAlert';
+import SimpleAlert from './simple/SimpleAlert';
 
 function AlertApiResponseHandler({openWarningAlert, setOpenWarningAlert, openSuccessAlert, setOpenSuccessAlert, alertWarningMessage, alertInfoMessage}) {
   return (

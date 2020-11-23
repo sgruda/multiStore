@@ -9,7 +9,8 @@ import { useFields } from '../hooks/FieldHook';
 
 import SocialButtons from '../components/SocialButtons';
 import AddAccountForm from '../components/accounts/AddAccountForm';
-import SimpleAlert from '../components/SimpleAlert';
+import SimpleAlert from '../components/simple/SimpleAlert';
+import SimpleDialog from '../components/simple/SimpleDialog';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
 import Alert from '@material-ui/lab/Alert';
@@ -22,10 +23,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
@@ -146,31 +143,24 @@ function SignUp() {
                   Sign Up
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
-                <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
-                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
-                          className={classes.socialButtons}/>
+                <SocialButtons 
+                  GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} 
+                  GOOGLE_TEXT="Sign up with Google"
+                  FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} 
+                  FACEBOOK_TEXT="Sign up with Facebook"
+                  className={classes.socialButtons}
+                />
                 <Grid item>
                   <Link to="/signin" variant="body2">
                   {"Already have an account? Sign in"}
                   </Link>
                 </Grid>
-                <Dialog
-                  open={openDialog}
-                  onClose={handleCloseDialog}
-                  aria-describedby="dialog-description"
-                >
-                    <DialogContent>
-                      <DialogContentText id="dialog-description">
-                        Registration has been done!
-                        Confirm your accont (e-mail with activation link)
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleCloseDialog} color="primary" autoFocus>
-                        OK
-                      </Button>
-                    </DialogActions>
-                </Dialog>
+                <SimpleDialog
+                  openDialog={openDialog}
+                  handleCloseDialog={handleCloseDialog}
+                  dialogContent="Registration has been done! Confirm your accont (e-mail with activation link)"
+                  buttonText="OK"
+                />
               </form>
             </div>
           </Container>
