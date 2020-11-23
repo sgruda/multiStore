@@ -4,7 +4,8 @@ import {API_URL_ACCOUNTS, API_URL_SINGLE_ACCOUNT, API_URL_MY_ACCOUNT, API_URL_MY
   API_URL_MY_ACCOUNT_CHANGE_PASSWORD, API_URL_SINGLE_ACCOUNT_EDIT, API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD,
   API_URL_SINGLE_ACCOUNT_ADD_ACCESS_LEVEL, API_URL_SINGLE_ACCOUNT_REMOVE_ACCESS_LEVEL,
   API_URL_SINGLE_ACCOUNT_BLOCK, API_URL_SINGLE_ACCOUNT_UNBLOCK, API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL,
-  API_URL_SINGLE_ACCOUNT_REMOVE, API_URL_RESET_PASSWORD, API_URL_CHANGE_RESETTED_PASSWORD } from '../config/config';
+  API_URL_SINGLE_ACCOUNT_REMOVE, API_URL_RESET_PASSWORD, API_URL_CHANGE_RESETTED_PASSWORD,
+  API_URL_VERIFY_EMAIL } from '../config/config';
 
 class AccountService { 
 
@@ -82,6 +83,10 @@ class AccountService {
 
   sendMail(email) {
     return axios.put(API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL + '?email=' + email, '',  { headers: AuthorizationHeader() }); 
+  }
+
+  verifyEmail(token) {
+    return axios.post(API_URL_VERIFY_EMAIL + '?token=' + token, '',  { headers: AuthorizationHeader() }); 
   }
 } 
 export default new AccountService(); 

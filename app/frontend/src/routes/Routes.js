@@ -11,6 +11,7 @@ import NotFound from "../pages/NotFound";
 import AccountsList from '../pages/AccountsList';
 import UserProfile from '../pages/UserProfile';
 import ResetPassword from '../pages/ResetPassword';
+import MailVeryfication from '../pages/MailVeryfication';
 
 export default function Routes() {
   return (
@@ -35,6 +36,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/oauth2/redirect">
         <OAuth2Redirect/>
+      </Route>
+      <Route  exact path="/verify-email">
+        <MailVeryfication/>
       </Route>
       <Route>
         <NotFound />
