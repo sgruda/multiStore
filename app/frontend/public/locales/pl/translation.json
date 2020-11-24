@@ -34,7 +34,8 @@
     },
     "error": {
         "http": {
-            "403": "Odmówiono dostępu!"
+            "403": "Odmówiono dostępu!",
+            "404": "Przepraszamy, nie znaleziono takiej strony."
         }
     },
     "densePadding": "Małe wiersze",

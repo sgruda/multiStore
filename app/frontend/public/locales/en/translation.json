@@ -34,7 +34,8 @@
     },
     "error": {
         "http": {
-            "403": "Access Denied!"
+            "403": "Access Denied!",
+            "404": "Sorry, page not found."
         }
     },
     "densePadding": "Dense padding",
