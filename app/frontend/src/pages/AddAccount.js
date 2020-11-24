@@ -18,7 +18,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     left: '47%',
     margin: theme.spacing(3, 0, 2),
     color: "#4285F4",
+  },
+  formControl: {
+    margin: theme.spacing(3),
   },
 }));
 
@@ -90,6 +94,15 @@ function AddAccount() {
     setLoading(true);
     createAccount(convertRolesToList());
   }
+
+  const checkError = [clientRole, employeeRole, adminRole].filter((v) => v).length < 1;
+  const checkErrors = () => {
+    if(checkError || Object.keys(errors).length > 0)
+      return true ;
+    return false;
+  }
+
+  const disabledSubmit = checkErrors();
 
   async function createAccount(roles) {
     await AccountService.createAccount(fields, roles)
@@ -132,14 +145,21 @@ function AddAccount() {
                   errors={errors}
                 />
                 Roles:
-                <AccessLevelsCheckboxForm
-                    clientRole={clientRole}
-                    employeeRole={employeeRole}
-                    adminRole={adminRole}
-                    setClientRole={setClientRole}
-                    setEmployeeRole={setEmployeeRole}
-                    setAdminRole={setAdminRole}
-                />
+                <FormControl 
+                  required 
+                  error={checkError} 
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Pick minimum one</FormLabel>
+                  <AccessLevelsCheckboxForm
+                      clientRole={clientRole}
+                      employeeRole={employeeRole}
+                      adminRole={adminRole}
+                      setClientRole={setClientRole}
+                      setEmployeeRole={setEmployeeRole}
+                      setAdminRole={setAdminRole}
+                  />
+                </FormControl>
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
                   setOpenWarningAlert={setOpenWarningAlert}
@@ -154,6 +174,7 @@ function AddAccount() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  disabled={disabledSubmit}
                 >
                   Create
                 </Button>
