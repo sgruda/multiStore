@@ -20,6 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
     left: '47%',
     margin: theme.spacing(3, 0, 2),
     color: "#4285F4",
-  },
-  formControl: {
-    margin: theme.spacing(3),
   },
 }));
 
@@ -144,12 +142,11 @@ function AddAccount() {
                   register={register}
                   errors={errors}
                 />
-                Roles:
                 <FormControl 
                   required 
                   error={checkError} 
-                  className={classes.formControl}
                 >
+                Roles:
                   <FormLabel component="legend">Pick minimum one</FormLabel>
                   <AccessLevelsCheckboxForm
                       clientRole={clientRole}
