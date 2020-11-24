@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -58,6 +60,7 @@ const useStyles = makeStyles({
 
 function AccountsList() {
     const classes = useStyles();
+    const { t } = useTranslation();
 
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
@@ -173,11 +176,11 @@ function AccountsList() {
 
 
     const headerCells = [
-      { id: 'firstName', disablePadding: true, label: 'First Name' },
-      { id: 'lastName', disablePadding: false, label: 'Last Name' },
-      { id: 'email', disablePadding: false, label: 'E-Mail' },
-      { id: 'active', disablePadding: false, label: 'Active' },
-      { id: 'userRoles',  disablePadding: false, label: 'User Roles' },
+      { id: 'firstName', disablePadding: true, label: t('accountList.table.header.firstName') },
+      { id: 'lastName', disablePadding: false, label: t('accountList.table.header.lastName') },
+      { id: 'email', disablePadding: false, label: t('accountList.table.header.email') },
+      { id: 'active', disablePadding: false, label: t('accountList.table.header.activity') },
+      { id: 'userRoles',  disablePadding: false, label: t('accountList.table.header.roles') },
     ];
 
   return (
@@ -227,13 +230,13 @@ function AccountsList() {
     </Paper>
     <FormControlLabel
       control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
-      label="Dense padding"
+      label={t('densePadding')}
     />
     <Button
       startIcon={<SyncIcon size="large" color="primary"/>}
       onClick={handleRefresh}
     >
-      Refresh data
+      {t('refreshData')}
     </Button>
   </div>
   );

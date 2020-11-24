@@ -1,7 +1,22 @@
 {
     "signin": "Zaloguj",
     "signup": "Zarejestruj",
-    "accountList": "Lista kont",
-    "createAccount": "Utwórz nowe konto"
+    "accountList": {
+        "title": "Lista kont",
+        "table": {
+            "header": {
+                "firstName": "Imie",
+                "lastName": "Nazwisko",
+                "email": "Adres e-mail",
+                "activity": "Aktywność",
+                "roles": "Poziomy dostępu"
+            }
+        }
+    },
+    "densePadding": "Małe wiersze",
+    "refreshData": "Odśwież dane",
+    "createAccount": {
+        "title": "Utwórz nowe konto"
+    }
 
 }

@@ -1,7 +1,22 @@
 {
     "signin": "Sign in",
     "signup": "Sign up",
-    "accountList": "Account list",
-    "createAccount": "Create new account"
+    "accountList": {
+        "title": "Account list",
+        "table": {
+            "header": {
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-Mail address",
+                "activity": "Activity",
+                "roles": "Access Levels"
+            }
+        }
+    },
+    "densePadding": "Dense padding",
+    "refreshData": "Refresh data",
+    "createAccount": {
+        "title": "Create new Account"
+    }
 
 }
