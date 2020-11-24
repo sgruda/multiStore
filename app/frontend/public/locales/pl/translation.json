@@ -30,6 +30,11 @@
                     "title": "Weryfikacja adresu e-mail"
                 }
             }
+        },
+        "reset": {
+            "password": {
+                "title": "Reset hasła"
+            }
         }
     },
     "error": {

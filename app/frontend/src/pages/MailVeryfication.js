@@ -63,7 +63,7 @@ function MailVerification() {
     await AccountService.verifyEmail(token)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage(t('response'));
+                setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
             }
         },

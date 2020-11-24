@@ -24,6 +24,24 @@
                 }
             }
         },
+        "password": {
+            "reset": {
+                "dialog": {
+                    "content": "Password was successfully resetted. Please sign in."
+                },
+                "form": {
+                    "label": {
+                        "email": "Address e-mail",
+                        "password": {
+                            "confirm": "Confirm password",
+                            "main": "Password"
+                        },
+                        "token": "Token of password reset"
+                    }
+                },
+                "title": "Reset password"
+            }
+        },
         "registration": {
             "email": {
                 "veryfication": {
@@ -31,6 +49,10 @@
                 }
             }
         }
+    },
+    "button": {
+        "ok": "OK",
+        "send": "Send"
     },
     "error": {
         "http": {
@@ -56,6 +78,22 @@
         "message": {
             "checkbox": {
                 "roles": "Pick minimum one"
+            },
+            "incorrect": {
+                "entry": "Incorrect entry."
+            },
+            "required": {
+                "helper": {
+                    "email": "Enter your e-mail address.",
+                    "password": "Password is required.",
+                    "token": "Enter your reset password token (received in e-mail)."
+                },
+                "incorrect": {
+                    "password": {
+                        "confirm": "Both passwords must be the same.",
+                        "main": "Password is required (must have: 8 digits, one special character and one capital letter)."
+                    }
+                }
             }
         }
     }
