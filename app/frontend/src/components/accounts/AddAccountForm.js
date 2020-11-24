@@ -1,24 +1,7 @@
-import  React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
-
-import  SocialButtons from '../SocialButtons';
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../../config/config';
-
-import Alert from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
+import  React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+
 
 
 function AddAccountForm({fields, setFields, register, errors}) {
@@ -26,36 +9,36 @@ function AddAccountForm({fields, setFields, register, errors}) {
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
         <TextField
-            value={ fields.firstname }
+            value={ fields.firstName }
             onChange={ setFields }
             autoComplete="fname"
-            name="firstname"
+            name="firstName"
             variant="outlined"
             required
             fullWidth
-            id="firstname"
+            id="firstName"
             label="First Name"
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
-            error={errors.firstname ? true : false}
-            helperText={errors.firstname ? "Incorrect entry." : ""}
+            error={errors.firstName ? true : false}
+            helperText={errors.firstName ? "Incorrect entry." : ""}
         />
         </Grid>
         <Grid item xs={12} sm={6}>
         <TextField
-            value={ fields.lastname }
+            value={ fields.lastName }
             onChange={ setFields }
             variant="outlined"
             required
             fullWidth
-            id="lastname"
+            id="lastName"
             label="Last Name"
-            name="lastname"
+            name="lastName"
             autoComplete="lname"
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
-            error={errors.lastname ? true : false}
-            helperText={errors.lastname ? "Incorrect entry." : ""}
+            error={errors.lastName ? true : false}
+            helperText={errors.lastName ? "Incorrect entry." : ""}
         />
         </Grid>
         <Grid item xs={12}>
