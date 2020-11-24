@@ -176,11 +176,11 @@ function AccountsList() {
 
 
     const headerCells = [
-      { id: 'firstName', disablePadding: true, label: t('accountList.table.header.firstName') },
-      { id: 'lastName', disablePadding: false, label: t('accountList.table.header.lastName') },
-      { id: 'email', disablePadding: false, label: t('accountList.table.header.email') },
-      { id: 'active', disablePadding: false, label: t('accountList.table.header.activity') },
-      { id: 'userRoles',  disablePadding: false, label: t('accountList.table.header.roles') },
+      { id: 'firstName', disablePadding: true, label: t('account.list.table.header.firstName') },
+      { id: 'lastName', disablePadding: false, label: t('account.list.table.header.lastName') },
+      { id: 'email', disablePadding: false, label: t('account.list.table.header.email') },
+      { id: 'active', disablePadding: false, label: t('account.list.table.header.activity') },
+      { id: 'userRoles',  disablePadding: false, label: t('account.list.table.header.roles') },
     ];
 
   return (

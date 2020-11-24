@@ -1,22 +1,43 @@
 {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "accountList": {
-        "title": "Account list",
-        "table": {
-            "header": {
-                "firstName": "First Name",
-                "lastName": "Last Name",
-                "email": "E-Mail address",
-                "activity": "Activity",
-                "roles": "Access Levels"
+    "account": {
+        "add": {
+            "roles": "Account's access levels",
+            "submit": {
+                "button": {
+                    "title": "Add"
+                }
+            },
+            "title": "Adding account"
+        },
+        "create": {
+            "title": "Create new account"
+        },
+        "list": {
+            "title": "Account list",
+            "table": {
+                "header": {
+                    "firstName": "First Name",
+                    "lastName": "Last Name",
+                    "email": "E-Mail address",
+                    "activity": "Activity",
+                    "roles": "Access Levels"
+                }
             }
         }
     },
     "densePadding": "Dense padding",
     "refreshData": "Refresh data",
-    "createAccount": {
-        "title": "Create new Account"
+    "response": {
+        "ok": "Operation has been successful"
+    },
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "validation": {
+        "message": {
+            "checkbox": {
+                "roles": "Pick minimum one"
+            }
+        }
     }
 
 }

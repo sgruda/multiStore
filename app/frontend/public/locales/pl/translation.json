@@ -1,22 +1,42 @@
 {
-    "signin": "Zaloguj",
-    "signup": "Zarejestruj",
-    "accountList": {
-        "title": "Lista kont",
-        "table": {
-            "header": {
-                "firstName": "Imie",
-                "lastName": "Nazwisko",
-                "email": "Adres e-mail",
-                "activity": "Aktywność",
-                "roles": "Poziomy dostępu"
+    "account": {
+        "add": {
+            "roles": "Poziomy dostępu konta",
+            "submit": {
+                "button": {
+                    "title": "Dodaj"
+                }
+            },
+            "title": "Dodawanie konta"
+        },
+        "create": {
+            "title": "Utwórz nowe konto"
+        },
+        "list": {
+            "title": "Lista kont",
+            "table": {
+                "header": {
+                    "firstName": "Imie",
+                    "lastName": "Nazwisko",
+                    "email": "Adres e-mail",
+                    "activity": "Aktywność",
+                    "roles": "Poziomy dostępu"
+                }
             }
         }
     },
     "densePadding": "Małe wiersze",
     "refreshData": "Odśwież dane",
-    "createAccount": {
-        "title": "Utwórz nowe konto"
+    "response": {
+        "ok": "Operacja się powiodła"
+    },
+    "signin": "Zaloguj",
+    "signup": "Zarejestruj",
+    "validation": {
+        "message": {
+            "checkbox": {
+                "roles": "Wybierz przynajmniej jeden"
+            }
+        }
     }
-
 }

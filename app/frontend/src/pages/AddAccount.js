@@ -1,5 +1,6 @@
 import  React, { useState } from 'react';
 import { useForm } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
 
 import AccountService from '../services/AccountService';
 import { useFields } from '../hooks/FieldHook';
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AddAccount() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
     firstName: "",
     lastName: "",
@@ -106,7 +108,7 @@ function AddAccount() {
     await AccountService.createAccount(fields, roles)
       .then(response => {
         if (response.status === 200) { 
-            setAlertInfoMessage('response.data');
+            setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
           }
         },
@@ -115,7 +117,7 @@ function AddAccount() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AddAccount: " + resMessage);
-            setAlertWarningMessage(error.response.data.message.toString());
+            setAlertWarningMessage(t(error.response.data.message.toString()));
             setOpenWarningAlert(true);
         }
       );
@@ -133,7 +135,7 @@ function AddAccount() {
                 <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Add account
+                {t('account.add.title')}
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(handleCreateAccount)}>
                 <AddAccountForm
@@ -146,8 +148,8 @@ function AddAccount() {
                   required 
                   error={checkError} 
                 >
-                Roles:
-                  <FormLabel component="legend">Pick minimum one</FormLabel>
+                {t("acount.add.roles")}:
+                <FormLabel component="legend">{t('validation.message.checkbox.roles')}</FormLabel>
                   <AccessLevelsCheckboxForm
                       clientRole={clientRole}
                       employeeRole={employeeRole}
@@ -173,7 +175,7 @@ function AddAccount() {
                   className={classes.submit}
                   disabled={disabledSubmit}
                 >
-                  Create
+                  {t('account.add.submit.button.title')}
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
               </form>
