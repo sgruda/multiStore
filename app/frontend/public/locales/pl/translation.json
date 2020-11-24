@@ -1,4 +1,7 @@
 {
     "signin": "Zaloguj",
-    "signup": "Zarejestruj"
+    "signup": "Zarejestruj",
+    "accountList": "Lista kont",
+    "createAccount": "Utwórz nowe konto"
+
 }

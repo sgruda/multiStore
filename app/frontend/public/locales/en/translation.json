@@ -1,4 +1,7 @@
 {
     "signin": "Sign in",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "accountList": "Account list",
+    "createAccount": "Create new account"
+
 }

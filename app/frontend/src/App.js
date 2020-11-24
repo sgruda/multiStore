@@ -116,8 +116,8 @@ function App(props) {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const adminToolbarListItem = [
-    { id: 'accountList', name: 'Account List', path: '/admin/accountsList', icon: <PeopleIcon/>},
-    { id: 'accountCreation', name: 'Create Account', path: '/admin/addAccount', icon:  <PersonAddIcon/>},
+    { id: 'accountList', name: t('accountList'), path: '/admin/accountsList', icon: <PeopleIcon/>},
+    { id: 'accountCreation', name: t('createAccount'), path: '/admin/addAccount', icon:  <PersonAddIcon/>},
   ];
 
   return (
