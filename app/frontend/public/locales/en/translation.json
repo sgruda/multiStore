@@ -23,10 +23,24 @@
                     "roles": "Access Levels"
                 }
             }
+        },
+        "registration": {
+            "email": {
+                "veryfication": {
+                    "title": "Address e-mail veryfication"
+                }
+            }
         }
     },
     "densePadding": "Dense padding",
     "refreshData": "Refresh data",
+    "redirect": {
+        "to": {
+            "page": {
+                "signin": "Now you can sign in"
+            }
+        }
+    },
     "response": {
         "ok": "Operation has been successful"
     },

@@ -23,10 +23,24 @@
                     "roles": "Poziomy dostępu"
                 }
             }
+        },
+        "registration": {
+            "email": {
+                "veryfication": {
+                    "title": "Weryfikacja adresu e-mail"
+                }
+            }
         }
     },
     "densePadding": "Małe wiersze",
     "refreshData": "Odśwież dane",
+    "redirect": {
+        "to": {
+            "page": {
+                "signin": "Teraz możesz się zalogwać"
+            }
+        }
+    },
     "response": {
         "ok": "Operacja się powiodła"
     },

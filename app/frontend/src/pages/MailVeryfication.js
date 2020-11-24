@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory} from "react-router-dom";
 
 import AccountService from '../services/AccountService';
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MailVerification() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
@@ -61,7 +63,7 @@ function MailVerification() {
     await AccountService.verifyEmail(token)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage('response.data');
+                setAlertInfoMessage(t('response'));
                 setOpenSuccessAlert(true);
             }
         },
@@ -70,7 +72,7 @@ function MailVerification() {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ResetPassword: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
@@ -91,7 +93,7 @@ function MailVerification() {
           <MailIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-             E-mail Veryfication
+             {t('account.registration.email.verification.title')}
         </Typography>
             { loading && <CircularProgress size={50} className={classes.circularProgress} />}
             <AlertApiResponseHandler
@@ -107,7 +109,7 @@ function MailVerification() {
                 className={classes.submit} 
                 onClick={() => history.push("/signin")}
             >
-                Go sign in</Button>
+                {t('redirect.to.page.signin')}</Button>
       </div>
     </Container>
   );
