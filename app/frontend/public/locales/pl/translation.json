@@ -32,6 +32,11 @@
             }
         }
     },
+    "error": {
+        "http": {
+            "403": "Odmówiono dostępu!"
+        }
+    },
     "densePadding": "Małe wiersze",
     "refreshData": "Odśwież dane",
     "redirect": {

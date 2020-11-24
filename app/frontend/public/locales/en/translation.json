@@ -32,6 +32,11 @@
             }
         }
     },
+    "error": {
+        "http": {
+            "403": "Access Denied!"
+        }
+    },
     "densePadding": "Dense padding",
     "refreshData": "Refresh data",
     "redirect": {
