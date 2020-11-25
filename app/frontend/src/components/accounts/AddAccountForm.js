@@ -1,10 +1,12 @@
 import  React from 'react';
+import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 
 
 function AddAccountForm({fields, setFields, register, errors}) {
+    const { t } = useTranslation(); 
   return (
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -17,11 +19,11 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             id="firstName"
-            label="First Name"
+            label={t('account.add.form.firstName')}
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
             error={errors.firstName ? true : false}
-            helperText={errors.firstName ? "Incorrect entry." : ""}
+            helperText={errors.firstName ? t('validation.message.required.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -32,13 +34,13 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             id="lastName"
-            label="Last Name"
+            label={t('account.add.form.lastName')}
             name="lastName"
             autoComplete="lname"
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
             error={errors.lastName ? true : false}
-            helperText={errors.lastName ? "Incorrect entry." : ""}
+            helperText={errors.lastName ? t('validation.message.required.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12}>
@@ -49,13 +51,13 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t('account.add.form.email')}
             name="email"
             autoComplete="email"
 
             inputRef={register({ required: true,  pattern: /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/ })}
             error={errors.email ? true : false}
-            helperText={errors.email ? "Incorrect entry." : ""}
+            helperText={errors.email ? t('validation.message.required.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12}>
@@ -66,13 +68,13 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             id="username"
-            label="Username"
+            label={t('account.add.form.username')}
             name="username"
             autoComplete="username"
             
             inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
             error={errors.username ? true : false}
-            helperText={errors.username ? "Incorrect entry." : ""}
+            helperText={errors.username ? t('validation.message.required.incorrect.entry') : ""}
         /> 
         </Grid>
         <Grid item xs={12}>
@@ -83,14 +85,14 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t('account.add.form.password')}
             type="password"
             id="password"
             autoComplete="current-password"
 
             inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
             error={errors.password ? true : false}
-            helperText={errors.password ? "Password is required (must have 8 digits and...)" : ""}
+            helperText={errors.password ? t('validation.message.required.incorrect.password.default') : ""}
         />
         </Grid>
         <Grid item xs={12}>
@@ -101,7 +103,7 @@ function AddAccountForm({fields, setFields, register, errors}) {
             required
             fullWidth
             name="confirmPassword"
-            label="Confirm password"
+            label={t('account.add.form.confirm-password')}
             type="password"
             id="confirmPassword"
             autoComplete="current-password"
@@ -110,8 +112,8 @@ function AddAccountForm({fields, setFields, register, errors}) {
                                 validate: confirmPassword => confirmPassword === fields.password})}
             error={errors.confirmPassword ? true : false}
             helperText={errors.confirmPassword ? 
-                        errors.confirmPassword?.type === "validate" ? "Both must be the same" : "Password is required (must have 8 digits and...)"
-                        : ""}
+                errors.confirmPassword?.type === "validate" ? t('validation.message.required.incorrect.password.confirm') : t('validation.message.required.helper.password.confirm')
+                : ""}
         />
         </Grid>
     </Grid>

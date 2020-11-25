@@ -20,6 +20,15 @@
             }
         },
         "add": {
+            "form": {
+                "confirm-password": "Confirm Password",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-Mail address",
+                "password": "Password",
+                "roles": "Access Levels",
+                "username": "Username"
+            },
             "roles": "Account's access levels"
         },
         "create": {
@@ -149,6 +158,7 @@
                 "edit": "Edit account",
                 "list": "Account list"
             },
+            "email-confirmation": "Send confirmation mail",
             "email-veryfication": "Address e-mail veryfication",
             "profile": "Profile",
             "reset-password": "Reset password",
@@ -198,7 +208,7 @@
                 "incorrect": {
                     "password": {
                         "confirm": "Both passwords must be the same.",
-                        "main": "Password is required (must have: 8 digits, one special character and one capital letter).",
+                        "default": "Password is required (must have: 8 digits, one special character and one capital letter).",
                         "new": "Entering new password is required (must have: 8 digits, one special character and one capital letter).",
                         "present": "Entering present password is required (must have: 8 digits, one special character and one capital letter)."
                     }

@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";2
+import { useTranslation } from 'react-i18next';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 
@@ -13,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 function SendConfirmEmailButton({account}) {
+    const { t } = useTranslation();
     const [emailVerified, setEmailVerified] = useState(false);
     const [disabledButton, setDisabledButton] = useState(false);
 
@@ -31,7 +33,7 @@ function SendConfirmEmailButton({account}) {
         await AccountService.sendMail(account.email)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage('response.data');
+                setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
             }
         },
@@ -40,7 +42,7 @@ function SendConfirmEmailButton({account}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("SendConfirmEmailButton: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
@@ -59,7 +61,7 @@ function SendConfirmEmailButton({account}) {
                     fullWidth
                     disabled={disabledButton}
                 >
-                    Send confirmation mail</Button>
+                    {t('pages.titles.email-confirmation')}</Button>
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
                   setOpenWarningAlert={setOpenWarningAlert}

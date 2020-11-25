@@ -172,7 +172,7 @@ function ResetPassword() {
 
                     inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
                     error={errors.password ? true : false}
-                    helperText={errors.password ? t('validation.message.required.incorrect.password.main') : t('validation.message.required.helper.password.default')}
+                    helperText={errors.password ? t('validation.message.required.incorrect.password.default') : t('validation.message.required.helper.password.default')}
                 />
             </Grid>
             <Grid item xs={12}>
