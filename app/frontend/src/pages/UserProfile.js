@@ -162,15 +162,15 @@ function UserProfile() {
                         <Grid item xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
                             {t('account.profile.form.label.roles')}:
-                            {t('account.roles.client')}:  { roleClientActive
+                            {t('account.access-level.names.client')}:  { roleClientActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
-                            {t('account.roles.employee')}:  { roleEmployeeActive
+                            {t('account.access-level.names.employee')}:  { roleEmployeeActive
                                                 ? <DoneIcon className={classes.doneIcon}/> 
                                                 : <ClearIcon className={classes.clearIcon}/> 
                                                 }
-                           {t('account.roles.admin')}:  { roleAdminActive
+                           {t('account.access-level.names.admin')}:  { roleAdminActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }

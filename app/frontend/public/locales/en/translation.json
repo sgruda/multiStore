@@ -8,6 +8,11 @@
                         "role": "Access level"
                     }
                 }
+            },
+            "names": {
+                "admin": "Administrator",
+                "client": "Client",
+                "employee": "Employee"
             }
         },
         "add": {
@@ -53,11 +58,6 @@
                     "username": "Username"
                 }
             }
-        },
-        "roles": {
-            "admin": "Administrator",
-            "client": "Client",
-            "employee": "Employee"
         },
         "signin": {
             "form": {
