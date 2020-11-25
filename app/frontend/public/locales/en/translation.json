@@ -127,9 +127,71 @@
         "yes": "Yes"
     },
     "error": {
+        "account": {
+            "email": {
+                "verified": "Email is already verified."
+            },
+            "operation": {
+                "disabled": "Operation is disabled for that account type."
+            },
+            "remove": {
+                "all": {
+                    "access-levels": "Account must have minimum one access level."
+                }
+            },
+            "username": {
+                "exist": "Account with given username already exists."
+            }
+        },
+        "default": "Error occured during perfoming operation!",
+        "dto": {
+            "signature": "Invalid dto signature. Refresh data and try again.",
+            "version": "Somebody has already edited this data. Refresh data and try again."
+        },
         "http": {
+            "default": "Error occured.",
+            "400": "Bad request",
             "403": "Access Denied!",
-            "404": "Sorry, page not found."
+            "404": "Sorry, page or resource not found."
+        },
+        "incorrect": {
+            "forgot": {
+                "password": {
+                    "token": {
+                        "default": "Entered incorrect token.",
+                        "not": {
+                            "exist": "Entered incorrect token."
+                        }
+                    }
+                }
+            },
+            "role": {
+                "name": "Name of role is incorrect."
+            }
+        },
+        "jwt": {
+            "expired": "JWT has been expired.",
+            "various": {
+                "id": "Incorrect JWT."
+            }
+        },
+        "oauth2": {
+            "authentication": {
+                "processing": "Are you sure, that you have account in social media?"
+            },
+            "wrong": {
+                "provider": "Wrong OAuth2 provider."
+            }
+        },
+        "passwords": {
+            "not": {
+                "equals": "Both password must be the same!"
+            }
+        },
+        "roles": {
+            "set": {
+                "empty": "Set of access levels cannot be empty!"
+            }
         }
     },
     "densePadding": "Dense padding",
