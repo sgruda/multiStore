@@ -1,19 +1,11 @@
 {
     "account": {
         "add": {
-            "roles": "Account's access levels",
-            "submit": {
-                "button": {
-                    "title": "Add"
-                }
-            },
-            "title": "Adding account"
+            "roles": "Account's access levels"
         },
         "create": {
-            "title": "Create new account"
         },
         "list": {
-            "title": "Account list",
             "table": {
                 "header": {
                     "firstName": "First Name",
@@ -48,11 +40,25 @@
                     "title": "Address e-mail veryfication"
                 }
             }
+        },
+        "signin": {
+            "form": {
+                "label": {
+                    "password": "Password",
+                    "username": "Username"
+                }
+            }
         }
     },
     "button": {
+        "add": "Add",
         "ok": "OK",
-        "send": "Send"
+        "send": "Send",
+        "signin": {
+            "default": "Sign in",
+            "facebook": "Sign in with Facebook",
+            "google": "Sign in with Google"
+        }
     },
     "error": {
         "http": {
@@ -61,11 +67,23 @@
         }
     },
     "densePadding": "Dense padding",
+    "pages": {
+        "titles": {
+            "account": {
+                "add": "Adding account",
+                "create": "Create new account",
+                "list": "Account list"
+            },
+            "signin": "Sign in"
+        }
+    },
     "refreshData": "Refresh data",
     "redirect": {
         "to": {
             "page": {
-                "signin": "Now you can sign in"
+                "reset-password": "Forgot password?",
+                "signin": "Now you can sign in",
+                "signup": "Don't have an account? Sign up"
             }
         }
     },
@@ -86,7 +104,8 @@
                 "helper": {
                     "email": "Enter your e-mail address.",
                     "password": "Password is required.",
-                    "token": "Enter your reset password token (received in e-mail)."
+                    "token": "Enter your reset password token (received in e-mail).",
+                    "username": "Enter username."
                 },
                 "incorrect": {
                     "password": {

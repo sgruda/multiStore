@@ -135,7 +135,7 @@ function AddAccount() {
                 <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {t('account.add.title')}
+                {t('pages.titles.account.add')}
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(handleCreateAccount)}>
                 <AddAccountForm
@@ -148,7 +148,7 @@ function AddAccount() {
                   required 
                   error={checkError} 
                 >
-                {t("acount.add.roles")}:
+                {t("account.add.roles")}:
                 <FormLabel component="legend">{t('validation.message.checkbox.roles')}</FormLabel>
                   <AccessLevelsCheckboxForm
                       clientRole={clientRole}
@@ -175,7 +175,7 @@ function AddAccount() {
                   className={classes.submit}
                   disabled={disabledSubmit}
                 >
-                  {t('account.add.submit.button.title')}
+                  {t('button.add')}
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
               </form>
