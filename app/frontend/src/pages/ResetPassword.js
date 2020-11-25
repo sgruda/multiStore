@@ -148,7 +148,7 @@ function ResetPassword() {
                     required
                     fullWidth
                     id="token"
-                    label={t('account.password.reset.form.label.token')}
+                    label={t('account.password.reset.token')}
                     name="token"
                     autoComplete="token"
 
@@ -165,7 +165,7 @@ function ResetPassword() {
                     required
                     fullWidth
                     name="password"
-                    label={t('account.password.reset.form.label.password.main')}
+                    label={t('account.password.reset.password.main')}
                     type="password"
                     id="password"
                     autoComplete="current-password"
@@ -183,7 +183,7 @@ function ResetPassword() {
                     required
                     fullWidth
                     name="confirmPassword"
-                    label={t('account.password.reset.form.label.password.confirm')}
+                    label={t('account.password.reset.password.confirm')}
                     type="password"
                     id="confirmPassword"
                     autoComplete="current-password"
@@ -219,7 +219,7 @@ function ResetPassword() {
             required
             fullWidth
             id="email"
-            label={t('account.password.reset.form.label.email')}
+            label={t('account.password.reset.email')}
             name="email"
             autoComplete="email"
 

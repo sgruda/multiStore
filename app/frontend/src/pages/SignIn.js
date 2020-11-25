@@ -120,7 +120,7 @@ function SignIn() {
             required
             fullWidth
             id="username"
-            label={t('account.signin.form.label.username')}
+            label={t('account.signin.username')}
             name="username"
             autoComplete="username"
             
@@ -136,7 +136,7 @@ function SignIn() {
             required
             fullWidth
             name="password"
-            label={t('account.signin.form.label.password')}
+            label={t('account.signin.password')}
             type="password"
             id="password"
             autoComplete="current-password"

@@ -2,16 +2,12 @@
     "account": {
         "access-level": {
             "choose": {
-                "form": {
-                    "label": {
-                        "current": "Your current role",
-                        "role": "Access level",
-                    }
-                }
+                "current": "Your current role",
+                "role": "Access level"
             },
             "edit": {
                 "firstName": "First Name",
-                "lastName": "Last Name",
+                "lastName": "Last Name"
             },
             "names": {
                 "admin": "Administrator",
@@ -62,16 +58,12 @@
                 "present": "Present password"
             },
             "reset": {
-                "form": {
-                    "label": {
-                        "email": "Address e-mail",
-                        "password": {
-                            "confirm": "Confirm password",
-                            "main": "Password"
-                        },
-                        "token": "Token of password reset"
-                    }
-                }
+                "email": "Address e-mail",
+                "password": {
+                    "confirm": "Confirm password",
+                    "main": "Password"
+                },
+                "token": "Token of password reset"
             }
         },
         "profile": {
@@ -85,12 +77,8 @@
             "username": "Username"
         },
         "signin": {
-            "form": {
-                "label": {
-                    "password": "Password",
-                    "username": "Username"
-                }
-            }
+            "password": "Password",
+            "username": "Username"
         }
     },
     "button": {

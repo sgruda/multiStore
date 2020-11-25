@@ -48,14 +48,14 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
           {t('pages.titles.account.access-level.choose')}
         </Typography>
         <FormControl className={classes.formControl}>
-        <InputLabel>{t('account.access-level.choose.form.label.role')}</InputLabel>
+        <InputLabel>{t('account.access-level.choose.role')}</InputLabel>
         <NativeSelect
           value={currentActiveRole}
           onChange={(event) => {setCurrentActiveRole(event.target.value)}}
         >
           {options}
         </NativeSelect>
-        <FormHelperText>{t('account.access-level.choose.form.label.current')}: {currentActiveRole}</FormHelperText>
+        <FormHelperText>{t('account.access-level.choose.current')}: {currentActiveRole}</FormHelperText>
       </FormControl>
       </CardContent>
       <CardActions>
