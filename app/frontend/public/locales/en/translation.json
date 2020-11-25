@@ -10,6 +10,8 @@
                 }
             },
             "edit": {
+                "firstName": "First Name",
+                "lastName": "Last Name",
             },
             "names": {
                 "admin": "Administrator",
@@ -45,6 +47,11 @@
             }
         },
         "password": {
+            "change": {
+                "confirm-password": "Confirm password",
+                "new": "New password",
+                "present": "Present password"
+            },
             "reset": {
                 "form": {
                     "label": {
@@ -83,6 +90,7 @@
             "default": "Add"
         },
         "cancel": "Cancel",
+        "change": "Change",
         "change-password": "Change password",
         "close": "Close",
         "edit": "Edit",
@@ -118,6 +126,10 @@
     "dialog": {
         "content": {
             "confirm": "Are you sure?",
+            "remove": {
+                "the": "The ",
+                "deleted": " account was successfully deleted."
+            },
             "reset-password": "Password was successfully resetted. Please sign in.",
             "signup": "Registration has been done! Confirm your accont (e-mail with activation link)."
         }
@@ -130,9 +142,11 @@
                     "current": "Current access level"
                 },
                 "accounts": "Accounts",
+                "activity": "Activity",
                 "add": "Adding account",
+                "change-password": "Change password",
                 "create": "Create new account",
-
+                "edit": "Edit account",
                 "list": "Account list"
             },
             "email-veryfication": "Address e-mail veryfication",
@@ -172,14 +186,21 @@
             "required": {
                 "helper": {
                     "email": "Enter your e-mail address.",
-                    "password": "Password is required.",
+                    "password": {
+                        "confirm": "Confirm your password",
+                        "default": "Password is required.",
+                        "new": "New password is required.",
+                        "present": "Present password is required."
+                    },
                     "token": "Enter your reset password token (received in e-mail).",
                     "username": "Enter username."
                 },
                 "incorrect": {
                     "password": {
                         "confirm": "Both passwords must be the same.",
-                        "main": "Password is required (must have: 8 digits, one special character and one capital letter)."
+                        "main": "Password is required (must have: 8 digits, one special character and one capital letter).",
+                        "new": "Entering new password is required (must have: 8 digits, one special character and one capital letter).",
+                        "present": "Entering present password is required (must have: 8 digits, one special character and one capital letter)."
                     }
                 }
             }

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 
@@ -22,6 +23,7 @@ const useStyles = makeStyles(({
 
 function ActivitySwitch({classes, account, setLoadingData}) {
     const buttonStyleClasses = useStyles();
+    const { t } = useTranslation();
     const [accountActivity, setAccountActivity] = useState(false);
 
     const [openWarningAlert, setOpenWarningAlert] = useState(false);
@@ -47,7 +49,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
         await AccountService.block(account)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage('response.data');
+                setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
             }
         },
@@ -56,7 +58,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ActivitySwitch: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
                 setShowRefresh(true);
             }
@@ -66,7 +68,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
         await AccountService.unblock(account)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage('response.data');
+                setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
             }
         },
@@ -75,7 +77,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("Activity SelectedAccountDetails: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
                 setShowRefresh(true);
             }
@@ -89,7 +91,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
     return (
         <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
             <Paper className={classes.paperTwo} elevation={3}>
-                Active: 
+                {t('pages.titles.account.activity')}: 
                 <FormControlLabel
                     control={<Switch checked={accountActivity} onChange={handleActivityChange} />}
                 />
@@ -110,7 +112,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
                     className={buttonStyleClasses.buttonRefresh}
                     startIcon={<SyncIcon size="large" color="primary"/>}
                     >
-                    Refresh data
+                    {t("button.refresh")}
                     </Button>
                 </Collapse>
             </Paper>

@@ -143,7 +143,7 @@ function SignIn() {
 
             inputRef={register({ required: true })}
             error={errors.password ? true : false}
-            helperText={errors.password ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.password')}
+            helperText={errors.password ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.password.default')}
           />
           <Collapse in={openAlert}>
             <Alert severity="warning" action={
