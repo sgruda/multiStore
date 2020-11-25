@@ -2,7 +2,7 @@
     "account": {
         "access-level": {
             "choose": {
-                "current": "Your current role",
+                "current": "Your current access level",
                 "role": "Access level"
             },
             "edit": {
@@ -26,8 +26,6 @@
                 "username": "Username"
             },
             "roles": "Account's access levels"
-        },
-        "create": {
         },
         "list": {
             "table": {
@@ -95,8 +93,8 @@
         "ok": "OK",
         "refresh": "Refresh data",
         "remove": {
-            "access-level": "Remove access leve;",
-            "default": "REmove"
+            "access-level": "Remove access level",
+            "default": "Remove"
         },
         "reset-password": "Reset password",
         "search": "Search",
@@ -191,14 +189,14 @@
                 "deleted": " account was successfully deleted."
             },
             "reset-password": "Password was successfully resetted. Please sign in.",
-            "signup": "Registration has been done! Confirm your accont (e-mail with activation link)."
+            "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
         }
     },
     "pages": {
         "titles": {
             "account": {
                 "access-level": {
-                    "choose": "Choose role",
+                    "choose": "Choose access level",
                     "current": "Current access level"
                 },
                 "accounts": "Accounts",
@@ -247,7 +245,7 @@
                 "helper": {
                     "email": "Enter your e-mail address.",
                     "password": {
-                        "confirm": "Confirm your password",
+                        "confirm": "Confirm your password.",
                         "default": "Password is required.",
                         "new": "New password is required.",
                         "present": "Present password is required."
