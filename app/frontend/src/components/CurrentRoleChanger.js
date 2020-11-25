@@ -38,7 +38,7 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
   const { t } = useTranslation();
   const userRoles = AuthenticationService.getParsedJWT().roles;
   const options = userRoles.map((role) =>  
-    <option value={role}>{role}</option>
+    <option value={role}>{t('account.access-level.names.' + role.split("_")[1].toLowerCase())}</option>
   );
 
   return (
@@ -55,7 +55,7 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
         >
           {options}
         </NativeSelect>
-        <FormHelperText>{t('account.access-level.choose.current')}: {currentActiveRole}</FormHelperText>
+        <FormHelperText>{t('account.access-level.choose.current')}: {t('account.access-level.names.' + currentActiveRole.split("_")[1].toLowerCase())}</FormHelperText>
       </FormControl>
       </CardContent>
       <CardActions>

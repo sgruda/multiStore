@@ -142,7 +142,7 @@ function AccountsList() {
                     const _roles = [];
                     account.roles.map(role => {
                         let parts = role.split("_");
-                        _roles.push(parts[1] + ", ");
+                        _roles.push(t('account.access-level.names.' + parts[1].toLowerCase()) + ", ");
                     });
                     return {
                       id: account.idHash,
@@ -223,6 +223,7 @@ function AccountsList() {
         component="div"
         count={totalItems}
         rowsPerPage={rowsPerPage}
+        labelRowsPerPage={t('account.list.table.pagination.rows-per-page')}
         page={page}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}

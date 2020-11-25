@@ -42,6 +42,9 @@
                     "activity": "Aktywność",
                     "roles": "Poziomy dostępu"
                 },
+                "pagination": {
+                    "rows-per-page": "Wiersze na stronę"
+                },
                 "toolbar": {
                     "details": "Szczegóły",
                     "search": "Szukaj",

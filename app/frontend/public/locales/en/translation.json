@@ -42,6 +42,9 @@
                     "activity": "Activity",
                     "roles": "Access Levels"
                 },
+                "pagination": {
+                    "rows-per-page": "Rows per page"
+                },
                 "toolbar": {
                     "details": "Details",
                     "search": "Search",
