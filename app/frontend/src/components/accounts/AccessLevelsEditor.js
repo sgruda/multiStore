@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from "react-hook-form";
 import ConfirmDialog from '../ConfirmDialog';
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, clientRole, employeeRole, adminRole, setClientRole, setEmployeeRole, setAdminRole}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [openWarningAlert, setOpenWarningAlert] = useState(false);
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
@@ -83,7 +85,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, cl
     await apiMethod(account, roles)
     .then(response => {
         if (response.status === 200) { 
-            setAlertInfoMessage('response.data');
+            setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
         }
     },
@@ -92,7 +94,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, cl
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AccessLevelsEditor: " + resMessage);
-            setAlertWarningMessage(error.response.data.message.toString());
+            setAlertWarningMessage(t(error.response.data.message.toString()));
             setOpenWarningAlert(true);
             setShowRefresh(true);
         }
@@ -108,7 +110,7 @@ function AccessLevelsEditor({account, handleClose, apiMethod, operationTitle, cl
                 <AccountBoxIcon fontSize="medium"/>
             </Avatar>
             <Typography component="h1" variant="h5">
-                {operationTitle} access level
+                {operationTitle}
             </Typography>
             <form className={classes.formControl} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
               <AccessLevelsCheckboxForm

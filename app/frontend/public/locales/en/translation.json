@@ -5,9 +5,11 @@
                 "form": {
                     "label": {
                         "current": "Your current role",
-                        "role": "Access level"
+                        "role": "Access level",
                     }
                 }
+            },
+            "edit": {
             },
             "names": {
                 "admin": "Administrator",
@@ -57,18 +59,14 @@
             }
         },
         "profile": {
-            "form": {
-                "label": {
-                    "activity": "Activity",
-                    "account-type": "Account type",
-                    "email": "Address e-mail",
-                    "email-verified": "Address e-mail verified",
-                    "firstName": "First Name",
-                    "lastName": "Last Name",
-                    "roles": "Access levels",
-                    "username": "Username"
-                }
-            }
+            "activity": "Activity",
+            "account-type": "Account type",
+            "email": "Address e-mail",
+            "email-verified": "Address e-mail verified",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "roles": "Access levels",
+            "username": "Username"
         },
         "signin": {
             "form": {
@@ -80,7 +78,10 @@
         }
     },
     "button": {
-        "add": "Add",
+        "add": {
+            "access-level": "Add access leve;",
+            "default": "Add"
+        },
         "cancel": "Cancel",
         "change-password": "Change password",
         "close": "Close",
@@ -88,6 +89,10 @@
         "no": "No",
         "ok": "OK",
         "refresh": "Refresh data",
+        "remove": {
+            "access-level": "Remove access leve;",
+            "default": "REmove"
+        },
         "reset-password": "Reset password",
         "search": "Search",
         "send": "Send",

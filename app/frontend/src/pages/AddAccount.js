@@ -175,7 +175,7 @@ function AddAccount() {
                   className={classes.submit}
                   disabled={disabledSubmit}
                 >
-                  {t('button.add')}
+                  {t('button.add.default')}
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
               </form>

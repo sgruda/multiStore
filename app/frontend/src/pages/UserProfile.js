@@ -129,26 +129,26 @@ function UserProfile() {
             <Grid container xs={12}>
                 <Grid xs={12}>
                     <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.firstName')}: {account.firstName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.form.label.lastName')}: {account.lastName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.email')}: {account.email}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.firstName')}: {account.firstName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.lastName')}: {account.lastName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.email')}: {account.email}</Paper></Grid>
                         <Grid xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
-                            {t('account.profile.form.label.activity')}: 
+                            {t('account.profile.activity')}: 
                             {account.active 
                                 ? <DoneIcon className={classes.doneIcon}/> 
                                 : <ClearIcon className={classes.clearIcon}/> }
                             </Paper>
                         </Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.account-type')}: {account.authProvider}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.account-type')}: {account.authProvider}</Paper></Grid>
                         <Grid item xs={12}>
                             {account.authProvider === "system"
                             ?  
                             <Grid container xs={12}>
-                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.form.label.username')}: {account.authenticationDataDTO.username}</Paper></Grid>
+                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.username')}: {account.authenticationDataDTO.username}</Paper></Grid>
                                 <Grid item xs={12}>
                                     <Paper className={classes.paperOne} elevation={3}>
-                                    {t('account.profile.form.label.email-verified')}: {account.authenticationDataDTO.emailVerified 
+                                    {t('account.profile.email-verified')}: {account.authenticationDataDTO.emailVerified 
                                                         ? <DoneIcon className={classes.doneIcon}/> 
                                                         : <ClearIcon className={classes.clearIcon}/> 
                                                         }
@@ -161,7 +161,7 @@ function UserProfile() {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
-                            {t('account.profile.form.label.roles')}:
+                            {t('account.profile.roles')}:
                             {t('account.access-level.names.client')}:  { roleClientActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
