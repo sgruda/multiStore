@@ -93,7 +93,7 @@ function MailVerification() {
           <MailIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-             {t('account.registration.email.verification.title')}
+             {t('pages.titles.email-veryfication')}
         </Typography>
             { loading && <CircularProgress size={50} className={classes.circularProgress} />}
             <AlertApiResponseHandler
@@ -109,7 +109,7 @@ function MailVerification() {
                 className={classes.submit} 
                 onClick={() => history.push("/signin")}
             >
-                {t('redirect.to.page.signin')}</Button>
+                {t('redirect.to.page.signin.mail-veryfication')}</Button>
       </div>
     </Container>
   );

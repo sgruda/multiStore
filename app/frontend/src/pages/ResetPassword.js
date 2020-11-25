@@ -134,7 +134,7 @@ function ResetPassword() {
           <ContactMailIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          {t('account.reset.password.title')}
+          {t('pages.titles.reset-password')}
         </Typography>
         { !loading && mailSent 
         ? 
@@ -205,7 +205,7 @@ function ResetPassword() {
                 className={classes.submit}
                 disabled={loading}
             >
-                {t('account.password.reset.title')}
+                {t('button.reset-password')}
             </Button>
             </Grid>
         </Grid>
@@ -255,7 +255,7 @@ function ResetPassword() {
         >
             <DialogContent>
                 <DialogContentText id="dialog-description">
-                  {t('account.password.reset.dialog.content')}
+                  {t('dialog.content.reset-password')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

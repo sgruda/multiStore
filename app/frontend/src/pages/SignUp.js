@@ -1,4 +1,5 @@
 import  React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
     firstname: "",
     lastname: "",
@@ -95,7 +97,7 @@ function SignUp() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
 
-          setAlertErrorMessage(error.response.data.message.toString());
+          setAlertErrorMessage(t(error.response.data.message.toString()));
           setOpenAlert(true);
         }
       );
@@ -117,7 +119,7 @@ function SignUp() {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign up
+                {t('pages.titles.signup')}
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(handleSignUp)}>
                 <AddAccountForm
@@ -139,26 +141,26 @@ function SignUp() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign Up
+                  {t('button.signup.default')}
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
                 <SocialButtons 
                   GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} 
-                  GOOGLE_TEXT="Sign up with Google"
+                  GOOGLE_TEXT={t('button.signup.google')}
                   FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} 
-                  FACEBOOK_TEXT="Sign up with Facebook"
+                  FACEBOOK_TEXT={t('button.signup.facebook')}
                   className={classes.socialButtons}
                 />
                 <Grid item>
                   <Link to="/signin" variant="body2">
-                  {"Already have an account? Sign in"}
+                  {t('redirect.to.page.signin.signup')}
                   </Link>
                 </Grid>
                 <SimpleDialog
                   openDialog={openDialog}
                   handleCloseDialog={handleCloseDialog}
-                  dialogContent="Registration has been done! Confirm your accont (e-mail with activation link)"
-                  buttonText="OK"
+                  dialogContent={t('dialog.content.signup')}
+                  buttonText={t('button.ok')}
                 />
               </form>
             </div>

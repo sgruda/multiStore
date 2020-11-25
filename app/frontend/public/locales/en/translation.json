@@ -18,9 +18,6 @@
         },
         "password": {
             "reset": {
-                "dialog": {
-                    "content": "Password was successfully resetted. Please sign in."
-                },
                 "form": {
                     "label": {
                         "email": "Address e-mail",
@@ -30,14 +27,6 @@
                         },
                         "token": "Token of password reset"
                     }
-                },
-                "title": "Reset password"
-            }
-        },
-        "registration": {
-            "email": {
-                "veryfication": {
-                    "title": "Address e-mail veryfication"
                 }
             }
         },
@@ -54,10 +43,16 @@
         "add": "Add",
         "ok": "OK",
         "send": "Send",
+        "reset-password": "Reset password",
         "signin": {
             "default": "Sign in",
             "facebook": "Sign in with Facebook",
             "google": "Sign in with Google"
+        },
+        "signup": {
+            "default": "Sign up",
+            "facebook": "Sign up with Facebook",
+            "google": "Sign up with Google"
         }
     },
     "error": {
@@ -67,6 +62,12 @@
         }
     },
     "densePadding": "Dense padding",
+    "dialog": {
+        "content": {
+            "reset-password": "Password was successfully resetted. Please sign in.",
+            "signup": "Registration has been done! Confirm your accont (e-mail with activation link)."
+        }
+    },
     "pages": {
         "titles": {
             "account": {
@@ -74,7 +75,10 @@
                 "create": "Create new account",
                 "list": "Account list"
             },
-            "signin": "Sign in"
+            "email-veryfication": "Address e-mail veryfication",
+            "reset-password": "Reset password",
+            "signin": "Sign in",
+            "signup": "Sign up"
         }
     },
     "refreshData": "Refresh data",
@@ -82,7 +86,10 @@
         "to": {
             "page": {
                 "reset-password": "Forgot password?",
-                "signin": "Now you can sign in",
+                "signin": {
+                    "mail-veryfication": "Now you can sign in",
+                    "signup": "Already have an account? Sign in"
+                },
                 "signup": "Don't have an account? Sign up"
             }
         }
