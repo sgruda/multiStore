@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClosePopper}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const userRoles = AuthenticationService.getParsedJWT().roles;
   const options = userRoles.map((role) =>  
     <option value={role}>{role}</option>
@@ -43,22 +45,22 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
     <Card className={classes.root} variant="outlined" justify="center">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Choose role
+          {t('pages.titles.account.access-level.choose')}
         </Typography>
         <FormControl className={classes.formControl}>
-        <InputLabel>Role</InputLabel>
+        <InputLabel>{t('account.access-level.choose.form.label.role')}</InputLabel>
         <NativeSelect
           value={currentActiveRole}
           onChange={(event) => {setCurrentActiveRole(event.target.value)}}
         >
           {options}
         </NativeSelect>
-        <FormHelperText>Your current role: {currentActiveRole}</FormHelperText>
+        <FormHelperText>{t('account.access-level.choose.form.label.current')}: {currentActiveRole}</FormHelperText>
       </FormControl>
       </CardContent>
       <CardActions>
         <Container justify="center" className={classes.buttons}>
-           <Button onClick={(event) => handleClosePopper(event)} size="small">Close</Button>
+           <Button onClick={(event) => handleClosePopper(event)} size="small">{t('button.close')}</Button>
         </Container>
       </CardActions>
     </Card>

@@ -1,5 +1,15 @@
 {
     "account": {
+        "access-level": {
+            "choose": {
+                "form": {
+                    "label": {
+                        "current": "Your current role",
+                        "role": "Access level"
+                    }
+                }
+            }
+        },
         "add": {
             "roles": "Account's access levels"
         },
@@ -60,9 +70,13 @@
     },
     "button": {
         "add": "Add",
+        "cancel": "Cancel",
         "change-password": "Change password",
+        "close": "Close",
         "edit": "Edit",
+        "no": "No",
         "ok": "OK",
+        "refresh": "Refresh data",
         "reset-password": "Reset password",
         "send": "Send",
         "signin": {
@@ -74,7 +88,8 @@
             "default": "Sign up",
             "facebook": "Sign up with Facebook",
             "google": "Sign up with Google"
-        }
+        },
+        "yes": "Yes"
     },
     "error": {
         "http": {
@@ -85,6 +100,7 @@
     "densePadding": "Dense padding",
     "dialog": {
         "content": {
+            "confirm": "Are you sure?",
             "reset-password": "Password was successfully resetted. Please sign in.",
             "signup": "Registration has been done! Confirm your accont (e-mail with activation link)."
         }
@@ -92,14 +108,20 @@
     "pages": {
         "titles": {
             "account": {
+                "access-level": {
+                    "choose": "Choose role",
+                    "current": "Current access level"
+                },
                 "add": "Adding account",
                 "create": "Create new account",
+
                 "list": "Account list"
             },
             "email-veryfication": "Address e-mail veryfication",
             "profile": "Profile",
             "reset-password": "Reset password",
             "signin": "Sign in",
+            "signout": "Sign out",
             "signup": "Sign up"
         }
     },
