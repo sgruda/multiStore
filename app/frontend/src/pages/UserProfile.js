@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
@@ -62,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserProfile() {
     const classes = useStyles();
+    const { t } = useTranslation();
     const [loadingData, setLoadingData] = useState(true);
     const [account, setAccount] = useState(Object);
     const [roleClientActive, setRoleClientActive] = useState(false);
@@ -122,31 +124,31 @@ function UserProfile() {
                 <AccountBoxIcon fontSize="large"/>
             </Avatar>
             <Typography component="h1" variant="h5">
-            Profile
+            {t('pages.titles.profile')}
             </Typography>
             <Grid container xs={12}>
                 <Grid xs={12}>
                     <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>First name: {account.firstName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Last name: {account.lastName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>E-mail: {account.email}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.firstName')}: {account.firstName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.form.label.lastName')}: {account.lastName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.email')}: {account.email}</Paper></Grid>
                         <Grid xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
-                            Active: 
+                            {t('account.profile.form.label.activity')}: 
                             {account.active 
                                 ? <DoneIcon className={classes.doneIcon}/> 
                                 : <ClearIcon className={classes.clearIcon}/> }
                             </Paper>
                         </Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>Account type: {account.authProvider}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.form.label.account-type')}: {account.authProvider}</Paper></Grid>
                         <Grid item xs={12}>
                             {account.authProvider === "system"
                             ?  
                             <Grid container xs={12}>
-                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Username: {account.authenticationDataDTO.username}</Paper></Grid>
+                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.form.label.username')}: {account.authenticationDataDTO.username}</Paper></Grid>
                                 <Grid item xs={12}>
                                     <Paper className={classes.paperOne} elevation={3}>
-                                        E-mail verified: {account.authenticationDataDTO.emailVerified 
+                                    {t('account.profile.form.label.email-verified')}: {account.authenticationDataDTO.emailVerified 
                                                         ? <DoneIcon className={classes.doneIcon}/> 
                                                         : <ClearIcon className={classes.clearIcon}/> 
                                                         }
@@ -159,16 +161,16 @@ function UserProfile() {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
-                            Roles:
-                            {ROLE_CLIENT}:  { roleClientActive
+                            {t('account.profile.form.label.roles')}:
+                            {t('account.roles.client')}:  { roleClientActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
-                            {ROLE_EMPLOYEE}:  { roleEmployeeActive
+                            {t('account.roles.employee')}:  { roleEmployeeActive
                                                 ? <DoneIcon className={classes.doneIcon}/> 
                                                 : <ClearIcon className={classes.clearIcon}/> 
                                                 }
-                            {ROLE_ADMIN}:  { roleAdminActive
+                           {t('account.roles.admin')}:  { roleAdminActive
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
@@ -181,14 +183,14 @@ function UserProfile() {
                                     onClick={handleOpenEdit} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Edit</Button>
+                                >{t("button.edit")}</Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Button 
                                     onClick={handleOpenChangePassword} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Change password</Button>
+                                >{t("button.change-password")}</Button>
                             </Grid>
                         </Grid>
                         :<></>}

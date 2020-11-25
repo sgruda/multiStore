@@ -30,6 +30,25 @@
                 }
             }
         },
+        "profile": {
+            "form": {
+                "label": {
+                    "activity": "Activity",
+                    "account-type": "Account type",
+                    "email": "Address e-mail",
+                    "email-verified": "Address e-mail verified",
+                    "firstName": "First Name",
+                    "lastName": "Last Name",
+                    "roles": "Access levels",
+                    "username": "Username"
+                }
+            }
+        },
+        "roles": {
+            "admin": "Administrator",
+            "client": "Client",
+            "employee": "Employee"
+        },
         "signin": {
             "form": {
                 "label": {
@@ -41,9 +60,11 @@
     },
     "button": {
         "add": "Add",
+        "change-password": "Change password",
+        "edit": "Edit",
         "ok": "OK",
-        "send": "Send",
         "reset-password": "Reset password",
+        "send": "Send",
         "signin": {
             "default": "Sign in",
             "facebook": "Sign in with Facebook",
@@ -76,6 +97,7 @@
                 "list": "Account list"
             },
             "email-veryfication": "Address e-mail veryfication",
+            "profile": "Profile",
             "reset-password": "Reset password",
             "signin": "Sign in",
             "signup": "Sign up"
