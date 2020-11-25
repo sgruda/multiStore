@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";2
+import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
@@ -61,7 +61,7 @@ function SendConfirmEmailButton({account}) {
                     fullWidth
                     disabled={disabledButton}
                 >
-                    {t('pages.titles.email-confirmation')}</Button>
+                    {t('button.send-email-confirmation')}</Button>
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
                   setOpenWarningAlert={setOpenWarningAlert}
