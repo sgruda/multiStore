@@ -22,12 +22,23 @@
         },
         "list": {
             "table": {
+                "filter": {
+                    "all": "All",
+                    "label": "Show accounts",
+                    "only-active": "Only active accounts",
+                    "only-non-active": "Only non active accounts"
+                },
                 "header": {
                     "firstName": "First Name",
                     "lastName": "Last Name",
                     "email": "E-Mail address",
                     "activity": "Activity",
                     "roles": "Access Levels"
+                },
+                "toolbar": {
+                    "details": "Details",
+                    "search": "Search",
+                    "selected": "Selected"
                 }
             }
         },
@@ -78,6 +89,7 @@
         "ok": "OK",
         "refresh": "Refresh data",
         "reset-password": "Reset password",
+        "search": "Search",
         "send": "Send",
         "signin": {
             "default": "Sign in",
@@ -112,6 +124,7 @@
                     "choose": "Choose role",
                     "current": "Current access level"
                 },
+                "accounts": "Accounts",
                 "add": "Adding account",
                 "create": "Create new account",
 
