@@ -85,6 +85,17 @@ function ResetPassword() {
     setLoading(true);
     changePassword();
   }
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
 
   async function resetPassword() {
     await AccountService.resetPassword(fields.email)
@@ -100,7 +111,7 @@ function ResetPassword() {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ResetPassword: " + resMessage);
-                setAlertWarningMessage(t(error.response.data.message.toString()));
+                setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
@@ -110,7 +121,7 @@ function ResetPassword() {
         await AccountService.changeResettedPassword(fields.password, fields.token)
             .then(response => {
                 if (response.status === 200) { 
-                    setAlertInfoMessage(t('response.ok'));
+                    setAlertInfoMessage(convertValidationMessage('response.ok'));
                     setOpenSuccessAlert(true);
                     setOpenDialog(true);
                 }

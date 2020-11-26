@@ -23,7 +23,7 @@ function AddAccountForm({fields, setFields, register, errors}) {
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
             error={errors.firstName ? true : false}
-            helperText={errors.firstName ? t('validation.message.required.incorrect.entry') : ""}
+            helperText={errors.firstName ? t('validation.message.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -40,7 +40,7 @@ function AddAccountForm({fields, setFields, register, errors}) {
 
             inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
             error={errors.lastName ? true : false}
-            helperText={errors.lastName ? t('validation.message.required.incorrect.entry') : ""}
+            helperText={errors.lastName ? t('validation.message.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12}>
@@ -57,7 +57,7 @@ function AddAccountForm({fields, setFields, register, errors}) {
 
             inputRef={register({ required: true,  pattern: /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/ })}
             error={errors.email ? true : false}
-            helperText={errors.email ? t('validation.message.required.incorrect.entry') : ""}
+            helperText={errors.email ? t('validation.message.incorrect.entry') : ""}
         />
         </Grid>
         <Grid item xs={12}>
@@ -74,7 +74,7 @@ function AddAccountForm({fields, setFields, register, errors}) {
             
             inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
             error={errors.username ? true : false}
-            helperText={errors.username ? t('validation.message.required.incorrect.entry') : ""}
+            helperText={errors.username ? t('validation.message.incorrect.entry') : ""}
         /> 
         </Grid>
         <Grid item xs={12}>

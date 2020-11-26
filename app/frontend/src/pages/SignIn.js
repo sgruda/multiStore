@@ -79,6 +79,19 @@ function SignIn() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
 
+
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
+
   function handleSignIn() {
     setLoading(true);
 
@@ -95,7 +108,7 @@ function SignIn() {
             || error.message || error.toString();
 
           setLoading(false);
-          setAlertErrorMessage(t(error.response.data.message.toString()));
+          setAlertErrorMessage(convertValidationMessage(error.response.data.message.toString()));
           setOpenAlert(true);
         }
       );

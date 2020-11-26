@@ -273,6 +273,45 @@
                     }
                 }
             }
+        },
+        "email": {
+            "email": "Adres e-mail jest nieprawidłowy."
+        },
+        "notnull": {
+            "accountDTO": "Pole accountDTO nie może być puste.",
+            "email": "Pole adres e-mail nie może być puste.",
+            "firstName": "Pole imię nie może być puste.",
+            "language": "Pole język nie może być puste.",
+            "lastName": "Pole nazwisko nie może być puste.",
+            "newPassword": "Pole nowe hasło nie może być puste.",
+            "password": "Pole hasło nie może być puste.",
+            "resetPasswordToken": "Pole token resetu hasła nie może być puste.",
+            "roles": "Zbiór poziomów dostępu nie może być pusty.",
+            "username": "Pole nazwa użytkownika nie może być puste."
+        },
+        "pattern": {
+            "accountDTO": "AccountDTO ma niepoprawny wzór.",
+            "email": "Adres e-mail ma niepoprawny wzór.",
+            "firstName": "Imię ma niepoprawny wzór.",
+            "language": "Język ma niepoprawny wzór.",
+            "lastName": "Nazwisko ma niepoprawny wzór.",
+            "newPassword": "Nowe hasło ma niepoprawny wzór.",
+            "password": "Hasło ma niepoprawny wzór.",
+            "resetPasswordToken": "Token resetu hasła ma niepoprawny wzór.",
+            "roles": "Element ze zbióru poziomów dostępu ma niepoprawny wzór.",
+            "username": "Nazwa użytkownika ma niepoprawny wzór."
+        },
+        "size": {
+            "accountDTO": "Zawartość pola accountDTO ma niepoprawny rozmiar.",
+            "email": "Zawartość pola adres e-mail ma niepoprawny rozmiar.",
+            "firstName": "Zawartość pola imię ma niepoprawny rozmiar.",
+            "language": "Zawartość pola język ma niepoprawny rozmiar.",
+            "lastName": "Zawartość pola nazwisko ma niepoprawny rozmiar..",
+            "newPassword": "Zawartość pola nowe hasło ma niepoprawny rozmiar.",
+            "password": "Zawartość pola hasło ma niepoprawny rozmiar.",
+            "resetPasswordToken": "Zawartość pola token resetu hasła ma niepoprawny rozmiar.",
+            "roles": "Zawartość zbioru poziomów dostępu ma niepoprawny rozmiar.",
+            "username": "Zawartość pola nazwa użytkownika ma niepoprawny rozmiar."
         }
     }
 

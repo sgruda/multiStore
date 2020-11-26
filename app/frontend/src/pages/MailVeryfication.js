@@ -58,6 +58,17 @@ function MailVerification() {
         var results = regex.exec(history.location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
 
   async function verifyEmail(token) {
     await AccountService.verifyEmail(token)
@@ -72,7 +83,7 @@ function MailVerification() {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ResetPassword: " + resMessage);
-                setAlertWarningMessage(t(error.response.data.message.toString()));
+                setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
