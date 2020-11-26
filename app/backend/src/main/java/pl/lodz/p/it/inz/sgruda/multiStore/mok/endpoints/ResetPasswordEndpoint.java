@@ -46,12 +46,12 @@ public class ResetPasswordEndpoint {
     }
 
     @PutMapping("/api/auth/reset-password")
-    public ResponseEntity<?> resetPassword(@Valid      @NotNull(message = "{validation.notnull}")
-                                                       @Email(message = "{validation.email}")
-                                                       @Size(min = 1, max = 32, message = "{validation.size}")
+    public ResponseEntity<?> resetPassword(@Valid      @NotNull(message = "validation.notnull")
+                                                       @Email(message = "validation.email")
+                                                       @Size(min = 1, max = 32, message = "validation.size")
                                            @RequestParam("email") String email,
-                                                       @NotNull(message = "{validation.notnull}")
-                                                       @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
+                                                       @NotNull(message = "validation.notnull")
+                                                       @Pattern(regexp = "(pl|en)", message = "validation.pattern")
                                            @RequestParam(value = "lang") String language) {
         try {
             String tokenToReset = resetPasswordService.resetPassword(email);
@@ -83,13 +83,13 @@ public class ResetPasswordEndpoint {
     @Getter
     private static class ChangePasswordAfterResetRequest {
 
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "validation.pattern")
         private String password;
 
-        @Size(min = 64, max = 64, message = "{validation.size}")
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
+        @Size(min = 64, max = 64, message = "validation.size")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
         private String resetPasswordToken;
     }
 }
