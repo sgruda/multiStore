@@ -14,7 +14,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import { Group } from "@material-ui/icons";
 
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
@@ -56,11 +55,11 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
 
   const handleSpeedDialActionClick = (e, operation) => {
     e.preventDefault();
-    if(operation == "handleProfile") {
+    if(operation === "handleProfile") {
         handleProfile();
-    } else if(operation == "handleCurrentAccessLevel") {
+    } else if(operation === "handleCurrentAccessLevel") {
       handleCurrentAccessLevel(e);
-    } else if(operation == "handleSignOut") {
+    } else if(operation === "handleSignOut") {
         handleSignOut();
     }
   }

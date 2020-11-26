@@ -109,7 +109,7 @@ function SignUp() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
 
-          setAlertErrorMessage(convertValidationMessage(error.response.data.message.toString()));
+          setAlertErrorMessage(convertValidationMessage(resMessage));
           setOpenAlert(true);
         }
       );

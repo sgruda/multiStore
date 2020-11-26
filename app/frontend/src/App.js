@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { AuthContext, useAuth } from "./context/AuthContext";
+import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 
@@ -29,7 +28,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
 const appBarHeight = 80;

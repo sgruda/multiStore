@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
 import AccountService from '../../services/AccountService';
-import AlertApiResponseHandler from '../AlertApiResponseHandler';
 import ConfirmDialog from '../ConfirmDialog';
 
 import { makeStyles } from '@material-ui/core/styles';

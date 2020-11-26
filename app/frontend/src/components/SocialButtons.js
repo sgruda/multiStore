@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-
-import { Button, Container } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import GOOGLE_LOGO from "../images/google-logo.svg";
 import FACEBOOK_LOGO from "../images/facebook-logo.svg";
 

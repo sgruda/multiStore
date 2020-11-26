@@ -1,7 +1,7 @@
 import React from "react"; 
 import { useTranslation } from 'react-i18next';
 import LockIcon from '@material-ui/icons/Lock';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 

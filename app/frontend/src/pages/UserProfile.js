@@ -5,7 +5,6 @@ import AccountService from '../services/AccountService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
 import AccountEdit from '../components/accounts/AccountEdit';
 import PasswordChange from '../components/accounts/PasswordChange';
-import { useAuth } from "../context/AuthContext";
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,7 +18,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
 const useStyles = makeStyles((theme) => ({

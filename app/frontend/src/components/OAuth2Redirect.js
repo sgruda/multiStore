@@ -13,7 +13,6 @@ function OAuth2Redirect(){
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
     const token = getUrlParameter('token');
-    const error = getUrlParameter('error');  
     history.replace("", null);
     if(token) {
         localStorage.setItem(ACCESS_TOKEN, token);

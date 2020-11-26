@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ACCESS_TOKEN } from '../config/config';
-import jsonwebtoken from 'jsonwebtoken' ;
 import {API_URL_SIGN_IN, API_URL_SIGN_UP} from '../config/config';
 
 

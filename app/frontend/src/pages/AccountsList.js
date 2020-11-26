@@ -3,13 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ClearIcon from '@material-ui/icons/Clear';
-import DoneIcon from '@material-ui/icons/Done';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -20,7 +15,6 @@ import AccountsTableHeader from '../components/accounts/table/AccountsTableHeade
 import AccountsTableBody from '../components/accounts/table/AccountsTableBody';
 import AccountsTableToolbar from '../components/accounts/table/AccountsTableToolbar';
 import { Button } from "@material-ui/core";
-import zIndex from "@material-ui/core/styles/zIndex";
 
 const useStyles = makeStyles({
     table: {

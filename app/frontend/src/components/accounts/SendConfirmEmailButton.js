@@ -6,11 +6,6 @@ import AlertApiResponseHandler from '../AlertApiResponseHandler';
 import Typography from '@material-ui/core/Typography';
 import { Button } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Collapse from '@material-ui/core/Collapse';
-import SyncIcon from '@material-ui/icons/Sync';
-import { makeStyles } from '@material-ui/core/styles';
 
 
 function SendConfirmEmailButton({account}) {
