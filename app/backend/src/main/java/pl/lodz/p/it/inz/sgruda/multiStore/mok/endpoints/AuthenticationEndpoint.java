@@ -88,7 +88,7 @@ public class AuthenticationEndpoint {
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(resultAccount.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, "response.registration.success"));
     }
     @PostMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@Valid  @NotNull(message = "{validation.notnull}")

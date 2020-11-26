@@ -237,7 +237,10 @@
         }
     },
     "response": {
-        "ok": "Operacja się powiodła"
+        "ok": "Operacja się powiodła",
+        "registration": {
+            "success": "Utworzono konto."
+        }
     },
     "signin": "Zaloguj się",
     "signup": "Zarejestruj się",

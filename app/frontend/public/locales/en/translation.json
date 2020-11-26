@@ -237,7 +237,10 @@
         }
     },
     "response": {
-        "ok": "Operation has been successful"
+        "ok": "Operation has been successful",
+        "registration": {
+            "success": "Account has been created."
+        }
     },
     "signin": "Sign in",
     "signup": "Sign up",
