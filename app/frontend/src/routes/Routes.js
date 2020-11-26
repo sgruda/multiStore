@@ -6,7 +6,6 @@ import OAuth2Redirect from '../components/OAuth2Redirect';
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
-import Admin from "../pages/Admin";
 import NotFound from "../pages/NotFound";
 import AccountsList from '../pages/AccountsList';
 import AddAccount from '../pages/AddAccount';

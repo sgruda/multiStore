@@ -6,10 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import AuthenticationService from '../services/AuthenticationService';
-// import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
-
-import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../config/config';
 
 import  SocialButtons from '../components/SocialButtons';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
