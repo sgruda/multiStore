@@ -132,6 +132,11 @@
                 "exist": "Konto o podanej nazwie użytkownika już istnieje."
             }
         },
+        "auth": {
+            "credentials": "Niepoprawne dane.",
+            "disabled": "Konto ma niepotwierdzony adres e-mail.",
+            "locked": "Konto jest nieaktywne."
+        },
         "default": "Wystąpił błąd podczas przetwarzania wykonywania tej operacji!",
         "dto": {
             "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",

@@ -132,6 +132,11 @@
                 "exist": "Account with given username already exists."
             }
         },
+        "auth": {
+            "credentials": "Bad credentials",
+            "disabled": "Account has non-verified e-mail address.",
+            "locked": "Account is non-active."
+        },
         "default": "Error occured during perfoming operation!",
         "dto": {
             "signature": "Invalid dto signature. Refresh data and try again.",
