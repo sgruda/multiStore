@@ -56,6 +56,9 @@ spring:
     port: 587
     username: SEND_EMAIL_ADDRESS
     password: SEND_EMAIL_PASSWORD
+    redirect:
+      server:
+        uri: MAIL_REDIRECT_URI
     properties:
       mail:
         smtp:
