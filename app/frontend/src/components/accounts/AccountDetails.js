@@ -23,14 +23,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 
 
 const useStyles = makeStyles((theme) => ({
-    doneIcon: {
-        color: "#0bb00d",
-        height: 18,
-    },
-    clearIcon: {
-        color: "#eb1e1e",
-        height: 18,
-    },
     text: {
         backgroundColor: "#7cc3eb"
     },

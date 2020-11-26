@@ -12,9 +12,9 @@ function AccountsTableBody({accounts, handleClickAccount, isSelected, classes, e
             {accounts.map((account) => {
               const isItemSelected = isSelected(account.email);
               return (
-                <TableRow key={account.id}
+                <TableRow
                   hover
-                  onClick={(event) => handleClickAccount(account.email, account.firstName + ' ' + account.lastName)}
+                  onClick={() => handleClickAccount(account.email, account.firstName + ' ' + account.lastName)}
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   key={account.id}

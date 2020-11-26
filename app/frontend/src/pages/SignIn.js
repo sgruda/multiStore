@@ -105,7 +105,7 @@ function SignIn() {
             || error.message || error.toString();
 
           setLoading(false);
-          setAlertErrorMessage(convertValidationMessage(error.response.data.message.toString()));
+          setAlertErrorMessage(convertValidationMessage(resMessage));
           setOpenAlert(true);
         }
       );

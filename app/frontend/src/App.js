@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { AuthContext, useAuth } from "./context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 
