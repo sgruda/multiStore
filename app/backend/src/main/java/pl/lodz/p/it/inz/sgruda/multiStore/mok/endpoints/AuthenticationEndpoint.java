@@ -17,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AuthService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.JwtAuthenticationResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
@@ -78,7 +79,7 @@ public class AuthenticationEndpoint {
         }
 
         try {
-            mailSenderServiceImpl.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken());
+            mailSenderServiceImpl.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken(), Language.valueOf(signUpRequest.getLanguage()));
         } catch (MessagingException e) {
             log.severe("Problem z mailem " + e);
         }
@@ -129,6 +130,10 @@ public class AuthenticationEndpoint {
         @Size(min = 1, max = 32, message = "{validation.size}")
         @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
         private String username;
+
+        @NotNull(message = "{validation.notnull}")
+        @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
+        private String language;
     }
     @Getter
     private static class SignInRequest {
