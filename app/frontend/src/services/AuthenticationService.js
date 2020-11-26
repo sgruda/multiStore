@@ -25,15 +25,18 @@ const signIn = (username, password) => {
         return response.data;
     });
 };
-const signUp = (firstName, lastName, email, username, password) => {
+const signUp = (fields) => {
+    const data = {
+        'firstName': fields.firstName,
+        'lastName': fields.lastName,
+        'email': fields.email,
+        'username': fields.username,
+        'password': fields.password,
+        "language": navigator.language || navigator.userLanguage
+      };
+      console.log(data)
     return axios
-        .post(API_URL_SIGN_UP, {
-            firstName, 
-            lastName, 
-            email, 
-            username, 
-            password 
-        })
+        .post(API_URL_SIGN_UP, data)
 };
 const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN);

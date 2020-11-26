@@ -54,7 +54,8 @@ class AccountService {
   }
 
   resetPassword(email) {
-    return axios.put(API_URL_RESET_PASSWORD + "?email=" + email, '');
+    const language = navigator.language || navigator.userLanguage; 
+    return axios.put(API_URL_RESET_PASSWORD + "?email=" + email + "&lang=" + language, '');
   }
   changeResettedPassword(password, token) {
     const data = {
@@ -96,7 +97,8 @@ class AccountService {
       'email': fields.email,
       'username': fields.username,
       'password': fields.password,
-      'roles': roles
+      'roles': roles,
+      "language": navigator.language || navigator.userLanguage
     };
     console.log(data)
     return axios.post(API_URL_SINGLE_ACCOUNT_CREATE, data,  { headers: AuthorizationHeader() }); 

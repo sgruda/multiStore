@@ -52,10 +52,10 @@ public class ResetPasswordEndpoint {
                                            @RequestParam("email") String email,
                                                        @NotNull(message = "{validation.notnull}")
                                                        @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
-                                           @RequestParam(value = "lang") Language language) {
+                                           @RequestParam(value = "lang") String language) {
         try {
             String tokenToReset = resetPasswordService.resetPassword(email);
-            mailSenderService.sendPasswordResetMail(email, tokenToReset, language);
+            mailSenderService.sendPasswordResetMail(email, tokenToReset, Language.valueOf(language));
             return ResponseEntity.ok(new ApiResponse(true, "account.reset.password.token.correctly.send"));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -87,7 +87,7 @@ public class ResetPasswordEndpoint {
         @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
         private String password;
 
-        @Size(min = 64, max = 64)
+        @Size(min = 64, max = 64, message = "{validation.size}")
         @NotNull(message = "{validation.notnull}")
         @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
         private String resetPasswordToken;

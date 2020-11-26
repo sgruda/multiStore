@@ -64,8 +64,8 @@ function SignUp() {
   const classes = useStyles();
   const { t } = useTranslation();
   const [fields, setFields] = useFields({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",
@@ -85,7 +85,7 @@ function SignUp() {
   }
 
   async function signUp() {
-    await AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
+    await AuthenticationService.signUp(fields)
       .then(response => {
         if (response.status === 201) { 
             // history.push("/");

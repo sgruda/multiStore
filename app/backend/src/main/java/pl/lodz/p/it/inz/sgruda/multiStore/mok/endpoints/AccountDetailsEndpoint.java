@@ -141,7 +141,7 @@ public class AccountDetailsEndpoint {
                                                             @RequestParam(value = "email") String email,
                                                                     @NotNull(message = "{validation.notnull}")
                                                                     @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
-                                                            @RequestParam(value = "lang") Language language) {
+                                                            @RequestParam(value = "lang") String language) {
         AccountEntity accountEntity;
         try {
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(email);
@@ -152,7 +152,7 @@ public class AccountDetailsEndpoint {
         }
 
         try {
-            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken(), language);
+            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken(), Language.valueOf(language));
         } catch (MessagingException e) {
             log.severe("Problem z mailem " + e);
         }
