@@ -56,6 +56,9 @@ spring:
     port: 587
     username: SEND_EMAIL_ADDRESS
     password: SEND_EMAIL_PASSWORD
+    redirect:
+      server:
+        uri: MAIL_REDIRECT_URI
     properties:
       mail:
         smtp:
@@ -70,10 +73,10 @@ app:
     jwt:
       secret: JWT_SECRET
       expiration:
-        mili-sec: JWT_EXPIRATION_MILI_SEC
+        mili-sec: 3600000
     forgotPasswordToken:
       expiration:
-        mili-sec: FORGOT_PASSWORD_TOKEN_EXPIRATION_MILI_SEC
+        mili-sec: 600000
 
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.ResetPasswordService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 
 import javax.mail.MessagingException;
@@ -45,13 +46,16 @@ public class ResetPasswordEndpoint {
     }
 
     @PutMapping("/api/auth/reset-password")
-    public ResponseEntity<?> resetPassword(@Valid      @NotNull(message = "{validation.notnull}")
-                                                       @Email(message = "{validation.email}")
-                                                       @Size(min = 1, max = 32, message = "{validation.size}")
-                                           @RequestParam("email") String email) {
+    public ResponseEntity<?> resetPassword(@Valid      @NotNull(message = "validation.notnull")
+                                                       @Email(message = "validation.email")
+                                                       @Size(min = 1, max = 32, message = "validation.size")
+                                           @RequestParam("email") String email,
+                                                       @NotNull(message = "validation.notnull")
+                                                       @Pattern(regexp = "(pl|en)", message = "validation.pattern")
+                                           @RequestParam(value = "lang") String language) {
         try {
             String tokenToReset = resetPasswordService.resetPassword(email);
-            mailSenderService.sendPasswordResetMail(email, tokenToReset);
+            mailSenderService.sendPasswordResetMail(email, tokenToReset, Language.valueOf(language));
             return ResponseEntity.ok(new ApiResponse(true, "account.reset.password.token.correctly.send"));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -79,13 +83,13 @@ public class ResetPasswordEndpoint {
     @Getter
     private static class ChangePasswordAfterResetRequest {
 
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "validation.pattern")
         private String password;
 
-        @Size(min = 64, max = 64)
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
+        @Size(min = 64, max = 64, message = "validation.size")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
         private String resetPasswordToken;
     }
 }

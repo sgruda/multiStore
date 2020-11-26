@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AccountActivityFilter({setFilterActiveAccounts}) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const handleChange = (event) => {
     event.target.value === 'all' ? setFilterActiveAccounts(null) : setFilterActiveAccounts(event.target.value);
@@ -27,14 +29,14 @@ function AccountActivityFilter({setFilterActiveAccounts}) {
   return (
     <Grid item xs={6}>
         <FormControl className={classes.formControl}>
-        <InputLabel>Show accounts</InputLabel>
+        <InputLabel>{t("account.list.table.filter.label")}</InputLabel>
         <NativeSelect
           onChange={(event) => handleChange(event)}
           fullWidth
         >
-            <option value={null}>all</option>
-            <option value={true}>Only active</option>
-            <option value={false}>Only non active</option>
+            <option value={null}>{t("account.list.table.filter.all")}</option>
+            <option value={true}>{t("account.list.table.filter.only-active")}</option>
+            <option value={false}>{t("account.list.table.filter.only-non-active")}</option>
         </NativeSelect>
       </FormControl>
     </Grid>

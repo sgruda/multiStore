@@ -22,40 +22,39 @@ import java.util.Set;
 @AllArgsConstructor
 public @Data class AccountDTO implements SignatureVerifiability {
     @Size(min = 64, max = 64)
-    @NotNull(message = "{validation.notnull}")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String idHash;
 
-    @NotNull(message = "{validation.notnull}")
-    @Size(min = 1, max = 32, message = "{validation.size}")
-    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Size(min = 1, max = 32, message = "validation.size")
+    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
     private String firstName;
 
-    @NotNull(message = "{validation.notnull}")
-    @Size(min = 1, max = 32, message = "{validation.size}")
-    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Size(min = 1, max = 32, message = "validation.size")
+    @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
     private String lastName;
 
-    @NotNull(message = "{validation.notnull}")
-    @Email(message = "{validation.email}")
-    @Size(min = 1, max = 32, message = "{validation.size}")
+    @NotNull(message = "validation.notnull")
+    @Email(message = "validation.email")
+    @Size(min = 1, max = 32, message = "validation.size")
     private String email;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private Set<String> roles = new HashSet<>();
     private boolean active;
 
     @Basic(optional = false)
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private String authProvider;
 
-    @NotNull(message = "{validation.notnull}")
     @Valid
     private AuthenticationDataDTO authenticationDataDTO;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private long version;
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private String signature;
 
     @Override

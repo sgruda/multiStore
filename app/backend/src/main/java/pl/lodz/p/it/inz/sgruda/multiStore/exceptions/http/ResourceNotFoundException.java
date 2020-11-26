@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ResourceNotFoundException extends HttpBaseException {
     static final public HttpStatus HTTP_STATUS = HttpStatus.NOT_FOUND;
-    static final public String KEY_HTTP_RESOURCE_NOT_FOUND = "error.http.not.found";
+    static final public String KEY_HTTP_RESOURCE_NOT_FOUND = "error.http.404";
 //    private String resourceName;
 //    private String fieldName;
 //    private Object fieldValue;

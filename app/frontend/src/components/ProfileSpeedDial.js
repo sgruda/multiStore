@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import { useTranslation } from 'react-i18next';
 import AuthenticationService from '../services/AuthenticationService';
 import CurrentRoleChanger from './CurrentRoleChanger';
 
@@ -35,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
 
 function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setActiveRole}) {
   const classes = useStyles();
-  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
-  const [hiddenSpeedDial, setHiddenSpeedDial] = React.useState(false);
+  const { t } = useTranslation();
+  const [openSpeedDial, setOpenSpeedDial] = useState(false);
+  const [hiddenSpeedDial, setHiddenSpeedDial] = useState(false);
 
-  const [anchorElPopper, setAnchorElPopper] = React.useState(null);
-  const [openPopper, setOpenPopper] = React.useState(false);
+  const [anchorElPopper, setAnchorElPopper] = useState(null);
+  const [openPopper, setOpenPopper] = useState(false);
 
   const handleVisibilitySpeedDial = () => {
     setHiddenSpeedDial((prevHidden) => !prevHidden);
@@ -64,7 +66,8 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
   }
 
   const handleProfile = () => {
-
+    setOpenSpeedDial(false);
+    history.push("/profile")
   };
   const handleCurrentAccessLevel = (event) => {
     setAnchorElPopper(event.currentTarget);
@@ -81,9 +84,9 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
   };
 
   const actions = [
-    { icon: <AccountBoxIcon className={classes.actionIcon} />, name: 'Profile', operation: "handleProfile"},
-    { icon: <SettingsIcon className={classes.actionIcon}/>, name: 'Current access level', operation: "handleCurrentAccessLevel"},
-    { icon: <ExitToAppIcon className={classes.actionIcon}/>, name: 'Sign out',  operation: "handleSignOut"},
+    { icon: <AccountBoxIcon className={classes.actionIcon} />, name: t('pages.titles.profile'), operation: "handleProfile"},
+    { icon: <SettingsIcon className={classes.actionIcon}/>, name: t('pages.titles.account.access-level.current'), operation: "handleCurrentAccessLevel"},
+    { icon: <ExitToAppIcon className={classes.actionIcon}/>, name: t('pages.titles.signout'),  operation: "handleSignOut"},
   ];
 
   return (

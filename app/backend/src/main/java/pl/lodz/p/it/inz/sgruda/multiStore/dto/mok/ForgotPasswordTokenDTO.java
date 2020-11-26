@@ -18,25 +18,25 @@ import java.util.List;
 @AllArgsConstructor
 public @Data class ForgotPasswordTokenDTO implements SignatureVerifiability {
     @Size(min = 64, max = 64)
-    @NotNull(message = "{validation.notnull}")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String idHash;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private LocalDateTime expireDate;
 
     @Size(min = 64, max = 64)
-    @NotNull(message = "{validation.notnull}")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String hash;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private String ownerUsername;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private long version;
 
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     private String signature;
 
     @Override

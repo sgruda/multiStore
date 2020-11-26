@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface AccountAccessLevelService {
     AccountEntity getAccountByEmail(String mail) throws AccountNotExistsException;
-    void addAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSet) throws AppBaseException;
-    void removeAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSet) throws AppBaseException;
+    void addAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSetToAdd) throws AppBaseException;
+    void removeAccessLevel(AccountEntity accountEntity, Set<String> accessLevelSetToRemove) throws AppBaseException;
 }

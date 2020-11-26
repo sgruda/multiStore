@@ -12,6 +12,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RolesSetEmptyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
@@ -49,6 +50,8 @@ public class CreateAccountServiceImpl implements CreateAccountService {
             throw new EmailAlreadyExistsException();
         }
         Set<AccessLevelEntity> accessLevelEntitySet = new LinkedHashSet<>();
+        if(roles.size() == 0)
+            throw new RolesSetEmptyException();
         for(String roleString : roles) {
             if(!roleString.matches("(ROLE_CLIENT|ROLE_EMPLOYEE|ROLE_ADMIN)")) {
                 throw new IncorrectRoleNameException();

@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,9 +16,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
 
 import AccountService from '../services/AccountService';
-import AccountsTableHeader from '../components/accounts/AccountsTableHeader';
-import AccountsTableBody from '../components/accounts/AccountsTableBody';
-import AccountsTableToolbar from '../components/accounts/AccountsTableToolbar';
+import AccountsTableHeader from '../components/accounts/table/AccountsTableHeader';
+import AccountsTableBody from '../components/accounts/table/AccountsTableBody';
+import AccountsTableToolbar from '../components/accounts/table/AccountsTableToolbar';
 import { Button } from "@material-ui/core";
 import zIndex from "@material-ui/core/styles/zIndex";
 
@@ -58,6 +60,7 @@ const useStyles = makeStyles({
 
 function AccountsList() {
     const classes = useStyles();
+    const { t } = useTranslation();
 
     const [loadingData, setLoadingData] = useState(true);
     const [accounts, setAccounts] = useState([]);
@@ -139,7 +142,7 @@ function AccountsList() {
                     const _roles = [];
                     account.roles.map(role => {
                         let parts = role.split("_");
-                        _roles.push(parts[1] + ", ");
+                        _roles.push(t('account.access-level.names.' + parts[1].toLowerCase()) + ", ");
                     });
                     return {
                       id: account.idHash,
@@ -173,11 +176,11 @@ function AccountsList() {
 
 
     const headerCells = [
-      { id: 'firstName', disablePadding: true, label: 'First Name' },
-      { id: 'lastName', disablePadding: false, label: 'Last Name' },
-      { id: 'email', disablePadding: false, label: 'E-Mail' },
-      { id: 'active', disablePadding: false, label: 'Active' },
-      { id: 'userRoles',  disablePadding: false, label: 'User Roles' },
+      { id: 'firstName', disablePadding: true, label: t('account.list.table.header.firstName') },
+      { id: 'lastName', disablePadding: false, label: t('account.list.table.header.lastName') },
+      { id: 'email', disablePadding: false, label: t('account.list.table.header.email') },
+      { id: 'active', disablePadding: false, label: t('account.list.table.header.activity') },
+      { id: 'userRoles',  disablePadding: false, label: t('account.list.table.header.roles') },
     ];
 
   return (
@@ -187,6 +190,8 @@ function AccountsList() {
         selectedAccountMail={selectedEmail}
         selectedAccountName={selectedName}
         handleSearch={handleSearch}
+        setLoadingAccountList={setLoadingData}
+        setSelectedEmail={setSelectedEmail}
       />
       <TableContainer>
         <Table
@@ -218,6 +223,7 @@ function AccountsList() {
         component="div"
         count={totalItems}
         rowsPerPage={rowsPerPage}
+        labelRowsPerPage={t('account.list.table.pagination.rows-per-page')}
         page={page}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -225,13 +231,13 @@ function AccountsList() {
     </Paper>
     <FormControlLabel
       control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
-      label="Dense padding"
+      label={t('densePadding')}
     />
     <Button
       startIcon={<SyncIcon size="large" color="primary"/>}
       onClick={handleRefresh}
     >
-      Refresh data
+      {t('refreshData')}
     </Button>
   </div>
   );

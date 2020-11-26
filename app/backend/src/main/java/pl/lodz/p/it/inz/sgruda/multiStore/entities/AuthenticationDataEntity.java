@@ -36,20 +36,20 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
 
 
     @Basic(optional = false)
-    @NotNull(message = "{validation.notnull}")
-    @Size(min = 1, max = 32, message = "{validation.size}")
-    @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
+    @NotNull(message = "validation.notnull")
+    @Size(min = 1, max = 32, message = "validation.size")
+    @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "validation.pattern")
     @Column(name = "username", nullable = false, unique = true, length = 32, updatable = false)
     private String username;
 
     @Basic(optional = false)
-    @NotNull(message = "{validation.notnull}")
-    @Size(min = 60, max = 60, message = "{validation.size}")
+    @NotNull(message = "validation.notnull")
+    @Size(min = 60, max = 60, message = "validation.size")
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Basic(optional = false)
-    @NotNull(message = "{validation.notnull}")
+    @NotNull(message = "validation.notnull")
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 

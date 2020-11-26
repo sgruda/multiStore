@@ -1,0 +1,318 @@
+{
+    "account": {
+        "access-level": {
+            "choose": {
+                "current": "Your current access level",
+                "role": "Access level"
+            },
+            "edit": {
+                "firstName": "First Name",
+                "lastName": "Last Name"
+            },
+            "names": {
+                "admin": "Administrator",
+                "client": "Client",
+                "employee": "Employee"
+            }
+        },
+        "add": {
+            "form": {
+                "confirm-password": "Confirm Password",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-Mail address",
+                "password": "Password",
+                "roles": "Access Levels",
+                "username": "Username"
+            },
+            "roles": "Account's access levels"
+        },
+        "list": {
+            "table": {
+                "filter": {
+                    "all": "All",
+                    "label": "Show accounts",
+                    "only-active": "Only active accounts",
+                    "only-non-active": "Only non active accounts"
+                },
+                "header": {
+                    "firstName": "First Name",
+                    "lastName": "Last Name",
+                    "email": "E-Mail address",
+                    "activity": "Activity",
+                    "roles": "Access Levels"
+                },
+                "pagination": {
+                    "rows-per-page": "Rows per page"
+                },
+                "toolbar": {
+                    "details": "Details",
+                    "search": "Search",
+                    "selected": "Selected"
+                }
+            }
+        },
+        "password": {
+            "change": {
+                "confirm-password": "Confirm password",
+                "new": "New password",
+                "present": "Present password"
+            },
+            "reset": {
+                "email": "Address e-mail",
+                "password": {
+                    "confirm": "Confirm password",
+                    "main": "Password"
+                },
+                "token": "Token of password reset"
+            }
+        },
+        "profile": {
+            "activity": "Activity",
+            "account-type": "Account type",
+            "email": "Address e-mail",
+            "email-verified": "Address e-mail verified",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "roles": "Access levels",
+            "username": "Username"
+        },
+        "signin": {
+            "password": "Password",
+            "username": "Username"
+        }
+    },
+    "button": {
+        "add": {
+            "access-level": "Add access leve;",
+            "default": "Add"
+        },
+        "cancel": "Cancel",
+        "change": "Change",
+        "change-password": "Change password",
+        "close": "Close",
+        "edit": "Edit",
+        "no": "No",
+        "ok": "OK",
+        "refresh": "Refresh data",
+        "remove": {
+            "access-level": "Remove access level",
+            "default": "Remove"
+        },
+        "reset-password": "Reset password",
+        "search": "Search",
+        "send": "Send",
+        "send-email-confirmation": "Send confirmation mail",
+        "signin": {
+            "default": "Sign in",
+            "facebook": "Sign in with Facebook",
+            "google": "Sign in with Google"
+        },
+        "signup": {
+            "default": "Sign up",
+            "facebook": "Sign up with Facebook",
+            "google": "Sign up with Google"
+        },
+        "yes": "Yes"
+    },
+    "error": {
+        "account": {
+            "email": {
+                "verified": "Email is already verified."
+            },
+            "operation": {
+                "disabled": "Operation is disabled for that account type."
+            },
+            "remove": {
+                "all": {
+                    "access-levels": "Account must have minimum one access level."
+                }
+            },
+            "username": {
+                "exist": "Account with given username already exists."
+            }
+        },
+        "auth": {
+            "credentials": "Bad credentials",
+            "disabled": "Account has non-verified e-mail address.",
+            "locked": "Account is non-active."
+        },
+        "default": "Error occured during perfoming operation!",
+        "dto": {
+            "signature": "Invalid dto signature. Refresh data and try again.",
+            "version": "Somebody has already edited this data. Refresh data and try again."
+        },
+        "http": {
+            "default": "Error occured.",
+            "400": "Bad request",
+            "403": "Access Denied!",
+            "404": "Sorry, page or resource not found."
+        },
+        "incorrect": {
+            "forgot": {
+                "password": {
+                    "token": {
+                        "default": "Entered incorrect token.",
+                        "not": {
+                            "exist": "Entered incorrect token."
+                        }
+                    }
+                }
+            },
+            "role": {
+                "name": "Name of role is incorrect."
+            }
+        },
+        "jwt": {
+            "expired": "JWT has been expired.",
+            "various": {
+                "id": "Incorrect JWT."
+            }
+        },
+        "oauth2": {
+            "authentication": {
+                "processing": "Are you sure, that you have account in social media?"
+            },
+            "wrong": {
+                "provider": "Wrong OAuth2 provider."
+            }
+        },
+        "passwords": {
+            "not": {
+                "equals": "Both password must be the same!"
+            }
+        },
+        "roles": {
+            "set": {
+                "empty": "Set of access levels cannot be empty!"
+            }
+        }
+    },
+    "densePadding": "Dense padding",
+    "dialog": {
+        "content": {
+            "confirm": "Are you sure?",
+            "remove": {
+                "the": "The ",
+                "deleted": " account was successfully deleted."
+            },
+            "reset-password": "Password was successfully resetted. Please sign in.",
+            "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
+        }
+    },
+    "pages": {
+        "titles": {
+            "account": {
+                "access-level": {
+                    "choose": "Choose access level",
+                    "current": "Current access level"
+                },
+                "accounts": "Accounts",
+                "activity": "Activity",
+                "add": "Adding account",
+                "change-password": "Change password",
+                "create": "Create new account",
+                "edit": "Edit account",
+                "list": "Account list"
+            },
+            "email-veryfication": "Address e-mail veryfication",
+            "profile": "Profile",
+            "reset-password": "Reset password",
+            "signin": "Sign in",
+            "signout": "Sign out",
+            "signup": "Sign up"
+        }
+    },
+    "refreshData": "Refresh data",
+    "redirect": {
+        "to": {
+            "page": {
+                "reset-password": "Forgot password?",
+                "signin": {
+                    "mail-veryfication": "Now you can sign in",
+                    "signup": "Already have an account? Sign in"
+                },
+                "signup": "Don't have an account? Sign up"
+            }
+        }
+    },
+    "response": {
+        "ok": "Operation has been successful",
+        "registration": {
+            "success": "Account has been created."
+        }
+    },
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "validation": {
+        "message": {
+            "checkbox": {
+                "roles": "Pick minimum one"
+            },
+            "incorrect": {
+                "entry": "Incorrect entry."
+            },
+            "required": {
+                "helper": {
+                    "email": "Enter your e-mail address.",
+                    "password": {
+                        "confirm": "Confirm your password.",
+                        "default": "Password is required.",
+                        "new": "New password is required.",
+                        "present": "Present password is required."
+                    },
+                    "token": "Enter your reset password token (received in e-mail).",
+                    "username": "Enter username."
+                },
+                "incorrect": {
+                    "password": {
+                        "confirm": "Both passwords must be the same.",
+                        "default": "Password is required (must have: 8 digits, one special character and one capital letter).",
+                        "new": "Entering new password is required (must have: 8 digits, one special character and one capital letter).",
+                        "present": "Entering present password is required (must have: 8 digits, one special character and one capital letter)."
+                    }
+                }
+            }
+        },
+        "email": {
+            "email": "Address e-mail isn't correct."
+        },
+        "notnull": {
+            "accountDTO": "Field accountDTO cannot be empty.",
+            "email": "Field email cannot be empty.",
+            "firstName": "Field first name cannot be empty.",
+            "language": "Field language cannot be empty.",
+            "lastName": "Field last name cannot be empty.",
+            "newPassword": "Field new password cannot be empty.",
+            "password": "Field password cannot be empty.",
+            "resetPasswordToken": "Field reset password token cannot be empty.",
+            "roles": "Set of access levels cannot be empty.",
+            "username": "Field username cannot be empty."
+        },
+        "pattern": {
+            "accountDTO": "Field accountDTO has incorrect pattern.",
+            "email": "Field email has incorrect pattern.",
+            "firstName": "Field first name has incorrect pattern.",
+            "language": "Field language has incorrect pattern.",
+            "lastName": "Field last name has incorrect pattern.",
+            "newPassword": "Field new password has incorrect pattern.",
+            "password": "Field password has incorrect pattern.",
+            "resetPasswordToken": "Field reset password token has incorrect pattern.",
+            "roles": "Set of access levels has incorrect pattern.",
+            "username": "Field username has incorrect pattern."
+        },
+        "size": {
+            "accountDTO": "Content of field accountDTO has incorrect size.",
+            "email": "Content of field email has incorrect size.",
+            "firstName": "Content of field first name has incorrect size.",
+            "language": "Content of field language has incorrect size.",
+            "lastName": "Content of field last name has incorrect size.",
+            "newPassword": "Content of field new password has incorrect size.",
+            "password": "Content of field password has incorrect size.",
+            "resetPasswordToken": "Content of field reset password tokenhas incorrect size.",
+            "roles": "Content of access levels set has incorrect size.",
+            "username": "Content of field username has incorrect size."
+        }
+    }
+
+}

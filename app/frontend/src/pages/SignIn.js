@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   socialButtons: {
     padding: 10,
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
     username: "",
     password: ""
@@ -76,6 +78,19 @@ function SignIn() {
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [openAlert, setOpenAlert] = useState(false);
   const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
+
+
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
 
   function handleSignIn() {
     setLoading(true);
@@ -93,7 +108,7 @@ function SignIn() {
             || error.message || error.toString();
 
           setLoading(false);
-          setAlertErrorMessage(error.response.data.message.toString());
+          setAlertErrorMessage(convertValidationMessage(error.response.data.message.toString()));
           setOpenAlert(true);
         }
       );
@@ -107,7 +122,7 @@ function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {t('pages.titles.signin')}
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit(handleSignIn)}>
           <TextField
@@ -118,13 +133,13 @@ function SignIn() {
             required
             fullWidth
             id="username"
-            label="Username"
+            label={t('account.signin.username')}
             name="username"
             autoComplete="username"
             
             inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
             error={errors.username ? true : false}
-            helperText={errors.username ? "Incorrect entry." : ""}
+            helperText={errors.username ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.username') }
           />    
           <TextField
             value={ fields.value }
@@ -134,14 +149,14 @@ function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t('account.signin.password')}
             type="password"
             id="password"
             autoComplete="current-password"
 
             inputRef={register({ required: true })}
             error={errors.password ? true : false}
-            helperText={errors.password ? "Password is required" : ""}
+            helperText={errors.password ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.password.default')}
           />
           <Collapse in={openAlert}>
             <Alert severity="warning" action={
@@ -160,21 +175,21 @@ function SignIn() {
             className={classes.submit}
             disabled={loading}
           >
-            Sign In
+            {t('button.signin.default')}
           </Button>
           { loading && <CircularProgress size={70} className={classes.circularProgress} />}
-          <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign in with Google"
-                        FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign in with Facebook"
+          <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT={t('button.signin.google')}
+                        FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT={t('button.signin.facebook')}
                         className={classes.socialButtons} />
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+              <Link to="/reset-password" variant="body2">
+                {t('redirect.to.page.reset-password')}
               </Link>
             </Grid>
             <Grid item>
               <Link to="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {t('redirect.to.page.signup')}
               </Link>
             </Grid>
           </Grid>

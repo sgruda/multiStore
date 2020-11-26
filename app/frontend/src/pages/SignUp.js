@@ -1,33 +1,28 @@
 import  React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import AuthenticationService from '../services/AuthenticationService';
-import { onError } from '../services/exceptions/ErrorService';
 import { useFields } from '../hooks/FieldHook';
 
-import  SocialButtons from '../components/SocialButtons';
+import SocialButtons from '../components/SocialButtons';
+import AddAccountForm from '../components/accounts/AddAccountForm';
+import SimpleAlert from '../components/simple/SimpleAlert';
+import SimpleDialog from '../components/simple/SimpleDialog';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../config/config';
 
-import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   socialButtons: {
     padding: 10,
@@ -67,9 +62,10 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",
@@ -83,9 +79,25 @@ function SignUp() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertErrorMessage, setAlertErrorMessage] = useState(undefined);
 
-  function handleSignUp() {
+  const handleSignUp = () => {
     setLoading(true);
-    AuthenticationService.signUp(fields.firstname, fields.lastname, fields.email, fields.username, fields.password)
+    signUp();
+  }
+
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
+  
+  async function signUp() {
+    await AuthenticationService.signUp(fields)
       .then(response => {
         if (response.status === 201) { 
             // history.push("/");
@@ -97,14 +109,14 @@ function SignUp() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
 
-          setLoading(false);
-          setAlertErrorMessage(error.response.data.message.toString());
+          setAlertErrorMessage(convertValidationMessage(error.response.data.message.toString()));
           setOpenAlert(true);
         }
       );
+      setLoading(false);
   }
 
-  const handleCloseDialog = (event, reason) => {
+  const handleCloseDialog = () => {
     setOpenDialog(false);
     history.push("/")
   }
@@ -112,7 +124,6 @@ function SignUp() {
   return (
     <div>
         <div>
-
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
@@ -120,127 +131,21 @@ function SignUp() {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign up
+                {t('pages.titles.signup')}
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(handleSignUp)}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      value={ fields.firstname }
-                      onChange={ setFields }
-                      autoComplete="fname"
-                      name="firstname"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="firstname"
-                      label="First Name"
-
-                      inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
-                      error={errors.firstname ? true : false}
-                      helperText={errors.firstname ? "Incorrect entry." : ""}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      value={ fields.lastname }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="lastname"
-                      label="Last Name"
-                      name="lastname"
-                      autoComplete="lname"
-
-                      inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
-                      error={errors.lastname ? true : false}
-                      helperText={errors.lastname ? "Incorrect entry." : ""}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      value={ fields.email }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-
-                      inputRef={register({ required: true,  pattern: /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/ })}
-                      error={errors.email ? true : false}
-                      helperText={errors.email ? "Incorrect entry." : ""}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      value={ fields.username }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                      
-                      inputRef={register({ required: true,  pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
-                      error={errors.username ? true : false}
-                      helperText={errors.username ? "Incorrect entry." : ""}
-                    /> 
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      value={ fields.password }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-
-                      inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
-                      error={errors.password ? true : false}
-                      helperText={errors.password ? "Password is required (must have 8 digits and...)" : ""}
-                  />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      value={ fields.confirmPassword }
-                      onChange={ setFields }
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="confirmPassword"
-                      label="Confirm password"
-                      type="password"
-                      id="confirmPassword"
-                      autoComplete="current-password"
-
-                      inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, 
-                                          validate: confirmPassword => confirmPassword === fields.password})}
-                      error={errors.confirmPassword ? true : false}
-                      helperText={errors.confirmPassword ? 
-                                  errors.confirmPassword?.type === "validate" ? "Both must be the same" : "Password is required (must have 8 digits and...)"
-                                  : ""}
-                  />
-                  </Grid>
-                </Grid>
-                <Collapse in={openAlert}>
-                  <Alert severity="warning" action={
-                        <IconButton aria-label="close" color="inherit" size="small" onClick={() => { setOpenAlert(false); }}>
-                          <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                  }>
-                    {alertErrorMessage}
-                  </Alert>
-                </Collapse>
+                <AddAccountForm
+                  fields={fields}
+                  setFields={setFields}
+                  register={register}
+                  errors={errors}
+                />
+                <SimpleAlert
+                  openAlert={openAlert}
+                  severityAlert="warning"
+                  setOpenAlert={setOpenAlert}
+                  alertMessage={alertErrorMessage}
+                />
                 <Button
                   type="submit"
                   fullWidth
@@ -248,34 +153,27 @@ function SignUp() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign Up
+                  {t('button.signup.default')}
                 </Button>
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
-                <SocialButtons GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} GOOGLE_TEXT="Sign up with Google"
-                          FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} FACEBOOK_TEXT="Sign up with Facebook"
-                          className={classes.socialButtons}/>
+                <SocialButtons 
+                  GOOGLE_AUTH_URL={GOOGLE_AUTH_URL} 
+                  GOOGLE_TEXT={t('button.signup.google')}
+                  FACEBOOK_AUTH_URL={FACEBOOK_AUTH_URL} 
+                  FACEBOOK_TEXT={t('button.signup.facebook')}
+                  className={classes.socialButtons}
+                />
                 <Grid item>
                   <Link to="/signin" variant="body2">
-                  {"Already have an account? Sign in"}
+                  {t('redirect.to.page.signin.signup')}
                   </Link>
                 </Grid>
-                <Dialog
-                  open={openDialog}
-                  onClose={handleCloseDialog}
-                  aria-describedby="dialog-description"
-                >
-                    <DialogContent>
-                      <DialogContentText id="dialog-description">
-                        Registration has been done!
-                        Confirm your accont (e-mail with activation link)
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleCloseDialog} color="primary" autoFocus>
-                        OK
-                      </Button>
-                    </DialogActions>
-                </Dialog>
+                <SimpleDialog
+                  openDialog={openDialog}
+                  handleCloseDialog={handleCloseDialog}
+                  dialogContent={t('dialog.content.signup')}
+                  buttonText={t('button.ok')}
+                />
               </form>
             </div>
           </Container>
