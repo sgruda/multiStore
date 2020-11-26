@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -34,31 +35,32 @@ const useStyles = makeStyles((theme) => ({
 
 function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClosePopper}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const userRoles = AuthenticationService.getParsedJWT().roles;
   const options = userRoles.map((role) =>  
-    <option value={role}>{role}</option>
+    <option value={role}>{t('account.access-level.names.' + role.split("_")[1].toLowerCase())}</option>
   );
 
   return (
     <Card className={classes.root} variant="outlined" justify="center">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Choose role
+          {t('pages.titles.account.access-level.choose')}
         </Typography>
         <FormControl className={classes.formControl}>
-        <InputLabel>Role</InputLabel>
+        <InputLabel>{t('account.access-level.choose.role')}</InputLabel>
         <NativeSelect
           value={currentActiveRole}
           onChange={(event) => {setCurrentActiveRole(event.target.value)}}
         >
           {options}
         </NativeSelect>
-        <FormHelperText>Your current role: {currentActiveRole}</FormHelperText>
+        <FormHelperText>{t('account.access-level.choose.current')}: {t('account.access-level.names.' + currentActiveRole.split("_")[1].toLowerCase())}</FormHelperText>
       </FormControl>
       </CardContent>
       <CardActions>
         <Container justify="center" className={classes.buttons}>
-           <Button onClick={(event) => handleClosePopper(event)} size="small">Close</Button>
+           <Button onClick={(event) => handleClosePopper(event)} size="small">{t('button.close')}</Button>
         </Container>
       </CardActions>
     </Card>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
 
 import AccountService from '../services/AccountService';
 import AlertApiResponseHandler from '../components/AlertApiResponseHandler';
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ResetPassword() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const history = useHistory();
   const [fields, setFields] = useFields({
     email: "",
@@ -83,12 +85,23 @@ function ResetPassword() {
     setLoading(true);
     changePassword();
   }
+  const convertValidationMessage = (message) => {
+    let retMessage = '';
+    message = message.replace('{', '').replace('}', '')
+    let parts = message.split(", ");
+    parts.map(part => {
+      let fieldError = part.split('=');
+      let code = fieldError[1] + '.' + fieldError[0];
+      retMessage += t(code) + ' ';
+    })
+    return retMessage;
+  }
 
   async function resetPassword() {
     await AccountService.resetPassword(fields.email)
         .then(response => {
             if (response.status === 200) { 
-                setAlertInfoMessage('response.data');
+                setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
                 setMailSent(true);
             }
@@ -98,7 +111,7 @@ function ResetPassword() {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ResetPassword: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
@@ -107,10 +120,8 @@ function ResetPassword() {
     async function changePassword() {
         await AccountService.changeResettedPassword(fields.password, fields.token)
             .then(response => {
-                console.log("response")
-                console.log(response)
                 if (response.status === 200) { 
-                    setAlertInfoMessage('response.data');
+                    setAlertInfoMessage(convertValidationMessage('response.ok'));
                     setOpenSuccessAlert(true);
                     setOpenDialog(true);
                 }
@@ -120,7 +131,7 @@ function ResetPassword() {
                     (error.response && error.response.data && error.response.data.message) 
                     || error.message || error.toString();
                     console.error("ResetPassword: " + resMessage);
-                    setAlertWarningMessage(error.response.data.message.toString());
+                    setAlertWarningMessage(t(error.response.data.message.toString()));
                     setOpenWarningAlert(true);
                 }
             );
@@ -134,7 +145,7 @@ function ResetPassword() {
           <ContactMailIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Reset password
+          {t('pages.titles.reset-password')}
         </Typography>
         { !loading && mailSent 
         ? 
@@ -148,13 +159,13 @@ function ResetPassword() {
                     required
                     fullWidth
                     id="token"
-                    label="Reset Token"
+                    label={t('account.password.reset.token')}
                     name="token"
                     autoComplete="token"
 
                     inputRef={register({ required: true,  pattern: /[0-9a-zA-Z]+/ })}
                     error={errors.token ? true : false}
-                    helperText={errors.token ? "Incorrect entry." : "Enter your reset password token (received in e-mail"}
+                    helperText={errors.token ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.token')}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -165,14 +176,14 @@ function ResetPassword() {
                     required
                     fullWidth
                     name="password"
-                    label="Password"
+                    label={t('account.password.reset.password.main')}
                     type="password"
                     id="password"
                     autoComplete="current-password"
 
                     inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
                     error={errors.password ? true : false}
-                    helperText={errors.password ? "Password is required (must have 8 digits and...)" : ""}
+                    helperText={errors.password ? t('validation.message.required.incorrect.password.default') : t('validation.message.required.helper.password.default')}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -183,7 +194,7 @@ function ResetPassword() {
                     required
                     fullWidth
                     name="confirmPassword"
-                    label="Confirm password"
+                    label={t('account.password.reset.password.confirm')}
                     type="password"
                     id="confirmPassword"
                     autoComplete="current-password"
@@ -192,7 +203,7 @@ function ResetPassword() {
                                         validate: confirmPassword => confirmPassword === fields.password})}
                     error={errors.confirmPassword ? true : false}
                     helperText={errors.confirmPassword ? 
-                                errors.confirmPassword?.type === "validate" ? "Both must be the same" : "Password is required (must have 8 digits and...)"
+                                errors.confirmPassword?.type === "validate" ? t('validation.message.required.incorrect.password.confirm') : t('validation.message.required.helper.password.default')
                                 : ""}
                 />
             </Grid>
@@ -205,7 +216,7 @@ function ResetPassword() {
                 className={classes.submit}
                 disabled={loading}
             >
-                Change Password
+                {t('button.reset-password')}
             </Button>
             </Grid>
         </Grid>
@@ -219,13 +230,13 @@ function ResetPassword() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t('account.password.reset.email')}
             name="email"
             autoComplete="email"
 
             inputRef={register({ required: true,  pattern: /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/ })}
             error={errors.email ? true : false}
-            helperText={errors.email ? "Incorrect entry." : "Enter your account e-mail"}
+            helperText={errors.email ? t('validation.message.incorrect.entry') : t('validation.message.required.helper.email')}
         />
         <Button
             type="submit"
@@ -235,7 +246,7 @@ function ResetPassword() {
             className={classes.submit}
             disabled={loading}
           >
-            Send
+            {t('button.send')}
           </Button>
         </form>
         }
@@ -255,12 +266,12 @@ function ResetPassword() {
         >
             <DialogContent>
                 <DialogContentText id="dialog-description">
-                Password was successfully resetted. Please sign in.
+                  {t('dialog.content.reset-password')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCloseDialog} color="primary" autoFocus>
-                OK
+                {t('button.ok')}
                 </Button>
             </DialogActions>
         </Dialog>

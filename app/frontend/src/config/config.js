@@ -7,6 +7,7 @@ export const API_URL_ACCOUNTS = API_BASE_URL + "/api/accounts";
 export const API_URL_SINGLE_ACCOUNT = API_BASE_URL + "/api/account";
 export const API_URL_SINGLE_ACCOUNT_EDIT = API_URL_SINGLE_ACCOUNT + "/edit";
 export const API_URL_SINGLE_ACCOUNT_REMOVE = API_URL_SINGLE_ACCOUNT + "/remove";
+export const API_URL_SINGLE_ACCOUNT_CREATE = API_URL_SINGLE_ACCOUNT + "/create";
 export const API_URL_SINGLE_ACCOUNT_CHANGE_PASSWORD = API_URL_SINGLE_ACCOUNT + '/change-password';
 export const API_URL_SINGLE_ACCOUNT_ADD_ACCESS_LEVEL = API_URL_SINGLE_ACCOUNT + '/add-access-level';
 export const API_URL_SINGLE_ACCOUNT_REMOVE_ACCESS_LEVEL = API_URL_SINGLE_ACCOUNT + '/remove-access-level';

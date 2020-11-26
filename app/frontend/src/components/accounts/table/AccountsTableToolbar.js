@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
 
 function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleSearch, setLoadingAccountList, setSelectedEmail}) {
     const classes = useStyles();
-    const aboutAccount = 'Name: ' + selectedAccountName; 
+    const { t } = useTranslation();
+    const aboutAccount = t('account.list.table.toolbar.selected') + ': ' + selectedAccountName; 
     const [expandedDetails, setExpandedDetails] = useState(false);
     const [expandedSearching, setExpandedSearching] = useState(false);
     const [fields, setFields] = useFields({
@@ -92,7 +94,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
           <Grid container justify="center" xs={12}>
             <Grid item xs={12}>
               <Typography className={classes.title} variant="h6" id="tableTitle" component="div" align="center">
-                Accounts
+                {t('pages.titles.account.accounts')}
               </Typography>
             </Grid>
             {selectedAccountMail !== '' ? (
@@ -124,11 +126,11 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
                         name="textToSearch"
                         fullWidth
                         id="textToSearch"
-                        label="Search"
+                        label={t('account.list.table.toolbar.search')}
 
                         inputRef={register({ pattern: /[a-zA-Z0-9!@#$%^*]+/ })}
                         error={errors.textToSearch ? true : false}
-                        helperText={errors.textToSearch ? "Incorrect entry." : ""}
+                        helperText={errors.textToSearch ? t('validation.message.incorrect.entry') : ""}
                       />
                     </Grid>
                     <Divider/>
@@ -138,7 +140,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
                     <Grid item  xs={12} alignItems="center">
                       <Tooltip title="Search">
                         <Button aria-label="Search" type="submit" fullWidth startIcon={<SearchIcon/>}>
-                            Search
+                            {t('button.search')}
                         </Button>
                       </Tooltip>
                     </Grid>
@@ -148,7 +150,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
             )}
               {selectedAccountMail !== '' ? (
               <Grid  alignItems="center">
-                <Tooltip title="Details">
+                <Tooltip title={t('account.list.table.toolbar.details')}>
                 <IconButton aria-label="Details"
                   className={clsx(classes.expand, {
                     [classes.expandOpen]: expandedDetails,
@@ -162,7 +164,7 @@ function AccountsTableToolbar({selectedAccountMail, selectedAccountName, handleS
               </Grid>
                ) : (
               <Grid  alignItems="center">
-                <Tooltip title="Search">
+                <Tooltip title={t('account.list.table.toolbar.search')}>
                 <IconButton aria-label="Expand Search" onClick={handleExpandedSearching}>
                     {!expandedSearching ? <SearchIcon /> : <KeyboardArrowUpIcon/>}
                 </IconButton>

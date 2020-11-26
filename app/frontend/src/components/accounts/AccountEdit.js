@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AccountEdit({account, handleClose, apiMethod}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
     firstName: account.firstName,
     lastName: account.lastName,
@@ -61,7 +63,7 @@ function AccountEdit({account, handleClose, apiMethod}) {
     await apiMethod(account)
     .then(response => {
         if (response.status === 200) { 
-            setAlertInfoMessage('response.data');
+            setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
         }
     },
@@ -70,7 +72,7 @@ function AccountEdit({account, handleClose, apiMethod}) {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AccountEdit: " + resMessage);
-            setAlertWarningMessage(error.response.data.message.toString());
+            setAlertWarningMessage(t(error.response.data.message.toString()));
             setOpenWarningAlert(true);
             setShowRefresh(true);
         }
@@ -86,7 +88,7 @@ function AccountEdit({account, handleClose, apiMethod}) {
                 <AccountBoxIcon fontSize="medium"/>
             </Avatar>
             <Typography component="h1" variant="h5">
-                Edit profile
+                {t("pages.titles.account.edit")}
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
                 <Grid container spacing={2}>
@@ -100,11 +102,11 @@ function AccountEdit({account, handleClose, apiMethod}) {
                     required
                     fullWidth
                     id="firstName"
-                    label="First Name"
+                    label={t('account.edit.firstName')}
 
                     inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
                     error={errors.firstName ? true : false}
-                    helperText={errors.firstName ? "Incorrect entry." : ""}
+                    helperText={errors.firstName ? t('validation.message.incorrect.entry') : ""}
                     />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -115,13 +117,13 @@ function AccountEdit({account, handleClose, apiMethod}) {
                     required
                     fullWidth
                     id="lastName"
-                    label="Last Name"
+                    label={t('account.edit.lastName')}
                     name="lastName"
                     autoComplete="lname"
 
                     inputRef={register({ required: true,  pattern: /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/ })}
                     error={errors.lastName ? true : false}
-                    helperText={errors.lastName ? "Incorrect entry." : ""}
+                    helperText={errors.lastName ?  t('validation.message.incorrect.entry') : ""}
                     />
                 </Grid>
                 </Grid>
@@ -134,7 +136,7 @@ function AccountEdit({account, handleClose, apiMethod}) {
                   alertInfoMessage={alertInfoMessage}
                 />
                 <AcceptButtons
-                  submitButtonTitle="Edit"
+                  submitButtonTitle={t("button.edit")}
                   handleClose={handleClose}
                   showRefreshButton={showRefresh}
                 />

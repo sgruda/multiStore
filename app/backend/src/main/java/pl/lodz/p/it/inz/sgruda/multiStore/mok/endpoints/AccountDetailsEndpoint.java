@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 
 import javax.mail.MessagingException;
@@ -137,7 +138,10 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "{validation.notnull}")
                                                                     @Email(message = "{validation.email}")
                                                                     @Size(min = 1, max = 32, message = "{validation.size}")
-                                                            @RequestParam(value = "email") String email) {
+                                                            @RequestParam(value = "email") String email,
+                                                                    @NotNull(message = "{validation.notnull}")
+                                                                    @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
+                                                            @RequestParam(value = "lang") String language) {
         AccountEntity accountEntity;
         try {
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(email);
@@ -148,7 +152,7 @@ public class AccountDetailsEndpoint {
         }
 
         try {
-            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken());
+            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken(), Language.valueOf(language));
         } catch (MessagingException e) {
             log.severe("Problem z mailem " + e);
         }
@@ -193,7 +197,7 @@ public class AccountDetailsEndpoint {
         }
 
         try {
-            mailSenderService.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken());
+            mailSenderService.sendRegistrationMail(resultAccount.getEmail(), resultAccount.getVeryficationToken(), Language.valueOf(accountRequest.getLanguage()));
         } catch (MessagingException e) {
             log.severe("Problem z mailem " + e);
         }
@@ -230,5 +234,9 @@ public class AccountDetailsEndpoint {
 
         @NotNull(message = "{validation.notnull}")
         private Set<String> roles = new HashSet<>();
+
+        @NotNull(message = "{validation.notnull}")
+        @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
+        private String language;
     }
 }

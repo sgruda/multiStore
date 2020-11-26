@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 import ConfirmDialog from '../ConfirmDialog';
@@ -28,6 +29,7 @@ const useStyles = makeStyles(({
 
 function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccount, handleRefresh}) {
     const classes = useStyles();
+    const { t } = useTranslation();
     const accountName = account.firstName + ' ' + account.lastName;
     const [emailVerified, setEmailVerified] = useState(false);
     const [disabledButton, setDisabledButton] = useState(false);
@@ -69,7 +71,7 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("RemoveUnconrfimedAccount: " + resMessage);
-                setAlertWarningMessage(error.response.data.message.toString());
+                setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
             }
         );
@@ -93,7 +95,7 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
                         className={classes.buttonRefresh}
                         startIcon={<SyncIcon size="large" color="primary"/>}
                     >
-                        Refresh data
+                        {t('button.refresh')}
                     </Button>
                 :
                     <Button 
@@ -102,7 +104,7 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
                         disabled={disabledButton}
                         className={buttonStyle}
                     >
-                    Remove</Button>
+                    {t('button.remove.default')}</Button>
                 }
                 <Collapse in={openWarningAlert}>
                     <Alert severity="warning" action={
@@ -120,12 +122,12 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
                 >
                     <DialogContent>
                       <DialogContentText id="dialog-description">
-                        The {accountName} account was successfully deleted.
+                        {t('dialog.content.remove.the')} {accountName}  {t('dialog.content.remove.deleted')}
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleCloseSuccessDialog} color="primary" autoFocus>
-                        OK
+                        {t('button.ok')}
                       </Button>
                     </DialogActions>
                 </Dialog>

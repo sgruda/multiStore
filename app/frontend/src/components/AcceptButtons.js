@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
@@ -29,6 +30,7 @@ const useStyles = makeStyles(({
 
 function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
     <div>
         <Grid container xs={12}>
@@ -51,7 +53,7 @@ function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
                 fullWidth
                 className={classes.buttonCancel}
                 >
-                Cancel
+                {t('button.cancel')}
                 </Button>
             </Grid>
             <Grid item xs={12}>
@@ -64,7 +66,7 @@ function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
                     className={classes.buttonRefresh}
                     startIcon={<SyncIcon size="large" color="primary"/>}
                     >
-                    Refresh data
+                    {t('button.refresh')}
                     </Button>
                 </Collapse>
             </Grid>

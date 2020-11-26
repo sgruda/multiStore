@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { AuthContext, useAuth } from "./context/AuthContext";
@@ -18,7 +19,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const theme = useTheme();
   const history = useHistory();
 
@@ -115,8 +116,8 @@ function App(props) {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const adminToolbarListItem = [
-    { id: 'accountList', name: 'Account List', path: '/admin/accountsList', icon: <PeopleIcon/>},
-    { id: 'accountCreation', name: 'Create Account', path: '/admin/addAccount', icon:  <PersonAddIcon/>},
+    { id: 'accountList', name: t('pages.titles.account.list'), path: '/admin/accountsList', icon: <PeopleIcon/>},
+    { id: 'accountCreation', name: t('pages.titles.account.create'), path: '/admin/addAccount', icon:  <PersonAddIcon/>},
   ];
 
   return (
@@ -153,8 +154,8 @@ function App(props) {
                     />
                   </>
                 : <>
-                    <Button component={Link} to="/signin" color="inherit">Sign in</Button>
-                    <Button component={Link} to="/signup" color="inherit">Sign up</Button>
+                    <Button component={Link} to="/signin" color="inherit">{t('signin')}</Button>
+                    <Button component={Link} to="/signup" color="inherit">{t('signup')}</Button>
                   </>
               }
           </Toolbar>

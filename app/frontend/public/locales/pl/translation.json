@@ -1,0 +1,318 @@
+{
+    "account": {
+        "access-level": {
+            "choose": {
+                "current": "Twój aktualnie wybrany poziom dostępu",
+                "role": "Poziom dostępu"
+            },
+            "edit": {
+                "firstName": "Imię",
+                "lastName": "Nazwisko"
+            },
+            "names": {
+                "admin": "Administrator",
+                "client": "Klient",
+                "employee": "Pracownik"
+            }
+        },
+        "add": {
+            "form": {
+                "confirm-password": "Potwierdź hasło",
+                "firstName": "Imię",
+                "lastName": "Nazwisko",
+                "email": "Adres e-mail",
+                "password": "Hasło",
+                "roles": "Poziomy dostępu",
+                "username": "Nazwa użytkownika"
+            },
+            "roles": "Poziomy dostępu konta"
+        },
+        "list": {
+            "table": {
+                "filter": {
+                    "all": "Wszystkie",
+                    "label": "Pokaż konta",
+                    "only-active": "Tylko aktywne konta",
+                    "only-non-active": "Tylko nieaktywne konta"
+                },
+                "header": {
+                    "firstName": "Imię",
+                    "lastName": "Nazwisko",
+                    "email": "Adres e-mail",
+                    "activity": "Aktywność",
+                    "roles": "Poziomy dostępu"
+                },
+                "pagination": {
+                    "rows-per-page": "Wiersze na stronę"
+                },
+                "toolbar": {
+                    "details": "Szczegóły",
+                    "search": "Szukaj",
+                    "selected": "Wybrano"
+                }
+            }
+        },
+        "password": {
+            "change": {
+                "confirm-password": "Potwierdź hasło",
+                "new": "Nowe hasło",
+                "present": "Obecne hasło"
+            },
+            "reset": {
+                "email": "Adres e-mail",
+                "password": {
+                    "confirm": "Potwierdź hasło",
+                    "main": "Hasło"
+                },
+                "token": "Token resetu hasła"
+            }
+        },
+        "profile": {
+            "activity": "Aktywność",
+            "account-type": "Typ konta",
+            "email": "Adres e-mail",
+            "email-verified": "Zweryfikowany adres e-mail",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "roles": "Poziomy dostępu",
+            "username": "Nazwa użytkownika"
+        },
+        "signin": {
+            "password": "Hasło",
+            "username": "Nazwa użytkownika"
+        }
+    },
+    "button": {
+        "add": {
+            "access-level": "Dodaj poziom dostępu",
+            "default": "Dodaj"
+        },
+        "cancel": "Anuluj",
+        "change": "Zmień",
+        "change-password": "Zmień hasło",
+        "close": "Zamknij",
+        "edit": "Edytuj",
+        "no": "Nie",
+        "ok": "OK",
+        "refresh": "Odśwież dane",
+        "remove": {
+            "access-level": "Usuń poziom dostępu",
+            "default": "Usuń"
+        },
+        "reset-password": "Resetuj hasło",
+        "search": "Szukaj",
+        "send": "Wyślij",
+        "send-email-confirmation": "Wyślij wiadomość potwierdzającą",
+        "signin": {
+            "default": "Zaloguj się",
+            "facebook": "Zaloguj się z kontem Facebook",
+            "google": "Zaloguj się z kontem Google"
+        },
+        "signup": {
+            "default": "Zarejestruj się",
+            "facebook": "Zarejestruj się z kontem Facebook",
+            "google": "Zarejestruj się z kontem Google"
+        },
+        "yes": "Tak"
+    },
+    "error": {
+        "account": {
+            "email": {
+                "verified": "Adres email został już zweryfikowany."
+            },
+            "operation": {
+                "disabled": "Operacja jest zablokowana dla tego typu konta."
+            },
+            "remove": {
+                "all": {
+                    "access-levels": "Konto musi mieć minimum 1 poziom dostępu."
+                }
+            },
+            "username": {
+                "exist": "Konto o podanej nazwie użytkownika już istnieje."
+            }
+        },
+        "auth": {
+            "credentials": "Niepoprawne dane.",
+            "disabled": "Konto ma niepotwierdzony adres e-mail.",
+            "locked": "Konto jest nieaktywne."
+        },
+        "default": "Wystąpił błąd podczas przetwarzania wykonywania tej operacji!",
+        "dto": {
+            "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",
+            "version": "Ktoś przed Tobą edytował te dane. Odśwież je i spróbuj jeszcze raz."
+        },
+        "http": {
+            "default": "Wystąpił błąd.",
+            "400": "Złe żądanie.",
+            "403": "Odmówionu udzielenia dostępu!",
+            "404": "Przepraszamy, nie znaleziono strony lub zasobu, którego szukasz."
+        },
+        "incorrect": {
+            "forgot": {
+                "password": {
+                    "token": {
+                        "default": "Wprowadzono niepoprawy token.",
+                        "not": {
+                            "exist": "Wprowadzono niepoprawy token."
+                        }
+                    }
+                }
+            },
+            "role": {
+                "name": "Nazwa poziomu dostępu jest niepoprawna."
+            }
+        },
+        "jwt": {
+            "expired": "JWT się przedawnił.",
+            "various": {
+                "id": "Niepoprawny JWT."
+            }
+        },
+        "oauth2": {
+            "authentication": {
+                "processing": "Jesteś pewny, że masz konto w mediach społecznościowych?"
+            },
+            "wrong": {
+                "provider": "Zły dostawca OAuth2."
+            }
+        },
+        "passwords": {
+            "not": {
+                "equals": "Oba hasła muszą być takie same!"
+            }
+        },
+        "roles": {
+            "set": {
+                "empty": "Zbiór poziomów dostępu nie może być pusty!"
+            }
+        }
+    },
+    "densePadding": "Małe komórki w wierszach",
+    "dialog": {
+        "content": {
+            "confirm": "Jesteś pewny?",
+            "remove": {
+                "the": "Konto ",
+                "deleted": " zostało pomyślnie usunięte."
+            },
+            "reset-password": "Hasło zostało pomyślnie zresetowane. Proszę zaloguj się.",
+            "signup": "Rejestracja się powiodła! Potwierdź swój adres e-mail (otrzymasz w wiadomości link aktywujący konto)."
+        }
+    },
+    "pages": {
+        "titles": {
+            "account": {
+                "access-level": {
+                    "choose": "Wybierz poziomu dostępu",
+                    "current": "Obecny poziom dostępu"
+                },
+                "accounts": "Konta",
+                "activity": "Aktywność",
+                "add": "Dodanie konta",
+                "change-password": "Zmienianie hasła",
+                "create": "Tworzenie nowego konta",
+                "edit": "Edycja konta",
+                "list": "Lista kont"
+            },
+            "email-veryfication": "Weryfikacja adresu e-mail",
+            "profile": "Profil",
+            "reset-password": "Reset hasła",
+            "signin": "Logowanie",
+            "signout": "Wyloguj się",
+            "signup": "Rejestracja"
+        }
+    },
+    "refreshData": "Odśwież dane",
+    "redirect": {
+        "to": {
+            "page": {
+                "reset-password": "Zapomniałeś hasła?",
+                "signin": {
+                    "mail-veryfication": "Teraz możesz się zalogować",
+                    "signup": "Masz już konta? Zaloguj się"
+                },
+                "signup": "Nie masz jeszcze konta? Zarejestruj się"
+            }
+        }
+    },
+    "response": {
+        "ok": "Operacja się powiodła",
+        "registration": {
+            "success": "Utworzono konto."
+        }
+    },
+    "signin": "Zaloguj się",
+    "signup": "Zarejestruj się",
+    "validation": {
+        "message": {
+            "checkbox": {
+                "roles": "Wybierz minimum jeden"
+            },
+            "incorrect": {
+                "entry": "Wprowadzono niepoprawne dane."
+            },
+            "required": {
+                "helper": {
+                    "email": "Podaj swój adres e-mail.",
+                    "password": {
+                        "confirm": "Potwierdź swoje hasło.",
+                        "default": "Podaj hasło.",
+                        "new": "Podaj nowe hasło.",
+                        "present": "Podaj obecne hasło."
+                    },
+                    "token": "Podaj, otrzymany w wiadomości e-mail, token resetu hasła.",
+                    "username": "Podaj nazwę użytkownika."
+                },
+                "incorrect": {
+                    "password": {
+                        "confirm": "Oba hasła muszą być takie same.",
+                        "default": "Podanie hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
+                        "new": "Podanie nowego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
+                        "present": "Podanie obecnego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę)."
+                    }
+                }
+            }
+        },
+        "email": {
+            "email": "Adres e-mail jest nieprawidłowy."
+        },
+        "notnull": {
+            "accountDTO": "Pole accountDTO nie może być puste.",
+            "email": "Pole adres e-mail nie może być puste.",
+            "firstName": "Pole imię nie może być puste.",
+            "language": "Pole język nie może być puste.",
+            "lastName": "Pole nazwisko nie może być puste.",
+            "newPassword": "Pole nowe hasło nie może być puste.",
+            "password": "Pole hasło nie może być puste.",
+            "resetPasswordToken": "Pole token resetu hasła nie może być puste.",
+            "roles": "Zbiór poziomów dostępu nie może być pusty.",
+            "username": "Pole nazwa użytkownika nie może być puste."
+        },
+        "pattern": {
+            "accountDTO": "AccountDTO ma niepoprawny wzór.",
+            "email": "Adres e-mail ma niepoprawny wzór.",
+            "firstName": "Imię ma niepoprawny wzór.",
+            "language": "Język ma niepoprawny wzór.",
+            "lastName": "Nazwisko ma niepoprawny wzór.",
+            "newPassword": "Nowe hasło ma niepoprawny wzór.",
+            "password": "Hasło ma niepoprawny wzór.",
+            "resetPasswordToken": "Token resetu hasła ma niepoprawny wzór.",
+            "roles": "Element ze zbióru poziomów dostępu ma niepoprawny wzór.",
+            "username": "Nazwa użytkownika ma niepoprawny wzór."
+        },
+        "size": {
+            "accountDTO": "Zawartość pola accountDTO ma niepoprawny rozmiar.",
+            "email": "Zawartość pola adres e-mail ma niepoprawny rozmiar.",
+            "firstName": "Zawartość pola imię ma niepoprawny rozmiar.",
+            "language": "Zawartość pola język ma niepoprawny rozmiar.",
+            "lastName": "Zawartość pola nazwisko ma niepoprawny rozmiar..",
+            "newPassword": "Zawartość pola nowe hasło ma niepoprawny rozmiar.",
+            "password": "Zawartość pola hasło ma niepoprawny rozmiar.",
+            "resetPasswordToken": "Zawartość pola token resetu hasła ma niepoprawny rozmiar.",
+            "roles": "Zawartość zbioru poziomów dostępu ma niepoprawny rozmiar.",
+            "username": "Zawartość pola nazwa użytkownika ma niepoprawny rozmiar."
+        }
+    }
+
+}

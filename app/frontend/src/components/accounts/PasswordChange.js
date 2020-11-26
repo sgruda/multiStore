@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 function PasswordChange({account, handleClose, apiMethod, adminView}) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [fields, setFields] = useFields({
     oldPassword: '',
     newPassword: '',
@@ -60,7 +62,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
     await apiMethod(account, fields.newPassword)
     .then(response => {
         if (response.status === 200) { 
-            setAlertInfoMessage('response.data');
+            setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
         }
     },
@@ -69,7 +71,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("PasswordChange: " + resMessage);
-            setAlertWarningMessage(error.response.data.message.toString());
+            setAlertWarningMessage(t(error.response.data.message.toString()));
             setOpenWarningAlert(true);
             setShowRefresh(true);
         }
@@ -85,7 +87,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                 <AccountBoxIcon fontSize="medium"/>
             </Avatar>
             <Typography component="h1" variant="h5">
-                Change password
+                {t('pages.titles.account.change-password')}
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit(handleConfirmDialog)}>
                 <Grid container spacing={2}>
@@ -100,14 +102,14 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                         required
                         fullWidth
                         name="oldPassword"
-                        label="Present password"
+                        label={t('account.password.change.present')}
                         type="password"
                         id="oldPassword"
                         autoComplete="oldPassword"
 
                         inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
                         error={errors.oldPassword ? true : false}
-                        helperText={errors.oldPassword ? "Password is required (must have 8 digits and...)" : ""}
+                        helperText={errors.oldPassword ? t('validation.message.required.incorrect.password.present') : t('validation.message.required.helper.password.present')}
                       />
                     </Grid>
                   } 
@@ -119,14 +121,14 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                       required
                       fullWidth
                       name="newPassword"
-                      label="New password"
+                      label={t('account.password.change.new')}
                       type="password"
                       id="newPassword"
                       autoComplete="newPassword"
 
                       inputRef={register({ required: true, minLength: 8, pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ })}
                       error={errors.newPassword ? true : false}
-                      helperText={errors.newPassword ? "Password is required (must have 8 digits and...)" : ""}
+                      helperText={errors.newPassword ? t('validation.message.required.incorrect.password.new') : t('validation.message.required.helper.password.new')}
                      />
                   </Grid>
                   <Grid item xs={12}>
@@ -137,7 +139,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                       required
                       fullWidth
                       name="confirmPassword"
-                      label="Confirm password"
+                      label={t('account.password.change.confirm-password')}
                       type="password"
                       id="confirmPassword"
                       autoComplete="current-password"
@@ -146,7 +148,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                                           validate: confirmPassword => confirmPassword === fields.newPassword})}
                       error={errors.confirmPassword ? true : false}
                       helperText={errors.confirmPassword ? 
-                                  errors.confirmPassword?.type === "validate" ? "Both must be the same" : "Password is required (must have 8 digits and...)"
+                                  errors.confirmPassword?.type === "validate" ? t('validation.message.required.incorrect.password.confirm') : t('validation.message.required.helper.password.confirm')
                                   : ""}
                   />
                   </Grid>
@@ -160,7 +162,7 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
                   alertInfoMessage={alertInfoMessage}
                 />
                 <AcceptButtons
-                  submitButtonTitle="Change"
+                  submitButtonTitle={t('button.change')}
                   handleClose={handleClose}
                   showRefreshButton={showRefresh}
                 />

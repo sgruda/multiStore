@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
 import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from './PasswordChange';
 import AccessLevelsEditor from './AccessLevelsEditor';
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AccountDetails({selectedAccountMail, handleHardRefresh}) {
     const classes = useStyles();
+    const { t } = useTranslation();
     const [account, setAccount] = useState(Object);
     const [loadingData, setLoadingData] = useState(true);
     const [clientRole, setClientRole] = useState(false);
@@ -163,9 +165,9 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
             <Grid container xs={12}>
                 <Grid xs={12}>
                     <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>First name: {account.firstName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Last name: {account.lastName}</Paper></Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>E-mail: {account.email}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.firstName')}: {account.firstName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.lastName')}: {account.lastName}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.email')}: {account.email}</Paper></Grid>
                         <Grid item xs={12}>
                             <ActivitySwitch
                                 classes={classes}
@@ -173,15 +175,15 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                                 setLoadingData={setLoadingData}
                             />
                         </Grid>
-                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>Account type: {account.authProvider}</Paper></Grid>
+                        <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.account-type')}: {account.authProvider}</Paper></Grid>
                         <Grid item xs={12}>
                             {account.authProvider === "system"
                             ?  
                             <Grid container xs={12}>
-                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>Username: {account.authenticationDataDTO.username}</Paper></Grid>
+                                <Grid item xs={12}><Paper className={classes.paperTwo} elevation={3}>{t('account.profile.username')}: {account.authenticationDataDTO.username}</Paper></Grid>
                                 <Grid item xs={12}>
                                     <Paper className={classes.paperOne} elevation={3}>
-                                        E-mail verified: {account.authenticationDataDTO.emailVerified 
+                                    {t('account.profile.email-verified')}: {account.authenticationDataDTO.emailVerified 
                                                         ? <DoneIcon className={classes.doneIcon}/> 
                                                         : <div> 
                                                             <ClearIcon className={classes.clearIcon}/> 
@@ -198,17 +200,16 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paperTwo} elevation={3}>
-                            Roles:
-                            {/* {account.roles} */}
-                            {ROLE_CLIENT}:  { clientRole
+                            {t('account.profile.roles')}:
+                            {t('account.access-level.names.client')}:  { clientRole
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
-                            {ROLE_EMPLOYEE}:  { employeeRole
+                           {t('account.access-level.names.employee')}:  { employeeRole
                                                 ? <DoneIcon className={classes.doneIcon}/> 
                                                 : <ClearIcon className={classes.clearIcon}/> 
                                                 }
-                            {ROLE_ADMIN}:  { adminRole
+                           {t('account.access-level.names.admin')}:  { adminRole
                                             ? <DoneIcon className={classes.doneIcon}/> 
                                             : <ClearIcon className={classes.clearIcon}/> 
                                             }
@@ -222,14 +223,14 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                                     onClick={handleOpenEdit} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Edit</Button>
+                                >{t('button.edit')}</Button>
                             </Grid>
                             <Grid item xs={treeButtons(!account.authenticationDataDTO.emailVerified)}>
                                 <Button 
                                     onClick={handleOpenChangePassword} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Change password</Button>
+                                >{t('button.change-password')}</Button>
                             </Grid>
                             <Grid item xs={4}>
                             {!account.authenticationDataDTO.emailVerified ?
@@ -248,14 +249,14 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                                     onClick={handleOpenAddAccessLevel} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Add acccess level</Button>
+                                >{t('button.add.access-level')}</Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Button 
                                     onClick={handleOpenRemoveAccessLevel} 
                                     fullWidth 
                                     className={classes.editButton}
-                                >Remove acccess level</Button>
+                                >{t('button.remove.access-level')}</Button>
                             </Grid>
                         </Grid>
                         <Dialog
@@ -295,7 +296,7 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                                     account={account}
                                     handleClose={handleCloseAddAccessLevel}
                                     apiMethod={AccountService.addAccessLevel}
-                                    operationTitle="Add"
+                                    operationTitle={t('button.add.access-level')}
                                     clientRole={clientRole}
                                     employeeRole={employeeRole}
                                     adminRole={adminRole}
@@ -315,7 +316,7 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
                                     account={account}
                                     handleClose={handleCloseRemoveAccessLevel}
                                     apiMethod={AccountService.removeAccessLevel}
-                                    operationTitle="Remove"
+                                    operationTitle={t('button.remove.access-level')}
                                     clientRole={clientRole}
                                     employeeRole={employeeRole}
                                     adminRole={adminRole}
