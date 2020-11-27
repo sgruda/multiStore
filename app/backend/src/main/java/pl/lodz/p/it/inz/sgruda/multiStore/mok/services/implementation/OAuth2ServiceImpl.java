@@ -8,8 +8,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2WrongProviderException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
@@ -60,6 +61,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
                 .orElseThrow(() -> new HttpBaseException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
+
+        BasketEntity basketEntity = new BasketEntity(account);
+        account.setBasketEntity(basketEntity);
 
         return accountRepository.save(account);
     }

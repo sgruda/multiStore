@@ -14,10 +14,13 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccessLevelEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AuthenticationDataEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AuthenticationDataEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.ForgotPasswordTokenEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 
 import javax.sql.DataSource;
 
@@ -62,7 +65,7 @@ public class PersistenceMokConfig {
     public LocalContainerEntityManagerFactoryBean mokManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mokDataSource())
-                .packages(AccountEntity.class, AccessLevelEntity.class, AuthenticationDataEntity.class, ForgotPasswordTokenEntity.class)
+                .packages(AccountEntity.class, AccessLevelEntity.class, AuthenticationDataEntity.class, ForgotPasswordTokenEntity.class, BasketEntity.class, OrderEntity.class, ProductEntity.class)
                 .build();
     }
 
