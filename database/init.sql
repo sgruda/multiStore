@@ -271,6 +271,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON promotion TO mop;
 
 CREATE USER moz WITH PASSWORD 'moz123';
 GRANT SELECT, UPDATE ON id_generator TO moz;
+GRANT SELECT, UPDATE ON authentication_data TO moz;
+GRANT SELECT, UPDATE ON account_data TO moz;
+GRANT SELECT ON access_level TO moz;
+GRANT SELECT ON account_access_level_mapping TO moz;
 GRANT SELECT ON status TO moz;
 GRANT SELECT, INSERT, UPDATE ON "order" TO moz;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_order_mapping TO moz;
