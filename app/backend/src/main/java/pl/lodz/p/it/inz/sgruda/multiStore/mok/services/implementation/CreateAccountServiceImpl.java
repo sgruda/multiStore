@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameException;
@@ -61,6 +62,9 @@ public class CreateAccountServiceImpl implements CreateAccountService {
                 accessLevelEntitySet.add(opt.get());
         }
         accountEntity.setAccessLevelEntities(accessLevelEntitySet);
+
+        BasketEntity basketEntity = new BasketEntity(accountEntity);
+        accountEntity.setBasketEntity(basketEntity);
 
         return accountRepository.saveAndFlush(accountEntity);
     }

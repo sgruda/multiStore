@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
@@ -35,7 +36,6 @@ public class AuthServiceImpl implements AuthService {
     private TokenJWTService tokenService;
     private AccountRepository accountRepository;
     private AccessLevelRepository accessLevelRepository;
-
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager, TokenJWTService tokenService, AccountRepository accountRepository, AccessLevelRepository accessLevelRepository) {
@@ -70,6 +70,8 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new HttpBaseException("User Role not set."));
 
         account.setAccessLevelEntities(Collections.singleton(clientRole));
+        BasketEntity basketEntity = new BasketEntity(account);
+        account.setBasketEntity(basketEntity);
         return accountRepository.saveAndFlush(account);
     }
 }

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.entities.moz;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
@@ -25,7 +26,7 @@ public class BasketEntity implements Serializable, VersionGetter {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "BasketIdGen")
     private long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ordered_items_basket_mapping",
             joinColumns = @JoinColumn(name = "basket_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_items_id"))
@@ -39,4 +40,11 @@ public class BasketEntity implements Serializable, VersionGetter {
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
+
+    public BasketEntity() {
+    }
+
+    public BasketEntity(AccountEntity accountEntity) {
+        this.accountEntity = accountEntity;
+    }
 }
