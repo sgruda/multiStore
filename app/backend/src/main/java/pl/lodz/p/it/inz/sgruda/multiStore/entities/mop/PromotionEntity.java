@@ -18,12 +18,12 @@ import java.io.Serializable;
 @Table(name = "promotion", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name"})
 })
-@TableGenerator(name = "CategoryIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
+@TableGenerator(name = "PromotionIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "category")
 public class PromotionEntity implements Serializable, VersionGetter {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccessLevelIdGen")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "PromotionIdGen")
     private long id;
 
     @Basic(optional = false)

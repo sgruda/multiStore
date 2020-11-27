@@ -23,7 +23,7 @@ import java.util.Collection;
 public class CategoryEntity implements Serializable, VersionGetter {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccessLevelIdGen")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CategoryIdGen")
     private long id;
 
     @Basic
@@ -32,10 +32,10 @@ public class CategoryEntity implements Serializable, VersionGetter {
     private CategoryName categoryName;
 
     @OneToMany(mappedBy = "categoryEntity")
-    private Collection<ProductEntity> productCollection = new ArrayList<>();
+    private Collection<ProductEntity> productEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "categoryEntity")
-    private Collection<PromotionEntity> promotionCollection = new ArrayList<>();
+    private Collection<PromotionEntity> promotionEntities = new ArrayList<>();
 
     @Version
     @Setter(lombok.AccessLevel.NONE)

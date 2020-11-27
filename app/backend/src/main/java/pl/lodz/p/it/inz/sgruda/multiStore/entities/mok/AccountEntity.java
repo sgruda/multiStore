@@ -3,6 +3,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities.mok;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
@@ -12,9 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
 @ToString
 @Getter
 @Setter
@@ -85,6 +86,12 @@ public class AccountEntity implements Serializable, VersionGetter {
     @JoinColumn(name = "authentication_data_id", referencedColumnName = "id")
     private AuthenticationDataEntity authenticationDataEntity;
 
+    @OneToMany(mappedBy = "accountEntity")
+    private Collection<OrderEntity> orderCollection = new ArrayList<>();
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
+    private BasketEntity basketEntity;
 
     public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider, String providerId) {
         this.firstName = firstName;

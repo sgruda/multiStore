@@ -44,7 +44,7 @@ public class ProductEntity implements Serializable, VersionGetter {
         @Digits(integer = 7, fraction = 0, message = "validation.digits")
         @Basic(optional = false)
         @NotNull(message = "validation.notnull")
-        @Column(name = "inStore", nullable = false)
+        @Column(name = "in_store", nullable = false)
         private int inStore;
 
         @Digits(integer = 7, fraction = 2, message = "validation.digits")
