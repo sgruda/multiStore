@@ -260,7 +260,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON authentication_data TO mok;
 GRANT SELECT, INSERT, UPDATE, DELETE ON account_data TO mok;
 GRANT SELECT ON access_level TO mok;
 GRANT SELECT, INSERT, UPDATE, DELETE ON account_access_level_mapping TO mok;
-GRANT INSERT, DELETE ON basket TO mok;
+GRANT SELECT, INSERT, DELETE ON basket TO mok;
 
 CREATE USER mop WITH PASSWORD 'mop123';
 GRANT SELECT, UPDATE ON id_generator TO mop;
@@ -291,7 +291,7 @@ INSERT INTO id_generator VALUES ('category',50);
 INSERT INTO id_generator VALUES ('promotion',50);
 INSERT INTO id_generator VALUES ('order',50);
 INSERT INTO id_generator VALUES ('status',50);
-INSERT INTO id_generator VALUES ('basket',50);
+INSERT INTO id_generator VALUES ('basket',100);
 INSERT INTO id_generator VALUES ('ordered_items',50);
 
 INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
@@ -317,21 +317,24 @@ INSERT INTO status VALUES(4, 'delivered');
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (1, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'admin', 0, 'ec45e9a5-ea8d-40ca-9ee3-e382dd9e5dd4', null);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id)
-VALUES (1, true, 'jKowalski@gmail.com', 'Jan', 'Kowalski', 'system', null, 0, 1);
+INSERT INTO basket (id, version) VALUES (1, 0);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
+VALUES (1, true, 'jKowalski@gmail.com', 'Jan', 'Kowalski', 'system', null, 0, 1, 1);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (1, 1);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'manager', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id)
-VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 0, 2);
+INSERT INTO basket (id, version) VALUES (2, 0);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
+VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 0, 2, 2);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (2, 2);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (3, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'client', 0, 'ty43aaa5-rf3g-35yt-66cv-e382dd9e5dd4', null);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id)
-VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 0, 3);
+INSERT INTO basket (id, version) VALUES (3, 0);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
+VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 0, 3, 3);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (3, 3);
