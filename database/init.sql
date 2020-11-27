@@ -1,17 +1,5 @@
 GRANT ALL PRIVILEGES ON DATABASE multistore TO root;
 ---------------------------------------------------------------------------------------------------
-create table id_generator
-(
-    class_name varchar(255) not null
-        constraint id_generator_pkey
-            primary key,
-    id_range   bigint
-);
-
-alter table id_generator
-    owner to root;
-
-
 create table access_level
 (
     id        bigint      not null
@@ -25,24 +13,52 @@ create table access_level
 alter table access_level
     owner to root;
 
+create table basket
+(
+    id      bigint not null
+        constraint basket_pkey
+            primary key,
+    version bigint not null
+);
+
+alter table basket
+    owner to root;
+
 create table account_data
 (
-    id                     bigint      not null
+    id                     bigint       not null
         constraint account_data_pkey
             primary key,
-    active                 boolean     not null,
-    email                  varchar(32) not null
+    active                 boolean      not null,
+    email                  varchar(32)  not null
         constraint uk_6nyd9ykqgjm7n4ngreynnly8t
             unique,
-    first_name             varchar(32) not null,
-    last_name              varchar(32) not null,
-    provider               varchar(255),
+    first_name             varchar(32)  not null,
+    last_name              varchar(32)  not null,
+    provider               varchar(255) not null,
     provider_id            varchar(255),
-    version                bigint      not null,
-    authentication_data_id bigint
+    version                bigint       not null,
+    authentication_data_id bigint,
+    basket_id              bigint
+        constraint fkq30gie5po2akplh6ge0boy9p1
+            references basket
 );
 
 alter table account_data
+    owner to root;
+
+create table category
+(
+    id            bigint      not null
+        constraint category_pkey
+            primary key,
+    category_name varchar(16) not null
+        constraint uklroeo5fvfdeg4hpicn4lw7x9b
+            unique,
+    version       bigint      not null
+);
+
+alter table category
     owner to root;
 
 create table forgot_password_token
@@ -71,7 +87,7 @@ create table authentication_data
         constraint authentication_data_pkey
             primary key,
     email_verified           boolean      not null,
-    password                 varchar(64)  not null,
+    password                 varchar(60)  not null,
     username                 varchar(32)  not null
         constraint uk_bbvlbdpgqb81arjatdxvo6e0f
             unique,
@@ -91,6 +107,102 @@ alter table account_data
     add constraint fk9fq7f9e4tkkiya8n63h847yb8
         foreign key (authentication_data_id) references authentication_data;
 
+create table id_generator
+(
+    class_name varchar(255) not null
+        constraint id_generator_pkey
+            primary key,
+    id_range   bigint
+);
+
+alter table id_generator
+    owner to root;
+
+create table product
+(
+    id          bigint           not null
+        constraint product_pkey
+            primary key,
+    active      boolean          not null,
+    description varchar(512)     not null,
+    in_store    integer          not null,
+    price       double precision not null,
+    title       varchar(32)      not null,
+    type        varchar(255)     not null,
+    version     bigint           not null,
+    category_id bigint           not null
+        constraint fk1mtsbur82frn64de7balymq9s
+            references category
+);
+
+alter table product
+    owner to root;
+
+create table ordered_items
+(
+    id             bigint  not null
+        constraint ordered_items_pkey
+            primary key,
+    ordered_number integer not null,
+    version        bigint  not null,
+    product_id     bigint  not null
+        constraint fkenvq2gngkutwji39t3vns1ews
+            references product
+);
+
+alter table ordered_items
+    owner to root;
+
+create table promotion
+(
+    id          bigint           not null
+        constraint promotion_pkey
+            primary key,
+    discount    double precision not null,
+    name        varchar(32)      not null
+        constraint uktnm59112bh9o0828a4hotdubi
+            unique,
+    version     bigint           not null,
+    category_id bigint           not null
+        constraint fkok7am2wl7u75y5ssfbcmwcs16
+            references category
+);
+
+alter table promotion
+    owner to root;
+
+create table status
+(
+    id          bigint      not null
+        constraint status_pkey
+            primary key,
+    status_name varchar(16) not null
+        constraint ukikty98aye7nunxe4f25a39efl
+            unique
+);
+
+alter table status
+    owner to root;
+
+create table "order"
+(
+    id          bigint           not null
+        constraint order_pkey
+            primary key,
+    order_date  timestamp        not null,
+    total_price double precision not null,
+    version     bigint           not null,
+    account_id  bigint           not null
+        constraint fki6cs7o73ap4ulywem3of1k6nt
+            references account_data,
+    status_id   bigint           not null
+        constraint fk1j6h5yblbp2gxa9h3gcqiudtb
+            references status
+);
+
+alter table "order"
+    owner to root;
+
 create table account_access_level_mapping
 (
     account_id      bigint not null
@@ -106,6 +218,38 @@ create table account_access_level_mapping
 alter table account_access_level_mapping
     owner to root;
 
+create table ordered_items_basket_mapping
+(
+    basket_id        bigint not null
+        constraint fk94m4jaj97vkf9gq9pip5kmyr0
+            references basket,
+    ordered_items_id bigint not null
+        constraint fkbas5vb38pcq1g583fx46qa1w0
+            references ordered_items,
+    constraint ordered_items_basket_mapping_pkey
+        primary key (basket_id, ordered_items_id)
+);
+
+alter table ordered_items_basket_mapping
+    owner to root;
+
+create table ordered_items_order_mapping
+(
+    order_id         bigint not null
+        constraint fksksskxntlobxy8d6yyh820yxg
+            references "order",
+    ordered_items_id bigint not null
+        constraint fk5oo83b66x8n7pqxh2m3e8wp55
+            references ordered_items,
+    constraint ordered_items_order_mapping_pkey
+        primary key (order_id, ordered_items_id)
+);
+
+alter table ordered_items_order_mapping
+    owner to root;
+
+
+
 
 
 -- USERS AND PRIVILEGES
@@ -116,10 +260,24 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON authentication_data TO mok;
 GRANT SELECT, INSERT, UPDATE, DELETE ON account_data TO mok;
 GRANT SELECT ON access_level TO mok;
 GRANT SELECT, INSERT, UPDATE, DELETE ON account_access_level_mapping TO mok;
+GRANT INSERT, DELETE ON basket TO mok;
 
 CREATE USER mop WITH PASSWORD 'mop123';
-CREATE USER moz WITH PASSWORD 'moz123';
+GRANT SELECT, UPDATE ON id_generator TO mop;
+GRANT SELECT, UPDATE ON category TO mop;
+GRANT SELECT, INSERT, UPDATE ON product TO mop;
+GRANT SELECT, INSERT, UPDATE, DELETE ON promotion TO mop;
 
+
+CREATE USER moz WITH PASSWORD 'moz123';
+GRANT SELECT, UPDATE ON id_generator TO moz;
+GRANT SELECT ON status TO moz;
+GRANT SELECT, INSERT, UPDATE ON "order" TO moz;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_order_mapping TO moz;
+GRANT SELECT, INSERT, UPDATE ON ordered_items TO moz;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_basket_mapping TO moz;
+GRANT SELECT ON product TO moz;
+GRANT SELECT, INSERT, UPDATE ON basket TO moz;
 
 
 
@@ -127,9 +285,35 @@ INSERT INTO id_generator VALUES ('account_data',100);
 INSERT INTO id_generator VALUES ('authentication_data',100);
 INSERT INTO id_generator VALUES ('access_level',50);
 INSERT INTO id_generator VALUES ('forgot_password_token',50);
+
+INSERT INTO id_generator VALUES ('product',50);
+INSERT INTO id_generator VALUES ('category',50);
+INSERT INTO id_generator VALUES ('promotion',50);
+INSERT INTO id_generator VALUES ('order',50);
+INSERT INTO id_generator VALUES ('status',50);
+INSERT INTO id_generator VALUES ('basket',50);
+INSERT INTO id_generator VALUES ('ordered_items',50);
+
 INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
 INSERT INTO access_level VALUES(2, 'ROLE_EMPLOYEE');
-INSERT INTO access_level VALUES(1,'ROLE_ADMIN');
+INSERT INTO access_level VALUES(1, 'ROLE_ADMIN');
+
+INSERT INTO category VALUES(1, 'fantasy', 0);
+INSERT INTO category VALUES(2, 'action', 0);
+INSERT INTO category VALUES(3, 'adventure', 0);
+INSERT INTO category VALUES(4, 'history', 0);
+INSERT INTO category VALUES(5, 'science', 0);
+INSERT INTO category VALUES(6, 'fiction', 0);
+INSERT INTO category VALUES(7, 'detective', 0);
+INSERT INTO category VALUES(8, 'document', 0);
+INSERT INTO category VALUES(9, 'novel', 0);
+
+INSERT INTO status VALUES(1, 'submitted');
+INSERT INTO status VALUES(2, 'prepared');
+INSERT INTO status VALUES(3, 'send');
+INSERT INTO status VALUES(4, 'delivered');
+
+
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (1, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'admin', 0, 'ec45e9a5-ea8d-40ca-9ee3-e382dd9e5dd4', null);
