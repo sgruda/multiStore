@@ -3,8 +3,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.ForgotPasswordTokenDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.ForgotPasswordTokenEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.ForgotPasswordTokenEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 @Log
 public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEntity, ForgotPasswordTokenDTO, AccountEntity> {

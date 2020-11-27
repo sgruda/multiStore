@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.jwt.TokenJWTVariousIDException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;

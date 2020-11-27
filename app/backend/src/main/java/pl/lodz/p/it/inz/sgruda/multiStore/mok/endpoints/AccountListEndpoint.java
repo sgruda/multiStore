@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
 

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 
 import java.util.List;
 import java.util.Optional;
