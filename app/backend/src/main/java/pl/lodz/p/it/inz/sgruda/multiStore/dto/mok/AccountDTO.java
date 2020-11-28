@@ -43,10 +43,12 @@ public @Data class AccountDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     private Set<String> roles = new HashSet<>();
+
+    @NotNull(message = "validation.notnull")
     private boolean active;
 
-    @Basic(optional = false)
     @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "(system|google|facebook)", message = "validation.pattern")
     private String authProvider;
 
     @Valid
@@ -54,6 +56,7 @@ public @Data class AccountDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     private long version;
+
     @NotNull(message = "validation.notnull")
     private String signature;
 

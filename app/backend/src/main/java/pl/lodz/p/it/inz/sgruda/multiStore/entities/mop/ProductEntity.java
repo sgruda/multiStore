@@ -18,7 +18,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "product", schema = "public")
+@Table(name = "product", schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"title"})
+        })
 @TableGenerator(name = "ProductIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "product")
 public class ProductEntity implements Serializable, VersionGetter {
@@ -32,7 +35,7 @@ public class ProductEntity implements Serializable, VersionGetter {
         @NotNull(message = "validation.notnull")
         @Size(min = 1, max = 32, message = "validation.size")
         @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
-        @Column(name = "title", nullable = false, length = 32)
+        @Column(name = "title", nullable = false, unique = true, length = 32)
         private String title;
 
         @Basic(optional = false)
