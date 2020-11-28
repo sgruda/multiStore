@@ -127,7 +127,9 @@ create table product
     description varchar(512)     not null,
     in_store    integer          not null,
     price       double precision not null,
-    title       varchar(32)      not null,
+    title       varchar(32)      not null
+        constraint u24nm5sf12bh9o0w38a4hotdubi
+                unique,
     type        varchar(255)     not null,
     version     bigint           not null,
     category_id bigint           not null
