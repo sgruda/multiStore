@@ -50,7 +50,7 @@ public class AccountListEndpoint {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Map<String, Object>> getAccountsPage(
-            @Valid @Pattern(regexp = "[0-9a-zA-Z!@#$%^&*()]+", message = "{validation.pattern}") @RequestParam(required = false) String textToSearch,
+            @Valid @Pattern(regexp = "[0-9a-zA-Z!@#$%^&*()]+", message = "validation.pattern") @RequestParam(required = false) String textToSearch,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "lastName-asc") String[] sort,

@@ -77,6 +77,9 @@ public class ProductEntity implements Serializable, VersionGetter {
         @Column(name = "version", nullable = false)
         private long version;
 
+        public ProductEntity() {
+        }
+
         public ProductEntity(@NotNull(message = "validation.notnull") @Size(min = 1, max = 32, message = "validation.size")
                              @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
                                      String title,

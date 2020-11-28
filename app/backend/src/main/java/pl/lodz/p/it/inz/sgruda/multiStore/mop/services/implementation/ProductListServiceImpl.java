@@ -29,23 +29,23 @@ public class ProductListServiceImpl implements ProductListService {
     }
 
     @Override
-    public Page<ProductEntity> getFilteredAccounts(String textToSearch, Pageable pageable, Boolean active, ProductType productType) {
+    public Page<ProductEntity> getFilteredProducts(String textToSearch, Pageable pageable, Boolean active, String productType) {
         if(textToSearch != null) {
             if(active != null && productType == null)
                 return productRepository.findByTextInTitleOrDescriptionAndFilteredByActive(textToSearch, pageable, active.booleanValue());
             else if(active == null && productType != null)
-                return productRepository.findByTextInTitleOrDescriptionAndFilteredByType(textToSearch, pageable, productType.name());
+                return productRepository.findByTextInTitleOrDescriptionAndFilteredByType(textToSearch, pageable, productType);
             else if(active != null && productType != null)
-                return productRepository.findByTextInTitleOrDescriptionAndFilteredByActiveAndType(textToSearch, pageable, active.booleanValue(), productType.name());
+                return productRepository.findByTextInTitleOrDescriptionAndFilteredByActiveAndType(textToSearch, pageable, active.booleanValue(), productType);
             else
                 return productRepository.findByTextInTitleOrDescription(textToSearch, pageable);
         } else {
             if(active != null && productType == null)
                 return productRepository.findAllByActiveEquals(pageable, active.booleanValue());
             else if(active == null && productType != null)
-                return productRepository.findAllByTypeEquals(pageable, productType.name());
+                return productRepository.findAllByTypeEquals(pageable, productType);
             else if(active != null && productType != null)
-                return productRepository.findAllByActiveEqualsAndTypeEquals(pageable, active.booleanValue(), productType.name());
+                return productRepository.findAllByActiveEqualsAndTypeEquals(pageable, active.booleanValue(), productType);
             else
                 return productRepository.findAll(pageable);
         }
