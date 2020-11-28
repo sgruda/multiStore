@@ -17,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivit
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mokTransactionManager",
         timeout = 5
 )
 public class AccountActivityServiceImpl implements AccountActivityService {

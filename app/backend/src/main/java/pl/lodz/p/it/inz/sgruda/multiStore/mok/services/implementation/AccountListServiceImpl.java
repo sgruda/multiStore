@@ -17,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListSer
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mokTransactionManager",
         timeout = 5
 )
 public class AccountListServiceImpl implements AccountListService {
