@@ -19,11 +19,11 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductGetServ
         transactionManager = "mopTransactionManager",
         timeout = 5
 )
-public class ProductGetGetServiceImpl implements ProductGetService {
+public class ProductGetServiceImpl implements ProductGetService {
     private ProductRepository productRepository;
 
     @Autowired
-    public ProductGetGetServiceImpl(ProductRepository productRepository) {
+    public ProductGetServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 

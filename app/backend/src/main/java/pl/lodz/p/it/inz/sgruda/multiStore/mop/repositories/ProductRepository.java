@@ -21,6 +21,8 @@ import java.util.Optional;
 )
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
+    Boolean existsByTitle(String title);
+
     Optional<ProductEntity> findByTitle(String title);
 
     Page<ProductEntity> findAllByActiveEqualsAndTypeEquals(Pageable pageable, boolean active, ProductType productType);

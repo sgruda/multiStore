@@ -17,14 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class ProductDTO implements SignatureVerifiability {
-    @Size(min = 64, max = 64)
+    @Size(min = 0, max = 64)
     @NotNull(message = "validation.notnull")
     @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String idHash;
 
     @NotNull(message = "validation.notnull")
     @Size(min = 1, max = 32, message = "validation.size")
-    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
+    @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
     private String title;
 
     @NotNull(message = "validation.notnull")
@@ -44,6 +44,7 @@ public @Data class ProductDTO implements SignatureVerifiability {
     private String type;
 
     @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "(fantasy|action|adventure|history|science|fiction|detective|document|novel)", message = "validation.pattern")
     private String category;
 
     @NotNull(message = "validation.notnull")
