@@ -43,7 +43,7 @@ public class ProductGetEndpoint {
 
     @GetMapping
     public ResponseEntity<?> getProductByTitle(@Valid @NotNull(message = "validation.notnull")
-                                               @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
+                                               @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
                                                @Size(min = 1, max = 32, message = "validation.size")
                                                @RequestParam(value = "title") String title) {
         ProductEntity productEntity;

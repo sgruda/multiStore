@@ -1,6 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.mop.endpoints;
 
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductCreateService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.CategoryName;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 
 
 import javax.validation.Valid;
@@ -29,30 +30,32 @@ import javax.validation.Valid;
         propagation = Propagation.NEVER
 )
 @RequestMapping("/api/product")
-public class ProductDetailsEndoint {
-    private ProductCreateService productCreateService;
+public class ProductOperationEndpoint {
+    private ProductEditService productEditService;
+    private CheckerSimpleDTO checkerSimpleDTO;
 
-    public ProductDetailsEndoint(ProductCreateService productCreateService) {
-        this.productCreateService = productCreateService;
+    @Autowired
+    public ProductOperationEndpoint(ProductEditService productEditService, CheckerSimpleDTO checkerSimpleDTO) {
+        this.productEditService = productEditService;
+        this.checkerSimpleDTO = checkerSimpleDTO;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDTO) {
-        ProductEntity productEntity = new ProductEntity(
-                productDTO.getTitle(),
-                productDTO.getDescription(),
-                productDTO.getInStore(),
-                productDTO.getPrice(),
-                ProductType.valueOf(productDTO.getType())
-        );
+    public ResponseEntity<?> editProduct(@Valid @RequestBody ProductDTO productDTO) {
+        ProductEntity productEntity;
         try {
-            productCreateService.createProduct(productEntity, CategoryName.valueOf(productDTO.getCategory()));
+            checkerSimpleDTO.checkSignature(productDTO);
+            productEntity = productEditService.getProductByTitle(productDTO.getTitle());
+            checkerSimpleDTO.checkVersion(productEntity, productDTO);
+            ProductMapper productMapper = new ProductMapper();
+            productMapper.updateEntity(productEntity, productDTO);
+            productEditService.editProduct(productEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(new ApiResponse(true, "product.correctly.created"));
+        return ResponseEntity.ok(new ApiResponse(true, "product.correctly.edited"));
     }
 }

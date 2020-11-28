@@ -34,7 +34,6 @@ public class ProductMapper  implements Mapper<ProductEntity, ProductDTO> {
         entity.setDescription(dto.getDescription());
         entity.setInStore(dto.getInStore());
         entity.setPrice(dto.getPrice());
-        entity.setActive(dto.isActive());
         return entity;
     }
 }
