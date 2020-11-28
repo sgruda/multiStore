@@ -38,9 +38,9 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             accountActivityService.blockAccount(accountEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -55,9 +55,9 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             accountActivityService.unblockAccount(accountEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);

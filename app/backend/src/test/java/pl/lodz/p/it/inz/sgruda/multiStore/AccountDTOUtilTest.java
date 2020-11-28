@@ -37,7 +37,7 @@ public class AccountDTOUtilTest {
         boolean catched = false;
         accountDTO.setVersion(1);
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }
@@ -47,7 +47,7 @@ public class AccountDTOUtilTest {
         catched = false;
         accountDTO.setEmail("kowal.s@gmail.com");
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }
@@ -65,7 +65,7 @@ public class AccountDTOUtilTest {
 
         accountDTO.getAuthenticationDataDTO().setVersion(1);
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }
@@ -75,7 +75,7 @@ public class AccountDTOUtilTest {
         catched = false;
         accountDTO.getAuthenticationDataDTO().setIdHash(null);
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }

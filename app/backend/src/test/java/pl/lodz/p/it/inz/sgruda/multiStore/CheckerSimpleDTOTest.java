@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mop.CheckerProductDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mop.SignProductDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
 
 
 @Log
 @SpringBootTest
-public class ProductDTOUtilTest {
-    private @Autowired CheckerProductDTO checkerProductDTO;
-    private @Autowired SignProductDTOUtil signProductDTOUtil;
+public class CheckerSimpleDTOTest {
+    private @Autowired CheckerSimpleDTO checkerSimpleDTO;
+    private @Autowired SignSimpleDTO signSimpleDTO;
 
     @Test
     void test() {
@@ -28,12 +28,12 @@ public class ProductDTOUtilTest {
         productDTO.setType("movie");
         productDTO.setCategory("action");
         productDTO.setVersion(0);
-        signProductDTOUtil.signProductDTO(productDTO);
+        signSimpleDTO.signDTO(productDTO);
 
         boolean catched = false;
         productDTO.setVersion(1);
         try {
-            checkerProductDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkSignature(productDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }
@@ -43,7 +43,7 @@ public class ProductDTOUtilTest {
         catched = false;
         productDTO.setTitle("title2");
         try {
-            checkerProductDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkSignature(productDTO);
         } catch (DTOSignatureException e) {
             catched = true;
         }

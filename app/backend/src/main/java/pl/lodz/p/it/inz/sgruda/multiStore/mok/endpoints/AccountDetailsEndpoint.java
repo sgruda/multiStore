@@ -68,11 +68,11 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = passwordChangeService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             passwordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -87,9 +87,9 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
             accountMapper.updateEntity(accountEntity, accountDTO);
             accountEditService.editAccount(accountEntity);
@@ -106,9 +106,9 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> addAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             accountAccessLevelService.addAccessLevel(accountEntity, accountDTO.getRoles());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -122,9 +122,9 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             accountAccessLevelService.removeAccessLevel(accountEntity, accountDTO.getRoles());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -164,9 +164,9 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccountWithNotVerifiedEmail(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             notEmailVerifiedAccountService.removeAccountWithNotVerifiedEmail(accountEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);

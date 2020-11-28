@@ -6,51 +6,41 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
-public class CheckerAccountDTO {
-    private SignatureDTOUtil signatureDTOUtil;
+public class CheckerAccountDTO extends CheckerSimpleDTO {
 
     @Autowired
     public CheckerAccountDTO(SignatureDTOUtil signatureDTOUtil) {
-        this.signatureDTOUtil = signatureDTOUtil;
+        super(signatureDTOUtil);
     }
 
-    public void checkSignature(AccountDTO dto) throws DTOSignatureException {
+    public void checkAccountDTOSignature(AccountDTO dto) throws DTOSignatureException {
         if(dto != null) {
-            this.checkSignatureSingleDTO(dto);
+            super.checkSignatureSingleDTO(dto);
             if(dto.getAuthenticationDataDTO() != null) {
-                this.checkSignatureSingleDTO(dto.getAuthenticationDataDTO());
+                super.checkSignatureSingleDTO(dto.getAuthenticationDataDTO());
                 if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    this.checkSignatureSingleDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
+                    super.checkSignatureSingleDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
                 }
             }
         }
     }
-    public void checkVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
+
+    public void checkAccountDTOVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
         if(dto != null && entity != null) {
-            this.checkVersionSingleDTO(entity, dto);
+            super.checkVersionSingleDTO(entity, dto);
             if(dto.getAuthenticationDataDTO() != null) {
-                this.checkVersionSingleDTO(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
+                super.checkVersionSingleDTO(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO());
                 if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    this.checkVersionSingleDTO(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
+                    super.checkVersionSingleDTO(entity.getAuthenticationDataEntity().getForgotPasswordTokenEntity(),
                             dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
                 }
             }
         }
     }
-    private void checkSignatureSingleDTO(SignatureVerifiability dto) throws DTOSignatureException {
-        if(!signatureDTOUtil.checkSignatureDTO(dto)) {
-            throw new DTOSignatureException();
-        }
-    }
-    private void checkVersionSingleDTO(VersionGetter entity, SignatureVerifiability dto) throws  DTOVersionException {
-        if(entity.getVersion() != dto.getVersion()) {
-            throw new DTOVersionException();
-        }
-    }
-
 }
