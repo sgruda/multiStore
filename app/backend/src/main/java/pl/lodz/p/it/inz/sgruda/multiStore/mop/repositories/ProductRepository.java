@@ -20,8 +20,8 @@ import java.util.List;
 )
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    Page<ProductEntity> findAllByActiveEqualsAndTypeEquals(Pageable pageable,boolean active, String productType);
-    Page<ProductEntity> findAllByTypeEquals(Pageable pageable, String productType);
+    Page<ProductEntity> findAllByActiveEqualsAndTypeEquals(Pageable pageable, boolean active, ProductType productType);
+    Page<ProductEntity> findAllByTypeEquals(Pageable pageable, ProductType productType);
 
     @Query(value = "SELECT product FROM ProductEntity product " +
             "WHERE " +
@@ -37,7 +37,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                     "(UPPER(product.title) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
                     "OR UPPER(product.description) LIKE CONCAT('%', UPPER(:textToSearch), '%')) "
     )
-    Page<ProductEntity> findByTextInTitleOrDescriptionAndFilteredByActiveAndType(String textToSearch, Pageable pageable, boolean active, String productType);
+    Page<ProductEntity> findByTextInTitleOrDescriptionAndFilteredByActiveAndType(String textToSearch, Pageable pageable, boolean active, ProductType productType);
 
     @Query(value = "SELECT product FROM ProductEntity product " +
             "WHERE " +
@@ -51,7 +51,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                     "(UPPER(product.title) LIKE CONCAT('%', UPPER(:textToSearch), '%') " +
                     "OR UPPER(product.description) LIKE CONCAT('%', UPPER(:textToSearch), '%')) "
     )
-    Page<ProductEntity> findByTextInTitleOrDescriptionAndFilteredByType(String textToSearch, Pageable pageable, String productType);
+    Page<ProductEntity> findByTextInTitleOrDescriptionAndFilteredByType(String textToSearch, Pageable pageable, ProductType productType);
 
     @Query(value = "SELECT product FROM ProductEntity product " +
             "WHERE " +

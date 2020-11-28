@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mopTransactionManager",
         timeout = 5
 )
 public class ProductListServiceImpl implements ProductListService {
@@ -29,7 +30,7 @@ public class ProductListServiceImpl implements ProductListService {
     }
 
     @Override
-    public Page<ProductEntity> getFilteredProducts(String textToSearch, Pageable pageable, Boolean active, String productType) {
+    public Page<ProductEntity> getFilteredProducts(String textToSearch, Pageable pageable, Boolean active, ProductType productType) {
         if(textToSearch != null) {
             if(active != null && productType == null)
                 return productRepository.findByTextInTitleOrDescriptionAndFilteredByActive(textToSearch, pageable, active.booleanValue());

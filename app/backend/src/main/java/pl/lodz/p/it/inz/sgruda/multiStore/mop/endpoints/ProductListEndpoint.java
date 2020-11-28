@@ -20,6 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductListService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -57,7 +58,7 @@ public class ProductListEndpoint {
         Pageable paging = PageRequest.of(page, size);
 
         Page<ProductEntity> pageProductEntities;
-        pageProductEntities = productListService.getFilteredProducts(textToSearch, paging, active, type);
+        pageProductEntities = productListService.getFilteredProducts(textToSearch, paging, active, ProductType.valueOf(type));
 
         ProductMapper productMapper = new ProductMapper();
         List<ProductDTO> productDTOS;
