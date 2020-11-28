@@ -330,7 +330,7 @@ INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (1, 1);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
-VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'manager', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
+VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'employee', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
 INSERT INTO basket (id, version) VALUES (2, 0);
 INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
 VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 0, 2, 2);
