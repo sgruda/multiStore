@@ -16,6 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivityService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
@@ -32,11 +33,13 @@ import javax.validation.Valid;
 @RequestMapping("/api/product")
 public class ProductOperationEndpoint {
     private ProductEditService productEditService;
+    private ProductActivityService productActivityService;
     private CheckerSimpleDTO checkerSimpleDTO;
 
     @Autowired
-    public ProductOperationEndpoint(ProductEditService productEditService, CheckerSimpleDTO checkerSimpleDTO) {
+    public ProductOperationEndpoint(ProductEditService productEditService, ProductActivityService productActivityService, CheckerSimpleDTO checkerSimpleDTO) {
         this.productEditService = productEditService;
+        this.productActivityService = productActivityService;
         this.checkerSimpleDTO = checkerSimpleDTO;
     }
 
@@ -57,5 +60,39 @@ public class ProductOperationEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "product.correctly.edited"));
+    }
+
+    @PostMapping("/block")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<?> blockProduct(@Valid @RequestBody ProductDTO productDTO) {
+        ProductEntity productEntity;
+        try {
+            checkerSimpleDTO.checkSignature(productDTO);
+            productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
+            checkerSimpleDTO.checkVersion(productEntity, productDTO);
+            productActivityService.blockProduct(productEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "product.correctly.blocked"));
+    }
+
+    @PostMapping("/unblock")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<?> unblockProduct(@Valid @RequestBody ProductDTO productDTO) {
+        ProductEntity productEntity;
+        try {
+            checkerSimpleDTO.checkSignature(productDTO);
+            productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
+            checkerSimpleDTO.checkVersion(productEntity, productDTO);
+            productActivityService.unblockProduct(productEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "product.correctly.unblocked"));
     }
 }
