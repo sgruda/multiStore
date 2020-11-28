@@ -7,7 +7,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.ForgotPasswordTokenEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 @Log
-public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEntity, ForgotPasswordTokenDTO, AccountEntity> {
+public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEntity, ForgotPasswordTokenDTO> {
     private HashMethod hashMethod;
 
     public ForgotPasswordTokenMapper() {
@@ -22,14 +22,6 @@ public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEnti
         dto.setOwnerUsername(entity.getAccountEntity().getUsername());
         dto.setVersion(entity.getVersion());
         return dto;
-    }
-    @Override
-    public ForgotPasswordTokenEntity createFromDto(ForgotPasswordTokenDTO dto, AccountEntity owner) {
-        ForgotPasswordTokenEntity entity = new ForgotPasswordTokenEntity();
-        entity.setExpireDate(dto.getExpireDate());
-        entity.setHash(dto.getHash());
-        entity.setAccountEntity(owner);
-        return entity;
     }
 
     @Override
