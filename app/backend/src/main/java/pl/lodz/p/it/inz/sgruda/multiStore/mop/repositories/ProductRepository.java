@@ -12,6 +12,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional(
@@ -19,6 +20,8 @@ import java.util.List;
         transactionManager = "mopTransactionManager"
 )
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+
+    Optional<ProductEntity> findByTitle(String title);
 
     Page<ProductEntity> findAllByActiveEqualsAndTypeEquals(Pageable pageable, boolean active, ProductType productType);
     Page<ProductEntity> findAllByTypeEquals(Pageable pageable, ProductType productType);

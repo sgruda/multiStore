@@ -48,9 +48,9 @@ public class AccountEndpoint {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "{validation.notnull}")
-                                                        @Email(message = "{validation.email}")
-                                                        @Size(min = 1, max = 32, message = "{validation.size}")
+    public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "validation.notnull")
+                                                        @Email(message = "validation.email")
+                                                        @Size(min = 1, max = 32, message = "validation.size")
                                                @RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {
