@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 @ToString
 @Getter
+@Setter
 @Entity
 @Table(name = "promotion", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name"})
@@ -30,7 +31,7 @@ public class PromotionEntity implements Serializable, VersionGetter {
     @NotNull(message = "validation.notnull")
     @Size(min = 1, max = 32, message = "validation.size")
     @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name", nullable = false, length = 32, unique = true)
     private String name;
 
     @Digits(integer = 2, fraction = 2, message = "validation.digits")

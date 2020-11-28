@@ -93,5 +93,6 @@ public class ProductEntity implements Serializable, VersionGetter {
                 this.inStore = inStore;
                 this.price = price;
                 this.type = type;
+                this.active = true;
         }
 }
