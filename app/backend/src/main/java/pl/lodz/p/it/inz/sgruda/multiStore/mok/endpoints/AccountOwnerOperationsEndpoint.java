@@ -22,7 +22,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnPasswordCha
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

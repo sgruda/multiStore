@@ -13,7 +13,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
 
 import javax.validation.Valid;
 
