@@ -290,7 +290,7 @@ INSERT INTO id_generator VALUES ('authentication_data',100);
 INSERT INTO id_generator VALUES ('access_level',50);
 INSERT INTO id_generator VALUES ('forgot_password_token',50);
 
-INSERT INTO id_generator VALUES ('product',50);
+INSERT INTO id_generator VALUES ('product',100);
 INSERT INTO id_generator VALUES ('category',50);
 INSERT INTO id_generator VALUES ('promotion',50);
 INSERT INTO id_generator VALUES ('order',50);
@@ -342,3 +342,12 @@ INSERT INTO account_data (id, active, email, first_name, last_name, provider, pr
 VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 0, 3, 3);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (3, 3);
+
+
+
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (1, true, 'Niesamowita historia niszczyciela światów.', 100, 54.44, 'Imperium ciszy', 'book', 0, 6);
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (2, true, 'O podróży po skarb.', 50, 34.44, 'Hobbit', 'book', 0, 1);
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (3, true, 'Historia tajnego agenta, który cierpni na amnezję i próbuje poznać swoją tożsamość.', 75, 20.0, 'Tożsamość Bourne', 'movie', 0, 2);
