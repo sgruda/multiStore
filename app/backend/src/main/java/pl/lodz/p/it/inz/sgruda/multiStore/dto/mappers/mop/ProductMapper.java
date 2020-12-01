@@ -12,6 +12,7 @@ public class ProductMapper  implements Mapper<ProductEntity, ProductDTO> {
     public ProductMapper() {
         this.hashMethod = new HashMethod();
     }
+
     @Override
     public ProductDTO toDTO(ProductEntity entity) {
         ProductDTO dto = new ProductDTO();

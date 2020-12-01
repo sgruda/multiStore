@@ -13,6 +13,7 @@ import java.util.Set;
 
 @ToString
 @Getter
+@Setter
 @Entity
 @Table(name = "basket", schema = "public")
 @TableGenerator(name = "BasketIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
