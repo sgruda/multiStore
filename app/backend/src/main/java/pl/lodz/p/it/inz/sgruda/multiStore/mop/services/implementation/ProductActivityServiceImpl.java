@@ -39,13 +39,11 @@ public class ProductActivityServiceImpl implements ProductActivityService {
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public void blockProduct(ProductEntity productEntity) {
         productEntity.setActive(false);
-        productRepository.saveAndFlush(productEntity);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public void unblockProduct(ProductEntity productEntity) {
         productEntity.setActive(true);
-        productRepository.saveAndFlush(productEntity);
     }
 }

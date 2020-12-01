@@ -22,6 +22,7 @@ public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
        dto.setName(entity.getName());
        dto.setDiscount(entity.getDiscount());
        dto.setOnCategory(entity.getCategoryEntity().getCategoryName().name());
+       dto.setActive(entity.isActive());
        dto.setVersion(entity.getVersion());
 
        return dto;

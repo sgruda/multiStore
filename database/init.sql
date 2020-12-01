@@ -160,6 +160,7 @@ create table promotion
     id          bigint           not null
         constraint promotion_pkey
             primary key,
+    active      boolean          not null,
     discount    double precision not null,
     name        varchar(32)      not null
         constraint uktnm59112bh9o0828a4hotdubi

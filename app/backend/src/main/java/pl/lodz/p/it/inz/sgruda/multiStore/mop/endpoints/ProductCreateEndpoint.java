@@ -29,10 +29,10 @@ import javax.validation.Valid;
         propagation = Propagation.NEVER
 )
 @RequestMapping("/api/product")
-public class ProductDetailsEndoint {
+public class ProductCreateEndpoint {
     private ProductCreateService productCreateService;
 
-    public ProductDetailsEndoint(ProductCreateService productCreateService) {
+    public ProductCreateEndpoint(ProductCreateService productCreateService) {
         this.productCreateService = productCreateService;
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class ProductDTO implements SignatureVerifiability {
-    @Size(min = 0, max = 64)
+    @Size(max = 64, message = "validation.size")
     @NotNull(message = "validation.notnull")
     @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String idHash;

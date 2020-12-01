@@ -58,7 +58,7 @@ public class ProductListEndpoint {
         Pageable paging = PageRequest.of(page, size);
 
         Page<ProductEntity> pageProductEntities;
-        pageProductEntities = productListService.getFilteredProducts(textToSearch, paging, active, ProductType.valueOf(type));
+        pageProductEntities = productListService.getFilteredProducts(textToSearch, paging, active, type != null ? ProductType.valueOf(type) : null);
 
         ProductMapper productMapper = new ProductMapper();
         List<ProductDTO> productDTOS;

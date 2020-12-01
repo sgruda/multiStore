@@ -30,7 +30,7 @@ public class PromotionEntity implements Serializable, VersionGetter {
     @Basic(optional = false)
     @NotNull(message = "validation.notnull")
     @Size(min = 1, max = 32, message = "validation.size")
-    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
+    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
     @Column(name = "name", nullable = false, length = 32, unique = true)
     private String name;
 
@@ -45,9 +45,24 @@ public class PromotionEntity implements Serializable, VersionGetter {
     @ManyToOne(optional = false)
     private CategoryEntity categoryEntity;
 
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
+    @Column(name = "active", nullable = false)
+    private boolean active;
+
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
+
+    public PromotionEntity() {
+    }
+
+    public PromotionEntity(@NotNull(message = "validation.notnull") @Size(min = 1, max = 32, message = "validation.size") @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern") String name,
+                           @Digits(integer = 2, fraction = 2, message = "validation.digits") @NotNull(message = "validation.notnull") double discount) {
+        this.name = name;
+        this.discount = discount;
+        this.active = true;
+    }
 }
