@@ -34,6 +34,9 @@ public @Data class PromotionDTO implements SignatureVerifiability {
     private String onCategory;
 
     @NotNull(message = "validation.notnull")
+    private boolean active;
+
+    @NotNull(message = "validation.notnull")
     private long version;
 
     @NotNull(message = "validation.notnull")

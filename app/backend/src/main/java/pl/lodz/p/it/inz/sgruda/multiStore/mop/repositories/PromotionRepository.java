@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 
+import java.util.Optional;
+
 @Repository
 @Transactional(
         propagation = Propagation.MANDATORY,
@@ -15,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 )
 public interface PromotionRepository extends JpaRepository<PromotionEntity, Long> {
     Page<PromotionEntity> findAll(Pageable pageable);
+    Optional<PromotionEntity> findByName(String name);
     Boolean existsByName(String name);
 
 }
