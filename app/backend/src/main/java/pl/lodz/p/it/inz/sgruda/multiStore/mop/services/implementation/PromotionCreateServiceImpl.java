@@ -12,7 +12,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.CategoryNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.PromotionNameAlreadyExistsException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.TitleAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.CategoryRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.PromotionRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionCreateService;

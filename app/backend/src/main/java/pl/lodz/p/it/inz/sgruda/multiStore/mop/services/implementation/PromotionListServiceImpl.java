@@ -13,8 +13,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.PromotionRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionListService;
 
-import java.util.List;
-
 @Log
 @Service
 @Transactional(

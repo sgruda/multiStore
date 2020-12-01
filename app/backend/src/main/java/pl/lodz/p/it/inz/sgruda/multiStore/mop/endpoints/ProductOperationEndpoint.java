@@ -18,7 +18,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditSer
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 
-
 import javax.validation.Valid;
 
 @Log

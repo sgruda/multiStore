@@ -3,8 +3,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.PromotionDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {

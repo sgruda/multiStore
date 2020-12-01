@@ -1,11 +1,9 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.utils.components;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.DTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 

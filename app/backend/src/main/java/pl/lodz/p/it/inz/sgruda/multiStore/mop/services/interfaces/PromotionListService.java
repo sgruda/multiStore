@@ -4,8 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 
-import java.util.List;
-
 public interface PromotionListService {
     Page<PromotionEntity> getAllPromotions(Pageable pageable);
 }

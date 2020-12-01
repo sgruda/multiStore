@@ -1,10 +1,11 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mop;
 
-import lombok.*;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.CategoryEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
-import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

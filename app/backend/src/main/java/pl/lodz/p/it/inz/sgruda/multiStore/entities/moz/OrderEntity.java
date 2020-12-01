@@ -4,17 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

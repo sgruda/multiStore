@@ -3,7 +3,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities.moz;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 

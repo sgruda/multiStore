@@ -19,7 +19,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.CategoryName;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 
-
 import javax.validation.Valid;
 
 @Log

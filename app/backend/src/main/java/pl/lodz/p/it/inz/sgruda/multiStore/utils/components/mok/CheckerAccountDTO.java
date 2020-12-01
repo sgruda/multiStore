@@ -8,8 +8,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
 public class CheckerAccountDTO extends CheckerSimpleDTO {

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.CategoryName;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
