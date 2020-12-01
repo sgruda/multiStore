@@ -145,6 +145,9 @@ create table ordered_items
     id             bigint  not null
         constraint ordered_items_pkey
             primary key,
+    identifier     bigint  not null
+        constraint fsfnvsfasfgkutwgwns1353ews
+            unique,
     ordered_number integer not null,
     version        bigint  not null,
     product_id     bigint  not null
