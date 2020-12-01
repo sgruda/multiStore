@@ -2,6 +2,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mop.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,7 +33,7 @@ public class PromotionListServiceImpl implements PromotionListService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public List<PromotionEntity> getAllPromotions() {
-        return promotionRepository.findAll();
+    public Page<PromotionEntity> getAllPromotions(Pageable pageable) {
+        return promotionRepository.findAll(pageable);
     }
 }
