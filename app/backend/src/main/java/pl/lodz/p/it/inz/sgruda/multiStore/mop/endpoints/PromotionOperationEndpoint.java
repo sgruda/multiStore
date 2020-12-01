@@ -15,6 +15,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionActivityService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionDeleteService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 
@@ -29,11 +30,13 @@ import javax.validation.Valid;
 @RequestMapping("/api/promotion")
 public class PromotionOperationEndpoint {
     private PromotionActivityService promotionActivityService;
+    private PromotionDeleteService promotionDeleteService;
     private CheckerSimpleDTO checkerSimpleDTO;
 
     @Autowired
-    public PromotionOperationEndpoint(PromotionActivityService promotionActivityService, CheckerSimpleDTO checkerSimpleDTO) {
+    public PromotionOperationEndpoint(PromotionActivityService promotionActivityService, PromotionDeleteService promotionDeleteService, CheckerSimpleDTO checkerSimpleDTO) {
         this.promotionActivityService = promotionActivityService;
+        this.promotionDeleteService = promotionDeleteService;
         this.checkerSimpleDTO = checkerSimpleDTO;
     }
 
@@ -69,5 +72,22 @@ public class PromotionOperationEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "promotion.correctly.unblocked"));
+    }
+
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<?> deletePromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
+        PromotionEntity promotionEntity;
+        try {
+            checkerSimpleDTO.checkSignature(promotionDTO);
+            promotionEntity = promotionDeleteService.getPromotionByName(promotionDTO.getName());
+            checkerSimpleDTO.checkVersion(promotionEntity, promotionDTO);
+            promotionDeleteService.deletePromotion(promotionEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "promotion.correctly.deleted"));
     }
 }
