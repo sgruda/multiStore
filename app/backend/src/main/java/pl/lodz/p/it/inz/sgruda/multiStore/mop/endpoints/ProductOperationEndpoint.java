@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
@@ -62,7 +59,7 @@ public class ProductOperationEndpoint {
         return ResponseEntity.ok(new ApiResponse(true, "product.correctly.edited"));
     }
 
-    @PostMapping("/block")
+    @PutMapping("/block")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> blockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
@@ -79,7 +76,7 @@ public class ProductOperationEndpoint {
         return ResponseEntity.ok(new ApiResponse(true, "product.correctly.blocked"));
     }
 
-    @PostMapping("/unblock")
+    @PutMapping("/unblock")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> unblockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
