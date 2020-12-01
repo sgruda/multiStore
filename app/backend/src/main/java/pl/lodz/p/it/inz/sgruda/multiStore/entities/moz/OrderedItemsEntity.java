@@ -9,7 +9,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.UUID;
 
 @ToString
 @Getter
@@ -24,6 +26,12 @@ public class OrderedItemsEntity implements Serializable, VersionGetter {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderedItemsIdGen")
     private long id;
+
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
+    @Size(min = 36, max = 36, message = "validation.size")
+    @Column(name = "identifier", nullable = false, length = 32)
+    private String identifier;
 
     @Digits(integer = 7, fraction = 0, message = "validation.digits")
     @Basic(optional = false)
@@ -41,4 +49,8 @@ public class OrderedItemsEntity implements Serializable, VersionGetter {
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
+
+    public OrderedItemsEntity() {
+        this.identifier = UUID.randomUUID().toString();
+    }
 }
