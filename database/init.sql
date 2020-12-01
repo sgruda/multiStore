@@ -160,6 +160,7 @@ create table promotion
     id          bigint           not null
         constraint promotion_pkey
             primary key,
+    active      boolean          not null,
     discount    double precision not null,
     name        varchar(32)      not null
         constraint uktnm59112bh9o0828a4hotdubi
@@ -167,7 +168,7 @@ create table promotion
     version     bigint           not null,
     category_id bigint           not null
         constraint fkok7am2wl7u75y5ssfbcmwcs16
-            foreign key (category_id) references category
+            references category
 );
 
 alter table promotion
