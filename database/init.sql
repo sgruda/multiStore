@@ -167,7 +167,7 @@ create table promotion
     version     bigint           not null,
     category_id bigint           not null
         constraint fkok7am2wl7u75y5ssfbcmwcs16
-            references category
+            foreign key (category_id) references category
 );
 
 alter table promotion
