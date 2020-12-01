@@ -15,5 +15,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 )
 public interface PromotionRepository extends JpaRepository<PromotionEntity, Long> {
     Page<PromotionEntity> findAll(Pageable pageable);
+    Boolean existsByName(String name);
 
 }

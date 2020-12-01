@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.CategoryEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.CategoryNotExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.PromotionNameAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.TitleAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.CategoryRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.ProductRepository;
-import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductCreateService;
+import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.PromotionRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionCreateService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.CategoryName;
 
 import java.util.Optional;
@@ -27,27 +28,27 @@ import java.util.Optional;
         transactionManager = "mopTransactionManager",
         timeout = 5
 )
-public class ProductCreateServiceImpl implements ProductCreateService {
-    private ProductRepository productRepository;
+public class PromotionCreateServiceImpl implements PromotionCreateService {
+    private PromotionRepository promotionRepository;
     private CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductCreateServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
-        this.productRepository = productRepository;
+    public PromotionCreateServiceImpl(PromotionRepository promotionRepository, CategoryRepository categoryRepository) {
+        this.promotionRepository = promotionRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void createProduct(ProductEntity productEntity, CategoryName categoryName) throws AppBaseException {
-        if(productRepository.existsByTitle(productEntity.getTitle())) {
-            throw new TitleAlreadyExistsException();
+    public void createPromotion(PromotionEntity promotionEntity, CategoryName categoryName) throws AppBaseException {
+        if(promotionRepository.existsByName(promotionEntity.getName())) {
+            throw new PromotionNameAlreadyExistsException();
         }
         Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findByCategoryName(categoryName);
         if(optionalCategoryEntity.isPresent()) {
             CategoryEntity categoryEntity = optionalCategoryEntity.get();
-            productEntity.setCategoryEntity(categoryEntity);
-            productRepository.saveAndFlush(productEntity);
+            promotionEntity.setCategoryEntity(categoryEntity);
+            promotionRepository.saveAndFlush(promotionEntity);
         } else
             throw new CategoryNotExistsException();
     }
