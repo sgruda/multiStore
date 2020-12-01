@@ -19,6 +19,7 @@ import java.util.Optional;
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mokTransactionManager",
         timeout = 5
 )
 public class MailVerifierServiceImpl implements MailVerifierService {

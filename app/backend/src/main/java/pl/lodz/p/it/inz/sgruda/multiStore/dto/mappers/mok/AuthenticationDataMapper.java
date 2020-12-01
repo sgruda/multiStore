@@ -2,12 +2,11 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AuthenticationDataEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 
-public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity, AuthenticationDataDTO, AccountEntity> {
+public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity, AuthenticationDataDTO> {
     private HashMethod hashMethod;
     private ForgotPasswordTokenMapper forgotPasswordTokenMapper;
 
@@ -26,15 +25,7 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
         dto.setVersion(entity.getVersion());
         return dto;
     }
-    @Override
-    public AuthenticationDataEntity createFromDto(AuthenticationDataDTO dto, AccountEntity owner) {
-        AuthenticationDataEntity entity = new AuthenticationDataEntity();
-        entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
-        entity.setEmailVerified(dto.isEmailVerified());
-        entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.createFromDto(dto.getForgotPasswordTokenDTO(), owner));
-        return entity;
-    }
+
     @Override
     public AuthenticationDataEntity updateEntity(AuthenticationDataEntity entity, AuthenticationDataDTO dto) {
         if(dto.getPassword() != null)

@@ -19,6 +19,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mokTransactionManager",
         timeout = 5
 )
 public class OwnAccountEditServiceImpl implements OwnAccountEditService {

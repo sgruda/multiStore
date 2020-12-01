@@ -22,7 +22,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnPasswordCha
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -51,14 +51,14 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(request.getAccountDTO());
+            checkerAccountDTO.checkAccountDTOSignature(request.getAccountDTO());
             if(!currentUser.getEmail().equals(request.getAccountDTO().getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
             if(request.getAccountDTO().getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = ownPasswordChangeService.getAccountByEmail(request.getAccountDTO().getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, request.getAccountDTO());
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, request.getAccountDTO());
             ownPasswordChangeService.changePassword(accountEntity, request.getNewPassword(), request.getAccountDTO().getAuthenticationDataDTO().getPassword());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
@@ -73,12 +73,12 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
             accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkVersion(accountEntity, accountDTO);
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
             accountMapper.updateEntity(accountEntity, accountDTO);
             ownAccountEditService.editAccount(accountEntity);

@@ -18,8 +18,7 @@ import java.util.List;
 @Log
 @SpringBootTest
 public class SignatureDTOUtilTest {
-    private @Autowired
-    SignatureDTOUtil signatureDTOUtil;
+    private @Autowired SignatureDTOUtil signatureDTOUtil;
 
     @Test
     void signingTest() {

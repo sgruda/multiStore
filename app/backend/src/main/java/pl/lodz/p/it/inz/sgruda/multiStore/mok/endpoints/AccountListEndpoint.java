@@ -20,7 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -50,7 +50,7 @@ public class AccountListEndpoint {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Map<String, Object>> getAccountsPage(
-            @Valid @Pattern(regexp = "[0-9a-zA-Z!@#$%^&*()]+", message = "{validation.pattern}") @RequestParam(required = false) String textToSearch,
+            @Valid @Pattern(regexp = "[0-9a-zA-Z!@#$%^&*()]+", message = "validation.pattern") @RequestParam(required = false) String textToSearch,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "lastName-asc") String[] sort,

@@ -21,7 +21,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountDetails
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignAccountDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -48,9 +48,9 @@ public class AccountEndpoint {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "{validation.notnull}")
-                                                        @Email(message = "{validation.email}")
-                                                        @Size(min = 1, max = 32, message = "{validation.size}")
+    public ResponseEntity<?> getAccountByEmail(@Valid   @NotNull(message = "validation.notnull")
+                                                        @Email(message = "validation.email")
+                                                        @Size(min = 1, max = 32, message = "validation.size")
                                                @RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {

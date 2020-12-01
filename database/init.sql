@@ -127,7 +127,9 @@ create table product
     description varchar(512)     not null,
     in_store    integer          not null,
     price       double precision not null,
-    title       varchar(32)      not null,
+    title       varchar(32)      not null
+        constraint u24nm5sf12bh9o0w38a4hotdubi
+                unique,
     type        varchar(255)     not null,
     version     bigint           not null,
     category_id bigint           not null
@@ -158,6 +160,7 @@ create table promotion
     id          bigint           not null
         constraint promotion_pkey
             primary key,
+    active      boolean          not null,
     discount    double precision not null,
     name        varchar(32)      not null
         constraint uktnm59112bh9o0828a4hotdubi
@@ -290,7 +293,7 @@ INSERT INTO id_generator VALUES ('authentication_data',100);
 INSERT INTO id_generator VALUES ('access_level',50);
 INSERT INTO id_generator VALUES ('forgot_password_token',50);
 
-INSERT INTO id_generator VALUES ('product',50);
+INSERT INTO id_generator VALUES ('product',100);
 INSERT INTO id_generator VALUES ('category',50);
 INSERT INTO id_generator VALUES ('promotion',50);
 INSERT INTO id_generator VALUES ('order',50);
@@ -328,7 +331,7 @@ INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (1, 1);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
-VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'manager', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
+VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'employee', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
 INSERT INTO basket (id, version) VALUES (2, 0);
 INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
 VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 0, 2, 2);
@@ -342,3 +345,12 @@ INSERT INTO account_data (id, active, email, first_name, last_name, provider, pr
 VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 0, 3, 3);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (3, 3);
+
+
+
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (1, true, 'Niesamowita historia niszczyciela światów.', 100, 54.44, 'Imperium ciszy', 'book', 0, 6);
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (2, true, 'O podróży po skarb.', 50, 34.44, 'Hobbit', 'book', 0, 1);
+INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
+VALUES (3, true, 'Historia tajnego agenta, który cierpni na amnezję i próbuje poznać swoją tożsamość.', 75, 20.0, 'Tożsamość Bourne', 'movie', 0, 2);

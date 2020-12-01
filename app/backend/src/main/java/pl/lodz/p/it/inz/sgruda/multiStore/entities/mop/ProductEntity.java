@@ -3,7 +3,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.entities.mop;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
@@ -18,7 +17,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "product", schema = "public")
+@Table(name = "product", schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"title"})
+        })
 @TableGenerator(name = "ProductIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "product")
 public class ProductEntity implements Serializable, VersionGetter {
@@ -31,8 +33,8 @@ public class ProductEntity implements Serializable, VersionGetter {
         @Basic(optional = false)
         @NotNull(message = "validation.notnull")
         @Size(min = 1, max = 32, message = "validation.size")
-        @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
-        @Column(name = "title", nullable = false, length = 32)
+        @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
+        @Column(name = "title", nullable = false, unique = true, length = 32)
         private String title;
 
         @Basic(optional = false)
@@ -74,6 +76,9 @@ public class ProductEntity implements Serializable, VersionGetter {
         @Column(name = "version", nullable = false)
         private long version;
 
+        public ProductEntity() {
+        }
+
         public ProductEntity(@NotNull(message = "validation.notnull") @Size(min = 1, max = 32, message = "validation.size")
                              @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
                                      String title,
@@ -90,5 +95,6 @@ public class ProductEntity implements Serializable, VersionGetter {
                 this.inStore = inStore;
                 this.price = price;
                 this.type = type;
+                this.active = true;
         }
 }

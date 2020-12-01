@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountDetails
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
+        transactionManager = "mokTransactionManager",
         timeout = 5
 )
 public class AccountDetailsServiceImpl implements AccountDetailsService {

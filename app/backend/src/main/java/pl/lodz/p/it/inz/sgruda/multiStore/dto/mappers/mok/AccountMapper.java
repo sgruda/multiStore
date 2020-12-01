@@ -9,10 +9,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 @Log
-public class AccountMapper implements Mapper<AccountEntity, AccountDTO, Set<AccessLevelEntity>> {
+public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
     private AuthenticationDataMapper authenticationDataMapper;
     private HashMethod hashMethod;
 
@@ -43,18 +42,7 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO, Set<Acce
 //        dto.setSignature(HashMethod.sign(dto.getSigningParams()));
         return dto;
     }
-    @Override
-    public AccountEntity createFromDto(AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) {
-        AccountEntity entity = new AccountEntity();
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
-        entity.setAccessLevelEntities(accessLevelEntitySet);
-        entity.setActive(dto.isActive());
-        entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
-        entity.setAuthenticationDataEntity(authenticationDataMapper.createFromDto(dto.getAuthenticationDataDTO(), entity));
-        return entity;
-    }
+
     @Override
 //    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
     public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto)  {
