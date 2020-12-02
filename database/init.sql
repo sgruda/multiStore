@@ -145,7 +145,7 @@ create table ordered_items
     id             bigint  not null
         constraint ordered_items_pkey
             primary key,
-    identifier     bigint  not null
+    identifier     varchar(36)  not null
         constraint fsfnvsfasfgkutwgwns1353ews
             unique,
     ordered_number integer not null,
@@ -195,6 +195,9 @@ create table "order"
     id          bigint           not null
         constraint order_pkey
             primary key,
+    identifier     varchar(36)  not null
+        constraint fsfnvsfasdsgsfgkutwgwns1353ews
+            unique,
     order_date  timestamp        not null,
     total_price double precision not null,
     version     bigint           not null,
@@ -287,6 +290,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_order_mapping TO moz;
 GRANT SELECT, INSERT, UPDATE ON ordered_items TO moz;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_basket_mapping TO moz;
 GRANT SELECT ON product TO moz;
+GRANT SELECT ON category TO moz;
 GRANT SELECT, INSERT, UPDATE ON basket TO moz;
 
 
