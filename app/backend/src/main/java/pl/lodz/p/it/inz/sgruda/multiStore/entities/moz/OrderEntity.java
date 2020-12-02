@@ -9,6 +9,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -27,6 +29,13 @@ public class OrderEntity implements Serializable, VersionGetter {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderIdGen")
     private long id;
+
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
+    @Size(min = 36, max = 36, message = "validation.size")
+    @Pattern(regexp = "[0-9A-Za-z-]+", message = "validation.pattern")
+    @Column(name = "identifier", nullable = false, length = 32)
+    private String identifier;
 
     @Basic(optional = false)
     @NotNull(message = "validation.notnull")

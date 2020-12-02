@@ -28,6 +28,7 @@ public @Data class OrderedItemsDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     @Size(min = 36, max = 36, message = "validation.size")
+    @Pattern(regexp = "[0-9A-Za-z-]+", message = "validation.pattern")
     private String identifier;
 
     @Digits(integer = 7, fraction = 0, message = "validation.digits")

@@ -53,7 +53,7 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "forgot_password_token_id", referencedColumnName = "id")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 

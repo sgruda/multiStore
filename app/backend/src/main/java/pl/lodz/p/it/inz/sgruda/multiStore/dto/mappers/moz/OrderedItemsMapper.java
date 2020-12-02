@@ -21,6 +21,7 @@ public class OrderedItemsMapper implements Mapper<OrderedItemsEntity, OrderedIte
 
         dto.setIdHash(hashMethod.hash(entity.getId()));
         dto.setIdentifier(entity.getIdentifier());
+        dto.setIdentifier(entity.getIdentifier());
         dto.setOrderedNumber(entity.getOrderedNumber());
         dto.setOrderedProduct(productMapper.toDTO(entity.getProductEntity()));
         dto.setVersion(entity.getVersion());
