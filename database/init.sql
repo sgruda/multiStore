@@ -6,7 +6,7 @@ create table access_level
         constraint access_level_pkey
             primary key,
     role_name varchar(16) not null
-        constraint ukqlnxh10tkw82tcit5ksy3k1p4
+        constraint unique_role_name_access_level
             unique
 );
 
@@ -31,7 +31,7 @@ create table account_data
             primary key,
     active                 boolean      not null,
     email                  varchar(32)  not null
-        constraint uk_6nyd9ykqgjm7n4ngreynnly8t
+        constraint unique_email_account_data
             unique,
     first_name             varchar(32)  not null,
     last_name              varchar(32)  not null,
@@ -40,7 +40,7 @@ create table account_data
     version                bigint       not null,
     authentication_data_id bigint,
     basket_id              bigint
-        constraint fkq30gie5po2akplh6ge0boy9p1
+        constraint fk_basket_id_account_data
             references basket
 );
 
@@ -53,7 +53,7 @@ create table category
         constraint category_pkey
             primary key,
     category_name varchar(16) not null
-        constraint uklroeo5fvfdeg4hpicn4lw7x9b
+        constraint unique_category_name_category
             unique,
     version       bigint      not null
 );
@@ -68,13 +68,13 @@ create table forgot_password_token
             primary key,
     expire_date timestamp   not null,
     hash        varchar(64) not null
-        constraint uk_gqsdx7jsd43tlmhn0klc1wasg
+        constraint unique_hash_forgot_password_token
             unique,
     version     bigint      not null,
     account_id  bigint      not null
-        constraint uk_cf7via02khkvf4eufblqxcj2j
+        constraint unique_account_id_forgot_password_token
             unique
-        constraint fk26u2y5lrl66ud5s7f2w9du361
+        constraint account_id_references_to_account_data
             references account_data
 );
 
@@ -89,14 +89,14 @@ create table authentication_data
     email_verified           boolean      not null,
     password                 varchar(60)  not null,
     username                 varchar(32)  not null
-        constraint uk_bbvlbdpgqb81arjatdxvo6e0f
+        constraint unique_username_authentication_data
             unique,
     version                  bigint       not null,
     veryfication_token       varchar(255) not null,
     forgot_password_token_id bigint
-        constraint fkaiutrsj0e7ma9i15kenx8yxtr
+        constraint forgot_password_token_id_references_to_forgot_password_token_authentication_data
             references forgot_password_token,
-    constraint ukqwsiih4ebn73junrlqgc7drwe
+    constraint unique_veryfication_token_username_authentication_data
         unique (veryfication_token, username)
 );
 
@@ -104,7 +104,7 @@ alter table authentication_data
     owner to root;
 
 alter table account_data
-    add constraint fk9fq7f9e4tkkiya8n63h847yb8
+    add constraint fk_authetication_data_id_account_data
         foreign key (authentication_data_id) references authentication_data;
 
 create table id_generator
@@ -128,12 +128,12 @@ create table product
     in_store    integer          not null,
     price       double precision not null,
     title       varchar(32)      not null
-        constraint u24nm5sf12bh9o0w38a4hotdubi
+        constraint unique_title_product
                 unique,
     type        varchar(255)     not null,
     version     bigint           not null,
     category_id bigint           not null
-        constraint fk1mtsbur82frn64de7balymq9s
+        constraint category_id_references_to_category_product
             references category
 );
 
@@ -146,12 +146,12 @@ create table ordered_items
         constraint ordered_items_pkey
             primary key,
     identifier     varchar(36)  not null
-        constraint fsfnvsfasfgkutwgwns1353ews
+        constraint unique_identifier_ordered_items
             unique,
     ordered_number integer not null,
     version        bigint  not null,
     product_id     bigint  not null
-        constraint fkenvq2gngkutwji39t3vns1ews
+        constraint product_id_references_to_product_ordered_items
             references product
 );
 
@@ -166,11 +166,11 @@ create table promotion
     active      boolean          not null,
     discount    double precision not null,
     name        varchar(32)      not null
-        constraint uktnm59112bh9o0828a4hotdubi
+        constraint unique_name_promotion
             unique,
     version     bigint           not null,
     category_id bigint           not null
-        constraint fkok7am2wl7u75y5ssfbcmwcs16
+        constraint category_id_references_to_category_promotion
             references category
 );
 
@@ -183,7 +183,7 @@ create table status
         constraint status_pkey
             primary key,
     status_name varchar(16) not null
-        constraint ukikty98aye7nunxe4f25a39efl
+        constraint unique_status_name_status
             unique
 );
 
@@ -196,16 +196,16 @@ create table "order"
         constraint order_pkey
             primary key,
     identifier     varchar(36)  not null
-        constraint fsfnvsfasdsgsfgkutwgwns1353ews
+        constraint unique_identifier_order
             unique,
     order_date  timestamp        not null,
     total_price double precision not null,
     version     bigint           not null,
     account_id  bigint           not null
-        constraint fki6cs7o73ap4ulywem3of1k6nt
+        constraint account_id_references_to_account_data_order
             references account_data,
     status_id   bigint           not null
-        constraint fk1j6h5yblbp2gxa9h3gcqiudtb
+        constraint status_id_references_to_status_order
             references status
 );
 
@@ -215,10 +215,10 @@ alter table "order"
 create table account_access_level_mapping
 (
     account_id      bigint not null
-        constraint fkphw47ewtcdrfv28x2lssvqkb4
+        constraint account_id_references_to_account_data_account_access_level_mapping
             references account_data,
     access_level_id bigint not null
-        constraint fk4uhckp9doykcndaqlsgg2ltw
+        constraint access_level_id_references_to_access_level_account_access_level_mapping
             references access_level,
     constraint account_access_level_mapping_pkey
         primary key (account_id, access_level_id)
@@ -230,10 +230,10 @@ alter table account_access_level_mapping
 create table ordered_items_basket_mapping
 (
     basket_id        bigint not null
-        constraint fk94m4jaj97vkf9gq9pip5kmyr0
+        constraint basket_id_references_to_basket_ordered_items_basket_mapping
             references basket,
     ordered_items_id bigint not null
-        constraint fkbas5vb38pcq1g583fx46qa1w0
+        constraint ordered_items_id_references_to_ordered_items_ordered_items_basket_mapping
             references ordered_items,
     constraint ordered_items_basket_mapping_pkey
         primary key (basket_id, ordered_items_id)
@@ -248,7 +248,7 @@ create table ordered_items_order_mapping
         constraint fksksskxntlobxy8d6yyh820yxg
             references "order",
     ordered_items_id bigint not null
-        constraint fk5oo83b66x8n7pqxh2m3e8wp55
+        constraint ordered_items_id_references_to_ordered_items_ordered_items_order_mapping
             references ordered_items,
     constraint ordered_items_order_mapping_pkey
         primary key (order_id, ordered_items_id)
