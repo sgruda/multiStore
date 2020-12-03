@@ -6,10 +6,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 
+import java.util.Optional;
+
 @Repository
 @Transactional(
         propagation = Propagation.MANDATORY,
         transactionManager = "mozTransactionManager"
 )
 public interface AccountRepositoryMOZ extends JpaRepository<AccountEntity, Long> {
+    Optional<AccountEntity> findByEmail(String email);
 }
