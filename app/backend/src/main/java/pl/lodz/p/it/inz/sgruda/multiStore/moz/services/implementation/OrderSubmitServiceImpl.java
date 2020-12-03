@@ -21,6 +21,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderSubmitService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.StatusName;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -96,22 +98,24 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public double calcPrice(Set<OrderedItemEntity> orderedItems) {
-        return orderedItems.stream()
+        return new BigDecimal(orderedItems.stream()
                 .mapToDouble(
-                    item -> {
-                        Collection<PromotionEntity> promotionEntities = promotionRepository.findByCategoryEntity(item.getProductEntity().getCategoryEntity());
-                        double discount = 0;
-                        if(promotionEntities.size() > 0) {
-                            discount = promotionEntities.stream()
-                                    .mapToDouble(promo -> promo.isActive() ? promo.getDiscount() : 0.0)
-                                    .sum();
-                            if(promotionEntities.size() > 1 && discount > 0.5)
-                                discount = 0.5;
+                        item -> {
+                            Collection<PromotionEntity> promotionEntities = promotionRepository.findByCategoryEntity(item.getProductEntity().getCategoryEntity());
+                            double discount = 0;
+                            if(promotionEntities.size() > 0) {
+                                discount = promotionEntities.stream()
+                                        .mapToDouble(promo -> promo.isActive() ? promo.getDiscount() : 0.0)
+                                        .sum();
+                                if(promotionEntities.size() > 1 && discount > 50)
+                                    discount = 50;
+                            }
+                            return item.getOrderedNumber() * item.getProductEntity().getPrice() * (1.0 - discount/100.0);
                         }
-                        return item.getOrderedNumber() * item.getProductEntity().getPrice() * (1.0 - discount/100.0);
-                    }
                 )
-                .sum();
+                .sum()
+        ).setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     @Override

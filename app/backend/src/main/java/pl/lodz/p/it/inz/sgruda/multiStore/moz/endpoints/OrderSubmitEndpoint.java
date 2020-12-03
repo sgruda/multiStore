@@ -61,10 +61,11 @@ public class OrderSubmitEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-//            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
-//            for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-//                orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
-//            }
+            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
+            for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
+                orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
+            }
+            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
             orderSubmitService.createOrder(basketEntity);
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
