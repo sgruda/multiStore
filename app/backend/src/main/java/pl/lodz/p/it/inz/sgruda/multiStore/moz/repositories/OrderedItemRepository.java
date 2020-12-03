@@ -4,12 +4,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemsEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
+
+import java.util.Optional;
 
 @Repository
 @Transactional(
         propagation = Propagation.MANDATORY,
         transactionManager = "mozTransactionManager"
 )
-public interface OrderedItemsRepository extends JpaRepository<OrderedItemsEntity, Long> {
+public interface OrderedItemRepository extends JpaRepository<OrderedItemEntity, Long> {
+    Optional<OrderedItemEntity> findByIdentifier(String identifier);
 }
