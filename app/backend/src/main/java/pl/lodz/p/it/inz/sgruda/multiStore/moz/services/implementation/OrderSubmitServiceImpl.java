@@ -139,9 +139,10 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                 throw new NotEnoughProductsException();
             else
                 orderedProduct.setInStore(orderedProduct.getInStore() - itemEntity.getOrderedNumber());
-
         }
+        basketEntity.setOrderedItemEntities(null);
 
+        basketRepository.saveAndFlush(basketEntity);
         orderRepository.saveAndFlush(orderEntity);
     }
 }
