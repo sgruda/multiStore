@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
@@ -41,7 +39,7 @@ public @Data class OrderDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     @Valid
-    private Set<OrderedItemsDTO> orderedItemsDTOS = new HashSet<>();
+    private Set<OrderedItemDTO> orderedItemDTOS = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @NotNull(message = "validation.notnull")
@@ -58,7 +56,7 @@ public @Data class OrderDTO implements SignatureVerifiability {
 
     @Override
     public List<String> specifySigningParams() {
-        String items = orderedItemsDTOS.stream()
+        String items = orderedItemDTOS.stream()
                 .map(item -> item.getSignature())
                 .collect(Collectors.joining());
         return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, String.valueOf(version));

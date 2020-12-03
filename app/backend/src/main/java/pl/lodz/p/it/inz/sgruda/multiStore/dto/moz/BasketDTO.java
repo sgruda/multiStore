@@ -27,7 +27,7 @@ public @Data class BasketDTO implements SignatureVerifiability  {
 
     @NotNull(message = "validation.notnull")
     @Valid
-    private Set<OrderedItemsDTO> orderedItemsDTOS = new HashSet<>();
+    private Set<OrderedItemDTO> orderedItemDTOS = new HashSet<>();
 
     @NotNull(message = "validation.notnull")
     @Email(message = "validation.email")

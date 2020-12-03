@@ -21,7 +21,7 @@ import java.util.UUID;
 @Table(name = "ordered_items", schema = "public")
 @TableGenerator(name = "OrderedItemsIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
         valueColumnName = "id_range", pkColumnValue = "ordered_items")
-public class OrderedItemsEntity implements Serializable, VersionGetter {
+public class OrderedItemEntity implements Serializable, VersionGetter {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
@@ -52,7 +52,7 @@ public class OrderedItemsEntity implements Serializable, VersionGetter {
     @Column(name = "version", nullable = false)
     private long version;
 
-    public OrderedItemsEntity() {
+    public OrderedItemEntity() {
         this.identifier = UUID.randomUUID().toString();
     }
 }

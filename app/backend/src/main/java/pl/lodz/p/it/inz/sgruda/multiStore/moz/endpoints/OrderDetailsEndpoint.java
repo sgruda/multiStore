@@ -4,6 +4,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +43,7 @@ public class OrderDetailsEndpoint {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> getOrder(@Valid @NotNull(message = "validation.notnull")
                                           @Size(min = 36, max = 36, message = "validation.size")
                                           @Pattern(regexp = "[0-9A-Za-z-]+", message = "validation.pattern")

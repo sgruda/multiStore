@@ -20,7 +20,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class OrderedItemsDTO implements SignatureVerifiability {
+public @Data class OrderedItemDTO implements SignatureVerifiability {
     @Size(max = 64, message = "validation.size")
     @NotNull(message = "validation.notnull")
     @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")

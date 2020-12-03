@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
     private HashMethod hashMethod;
-    private OrderedItemsMapper orderedItemsMapper;
+    private OrderedItemMapper orderedItemMapper;
 
     public OrderMapper() {
         this.hashMethod = new HashMethod();
-        this.orderedItemsMapper = new OrderedItemsMapper();
+        this.orderedItemMapper = new OrderedItemMapper();
     }
 
     @Override
@@ -25,9 +25,9 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
         dto.setIdentifier(entity.getIdentifier());
         dto.setOrderDate(entity.getOrderDate());
         dto.setBuyerEmail(entity.getAccountEntity().getEmail());
-        dto.setOrderedItemsDTOS(
+        dto.setOrderedItemDTOS(
                 entity.getOrderedItemsEntities().stream()
-                        .map(entityItem -> orderedItemsMapper.toDTO(entityItem))
+                        .map(entityItem -> orderedItemMapper.toDTO(entityItem))
                         .collect(Collectors.toSet())
         );
         dto.setTotalPrice(entity.getTotalPrice());

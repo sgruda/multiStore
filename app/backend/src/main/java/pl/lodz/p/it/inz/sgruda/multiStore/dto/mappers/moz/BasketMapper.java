@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 public class BasketMapper implements Mapper<BasketEntity, BasketDTO> {
     private HashMethod hashMethod;
-    private OrderedItemsMapper orderedItemsMapper;
+    private OrderedItemMapper orderedItemMapper;
 
     public BasketMapper() {
         this.hashMethod = new HashMethod();
-        this.orderedItemsMapper = new OrderedItemsMapper();
+        this.orderedItemMapper = new OrderedItemMapper();
     }
 
     @Override
@@ -21,9 +21,9 @@ public class BasketMapper implements Mapper<BasketEntity, BasketDTO> {
         BasketDTO dto = new BasketDTO();
 
         dto.setIdHash(hashMethod.hash(entity.getId()));
-        dto.setOrderedItemsDTOS(
+        dto.setOrderedItemDTOS(
                 entity.getOrderedItemsEntities().stream()
-                .map(entityItem -> orderedItemsMapper.toDTO(entityItem))
+                .map(entityItem -> orderedItemMapper.toDTO(entityItem))
                 .collect(Collectors.toSet())
         );
         dto.setOwnerEmail(entity.getAccountEntity().getEmail());

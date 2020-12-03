@@ -16,7 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemsEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.StatusEntity;
 
 import javax.sql.DataSource;
@@ -44,7 +44,7 @@ public class PersistenceMozConfig {
             EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mozDataSource())
-                .packages(BasketEntity.class, OrderEntity.class, OrderedItemsEntity.class, StatusEntity.class, ProductEntity.class, AccessLevelEntity.class, AccountEntity.class)
+                .packages(BasketEntity.class, OrderEntity.class, OrderedItemEntity.class, StatusEntity.class, ProductEntity.class, AccessLevelEntity.class, AccountEntity.class)
                 .build();
     }
 

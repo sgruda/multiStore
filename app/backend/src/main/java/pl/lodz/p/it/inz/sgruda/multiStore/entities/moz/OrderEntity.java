@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @ToString
 @Getter
@@ -51,7 +52,7 @@ public class OrderEntity implements Serializable, VersionGetter {
     @JoinTable(name = "ordered_items_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_items_id"))
-    private Set<OrderedItemsEntity> orderedItemsEntities = new HashSet<>();
+    private Set<OrderedItemEntity> orderedItemsEntities = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @Basic(optional = false)
@@ -70,4 +71,7 @@ public class OrderEntity implements Serializable, VersionGetter {
     @Column(name = "version", nullable = false)
     private long version;
 
+    public OrderEntity() {
+        this.identifier = UUID.randomUUID().toString();
+    }
 }
