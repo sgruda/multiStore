@@ -24,6 +24,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         if(dto != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 super.checkSignatureSingleDTO(item);
+                super.checkSignatureSingleDTO(item.getOrderedProduct());
             }
             super.checkSignatureSingleDTO(dto);
         }
@@ -33,6 +34,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         if(dto != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 super.checkSignatureSingleDTO(item);
+                super.checkSignatureSingleDTO(item.getOrderedProduct());
             }
             super.checkSignatureSingleDTO(dto);
         }
@@ -41,9 +43,11 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
     public void checkOrderDTOVersion(OrderEntity entity, OrderDTO dto) throws DTOVersionException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
-                for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemsEntities())
-                    if(itemsEntityTemp.getIdentifier().equals(item.getIdentifier()))
+                for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemEntities())
+                    if(itemsEntityTemp.getIdentifier().equals(item.getIdentifier())) {
                         super.checkVersionSingleDTO(itemsEntityTemp, item);
+                        super.checkVersionSingleDTO(itemsEntityTemp.getProductEntity(), item.getOrderedProduct());
+                    }
             }
             super.checkVersionSingleDTO(entity, dto);
         }
@@ -51,9 +55,11 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
     public void checkBasketDTOVersion(BasketEntity entity, BasketDTO dto) throws DTOVersionException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
-                for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemsEntities())
-                    if(itemsEntityTemp.getIdentifier().equals(item.getIdentifier()))
+                for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemEntities())
+                    if(itemsEntityTemp.getIdentifier().equals(item.getIdentifier())) {
                         super.checkVersionSingleDTO(itemsEntityTemp, item);
+                        super.checkVersionSingleDTO(itemsEntityTemp.getProductEntity(), item.getOrderedProduct());
+                    }
             }
             super.checkVersionSingleDTO(entity, dto);
         }
