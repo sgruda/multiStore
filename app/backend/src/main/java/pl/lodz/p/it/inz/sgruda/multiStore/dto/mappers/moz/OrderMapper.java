@@ -26,7 +26,7 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
         dto.setOrderDate(entity.getOrderDate());
         dto.setBuyerEmail(entity.getAccountEntity().getEmail());
         dto.setOrderedItemDTOS(
-                entity.getOrderedItemsEntities().stream()
+                entity.getOrderedItemEntities().stream()
                         .map(entityItem -> orderedItemMapper.toDTO(entityItem))
                         .collect(Collectors.toSet())
         );

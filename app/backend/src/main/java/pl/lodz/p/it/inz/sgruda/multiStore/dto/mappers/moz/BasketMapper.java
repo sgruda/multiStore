@@ -22,7 +22,7 @@ public class BasketMapper implements Mapper<BasketEntity, BasketDTO> {
 
         dto.setIdHash(hashMethod.hash(entity.getId()));
         dto.setOrderedItemDTOS(
-                entity.getOrderedItemsEntities().stream()
+                entity.getOrderedItemEntities().stream()
                 .map(entityItem -> orderedItemMapper.toDTO(entityItem))
                 .collect(Collectors.toSet())
         );

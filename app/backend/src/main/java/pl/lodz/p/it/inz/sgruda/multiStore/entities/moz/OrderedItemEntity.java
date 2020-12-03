@@ -18,14 +18,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "ordered_items", schema = "public")
-@TableGenerator(name = "OrderedItemsIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
-        valueColumnName = "id_range", pkColumnValue = "ordered_items")
+@Table(name = "ordered_item", schema = "public")
+@TableGenerator(name = "OrderedItemIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
+        valueColumnName = "id_range", pkColumnValue = "ordered_item")
 public class OrderedItemEntity implements Serializable, VersionGetter {
     @Id
     @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderedItemsIdGen")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderedItemIdGen")
     private long id;
 
     @Basic(optional = false)

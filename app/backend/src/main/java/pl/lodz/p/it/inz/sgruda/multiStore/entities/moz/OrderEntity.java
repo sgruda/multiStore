@@ -49,10 +49,10 @@ public class OrderEntity implements Serializable, VersionGetter {
     private AccountEntity accountEntity;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ordered_items_order_mapping",
+    @JoinTable(name = "ordered_item_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ordered_items_id"))
-    private Set<OrderedItemEntity> orderedItemsEntities = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
+    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @Basic(optional = false)
