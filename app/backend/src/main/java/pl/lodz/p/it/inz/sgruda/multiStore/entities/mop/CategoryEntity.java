@@ -30,11 +30,11 @@ public class CategoryEntity implements Serializable, VersionGetter {
     @Column(name = "category_name", nullable = false, length = 16)
     private CategoryName categoryName;
 
-    @OneToMany(mappedBy = "categoryEntity")
-    private Collection<ProductEntity> productEntities = new ArrayList<>();
-
-    @OneToMany(mappedBy = "categoryEntity")
-    private Collection<PromotionEntity> promotionEntities = new ArrayList<>();
+//    @OneToMany(mappedBy = "categoryEntity")
+//    private Collection<ProductEntity> productEntities = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "categoryEntity")
+//    private Collection<PromotionEntity> promotionEntities = new ArrayList<>();
 
     @Version
     @Setter(lombok.AccessLevel.NONE)
