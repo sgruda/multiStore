@@ -140,22 +140,22 @@ create table product
 alter table product
     owner to root;
 
-create table ordered_items
+create table ordered_item
 (
     id             bigint  not null
-        constraint ordered_items_pkey
+        constraint ordered_item_pkey
             primary key,
     identifier     varchar(36)  not null
-        constraint unique_identifier_ordered_items
+        constraint unique_identifier_ordered_item
             unique,
     ordered_number integer not null,
     version        bigint  not null,
     product_id     bigint  not null
-        constraint product_id_references_to_product_ordered_items
+        constraint product_id_references_to_product_ordered_item
             references product
 );
 
-alter table ordered_items
+alter table ordered_item
     owner to root;
 
 create table promotion
@@ -227,34 +227,34 @@ create table account_access_level_mapping
 alter table account_access_level_mapping
     owner to root;
 
-create table ordered_items_basket_mapping
+create table ordered_item_basket_mapping
 (
     basket_id        bigint not null
-        constraint basket_id_references_to_basket_ordered_items_basket_mapping
+        constraint basket_id_references_to_basket_ordered_item_basket_mapping
             references basket,
-    ordered_items_id bigint not null
-        constraint ordered_items_id_references_to_ordered_items_ordered_items_basket_mapping
-            references ordered_items,
-    constraint ordered_items_basket_mapping_pkey
-        primary key (basket_id, ordered_items_id)
+    ordered_item_id bigint not null
+        constraint ordered_item_id_references_to_ordered_item_ordered_item_basket_mapping
+            references ordered_item,
+    constraint ordered_item_basket_mapping_pkey
+        primary key (basket_id, ordered_item_id)
 );
 
-alter table ordered_items_basket_mapping
+alter table ordered_item_basket_mapping
     owner to root;
 
-create table ordered_items_order_mapping
+create table ordered_item_order_mapping
 (
     order_id         bigint not null
         constraint fksksskxntlobxy8d6yyh820yxg
             references "order",
-    ordered_items_id bigint not null
-        constraint ordered_items_id_references_to_ordered_items_ordered_items_order_mapping
-            references ordered_items,
-    constraint ordered_items_order_mapping_pkey
-        primary key (order_id, ordered_items_id)
+    ordered_item_id bigint not null
+        constraint ordered_item_id_references_to_ordered_item_ordered_item_order_mapping
+            references ordered_item,
+    constraint ordered_item_order_mapping_pkey
+        primary key (order_id, ordered_item_id)
 );
 
-alter table ordered_items_order_mapping
+alter table ordered_item_order_mapping
     owner to root;
 
 
@@ -270,6 +270,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON account_data TO mok;
 GRANT SELECT ON access_level TO mok;
 GRANT SELECT, INSERT, UPDATE, DELETE ON account_access_level_mapping TO mok;
 GRANT SELECT, INSERT, DELETE ON basket TO mok;
+GRANT SELECT ON ordered_item_basket_mapping TO mok;
+GRANT SELECT ON ordered_item to mok;
+GRANT SELECT ON product to mok;
+GRANT SELECT ON category to mok;
 
 CREATE USER mop WITH PASSWORD 'mop123';
 GRANT SELECT, UPDATE ON id_generator TO mop;
@@ -286,10 +290,11 @@ GRANT SELECT ON access_level TO moz;
 GRANT SELECT ON account_access_level_mapping TO moz;
 GRANT SELECT ON status TO moz;
 GRANT SELECT, INSERT, UPDATE ON "order" TO moz;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_order_mapping TO moz;
-GRANT SELECT, INSERT, UPDATE ON ordered_items TO moz;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_items_basket_mapping TO moz;
-GRANT SELECT ON product TO moz;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_item_order_mapping TO moz;
+GRANT SELECT, INSERT, UPDATE ON ordered_item TO moz;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ordered_item_basket_mapping TO moz;
+GRANT SELECT, UPDATE ON product TO moz;
+GRANT SELECT ON promotion to moz;
 GRANT SELECT ON category TO moz;
 GRANT SELECT, INSERT, UPDATE ON basket TO moz;
 
@@ -306,7 +311,7 @@ INSERT INTO id_generator VALUES ('promotion',50);
 INSERT INTO id_generator VALUES ('order',50);
 INSERT INTO id_generator VALUES ('status',50);
 INSERT INTO id_generator VALUES ('basket',100);
-INSERT INTO id_generator VALUES ('ordered_items',50);
+INSERT INTO id_generator VALUES ('ordered_item',100);
 
 INSERT INTO access_level VALUES(3, 'ROLE_CLIENT');
 INSERT INTO access_level VALUES(2, 'ROLE_EMPLOYEE');
@@ -354,10 +359,20 @@ INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (3, 3);
 
 
-
 INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
 VALUES (1, true, 'Niesamowita historia niszczyciela światów.', 100, 54.44, 'Imperium ciszy', 'book', 0, 6);
 INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
 VALUES (2, true, 'O podróży po skarb.', 50, 34.44, 'Hobbit', 'book', 0, 1);
 INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
 VALUES (3, true, 'Historia tajnego agenta, który cierpni na amnezję i próbuje poznać swoją tożsamość.', 75, 20.0, 'Tożsamość Bourne', 'movie', 0, 2);
+
+INSERT INTO ordered_item (id, identifier,ordered_number, version, product_id)
+VALUES (1, 'ec45e9a5-1234-40ca-aaaa-e382dd9e5dd4', 3, 0, 2);
+INSERT INTO ordered_item (id, identifier,ordered_number, version, product_id)
+VALUES (2, 'ec45e9a5-8907-40ca-ffff-e382dd9e5dd4', 1, 0, 3);
+
+
+INSERT INTO ordered_item_basket_mapping (basket_id, ordered_item_id)
+VALUES (3, 1);
+INSERT INTO ordered_item_basket_mapping (basket_id, ordered_item_id)
+VALUES (3, 2);
