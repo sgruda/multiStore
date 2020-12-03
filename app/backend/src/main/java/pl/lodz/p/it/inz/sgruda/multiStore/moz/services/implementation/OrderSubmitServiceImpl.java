@@ -44,34 +44,18 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
     private BasketRepository basketRepository;
     private ProductRepositoryMOZ productRepository;
     private PromotionRepositoryMOZ promotionRepository;
-    private AccountRepositoryMOZ accountRepository;
 
     @Autowired
     public OrderSubmitServiceImpl(OrderRepository orderRepository, OrderedItemRepository orderedItemRepository,
                                   StatusRepository statusRepository, BasketRepository basketRepository,
                                   ProductRepositoryMOZ productRepository,
-                                  PromotionRepositoryMOZ promotionRepository, AccountRepositoryMOZ accountRepository) {
+                                  PromotionRepositoryMOZ promotionRepository) {
         this.orderRepository = orderRepository;
         this.orderedItemRepository = orderedItemRepository;
         this.statusRepository = statusRepository;
         this.basketRepository = basketRepository;
         this.productRepository = productRepository;
         this.promotionRepository = promotionRepository;
-        this.accountRepository = accountRepository;
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public AccountEntity getAccountEntityByEmail(String email) throws AccountNotExistsException {
-        return accountRepository.findByEmail(email)
-                .orElseThrow(() -> new AccountNotExistsException());
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public ProductEntity getProductEntityByTitle(String title) throws ProductNotExistsException {
-        return productRepository.findByTitle(title)
-                .orElseThrow(() -> new ProductNotExistsException());
     }
 
     @Override
@@ -79,13 +63,6 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
     public OrderedItemEntity getOrderedItemsEntityByIdentifier(String indentifier) throws OrderedItemNotExistException {
         return orderedItemRepository.findByIdentifier(indentifier)
                 .orElseThrow(() -> new OrderedItemNotExistException());
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public OrderedItemEntity joinOrderedItemsEntityWithProductEntity(OrderedItemEntity orderedItemEntity, ProductEntity productEntity) {
-        orderedItemEntity.setProductEntity(productEntity);
-        return orderedItemEntity;
     }
 
     @Override
