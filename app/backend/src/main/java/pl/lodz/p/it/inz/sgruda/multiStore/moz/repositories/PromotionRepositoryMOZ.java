@@ -15,6 +15,6 @@ import java.util.Collection;
         propagation = Propagation.MANDATORY,
         transactionManager = "mozTransactionManager"
 )
-public interface PromotionRepositoryMOZ extends JpaRepository<ProductEntity, Long>  {
+public interface PromotionRepositoryMOZ extends JpaRepository<PromotionEntity, Long>  {
     Collection<PromotionEntity> findByCategoryEntity(CategoryEntity categoryEntity);
 }
