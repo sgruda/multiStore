@@ -59,6 +59,6 @@ public @Data class OrderDTO implements SignatureVerifiability {
         String items = orderedItemDTOS.stream()
                 .map(item -> item.getSignature())
                 .collect(Collectors.joining());
-        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, String.valueOf(version));
+        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), status, items, String.valueOf(version));
     }
 }
