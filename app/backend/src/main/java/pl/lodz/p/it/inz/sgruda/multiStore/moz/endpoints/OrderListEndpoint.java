@@ -52,18 +52,7 @@ public class OrderListEndpoint {
         Pageable paging = PageRequest.of(page, size);
         Page<OrderEntity> pageOrderEntities = orderListService.getOrderListPage(paging);
 
-        OrderMapper orderMapper = new OrderMapper();
-        List<OrderDTO> orderDTOS = pageOrderEntities.getContent()
-                .stream()
-                .map(entity -> orderMapper.toDTO(entity))
-                .collect(Collectors.toList());
-        orderDTOS.forEach(dto -> signMozDTOUtil.signOrderDTO(dto));
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("orders", orderDTOS);
-        response.put("currentPage", pageOrderEntities.getNumber());
-        response.put("totalItems", pageOrderEntities.getTotalElements());
-        response.put("totalPages", pageOrderEntities.getTotalPages());
+        Map<String, Object> response = this.prepareResponseFromEntities(pageOrderEntities);
 
         return ResponseEntity.ok(response);
     }
@@ -71,11 +60,17 @@ public class OrderListEndpoint {
     @GetMapping("/mine")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<Map<String, Object>> getClientOrdersPage(@Valid @RequestParam(defaultValue = "0") int page,
-                                                                @RequestParam(defaultValue = "5") int size,
-                                                                    @CurrentUser UserPrincipal userPrincipal) {
+                                                                   @RequestParam(defaultValue = "5") int size,
+                                                                   @CurrentUser UserPrincipal userPrincipal) {
         Pageable paging = PageRequest.of(page, size);
         Page<OrderEntity> pageOrderEntities = orderListService.getOrderListPageForEmail(paging, userPrincipal.getEmail());
 
+        Map<String, Object> response = this.prepareResponseFromEntities(pageOrderEntities);
+
+        return ResponseEntity.ok(response);
+    }
+
+    private Map<String, Object> prepareResponseFromEntities(Page<OrderEntity> pageOrderEntities) {
         OrderMapper orderMapper = new OrderMapper();
         List<OrderDTO> orderDTOS = pageOrderEntities.getContent()
                 .stream()
@@ -89,10 +84,6 @@ public class OrderListEndpoint {
         response.put("totalItems", pageOrderEntities.getTotalElements());
         response.put("totalPages", pageOrderEntities.getTotalPages());
 
-        return ResponseEntity.ok(response);
+        return response;
     }
-
-//    private Map<String, Object> prepareResponseFromEntities(Page<OrderEntity> pageOrderEntities) {
-//
-//    }
 }
