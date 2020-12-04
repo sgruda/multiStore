@@ -9,10 +9,13 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @ToString
 @Getter
@@ -30,6 +33,13 @@ public class OrderEntity implements Serializable, VersionGetter {
 
     @Basic(optional = false)
     @NotNull(message = "validation.notnull")
+    @Size(min = 36, max = 36, message = "validation.size")
+    @Pattern(regexp = "[0-9A-Za-z-]+", message = "validation.pattern")
+    @Column(name = "identifier", nullable = false, length = 32)
+    private String identifier;
+
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
@@ -39,10 +49,10 @@ public class OrderEntity implements Serializable, VersionGetter {
     private AccountEntity accountEntity;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ordered_items_order_mapping",
+    @JoinTable(name = "ordered_item_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ordered_items_id"))
-    private Set<OrderedItemsEntity> orderedItemsEntities = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
+    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @Basic(optional = false)
@@ -61,4 +71,7 @@ public class OrderEntity implements Serializable, VersionGetter {
     @Column(name = "version", nullable = false)
     private long version;
 
+    public OrderEntity() {
+        this.identifier = UUID.randomUUID().toString();
+    }
 }

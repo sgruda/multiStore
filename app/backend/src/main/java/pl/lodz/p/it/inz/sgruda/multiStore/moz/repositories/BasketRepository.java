@@ -6,10 +6,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 
+import java.util.Optional;
+
 @Repository
 @Transactional(
         propagation = Propagation.MANDATORY,
         transactionManager = "mozTransactionManager"
 )
 public interface BasketRepository extends JpaRepository<BasketEntity, Long> {
+    Optional<BasketEntity> findByAccountEntity_Email(String ownerEmail);
 }

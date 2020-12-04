@@ -13,6 +13,7 @@ import java.util.Set;
 
 @ToString
 @Getter
+@Setter
 @Entity
 @Table(name = "basket", schema = "public")
 @TableGenerator(name = "BasketIdGen", table = "id_generator", schema = "public", pkColumnName = "class_name",
@@ -24,11 +25,11 @@ public class BasketEntity implements Serializable, VersionGetter {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "BasketIdGen")
     private long id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "ordered_items_basket_mapping",
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ordered_item_basket_mapping",
             joinColumns = @JoinColumn(name = "basket_id"),
-            inverseJoinColumns = @JoinColumn(name = "ordered_items_id"))
-    private Set<OrderedItemsEntity> orderedItemsEntities = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
+    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
 
     @OneToOne(mappedBy = "basketEntity")
     private AccountEntity accountEntity;
