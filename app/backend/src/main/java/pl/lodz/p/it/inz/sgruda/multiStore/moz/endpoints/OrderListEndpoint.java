@@ -18,6 +18,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz.OrderMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderListService;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
 
 import javax.validation.Valid;
@@ -65,4 +67,32 @@ public class OrderListEndpoint {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/mine")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public ResponseEntity<Map<String, Object>> getClientOrdersPage(@Valid @RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "5") int size,
+                                                                    @CurrentUser UserPrincipal userPrincipal) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<OrderEntity> pageOrderEntities = orderListService.getOrderListPageForEmail(paging, userPrincipal.getEmail());
+
+        OrderMapper orderMapper = new OrderMapper();
+        List<OrderDTO> orderDTOS = pageOrderEntities.getContent()
+                .stream()
+                .map(entity -> orderMapper.toDTO(entity))
+                .collect(Collectors.toList());
+        orderDTOS.forEach(dto -> signMozDTOUtil.signOrderDTO(dto));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("orders", orderDTOS);
+        response.put("currentPage", pageOrderEntities.getNumber());
+        response.put("totalItems", pageOrderEntities.getTotalElements());
+        response.put("totalPages", pageOrderEntities.getTotalPages());
+
+        return ResponseEntity.ok(response);
+    }
+
+//    private Map<String, Object> prepareResponseFromEntities(Page<OrderEntity> pageOrderEntities) {
+//
+//    }
 }

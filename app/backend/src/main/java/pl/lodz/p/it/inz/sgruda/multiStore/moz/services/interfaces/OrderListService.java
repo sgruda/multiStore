@@ -6,4 +6,5 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 
 public interface OrderListService {
     Page<OrderEntity> getOrderListPage(Pageable pageable);
+    Page<OrderEntity> getOrderListPageForEmail(Pageable pageable, String email);
 }

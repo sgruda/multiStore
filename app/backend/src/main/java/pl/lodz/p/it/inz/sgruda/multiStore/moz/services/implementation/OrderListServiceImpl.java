@@ -4,6 +4,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,7 +30,14 @@ public class OrderListServiceImpl implements OrderListService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public Page<OrderEntity> getOrderListPage(Pageable pageable) {
         return orderRepository.findAll(pageable);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public Page<OrderEntity> getOrderListPageForEmail(Pageable pageable, String email) {
+        return orderRepository.findAllByAccountEntityEmail(pageable, email);
     }
 }
