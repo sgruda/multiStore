@@ -8,16 +8,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz.OrderMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderChangeStatusService;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderDetailsService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
 
 import javax.validation.Valid;
@@ -34,12 +33,18 @@ import javax.validation.constraints.Size;
 @RequestMapping("/api/order")
 public class OrderDetailsEndpoint {
     private OrderDetailsService orderDetailsService;
+    private OrderChangeStatusService orderChangeStatusService;
     private SignMozDTOUtil signMozDTOUtil;
+    private CheckerMozDTO checkerMozDTO;
+
 
     @Autowired
-    public OrderDetailsEndpoint(OrderDetailsService orderDetailsService, SignMozDTOUtil signMozDTOUtil) {
+    public OrderDetailsEndpoint(OrderDetailsService orderDetailsService, OrderChangeStatusService orderChangeStatusService,
+                                SignMozDTOUtil signMozDTOUtil, CheckerMozDTO checkerMozDTO) {
         this.orderDetailsService = orderDetailsService;
+        this.orderChangeStatusService = orderChangeStatusService;
         this.signMozDTOUtil = signMozDTOUtil;
+        this.checkerMozDTO = checkerMozDTO;
     }
 
     @GetMapping
@@ -60,5 +65,22 @@ public class OrderDetailsEndpoint {
         OrderDTO orderDTO = orderMapper.toDTO(orderEntity);
         signMozDTOUtil.signOrderDTO(orderDTO);
         return ResponseEntity.ok(orderDTO);
+    }
+
+    @PutMapping("/change-status")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<?> changeOrderStatus(@Valid @RequestBody OrderDTO orderDTO) {
+        OrderEntity orderEntity;
+        try {
+            checkerMozDTO.checkOrderDTOSignature(orderDTO);
+            orderEntity = orderChangeStatusService.getOrderByIdentifier(orderDTO.getIdentifier());
+            checkerMozDTO.checkOrderDTOVersion(orderEntity, orderDTO);
+            orderChangeStatusService.changeStatus(orderEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "order.status.correctly.changed"));
     }
 }
