@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 
@@ -32,12 +33,14 @@ function ActivitySwitch({classes, account, setLoadingData}) {
     const [alertInfoMessage, setAlertInfoMessage] = useState('');
     const [showRefresh, setShowRefresh] = useState(false);
 
+    const {checkExpiredJWTAndExecute} = useAuth();
+
     const handleActivityChange = () => {
         setAccountActivity((prev) => !prev)
         if(accountActivity)
-            blockAccount();
+            checkExpiredJWTAndExecute(blockAccount);
         else
-            unblockAccount();
+            checkExpiredJWTAndExecute(unblockAccount);
     };
 
     const handleRefresh = () => {

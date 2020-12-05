@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 import AccountService from '../../services/AccountService';
 import ConfirmDialog from '../ConfirmDialog';
 
@@ -38,6 +39,8 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
+    const {checkExpiredJWTAndExecute} = useAuth();
+
     const handleConfirmDialog = () => {
       setOpenConfirmDialog(!openConfirmDialog);
     }
@@ -55,7 +58,7 @@ function RemoveUnconfirmedAccountButton({account, buttonStyle, afterDeleteAccoun
     const handleRemove = () => {
         setDisabledButton(true);
         if(!emailVerified)
-            removeAccount();
+            checkExpiredJWTAndExecute(removeAccount);
     };
 
     async function removeAccount() {

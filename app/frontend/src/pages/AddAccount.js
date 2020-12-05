@@ -1,14 +1,16 @@
-import  React, { useState } from 'react';
+import  React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 
 import AccountService from '../services/AccountService';
+import AuthenticationService from '../services/AuthenticationService';
 import { useFields } from '../hooks/FieldHook';
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../config/config';
 
 import AddAccountForm from '../components/accounts/AddAccountForm';
 import AlertApiResponseHandler from '../components/AlertApiResponseHandler';
 import AccessLevelsCheckboxForm from '../components/simple/AccessLevelCheckboxForm';
+import RouterRedirectTo from '../components/simple/RouterRedirectTo';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -78,6 +80,8 @@ function AddAccount() {
   const [employeeRole, setEmployeeRole] = useState(false);
   const [adminRole, setAdminRole] = useState(false);
 
+  const [jwtExpiration, setJwtExpiration] = useState(false);
+
   const convertRolesToList = () => {
     let rolesArray = [];
     if(clientRole)
@@ -134,7 +138,14 @@ function AddAccount() {
       );
       setLoading(false);
   }
-
+  useEffect(() => {
+    if (loading) {
+        setLoading(false);
+        if(AuthenticationService.jwtIsExpired()) {
+          setJwtExpiration(true);
+        }
+    }
+  }, [loading]);
 
   return (
     <div>
@@ -193,6 +204,12 @@ function AddAccount() {
             </div>
           </Container>
       </div >
+      {jwtExpiration ? 
+        <RouterRedirectTo 
+          dialogContent={t('dialog.content.jwt-expired')}
+          page="/signin"
+        />
+    :<></>}
     </div>
   );
 }

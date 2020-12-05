@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 import AccountService from '../../services/AccountService';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 
@@ -18,10 +19,12 @@ function SendConfirmEmailButton({account}) {
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [alertInfoMessage, setAlertInfoMessage] = useState('');
 
+    const {checkExpiredJWTAndExecute} = useAuth();
+
     const handleClick = () => {
         setDisabledButton(true);
         if(!emailVerified)
-            sendMail();
+            checkExpiredJWTAndExecute(sendMail);
     };
 
     async function sendMail() {

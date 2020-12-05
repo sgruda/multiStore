@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../context/AuthContext";
 import ConfirmDialog from '../ConfirmDialog';
 import AcceptButtons from '../AcceptButtons';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
@@ -46,7 +47,9 @@ function AccountEdit({account, handleClose, apiMethod}) {
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-
+  
+  const {checkExpiredJWTAndExecute} = useAuth();
+  
   const handleConfirmDialog = () => {
     setOpenConfirmDialog(!openConfirmDialog);
   }
@@ -54,7 +57,7 @@ function AccountEdit({account, handleClose, apiMethod}) {
   const handleEdit = () => {
     account.firstName = fields.firstName;
     account.lastName = fields.lastName;
-    editAccount();
+    checkExpiredJWTAndExecute(editAccount);
     handleConfirmDialog();
   }
 

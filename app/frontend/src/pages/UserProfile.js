@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
 import AccountService from '../services/AccountService';
+import AuthenticationService from '../services/AuthenticationService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
 import AccountEdit from '../components/accounts/AccountEdit';
 import PasswordChange from '../components/accounts/PasswordChange';
+import RouterRedirectTo from '../components/simple/RouterRedirectTo';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -71,6 +73,8 @@ function UserProfile() {
     const [openEdit, setOpenEdit] = useState(false);
     const [openChangePassword, setOpenChangePassword] = useState(false);
 
+    const [jwtExpiration, setJwtExpiration] = useState(false);
+
     const handleOpenEdit = () => {
         setOpenEdit(true);
     }
@@ -110,7 +114,11 @@ function UserProfile() {
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
-            getAccount();
+            if(AuthenticationService.jwtIsExpired()) {
+                setJwtExpiration(true);
+              } else {
+                getAccount();
+              }
         }
     }, [loadingData]);
 
@@ -223,6 +231,12 @@ function UserProfile() {
                 </Grid>
             </Grid>
         </div>
+        {jwtExpiration ? 
+            <RouterRedirectTo 
+                dialogContent={t('dialog.content.jwt-expired')}
+                page="/signin"
+            />
+        :<></>}
         </Container>
     );
 }
