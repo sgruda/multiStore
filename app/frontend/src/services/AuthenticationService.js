@@ -11,6 +11,15 @@ const getParsedJWT = () => {
     return jwt.decode(localStorage.getItem(ACCESS_TOKEN));
 };
 
+const jwtIsExpired = () => {
+    const accessToken = getParsedJWT();
+    if(accessToken) {
+        if(accessToken.exp <= Date.now())
+        return true;
+    }
+    return false;
+};
+
 const signIn = (username, password) => {
     return axios
     .post(API_URL_SIGN_IN, {
@@ -48,6 +57,7 @@ const signOut = () => {
 export default {
     getAccessTokenFromStorage,
     getParsedJWT,
+    jwtIsExpired,
     signIn,
     signUp,
     signOut,
