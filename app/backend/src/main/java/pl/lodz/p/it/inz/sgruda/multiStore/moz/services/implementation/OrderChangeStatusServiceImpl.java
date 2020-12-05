@@ -16,7 +16,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.OrderRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.StatusRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderChangeStatusService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.NextStatusGetter;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.StatusName;
 
 @Log
 @Service

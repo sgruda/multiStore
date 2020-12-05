@@ -8,8 +8,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @ToString
 @Getter

@@ -7,15 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderSubmitService;
@@ -25,9 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Log
 @Service
