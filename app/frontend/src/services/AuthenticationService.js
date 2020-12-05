@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ACCESS_TOKEN } from '../config/config';
+import { ACCESS_TOKEN, ACTIVE_ROLE } from '../config/config';
 import {API_URL_SIGN_IN, API_URL_SIGN_UP} from '../config/config';
 
 
@@ -39,7 +39,8 @@ const signUp = (fields) => {
 };
 const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN);
-    };
+    localStorage.removeItem(ACTIVE_ROLE);
+};
 
 
 

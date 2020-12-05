@@ -22,7 +22,7 @@ export const API_URL_CHANGE_RESETTED_PASSWORD = API_URL_RESET_PASSWORD + '/chang
 
 
 export const ACCESS_TOKEN = 'accessToken';
-
+export const ACTIVE_ROLE = 'activeRole';
 
 // export const REACT_APP_URL = 'http://localhost:3000';
 export const REACT_APP_URL =  'https://multistore-app-frontend-yka4rjl6za-ey.a.run.app';

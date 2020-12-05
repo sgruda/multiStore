@@ -5,7 +5,7 @@ import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 
-import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN} from './config/config';
+import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN, ACTIVE_ROLE} from './config/config';
 
 import ProfileSpeedDial from "./components/ProfileSpeedDial";
 import clsx from 'clsx';
@@ -95,16 +95,21 @@ function App(props) {
   const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
 
 
-
   useEffect(() => {
     const tokenInStorage = localStorage.getItem(ACCESS_TOKEN);
-    if (tokenInStorage) {
+    if(tokenInStorage) {
       setCurrentAccessToken(tokenInStorage);
       setUserIsAuthenticated(true);
     }
     if (currentAccessToken) {
+      const activeRoleInStorege = localStorage.getItem(ACTIVE_ROLE);
       const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
-      if(roles.includes(ROLE_CLIENT)) {
+      if(activeRoleInStorege) {
+        if(AuthenticationService.getParsedJWT(tokenInStorage).roles.includes(activeRoleInStorege)) {
+          setActiveRole(activeRoleInStorege);
+        }
+      }
+      else if(roles.includes(ROLE_CLIENT)) {
         setActiveRole(ROLE_CLIENT);
       }
       else if(roles.includes(ROLE_EMPLOYEE)) {

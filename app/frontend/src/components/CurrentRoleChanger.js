@@ -15,6 +15,9 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import AuthenticationService from '../services/AuthenticationService'
 import { Container } from '@material-ui/core';
 
+import {ACTIVE_ROLE} from '../config/config';
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // minWidth: 275,
@@ -40,6 +43,11 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
     <option value={role}>{t('account.access-level.names.' + role.split("_")[1].toLowerCase())}</option>
   );
 
+  const setActiveRole = (role) => {
+    setCurrentActiveRole(role);
+    localStorage.setItem(ACTIVE_ROLE, role); 
+  }
+
   return (
     <Card className={classes.root} variant="outlined" justify="center">
       <CardContent>
@@ -50,7 +58,7 @@ function CurrentRoleChanger({currentActiveRole, setCurrentActiveRole, handleClos
         <InputLabel>{t('account.access-level.choose.role')}</InputLabel>
         <NativeSelect
           value={currentActiveRole}
-          onChange={(event) => {setCurrentActiveRole(event.target.value)}}
+          onChange={(event) => {setActiveRole(event.target.value)}}
         >
           {options}
         </NativeSelect>
