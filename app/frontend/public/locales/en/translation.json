@@ -224,6 +224,14 @@
             "signup": "Sign up"
         }
     },
+    "product": {
+        "fields": {
+            "type": {
+                "book": "Book",
+                "movie": "Movie"
+            }
+        }
+    },
     "refreshData": "Refresh data",
     "redirect": {
         "to": {

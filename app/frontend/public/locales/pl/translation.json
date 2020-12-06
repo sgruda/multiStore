@@ -224,6 +224,14 @@
             "signup": "Rejestracja"
         }
     },
+    "product": {
+        "fields": {
+            "type": {
+                "book": "Książka",
+                "movie": "Film"
+            }
+        }
+    },
     "refreshData": "Odśwież dane",
     "redirect": {
         "to": {
