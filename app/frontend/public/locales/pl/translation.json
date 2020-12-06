@@ -238,7 +238,7 @@
                 "novel": "Powieść",
                 "science": "Nauka"
             },
-            "inactive": "NIEAKTYWNY",
+            "inactive": "NIEDOSTĘPNY",
             "price": "Cena",
             "type": {
                 "book": "Książka",

@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "50px",
     },
     pagination: {
-        paddingLeft: "40%",
-        paddingRight: "40%",
+        paddingLeft: "43%",
+        paddingRight: "43%",
         '& > *': {
             marginTop: theme.spacing(3),
         },
@@ -31,18 +31,26 @@ function ProductList() {
 
   const [loadingData, setLoadingData] = useState(true);   
   const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [cardsPerPage, setCardsPerPage] = useState(5);
+  const [cardsPerPage, setCardsPerPage] = useState(8);
   const [textToSearch, setTextToSearch] = useState(null);
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
   const [filterType, setFilterType] = useState(null);
 
   const {checkExpiredJWTAndExecute} = useAuth();
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    setLoadingData(true);
+  }
+
+  const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems - (page - 1) * cardsPerPage));
+  console.log("cards " + emptyCards)
+
   async function getProducts() {
-    await ProductService.getProducts(textToSearch, page, cardsPerPage, filterType, filterActiveProducts)
+    await ProductService.getProducts(textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
     .then(response => {
         if (response.status === 200) { 
             const products = response.data.products.map(product => {
@@ -59,7 +67,7 @@ function ProductList() {
             });
             setProducts(products);
 
-            setPage(response.data.currentPage);
+            setPage(response.data.currentPage + 1);
             setTotalPages(response.data.totalPages);
             setTotalItems(response.data.totalItems);
         }
@@ -90,11 +98,16 @@ useEffect(() => {
                 product={product}
               /> 
           )}
+          {emptyCards > 0 && (
+              <Grid item  style={{ height: 100 * emptyCards }}/>
+            )}
           <Grid item xs={12}>
             <Pagination
                 className={classes.pagination} 
                 color="primary"
                 count={totalPages}
+                page={page}
+                onChange={handleChangePage}
             />
           </Grid>
         </Grid>

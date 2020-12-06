@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     inactiveText: {
         displayBlock: "true",
         transform: 'rotate(45deg)',
-        fontSize: 40,
+        fontSize: 37,
         textAlign:'center'
     },
     priceText: {

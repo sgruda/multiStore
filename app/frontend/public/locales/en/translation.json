@@ -238,7 +238,7 @@
                 "novel": "Novel",
                 "science": "Science"
             },
-            "inactive": "INACTIVE",
+            "inactive": "UNAVAILABLE",
             "price": "Price",
             "type": {
                 "book": "Book",
