@@ -226,6 +226,17 @@
     },
     "product": {
         "fields": {
+            "category": {
+                "action": "Action",
+                "adventure": "Adventure",
+                "detective": "Detective",
+                "document": "Document",
+                "fantasy": "Fantasy",
+                "fiction": "Fiction",
+                "history": "History",
+                "novel": "Novel",
+                "science": "Science"
+            },
             "type": {
                 "book": "Book",
                 "movie": "Movie"

@@ -226,6 +226,17 @@
     },
     "product": {
         "fields": {
+            "category": {
+                "action": "Akcja",
+                "adventure": "Przygoda",
+                "detective": "Kryminały",
+                "document": "Dokumnety",
+                "fantasy": "Fantastyka",
+                "fiction": "Fikcja",
+                "history": "Historia",
+                "novel": "Powieść",
+                "science": "Nauka"
+            },
             "type": {
                 "book": "Książka",
                 "movie": "Film"

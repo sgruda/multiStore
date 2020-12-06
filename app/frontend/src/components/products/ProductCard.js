@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     avatar: {
         backgroundColor: '#432deb',
     },
+    category: {
+        backgroundColor: '#0bb00d',
+    },
     card: {
         width: 300,
         height: 200,
@@ -27,6 +30,9 @@ const useStyles = makeStyles({
     cardContent: {
         textAlign: "center",
         height: 120,
+    },
+    cardCategory: {
+        height: 5,
     },
 });
 
@@ -48,14 +54,14 @@ function ProductCard({product}) {
             // //     <MoreVertIcon />
             // // </IconButton>
             // }
-            title={product.title}
-            subheader={t('product.fields.type.' + product.type)}
+            title={t('product.fields.type.' + product.type)}
+            subheader={t('product.fields.category.' + product.category)}
         />
         <CardActionArea>
             <CardContent className={classes.cardContent}>
-            {/* <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h5" component="h2">
                 {product.title}
-            </Typography> */}
+            </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
                 {product.description}
             </Typography>
