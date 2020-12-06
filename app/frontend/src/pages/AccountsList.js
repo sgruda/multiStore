@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,6 +10,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
+
+import AuthenticationService from '../services/AuthenticationService';
+import RedirectToSignIn from '../components/simple/RedirectToSignIn';
+import RouterRedirectTo from '../components/simple/RouterRedirectTo';
+import { Route } from "react-router-dom";
 
 import AccountService from '../services/AccountService';
 import AccountsTableHeader from '../components/accounts/table/AccountsTableHeader';
@@ -68,8 +74,9 @@ function AccountsList() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [textToSearch, setTextToSearch] = useState(null);
     const [filterActiveAccounts, setFilterActiveAccounts] = useState(null);
-
     
+    const {checkExpiredJWTAndExecute} = useAuth();
+  
     const handleClick =  (email, name) => {
       if(email === selectedEmail) {
         setSelectedEmail('');
@@ -126,7 +133,6 @@ function AccountsList() {
     const isSelected = (mail) => selectedEmail === mail ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
-
     
     async function getAccounts() {
         await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + '-' + order, filterActiveAccounts)
@@ -164,7 +170,7 @@ function AccountsList() {
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
-            getAccounts();
+            checkExpiredJWTAndExecute(getAccounts);
         }
     }, [loadingData]);
 

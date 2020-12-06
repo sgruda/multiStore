@@ -192,6 +192,7 @@
     "dialog": {
         "content": {
             "confirm": "Are you sure?",
+            "jwt-expired": "Your session has been expired. Sign in one more time.",
             "remove": {
                 "the": "The ",
                 "deleted": " account was successfully deleted."

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from './PasswordChange';
 import AccessLevelsEditor from './AccessLevelsEditor';
@@ -84,7 +85,8 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
     const [openAddAccessLevel, setOpenAddAccessLevel] = useState(false);
     const [openRemoveAccessLevel, setOpenRemoveAccessLevel] = useState(false);
 
-
+    const {checkExpiredJWTAndExecute} = useAuth();
+    
     const handleOpenEdit = () => {
         setOpenEdit(true);
     }
@@ -146,7 +148,7 @@ function AccountDetails({selectedAccountMail, handleHardRefresh}) {
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
-            getAccount();
+            checkExpiredJWTAndExecute(getAccount);
         }
     }, [selectedAccountMail, loadingData]);
 

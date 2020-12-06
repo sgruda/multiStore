@@ -4,8 +4,9 @@ import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
+import RouterRedirectTo from './components/simple/RouterRedirectTo';
 
-import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from './config/config';
+import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN, ACTIVE_ROLE} from './config/config';
 
 import ProfileSpeedDial from "./components/ProfileSpeedDial";
 import clsx from 'clsx';
@@ -93,20 +94,43 @@ function App(props) {
   const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
   const [activeRole, setActiveRole] = useState(undefined);
   const [currentAccessToken, setCurrentAccessToken] = useState(undefined);
+  
+  const [jwtExpiration, setJwtExpiration] = useState(false);
 
-
+  const checkExpiredJWTAndExecute = (apiMethodToExecute) => {
+    if(AuthenticationService.jwtIsExpired()) {
+      setJwtExpiration(true);
+    } else {
+      apiMethodToExecute();
+    }
+  }
 
   useEffect(() => {
+    const tokenInStorage = localStorage.getItem(ACCESS_TOKEN);
+    if(tokenInStorage) {
+      setCurrentAccessToken(tokenInStorage);
+      setUserIsAuthenticated(true);
+    }
     if (currentAccessToken) {
-      const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
-      if(roles.includes(ROLE_CLIENT)) {
-        setActiveRole(ROLE_CLIENT);
-      }
-      else if(roles.includes(ROLE_EMPLOYEE)) {
-        setActiveRole(ROLE_EMPLOYEE);
-      }
-      else if(roles.includes(ROLE_ADMIN)) {
-        setActiveRole(ROLE_ADMIN);
+      if(AuthenticationService.jwtIsExpired()) {
+        setJwtExpiration(true);
+      } else {
+        const activeRoleInStorege = localStorage.getItem(ACTIVE_ROLE);
+        const roles = AuthenticationService.getParsedJWT(currentAccessToken).roles;
+        if(activeRoleInStorege) {
+          if(AuthenticationService.getParsedJWT(tokenInStorage).roles.includes(activeRoleInStorege)) {
+            setActiveRole(activeRoleInStorege);
+          }
+        }
+        else if(roles.includes(ROLE_CLIENT)) {
+          setActiveRole(ROLE_CLIENT);
+        }
+        else if(roles.includes(ROLE_EMPLOYEE)) {
+          setActiveRole(ROLE_EMPLOYEE);
+        }
+        else if(roles.includes(ROLE_ADMIN)) {
+          setActiveRole(ROLE_ADMIN);
+        }
       }
     }
   }, [currentAccessToken]);
@@ -203,10 +227,15 @@ function App(props) {
         }
       </Drawer>
 
-
-
-      <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole}}>
+      <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole, checkExpiredJWTAndExecute}}>
         <Routes />
+
+        {jwtExpiration ? 
+          <RouterRedirectTo 
+              dialogContent={t('dialog.content.jwt-expired')}
+              page="/signin"
+            />
+        :<></>}
       </AuthContext.Provider>
     </div>
   );

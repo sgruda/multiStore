@@ -192,6 +192,7 @@
     "dialog": {
         "content": {
             "confirm": "Jesteś pewny?",
+            "jwt-expired": "Twoja sesja użytkownika wygasła. Zaloguj się jeszcze raz",
             "remove": {
                 "the": "Konto ",
                 "deleted": " zostało pomyślnie usunięte."

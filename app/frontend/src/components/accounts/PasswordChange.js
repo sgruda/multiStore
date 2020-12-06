@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFields } from '../../hooks/FieldHook';
 import { useForm } from "react-hook-form";
+import { useAuth } from '../../context/AuthContext';
 import ConfirmDialog from '../ConfirmDialog';
 import AcceptButtons from '../AcceptButtons';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
@@ -47,13 +48,15 @@ function PasswordChange({account, handleClose, apiMethod, adminView}) {
   const [showRefresh, setShowRefresh] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
+  const {checkExpiredJWTAndExecute} = useAuth();
+
   const handleConfirmDialog = () => {
     setOpenConfirmDialog(!openConfirmDialog);
   }
 
   const handleChangePassword = () => {
     account.authenticationDataDTO.password = fields.oldPassword;
-    changePassword();
+    checkExpiredJWTAndExecute(changePassword);
     handleConfirmDialog();
   }
 

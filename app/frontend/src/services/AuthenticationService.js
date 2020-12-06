@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ACCESS_TOKEN } from '../config/config';
+import { ACCESS_TOKEN, ACTIVE_ROLE } from '../config/config';
 import {API_URL_SIGN_IN, API_URL_SIGN_UP} from '../config/config';
 
 
@@ -9,6 +9,15 @@ const getAccessTokenFromStorage = () => {
 const getParsedJWT = () => {
     const jwt = require("jsonwebtoken");
     return jwt.decode(localStorage.getItem(ACCESS_TOKEN));
+};
+
+const jwtIsExpired = () => {
+    const accessToken = getParsedJWT();
+    if(accessToken) {
+        if(accessToken.exp <= Date.now())
+        return true;
+    }
+    return false;
 };
 
 const signIn = (username, password) => {
@@ -39,7 +48,8 @@ const signUp = (fields) => {
 };
 const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN);
-    };
+    localStorage.removeItem(ACTIVE_ROLE);
+};
 
 
 
@@ -47,6 +57,7 @@ const signOut = () => {
 export default {
     getAccessTokenFromStorage,
     getParsedJWT,
+    jwtIsExpired,
     signIn,
     signUp,
     signOut,
