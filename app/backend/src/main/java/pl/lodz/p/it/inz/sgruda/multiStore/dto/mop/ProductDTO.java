@@ -23,7 +23,7 @@ public @Data class ProductDTO implements SignatureVerifiability {
     private String idHash;
 
     @NotNull(message = "validation.notnull")
-    @Size(min = 1, max = 32, message = "validation.size")
+    @Size(min = 1, max = 64, message = "validation.size")
     @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
     private String title;
 
