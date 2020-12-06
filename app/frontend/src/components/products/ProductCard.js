@@ -68,7 +68,7 @@ function ProductCard({product}) {
   const { t } = useTranslation();
 
   return (
-    <Grid item xs={3} key={product.id}>
+    <Grid item xs={12} sm={6} md={3} key={product.id}>
         <Card
             className={clsx(classes.card, {
                 [classes.inactiveCard]: !product.active,

@@ -5,17 +5,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Pagination from '@material-ui/lab/Pagination';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     gridContainer: {
         paddingTop: "20px",
         paddingLeft: "50px",
         paddingRight: "50px",
     },
-});
+    pagination: {
+        paddingLeft: "40%",
+        paddingRight: "40%",
+        '& > *': {
+            marginTop: theme.spacing(3),
+        },
+    },
+}));
 
 function ProductList() {
   const classes = useStyles();
@@ -24,7 +32,8 @@ function ProductList() {
   const [loadingData, setLoadingData] = useState(true);   
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(0);
-  const [totalItems, setTotalPages] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(5);
   const [textToSearch, setTextToSearch] = useState(null);
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
@@ -51,7 +60,8 @@ function ProductList() {
             setProducts(products);
 
             setPage(response.data.currentPage);
-            setTotalPages( response.data.totalItems);
+            setTotalPages(response.data.totalPages);
+            setTotalItems(response.data.totalItems);
         }
     },
         (error) => {
@@ -73,13 +83,20 @@ useEffect(() => {
   return (
     <div>
         {!loadingData ? (
-        <Grid container spacing={3} className={classes.gridContainer}>
+        <Grid container spacing={3} className={classes.gridContainer} justify="center">
           {products.map(
             (product) =>
               <ProductCard
                 product={product}
               /> 
           )}
+          <Grid item xs={12}>
+            <Pagination
+                className={classes.pagination} 
+                color="primary"
+                count={totalPages}
+            />
+          </Grid>
         </Grid>
       ) : (
         <CircularProgress />
