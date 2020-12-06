@@ -52,21 +52,16 @@ const useStyles = makeStyles({
         textAlign: "center",
         height: 150,
     },
-    buttonAdd: {
-        // backgroundColor: "#d3ebf8",
-        // "&:hover": {
-        //     backgroundColor: "#4285F4"
-        // }
-    },
-    inactiveButtonAdd: {
-        // backgroundColor: "#859299",
-    },
 });
 
 function ProductCard({product}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const handleClickCard = () => {
+      alert("hej dodwanie do koszyka się robi")
+      ////Todo
+  }
   return (
     <Grid item xs={12} sm={6} md={3} key={product.id}>
         <Card
@@ -88,7 +83,7 @@ function ProductCard({product}) {
             title={t('product.fields.type.' + product.type)}
             subheader={t('product.fields.category.' + product.category)}
         />
-        <CardActionArea disabled={!product.active}>
+        <CardActionArea disabled={!product.active} onClick={handleClickCard}>
             <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
                     {product.title}
@@ -98,9 +93,6 @@ function ProductCard({product}) {
                     <Typography variant="body2" color="textSecondary" component="p">
                         {product.description}
                     </Typography>
-                {/* <Typography variant="body6" color="textSecondary" >
-                    {product.description}
-                </Typography> */}
                     <Typography variant="body6" color="textSecondary" component="p">
                         W magazynie: {product.inStore}
                     </Typography>
@@ -113,20 +105,11 @@ function ProductCard({product}) {
             </CardContent>
         </CardActionArea>
         <CardActions>
-            <Grid container justify="space-between" alignItems="center">
-                <Grid item xs={8}>
-                    <Button  
-                        disabled={!product.active}
-                    >
-                     {t('button.add.to-basket')}
-                    </Button>
-                </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                     <Typography variant="body6" className={classes.priceText} component="p">
                         {t('product.fields.price')}: {product.price}
                     </Typography>
                 </Grid>
-            </Grid>
         </CardActions>
         </Card>
     </Grid>

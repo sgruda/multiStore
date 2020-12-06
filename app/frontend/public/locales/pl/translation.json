@@ -85,8 +85,7 @@
     "button": {
         "add": {
             "access-level": "Dodaj poziom dostępu",
-            "default": "Dodaj",
-            "to-basket": "Dodaj do koszyka"
+            "default": "Dodaj"
         },
         "cancel": "Anuluj",
         "change": "Zmień",

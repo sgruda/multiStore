@@ -47,7 +47,6 @@ function ProductList() {
   }
 
   const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems - (page - 1) * cardsPerPage));
-  console.log("cards " + emptyCards)
 
   async function getProducts() {
     await ProductService.getProducts(textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)

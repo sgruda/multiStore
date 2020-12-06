@@ -85,8 +85,7 @@
     "button": {
         "add": {
             "access-level": "Add access leve;",
-            "default": "Add",
-            "to-basket": "Add to basket"
+            "default": "Add"
         },
         "cancel": "Cancel",
         "change": "Change",
