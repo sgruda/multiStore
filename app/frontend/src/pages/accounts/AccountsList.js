@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -11,15 +11,15 @@ import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
 
-import AuthenticationService from '../services/AuthenticationService';
-import RedirectToSignIn from '../components/simple/RedirectToSignIn';
-import RouterRedirectTo from '../components/simple/RouterRedirectTo';
+import AuthenticationService from '../../services/AuthenticationService';
+import RedirectToSignIn from '../../components/simple/RedirectToSignIn';
+import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
 import { Route } from "react-router-dom";
 
-import AccountService from '../services/AccountService';
-import AccountsTableHeader from '../components/accounts/table/AccountsTableHeader';
-import AccountsTableBody from '../components/accounts/table/AccountsTableBody';
-import AccountsTableToolbar from '../components/accounts/table/AccountsTableToolbar';
+import AccountService from '../../services/AccountService';
+import AccountsTableHeader from '../../components/accounts/table/AccountsTableHeader';
+import AccountsTableBody from '../../components/accounts/table/AccountsTableBody';
+import AccountsTableToolbar from '../../components/accounts/table/AccountsTableToolbar';
 import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -49,10 +49,6 @@ const useStyles = makeStyles({
     },
     clearIcon: {
         color: "#eb1e1e"
-    },
-    toolbar: {
-      backgroundColor: 'red',
-      minWidth: 650,
     },
 });
 
