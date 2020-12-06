@@ -127,7 +127,7 @@ create table product
     description varchar(512)     not null,
     in_store    integer          not null,
     price       double precision not null,
-    title       varchar(32)      not null
+    title       varchar(64)      not null
         constraint unique_title_product
                 unique,
     type        varchar(255)     not null,

@@ -32,7 +32,7 @@ public class ProductEntity implements Serializable, VersionGetter {
 
         @Basic(optional = false)
         @NotNull(message = "validation.notnull")
-        @Size(min = 1, max = 32, message = "validation.size")
+        @Size(min = 1, max = 64, message = "validation.size")
         @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+", message = "validation.pattern")
         @Column(name = "title", nullable = false, unique = true, length = 32)
         private String title;

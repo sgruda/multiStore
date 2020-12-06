@@ -20,6 +20,9 @@ export const API_URL_MY_ACCOUNT_CHANGE_PASSWORD = API_URL_MY_ACCOUNT + "/change-
 export const API_URL_RESET_PASSWORD = API_BASE_URL + '/api/auth/reset-password';
 export const API_URL_CHANGE_RESETTED_PASSWORD = API_URL_RESET_PASSWORD + '/change';
 
+export const API_URL_PRODUCTS = API_BASE_URL + "/api/products";
+
+
 
 export const ACCESS_TOKEN = 'accessToken';
 export const ACTIVE_ROLE = 'activeRole';

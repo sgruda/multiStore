@@ -224,6 +224,27 @@
             "signup": "Rejestracja"
         }
     },
+    "product": {
+        "fields": {
+            "category": {
+                "action": "Akcja",
+                "adventure": "Przygoda",
+                "detective": "Kryminały",
+                "document": "Dokumnety",
+                "fantasy": "Fantastyka",
+                "fiction": "Fikcja",
+                "history": "Historia",
+                "novel": "Powieść",
+                "science": "Nauka"
+            },
+            "inactive": "NIEDOSTĘPNY",
+            "price": "Cena",
+            "type": {
+                "book": "Książka",
+                "movie": "Film"
+            }
+        }
+    },
     "refreshData": "Odśwież dane",
     "redirect": {
         "to": {

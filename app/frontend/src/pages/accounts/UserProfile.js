@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
-import AccountService from '../services/AccountService';
-import AuthenticationService from '../services/AuthenticationService';
-import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../config/config";
-import AccountEdit from '../components/accounts/AccountEdit';
-import PasswordChange from '../components/accounts/PasswordChange';
-import RouterRedirectTo from '../components/simple/RouterRedirectTo';
+import AccountService from '../../services/AccountService';
+import AuthenticationService from '../../services/AuthenticationService';
+import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
+import AccountEdit from '../../components/accounts/AccountEdit';
+import PasswordChange from '../../components/accounts/PasswordChange';
+import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';

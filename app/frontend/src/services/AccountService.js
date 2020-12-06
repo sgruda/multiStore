@@ -100,7 +100,6 @@ class AccountService {
       'roles': roles,
       "language": navigator.language || navigator.userLanguage
     };
-    console.log(data)
     return axios.post(API_URL_SINGLE_ACCOUNT_CREATE, data,  { headers: AuthorizationHeader() }); 
   }
 } 

@@ -5,6 +5,7 @@ import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 import RouterRedirectTo from './components/simple/RouterRedirectTo';
+import ProductList from './pages/products/ProductList';
 
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN, ACTIVE_ROLE} from './config/config';
 
@@ -228,14 +229,14 @@ function App(props) {
       </Drawer>
 
       <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole, checkExpiredJWTAndExecute}}>
-        <Routes />
+          <Routes />
 
-        {jwtExpiration ? 
-          <RouterRedirectTo 
-              dialogContent={t('dialog.content.jwt-expired')}
-              page="/signin"
-            />
-        :<></>}
+          {jwtExpiration ? 
+            <RouterRedirectTo 
+                dialogContent={t('dialog.content.jwt-expired')}
+                page="/signin"
+              />
+          :<></>}
       </AuthContext.Provider>
     </div>
   );
