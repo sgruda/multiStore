@@ -13,6 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import BookIcon from '@material-ui/icons/Book';
 import MovieIcon from '@material-ui/icons/Movie';
+import clsx from 'clsx';
+import { Collapse } from '@material-ui/core';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
 const useStyles = makeStyles({
     avatar: {
@@ -23,16 +26,40 @@ const useStyles = makeStyles({
     },
     card: {
         width: 300,
-        height: 200,
+        height: 300,
         backgroundColor: '#d3ebf8',
+        "&:hover": {
+            backgroundColor: "#7cc3eb"
+        }
     },
-    hover:{},
+    inactiveCard: {
+        width: 300,
+        height: 300,
+        backgroundColor: '#859299',
+    },
+    inactiveText: {
+        displayBlock: "true",
+        transform: 'rotate(45deg)',
+        fontSize: 40,
+        textAlign:'center'
+    },
+    priceText: {
+        color: '#0bb00d',
+        textAlign:'center',
+        fontSize: 17,
+    },
     cardContent: {
         textAlign: "center",
-        height: 120,
+        height: 150,
     },
-    cardCategory: {
-        height: 5,
+    buttonAdd: {
+        // backgroundColor: "#d3ebf8",
+        // "&:hover": {
+        //     backgroundColor: "#4285F4"
+        // }
+    },
+    inactiveButtonAdd: {
+        // backgroundColor: "#859299",
     },
 });
 
@@ -42,7 +69,11 @@ function ProductCard({product}) {
 
   return (
     <Grid item xs={3} key={product.id}>
-        <Card className={classes.card}>
+        <Card
+            className={clsx(classes.card, {
+                [classes.inactiveCard]: !product.active,
+            })}
+        >
         <CardHeader
             avatar={
             <Avatar aria-label="productType" className={classes.avatar}>
@@ -57,23 +88,45 @@ function ProductCard({product}) {
             title={t('product.fields.type.' + product.type)}
             subheader={t('product.fields.category.' + product.category)}
         />
-        <CardActionArea>
+        <CardActionArea disabled={!product.active}>
             <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
-                {product.title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-                {product.description}
-            </Typography>
+                <Typography gutterBottom variant="h5" component="h2">
+                    {product.title}
+                </Typography>
+                {product.active ? 
+                <div>               
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {product.description}
+                    </Typography>
+                {/* <Typography variant="body6" color="textSecondary" >
+                    {product.description}
+                </Typography> */}
+                    <Typography variant="body6" color="textSecondary" component="p">
+                        W magazynie: {product.inStore}
+                    </Typography>
+                </div>
+                :
+                    <Typography className={classes.inactiveText}>
+                        {t('product.fields.inactive')}
+                    </Typography>
+                }
             </CardContent>
         </CardActionArea>
         <CardActions>
-            <Button size="small" color="primary">
-            Share
-            </Button>
-            <Button size="small" color="primary">
-            Learn More
-            </Button>
+            <Grid container justify="space-between" alignItems="center">
+                <Grid item xs={8}>
+                    <Button  
+                        disabled={!product.active}
+                    >
+                     {t('button.add.to-basket')}
+                    </Button>
+                </Grid>
+                <Grid item xs={4}>
+                    <Typography variant="body6" className={classes.priceText} component="p">
+                        {t('product.fields.price')}: {product.price}
+                    </Typography>
+                </Grid>
+            </Grid>
         </CardActions>
         </Card>
     </Grid>

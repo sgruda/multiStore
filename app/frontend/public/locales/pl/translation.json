@@ -85,7 +85,8 @@
     "button": {
         "add": {
             "access-level": "Dodaj poziom dostępu",
-            "default": "Dodaj"
+            "default": "Dodaj",
+            "to-basket": "Dodaj do koszyka"
         },
         "cancel": "Anuluj",
         "change": "Zmień",
@@ -237,6 +238,8 @@
                 "novel": "Powieść",
                 "science": "Nauka"
             },
+            "inactive": "NIEAKTYWNY",
+            "price": "Cena",
             "type": {
                 "book": "Książka",
                 "movie": "Film"

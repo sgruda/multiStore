@@ -85,7 +85,8 @@
     "button": {
         "add": {
             "access-level": "Add access leve;",
-            "default": "Add"
+            "default": "Add",
+            "to-basket": "Add to basket"
         },
         "cancel": "Cancel",
         "change": "Change",
@@ -237,6 +238,8 @@
                 "novel": "Novel",
                 "science": "Science"
             },
+            "inactive": "INACTIVE",
+            "price": "Price",
             "type": {
                 "book": "Book",
                 "movie": "Movie"
