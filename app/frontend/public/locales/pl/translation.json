@@ -27,6 +27,10 @@
             },
             "roles": "Poziomy dostępu konta"
         },
+        "edit": {
+            "firstName": "Imię",
+            "lastName": "Nazwisko"
+        },
         "list": {
             "table": {
                 "filter": {
