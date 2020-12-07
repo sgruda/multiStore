@@ -15,7 +15,11 @@ import BookIcon from '@material-ui/icons/Book';
 import MovieIcon from '@material-ui/icons/Movie';
 import clsx from 'clsx';
 import { Collapse } from '@material-ui/core';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import SignalCellularConnectedNoInternet0BarIcon from '@material-ui/icons/SignalCellularConnectedNoInternet0Bar';
+import SignalCellular1BarIcon from '@material-ui/icons/SignalCellular1Bar';
+import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
+import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
+import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 
 const useStyles = makeStyles({
     avatar: {
@@ -52,6 +56,9 @@ const useStyles = makeStyles({
         textAlign: "center",
         height: 150,
     },
+    inStoreIcon: {
+        color: '#432deb',
+    },
 });
 
 function ProductCard({product}) {
@@ -62,6 +69,20 @@ function ProductCard({product}) {
       alert("hej dodwanie do koszyka się robi")
       ////Todo
   }
+
+  const getIconForNumberInStore = (inStore) => {
+    if (inStore === 0)
+        return <SignalCellularConnectedNoInternet0BarIcon className={classes.inStoreIcon}/>
+    else if(inStore < 20)
+        return <SignalCellular1BarIcon className={classes.inStoreIcon}/>
+    else if(inStore < 50)
+        return <SignalCellular2BarIcon className={classes.inStoreIcon}/>
+    else if(inStore < 100)
+        return <SignalCellular3BarIcon className={classes.inStoreIcon}/>
+    else if(inStore >= 100)
+        return <SignalCellular4BarIcon className={classes.inStoreIcon}/>    
+  }
+
   return (
     <Grid item xs={12} sm={6} md={3} key={product.id}>
         <Card
@@ -94,7 +115,7 @@ function ProductCard({product}) {
                         {product.description}
                     </Typography>
                     <Typography variant="body6" color="textSecondary" component="p">
-                        W magazynie: {product.inStore}
+                        W magazynie: {getIconForNumberInStore(product.inStore)}
                     </Typography>
                 </div>
                 :
