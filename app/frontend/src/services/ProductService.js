@@ -1,7 +1,7 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
 import {
-    API_URL_PRODUCTS, API_URL_PRODUCT, API_URL_CREATE_PRODUCT
+    API_URL_PRODUCTS, API_URL_PRODUCT, API_URL_CREATE_PRODUCT, API_URL_EDIT_PRODUCT
 } from '../config/config';
 
 class ProductService { 
@@ -37,6 +37,19 @@ class ProductService {
           signature: "0"
         };
         return axios.post(API_URL_CREATE_PRODUCT, data,  { headers: AuthorizationHeader() }); 
+      }
+      editProduct(product, fields) { 
+        const data = {
+          idHash: product.idHash,
+          title: product.title,
+          description: fields.description,
+          inStore: fields.inStore,
+          price: fields.price,
+          type: product.type,
+          category: product.category,
+          signature: product.signature
+        };
+        return axios.put(API_URL_EDIT_PRODUCT, data,  { headers: AuthorizationHeader() }); 
       }
 } 
 export default new ProductService(); 

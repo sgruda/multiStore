@@ -121,7 +121,6 @@ function ProductList() {
 }
 
 useEffect(() => {
-  console.log("activeRole")
     if (loadingData) {
         setLoadingData(false);
         checkExpiredJWTAndExecute(getProducts);

@@ -251,6 +251,13 @@
             "title": "Title",
             "type": "Type"
         },
+        "edit": {
+            "form": {
+                "description": "Description",
+                "inStore": "Number in store",
+                "price": "Price"
+            }
+        },
         "fields": {
             "category": {
                 "action": "Action",

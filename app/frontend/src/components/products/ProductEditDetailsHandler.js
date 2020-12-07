@@ -14,7 +14,7 @@ function ProductEditDetailsHelper({productTitle, showEdit}) {
     await ProductService.getProduct(productTitle)
     .then(response => {
         if (response.status === 200) { 
-            setProduct(response.data);               
+            setProduct(response.data);  
         }
     },
         (error) => {

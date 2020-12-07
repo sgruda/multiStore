@@ -251,6 +251,13 @@
             "title": "Tytuł",
             "type": "Typ"
         },
+        "edit": {
+            "form": {
+                "description": "Opis",
+                "inStore": "Liczba w magazynie",
+                "price": "Cena"
+            }
+        },
         "fields": {
             "category": {
                 "action": "Akcja",
