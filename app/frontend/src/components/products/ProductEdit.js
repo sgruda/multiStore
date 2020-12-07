@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,6 +13,7 @@ import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
 import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
 import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 import Divider from "@material-ui/core/Divider";
+import Grid from '@material-ui/core/Grid';
 
 import { useAuth } from '../../context/AuthContext';
 import ProductService from '../../services/ProductService';
@@ -35,29 +36,39 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductDetails({product}) {
+function ProductEdit({product}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-
   const {checkExpiredJWTAndExecute} = useAuth();
 
-  const getIconForNumberInStore = (inStore) => {
-    if (inStore === 0)
-        return <SignalCellularConnectedNoInternet0BarIcon className={classes.inStoreIcon}/>
-    else if(inStore < 20)
-        return <SignalCellular1BarIcon className={classes.inStoreIcon}/>
-    else if(inStore < 50)
-        return <SignalCellular2BarIcon className={classes.inStoreIcon}/>
-    else if(inStore < 100)
-        return <SignalCellular3BarIcon className={classes.inStoreIcon}/>
-    else if(inStore >= 100)
-        return <SignalCellular4BarIcon className={classes.inStoreIcon}/>    
-  }
+
+//   async function getProduct() {
+//     await ProductService.getProduct(productTitle)
+//     .then(response => {
+//         if (response.status === 200) { 
+//             setProduct(response.data);               
+//         }
+//     },
+//         (error) => {
+//         const resMessage =
+//             (error.response && error.response.data && error.response.data.message) 
+//             || error.message || error.toString();
+//             console.error("ProductEdit: " + resMessage);
+//             // if(resMessage === "error.product.not.exists") {
+//             //     handleHardRefresh();
+//             // }
+//         }
+//     );
+//   }
+
+//   useEffect(() => {
+//     checkExpiredJWTAndExecute(getProduct);
+//   }, [productTitle]);  
 
   return (
-    <div className={classes.root}>
-        <CardHeader
+    <Grid container spacing={2} className={classes.root}>
+        {/* <CardHeader
             avatar={
             <Avatar aria-label="productType" className={classes.avatar}>
                 {product.type === 'book' ? <BookIcon/> : <MovieIcon/> }
@@ -75,10 +86,26 @@ function ProductDetails({product}) {
             <Typography gutterBottom variant="h5" component="h2">
                 {t('product.details.title') + ': ' + product.title}
             </Typography>
-            <Typography variant="body6" color="textSecondary" component="p">
-                {t('product.details.inStore') + ': '}
-                {getIconForNumberInStore(product.inStore)}
-            </Typography>  
+            
+            <Grid item xs={6}>
+                <TextField
+                    value={ fields.inStore }
+                    onChange={ setFields }
+                    variant="outlined"
+                    type="number"
+                    required
+                    fullWidth
+                    id="inStore"
+                    label={t('product.create.form.inStore')}
+                    name="inStore"
+                    autoComplete="inStore"
+
+                    inputRef={register({ required: true,  pattern: /[0-9.]+/ })}
+                    error={errors.inStore ? true : false}
+                    helperText={errors.inStore ? t('validation.message.incorrect.entry') : ""}
+                />
+            </Grid>
+
             <Divider/>         
             <Typography color="textSecondary" component="p">
                 { t('product.details.description') + ': ' + product.description }
@@ -91,8 +118,8 @@ function ProductDetails({product}) {
             <Typography variant="body6" className={classes.priceText} component="p">
                 {t('product.fields.price')}: {product.price}
             </Typography>
-        </CardContent>
-    </div>
+        </CardContent> */}
+    </Grid>
   );
 }
-export default ProductDetails;
+export default ProductEdit;
