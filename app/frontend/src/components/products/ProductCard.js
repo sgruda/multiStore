@@ -41,6 +41,9 @@ const useStyles = makeStyles({
         width: 300,
         height: 300,
         backgroundColor: '#859299',
+        "&:hover": {
+            backgroundColor: "#859299"
+        }
     },
     inactiveText: {
         displayBlock: "true",
@@ -97,11 +100,6 @@ function ProductCard({product, setSelectedProduct, setShowDetails}) {
                 {product.type === 'book' ? <BookIcon/> : <MovieIcon/> }
             </Avatar>
             }
-            // action={
-            // // <IconButton aria-label="settings">
-            // //     <MoreVertIcon />
-            // // </IconButton>
-            // }
             title={t('product.fields.type.' + product.type)}
             subheader={t('product.fields.category.' + product.category)}
         />
