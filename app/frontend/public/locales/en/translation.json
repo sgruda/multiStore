@@ -243,6 +243,18 @@
                 "book": "Book",
                 "movie": "Movie"
             }
+        },
+        "list": {
+            "filter": {
+                "all": "All",
+                "label": "Show products",
+                "only-active": "Only active products",
+                "only-books": "Only books",
+                "only-movies": "Only movies",
+                "only-non-active": "Only non active products",
+                "search": "Search"
+            },
+            "view-settings": "View settings"
         }
     },
     "refreshData": "Refresh data",

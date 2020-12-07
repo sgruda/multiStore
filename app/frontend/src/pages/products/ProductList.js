@@ -9,6 +9,7 @@ import Pagination from '@material-ui/lab/Pagination';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
+import ProductFilter from '../../components/products/filtering/ProductFilter';
 
 const useStyles = makeStyles((theme) => ({
     gridContainer: {
@@ -34,7 +35,7 @@ function ProductList() {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [cardsPerPage, setCardsPerPage] = useState(8);
+  const [cardsPerPage, setCardsPerPage] = useState(7);
   const [textToSearch, setTextToSearch] = useState(null);
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
   const [filterType, setFilterType] = useState(null);
@@ -46,10 +47,25 @@ function ProductList() {
     setLoadingData(true);
   }
 
-  const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems - (page - 1) * cardsPerPage));
+  const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems  - (page - 1) * cardsPerPage));
+
+  const handleSearch = (text) => {
+      setTextToSearch(text);
+      setPage(1);
+      setLoadingData(true);
+  }
+
+  const handleRefresh = () => {
+    setFilterType(null);
+    setFilterActiveProducts(null);
+    setTextToSearch(null);
+    setCardsPerPage(7);
+    setPage(1);
+    setLoadingData(true);
+  }
 
   async function getProducts() {
-    await ProductService.getProducts(textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
+    await ProductService.getProducts(textToSearch === '' ? null : textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
     .then(response => {
         if (response.status === 200) { 
             const products = response.data.products.map(product => {
@@ -91,6 +107,12 @@ useEffect(() => {
     <div>
         {!loadingData ? (
         <Grid container spacing={3} className={classes.gridContainer} justify="center">
+          <ProductFilter
+            setFilterActiveProducts={setFilterActiveProducts}
+            setFilterTypeProducts={setFilterType}
+            handleSearch={handleSearch}
+            handleRefresh={handleRefresh}
+          />
           {products.map(
             (product) =>
               <ProductCard

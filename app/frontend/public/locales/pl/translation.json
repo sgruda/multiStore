@@ -243,6 +243,18 @@
                 "book": "Książka",
                 "movie": "Film"
             }
+        },
+        "list": {
+            "filter": {
+                "all": "Wszystkie",
+                "label": "Pokaż produkty",
+                "only-active": "Tylko aktywne produkty",
+                "only-books": "Tylko ksiązki",
+                "only-movies": "Tylko filmy",
+                "only-non-active": "Tylko nieaktywne produkty",
+                "search": "Szukaj"
+            },
+            "view-settings": "Ustawienia wyświetlania"
         }
     },
     "refreshData": "Odśwież dane",
