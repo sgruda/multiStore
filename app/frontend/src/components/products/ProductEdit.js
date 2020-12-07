@@ -70,7 +70,9 @@ function ProductEdit({product}) {
   });
 
   const handleEditProduct = () => {
+    setLoading(true);
     checkExpiredJWTAndExecute(editProduct);
+    setLoading(false);
   }
 
   const checkErrors = () => {
@@ -111,10 +113,6 @@ function ProductEdit({product}) {
         }
     );
   }
-
-//   useEffect(() => {
-//     checkExpiredJWTAndExecute(getProduct);
-//   }, [productTitle]);  
 
   return (
     <div className={classes.root}>

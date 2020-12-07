@@ -85,6 +85,7 @@ function ProductList() {
     setShowDetails(false);
     setShowEdit(false);
     setSelectedProductTitle(null);
+    setLoadingData(true);
   }
 
 

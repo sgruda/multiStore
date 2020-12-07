@@ -85,7 +85,10 @@ function ProductDetails({product}) {
             </Typography>
             <Divider/>
             <Typography className={classes.inactiveText}>
-                {t('product.details.active') + ': ' + t('product.fields.inactive')}
+                {product.active 
+                    ? t('product.details.active') + ': ' + t('product.fields.active')
+                    : t('product.details.active') + ': ' + t('product.fields.inactive')
+                }
             </Typography>
             <Divider/>
             <Typography variant="body6" className={classes.priceText} component="p">

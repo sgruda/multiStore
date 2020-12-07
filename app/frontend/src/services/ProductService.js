@@ -47,6 +47,7 @@ class ProductService {
           price: fields.price,
           type: product.type,
           category: product.category,
+          version: product.version,
           signature: product.signature
         };
         return axios.put(API_URL_EDIT_PRODUCT, data,  { headers: AuthorizationHeader() }); 

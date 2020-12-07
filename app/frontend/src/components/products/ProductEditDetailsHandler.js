@@ -11,22 +11,24 @@ function ProductEditDetailsHelper({productTitle, showEdit}) {
 
 
   async function getProduct() {
-    await ProductService.getProduct(productTitle)
-    .then(response => {
-        if (response.status === 200) { 
-            setProduct(response.data);  
-        }
-    },
-        (error) => {
-        const resMessage =
-            (error.response && error.response.data && error.response.data.message) 
-            || error.message || error.toString();
-            console.error("ProductDetails: " + resMessage);
-            // if(resMessage === "error.product.not.exists") {
-            //     handleHardRefresh();
-            // }
-        }
-    );
+    if(productTitle != null) {
+        await ProductService.getProduct(productTitle)
+        .then(response => {
+            if (response.status === 200) { 
+                setProduct(response.data);  
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("ProductDetails: " + resMessage);
+                // if(resMessage === "error.product.not.exists") {
+                //     handleHardRefresh();
+                // }
+            }
+        ); 
+    }
   }
 
   useEffect(() => {

@@ -259,6 +259,7 @@
             }
         },
         "fields": {
+            "active": "AVAILABLE",
             "category": {
                 "action": "Action",
                 "adventure": "Adventure",
