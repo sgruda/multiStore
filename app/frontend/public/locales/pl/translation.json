@@ -225,6 +225,15 @@
         }
     },
     "product": {
+        "details": {
+            "active": "Dostępność",
+            "category": "Kategoria",
+            "description": "Opis",
+            "inStore": "W magazynie",
+            "price": "Cena",
+            "title": "Tytuł",
+            "type": "Typ"
+        },
         "fields": {
             "category": {
                 "action": "Akcja",

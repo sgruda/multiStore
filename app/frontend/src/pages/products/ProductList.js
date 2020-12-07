@@ -6,10 +6,16 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Pagination from '@material-ui/lab/Pagination';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
 import ProductFilter from '../../components/products/filtering/ProductFilter';
+import ProductDetails from '../../components/products/ProductDetails';
 
 const useStyles = makeStyles((theme) => ({
     gridContainer: {
@@ -23,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             marginTop: theme.spacing(3),
         },
+    },
+    details: {
+        // width: 500,
+        // height: 500,
+        backgroundColor: '#7ccfeb',
     },
 }));
 
@@ -39,6 +50,9 @@ function ProductList() {
   const [textToSearch, setTextToSearch] = useState(null);
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
   const [filterType, setFilterType] = useState(null);
+
+  const [selectedProductTitle, setSelectedProductTitle] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const {checkExpiredJWTAndExecute} = useAuth();
 
@@ -62,6 +76,11 @@ function ProductList() {
     setCardsPerPage(7);
     setPage(1);
     setLoadingData(true);
+  }
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+    setSelectedProductTitle(null);
   }
 
   async function getProducts() {
@@ -117,6 +136,8 @@ useEffect(() => {
             (product) =>
               <ProductCard
                 product={product}
+                setSelectedProduct={setSelectedProductTitle}
+                setShowDetails={setShowDetails}
               /> 
           )}
           {emptyCards > 0 && (
@@ -135,6 +156,24 @@ useEffect(() => {
       ) : (
         <CircularProgress />
       )}
+      <Dialog
+        open={showDetails}
+        onClose={handleCloseDetails}
+        aria-describedby="dialog-description"
+       >
+        <DialogContent className={classes.details}>
+          <DialogContentText id="dialog-description">
+            <ProductDetails
+              productTitle={selectedProductTitle}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className={classes.details}>
+          <Button onClick={handleCloseDetails} color="primary" autoFocus>
+            {t('button.close')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

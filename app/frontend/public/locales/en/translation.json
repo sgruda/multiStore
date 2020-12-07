@@ -225,6 +225,15 @@
         }
     },
     "product": {
+        "details": {
+            "active": "Availability",
+            "category": "Category",
+            "description": "Description",
+            "inStore": "In store",
+            "price": "Price",
+            "title": "Title",
+            "type": "Type"
+        },
         "fields": {
             "category": {
                 "action": "Action",

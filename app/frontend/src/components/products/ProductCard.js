@@ -21,6 +21,8 @@ import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
 import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
 import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 
+import ProductDetails from './ProductDetails';
+
 const useStyles = makeStyles({
     avatar: {
         backgroundColor: '#432deb',
@@ -61,13 +63,13 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductCard({product}) {
+function ProductCard({product, setSelectedProduct, setShowDetails}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
   const handleClickCard = () => {
-      alert("hej dodwanie do koszyka się robi")
-      ////Todo
+    setSelectedProduct(product.title);
+    setShowDetails(true);
   }
 
   const getIconForNumberInStore = (inStore) => {
@@ -112,7 +114,8 @@ function ProductCard({product}) {
                 {product.active ? 
                 <div>    
                     <Typography variant="body6" color="textSecondary" component="p">
-                        W magazynie: {getIconForNumberInStore(product.inStore)}
+                        {t('product.details.inStore') + ' '}
+                        {getIconForNumberInStore(product.inStore)}
                     </Typography>           
                     <Typography variant="body2" color="textSecondary" component="p">
                         { product.description.length <= 197 

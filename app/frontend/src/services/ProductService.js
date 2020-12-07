@@ -1,7 +1,7 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
 import {
-    API_URL_PRODUCTS
+    API_URL_PRODUCTS, API_URL_GET_PRODUCT
 } from '../config/config';
 
 class ProductService { 
@@ -19,7 +19,10 @@ class ProductService {
           return axios.get(API_URL_PRODUCTS_PAGINATION + '&active=' + active);
         else if(textToSearch != null && active != null) 
           return axios.get(API_URL_PRODUCTS_PAGINATION + '&active=' + active + '&textToSearch=' + textToSearch);
-    
+      } 
+      
+      getProduct(title) { 
+        return axios.get(API_URL_GET_PRODUCT + '?title=' + title); 
       } 
 } 
 export default new ProductService(); 
