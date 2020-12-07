@@ -21,7 +21,6 @@ import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
 import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
 import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 
-import ProductDetails from './ProductDetails';
 
 const useStyles = makeStyles({
     avatar: {

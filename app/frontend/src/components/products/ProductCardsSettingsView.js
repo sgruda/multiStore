@@ -14,10 +14,10 @@ import SyncIcon from '@material-ui/icons/Sync';
 import Divider from "@material-ui/core/Divider";
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import TextFilter from './TextFilter';
-import ProductActivityFilter from './ProductActivityFilter';
-import ProductTypeFilter from './ProductTypeFilter'
-import { useFields } from '../../../hooks/FieldHook';
+import TextFilter from './filtering/TextFilter';
+import ProductActivityFilter from './filtering/ProductActivityFilter';
+import ProductTypeFilter from './filtering/ProductTypeFilter'
+import { useFields } from '../../hooks/FieldHook';
 
 const useStyles = makeStyles({
     avatar: {
@@ -27,9 +27,6 @@ const useStyles = makeStyles({
         width: 300,
         height: 300,
         backgroundColor: '#4dc4ff',
-        // "&:hover": {
-        //     backgroundColor: "#7cc3eb"
-        // }
     },
     cardContent: {
         textAlign: "center",
@@ -37,7 +34,7 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductFilter({setFilterActiveProducts, setFilterTypeProducts, handleSearch, handleRefresh}) {
+function ProductCardsSettingsView({activeRole, setFilterActiveProducts, setFilterTypeProducts, handleSearch, handleRefresh}) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
@@ -93,4 +90,4 @@ function ProductFilter({setFilterActiveProducts, setFilterTypeProducts, handleSe
     </Grid>
   );
 }
-export default ProductFilter;
+export default ProductCardsSettingsView;

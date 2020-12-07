@@ -14,7 +14,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
-import ProductFilter from '../../components/products/filtering/ProductFilter';
+import ProductCardsSettingsView from '../../components/products/ProductCardsSettingsView';
 import ProductDetails from '../../components/products/ProductDetails';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +31,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     details: {
-        // width: 500,
-        // height: 500,
         backgroundColor: '#7ccfeb',
     },
 }));
@@ -54,7 +52,7 @@ function ProductList() {
   const [selectedProductTitle, setSelectedProductTitle] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const {checkExpiredJWTAndExecute} = useAuth();
+  const {activeRole, checkExpiredJWTAndExecute} = useAuth();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -116,6 +114,7 @@ function ProductList() {
 }
 
 useEffect(() => {
+  console.log("activeRole")
     if (loadingData) {
         setLoadingData(false);
         checkExpiredJWTAndExecute(getProducts);
@@ -126,7 +125,8 @@ useEffect(() => {
     <div>
         {!loadingData ? (
         <Grid container spacing={3} className={classes.gridContainer} justify="center">
-          <ProductFilter
+          <ProductCardsSettingsView
+            activeRole={activeRole}
             setFilterActiveProducts={setFilterActiveProducts}
             setFilterTypeProducts={setFilterType}
             handleSearch={handleSearch}
