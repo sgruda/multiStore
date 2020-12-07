@@ -131,7 +131,7 @@ function AccountsList() {
 
     
     async function getAccounts() {
-        await AccountService.getAccounts(textToSearch, page, rowsPerPage, orderBy + '-' + order, filterActiveAccounts)
+        await AccountService.getAccounts(textToSearch === '' ? null : textToSearch, page, rowsPerPage, orderBy + '-' + order, filterActiveAccounts)
         .then(response => {
             if (response.status === 200) { 
                 const accounts = response.data.accounts.map(account => {
