@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Backdrop from '@material-ui/core/Backdrop';
+import Collapse from '@material-ui/core/Collapse';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
@@ -175,15 +176,18 @@ useEffect(() => {
             <ProductEditDetailsHelper
               productTitle={selectedProductTitle}
               showEdit={showEdit}
+              handleClose={handleCloseDetails}
             />
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.details}>
           { activeRole === ROLE_EMPLOYEE 
             ?
+            <Collapse in={!showEdit}>    
               <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>
                 {t('button.edit')}
               </Button>
+            </Collapse> 
             :
               <></>
           }

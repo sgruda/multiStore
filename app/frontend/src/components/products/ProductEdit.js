@@ -20,6 +20,7 @@ import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 import { useAuth } from '../../context/AuthContext';
 import ProductService from '../../services/ProductService';
 import ProductEditFrom from './forms/ProductEditForm';
+import AcceptButtons from '../../components/AcceptButtons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ProductEdit({product}) {
+function ProductEdit({product, handleClose, handleRefresh}) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
@@ -60,6 +61,7 @@ function ProductEdit({product}) {
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
+  const [showRefresh, setShowRefresh] = useState(false);
 
   const {checkExpiredJWTAndExecute} = useAuth();
 
@@ -110,9 +112,16 @@ function ProductEdit({product}) {
             console.error("ProductEdit: " + resMessage);
             setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
             setOpenWarningAlert(true);
+            setShowRefresh(true);
         }
     );
   }
+
+  useEffect(() => {
+    fields.description = product.description;
+    fields.price = product.price;
+    fields.inStore = product.inStore;
+  }, [product]);  
 
   return (
     <div className={classes.root}>
@@ -144,7 +153,14 @@ function ProductEdit({product}) {
                     alertWarningMessage={alertWarningMessage}
                     alertInfoMessage={alertInfoMessage}
                 />
-                <Button
+                <AcceptButtons
+                    submitButtonTitle={t('button.edit')}
+                    handleClose={handleClose}
+                    handleRefresh={handleRefresh}
+                    showRefreshButton={showRefresh}
+                    setShowRefreshButton={setShowRefresh}
+                />
+                {/* <Button
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -153,7 +169,7 @@ function ProductEdit({product}) {
                     disabled={disabledSubmit}
                 >
                     {t('button.edit')}
-                </Button>
+                </Button> */}
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
             </form>
         </CardContent>

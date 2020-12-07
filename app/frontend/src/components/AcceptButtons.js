@@ -28,9 +28,16 @@ const useStyles = makeStyles(({
       },
 }));
 
-function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
+function AcceptButtons({submitButtonTitle, handleClose, handleRefresh, showRefreshButton, setShowRefreshButton}) {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const handleRefreshButtons = () => {
+    handleRefresh != null ? handleRefresh() : handleClose();
+    if(setShowRefreshButton != null)
+     setShowRefreshButton(false);
+  }
+
   return (
     <div>
         <Grid container xs={12}>
@@ -59,7 +66,7 @@ function AcceptButtons({submitButtonTitle, handleClose, showRefreshButton}) {
             <Grid item xs={12}>
                 <Collapse in={showRefreshButton}>
                     <Button
-                    onClick={handleClose}
+                    onClick={handleRefreshButtons}
                     variant="contained"
                     color="primary"
                     fullWidth

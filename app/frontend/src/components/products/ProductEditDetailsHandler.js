@@ -5,8 +5,9 @@ import ProductService from '../../services/ProductService';
 import ProductDetails from './ProductDetails';
 import ProductEdit from './ProductEdit';
 
-function ProductEditDetailsHelper({productTitle, showEdit}) {
+function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
   const [product, setProduct] = useState(Object);
+  const [loadingData, setLoadingData] = useState(true);
   const {checkExpiredJWTAndExecute} = useAuth();
 
 
@@ -33,7 +34,8 @@ function ProductEditDetailsHelper({productTitle, showEdit}) {
 
   useEffect(() => {
     checkExpiredJWTAndExecute(getProduct);
-  }, [productTitle]);  
+    setLoadingData(false);
+  }, [productTitle, loadingData]);  
 
   return (
     <div>
@@ -41,6 +43,8 @@ function ProductEditDetailsHelper({productTitle, showEdit}) {
             ?
                 <ProductEdit
                     product={product}
+                    handleClose={handleClose}
+                    handleRefresh={setLoadingData}
                 />
             :
                 <ProductDetails
