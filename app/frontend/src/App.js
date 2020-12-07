@@ -30,6 +30,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
+import AddIcon from '@material-ui/icons/Add';
 
 const drawerWidth = 240;
 const appBarHeight = 80;
@@ -142,6 +143,9 @@ function App(props) {
     { id: 'accountList', name: t('pages.titles.account.list'), path: '/admin/accountsList', icon: <PeopleIcon/>},
     { id: 'accountCreation', name: t('pages.titles.account.create'), path: '/admin/addAccount', icon:  <PersonAddIcon/>},
   ];
+  const employeeToolbarListItem = [
+    { id: 'productCreation', name: t('pages.titles.product.create'), path: '/employee/addProduct', icon:  <AddIcon/>},
+  ];
 
   return (
     // !currentAccessToken &&
@@ -218,10 +222,17 @@ function App(props) {
         <Divider />
         { userIsAuthenticated  && activeRole === ROLE_EMPLOYEE &&
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+         {employeeToolbarListItem.map((item) => (
+            <ListItem 
+                className={classes.item}
+                button 
+                key={item.id} 
+                onClick={() => history.push(item.path)}
+            >
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
             </ListItem>
           ))}
         </List>

@@ -210,13 +210,16 @@
                 },
                 "accounts": "Konta",
                 "activity": "Aktywność",
-                "add": "Dodanie konta",
+                "add": "Dodawanie konta",
                 "change-password": "Zmienianie hasła",
                 "create": "Tworzenie nowego konta",
                 "edit": "Edycja konta",
                 "list": "Lista kont"
             },
             "email-veryfication": "Weryfikacja adresu e-mail",
+            "product": {
+                "create": "Tworzenie nowego produktu"
+            },
             "profile": "Profil",
             "reset-password": "Reset hasła",
             "signin": "Logowanie",

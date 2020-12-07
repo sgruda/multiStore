@@ -217,6 +217,9 @@
                 "list": "Account list"
             },
             "email-veryfication": "Address e-mail veryfication",
+            "product": {
+                "create": "Create new product"
+            },
             "profile": "Profile",
             "reset-password": "Reset password",
             "signin": "Sign in",
