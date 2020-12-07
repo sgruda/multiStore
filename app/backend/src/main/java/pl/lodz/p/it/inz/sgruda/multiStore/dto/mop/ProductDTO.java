@@ -29,6 +29,7 @@ public @Data class ProductDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     @Size(min = 1, max = 512, message = "validation.size")
+    @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ?!:., ]+", message = "validation.pattern")
     private String description;
 
     @Digits(integer = 7, fraction = 0, message = "validation.digits")

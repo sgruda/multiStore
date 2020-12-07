@@ -40,6 +40,7 @@ public class ProductEntity implements Serializable, VersionGetter {
         @Basic(optional = false)
         @NotNull(message = "validation.notnull")
         @Size(min = 1, max = 512, message = "validation.size")
+        @Pattern(regexp = "[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ?!:., ]+", message = "validation.pattern")
         @Column(name = "description", nullable = false, length = 512)
         private String description;
 
