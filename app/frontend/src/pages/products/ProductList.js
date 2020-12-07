@@ -11,11 +11,15 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Backdrop from '@material-ui/core/Backdrop';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
 import ProductCardsSettingsView from '../../components/products/ProductCardsSettingsView';
 import ProductDetails from '../../components/products/ProductDetails';
+import ProductEdit from '../../components/products/ProductEdit';
+import { ROLE_EMPLOYEE } from '../../config/config';
+import ProductEditDetailsHelper from '../../components/products/ProductEditDetailsHandler';
 
 const useStyles = makeStyles((theme) => ({
     gridContainer: {
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     details: {
-        backgroundColor: '#7ccfeb',
+        backgroundColor: '#e6f3fa',
     },
 }));
 
@@ -51,6 +55,7 @@ function ProductList() {
 
   const [selectedProductTitle, setSelectedProductTitle] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const {activeRole, checkExpiredJWTAndExecute} = useAuth();
 
@@ -78,8 +83,10 @@ function ProductList() {
 
   const handleCloseDetails = () => {
     setShowDetails(false);
+    setShowEdit(false);
     setSelectedProductTitle(null);
   }
+
 
   async function getProducts() {
     await ProductService.getProducts(textToSearch === '' ? null : textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
@@ -138,7 +145,8 @@ useEffect(() => {
                 product={product}
                 setSelectedProduct={setSelectedProductTitle}
                 setShowDetails={setShowDetails}
-              /> 
+                showBackdrop={showDetails}
+              />
           )}
           {emptyCards > 0 && (
               <Grid item  style={{ height: 100 * emptyCards }}/>
@@ -156,6 +164,7 @@ useEffect(() => {
       ) : (
         <CircularProgress />
       )}
+      <Backdrop in={showDetails}/>
       <Dialog
         open={showDetails}
         onClose={handleCloseDetails}
@@ -163,12 +172,21 @@ useEffect(() => {
        >
         <DialogContent className={classes.details}>
           <DialogContentText id="dialog-description">
-            <ProductDetails
+            <ProductEditDetailsHelper
               productTitle={selectedProductTitle}
+              showEdit={showEdit}
             />
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.details}>
+          { activeRole === ROLE_EMPLOYEE 
+            ?
+              <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>
+                {t('button.edit')}
+              </Button>
+            :
+              <></>
+          }
           <Button onClick={handleCloseDetails} color="primary" autoFocus>
             {t('button.close')}
           </Button>
