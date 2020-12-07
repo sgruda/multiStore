@@ -228,6 +228,20 @@
         }
     },
     "product": {
+        "create": {
+            "form": {
+                "category": "Kategoria",
+                "description": "Opis",
+                "inStore": "Liczba w magazynie",
+                "title": "Tytuł",
+                "price": "Cena",
+                "type": {
+                    "book": "Książka",
+                    "label": "Typ",
+                    "movie": "Film"
+                }
+            }
+        },
         "details": {
             "active": "Dostępność",
             "category": "Kategoria",

@@ -21,8 +21,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
+import AddProductForm from '../../components/products/AddProductForm';
+import ProductService from '../../services/ProductService';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,12 +63,12 @@ function ProductAdd() {
   const classes = useStyles();
   const { t } = useTranslation();
   const [fields, setFields] = useFields({
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: ""
+    title: "",
+    description: "",
+    inStore: 1.0,
+    price: 1.0,
+    type: 'book',
+    category: "action"
   });
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [loading, setLoading] = useState(false);
@@ -106,7 +106,7 @@ function ProductAdd() {
   }
 
   async function createProduct() {
-    await AccountService.createAccount(fields)
+    await ProductService.createProduct(fields)
       .then(response => {
         if (response.status === 200) { 
             setAlertInfoMessage(t('response.ok'));
@@ -117,7 +117,7 @@ function ProductAdd() {
           const resMessage =
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
-            console.error("AddAccount: " + resMessage);
+            console.error("AddProduct: " + resMessage);
             setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
             setOpenWarningAlert(true);
         }
@@ -143,15 +143,15 @@ function ProductAdd() {
                 <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {t('pages.titles.account.add')}
+                {t('pages.titles.product.create')}
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit(handleCreateProduct)}>
-                {/* <AddAccountForm
+                <AddProductForm
                   fields={fields}
                   setFields={setFields}
                   register={register}
                   errors={errors}
-                /> */}
+                />
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
                   setOpenWarningAlert={setOpenWarningAlert}

@@ -228,6 +228,20 @@
         }
     },
     "product": {
+        "create": {
+            "form": {
+                "category": "Category",
+                "description": "Description",
+                "inStore": "Number in store",
+                "title": "Title",
+                "price": "Price",
+                "type": {
+                    "book": "Book",
+                    "label": "Type",
+                    "movie": "Movie"
+                }
+            }
+        },
         "details": {
             "active": "Availability",
             "category": "Category",
