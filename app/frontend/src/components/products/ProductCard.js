@@ -110,12 +110,15 @@ function ProductCard({product}) {
                     {product.title}
                 </Typography>
                 {product.active ? 
-                <div>               
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {product.description}
-                    </Typography>
+                <div>    
                     <Typography variant="body6" color="textSecondary" component="p">
                         W magazynie: {getIconForNumberInStore(product.inStore)}
+                    </Typography>           
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        { product.description.length <= 197 
+                            ? product.description 
+                            : product.description.substring(0, 197) + '...'
+                        }
                     </Typography>
                 </div>
                 :
