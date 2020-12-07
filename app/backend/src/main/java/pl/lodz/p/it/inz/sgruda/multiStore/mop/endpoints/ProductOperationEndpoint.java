@@ -39,7 +39,7 @@ public class ProductOperationEndpoint {
         this.checkerSimpleDTO = checkerSimpleDTO;
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> editProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
