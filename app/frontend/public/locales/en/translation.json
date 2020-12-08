@@ -303,6 +303,13 @@
         }
     },
     "promotion": {
+        "create": {
+            "form": {
+                "discount": "Value of discount",
+                "name": "Name of discount",
+                "onCategory": "Discount for category"
+            }
+        },
         "list": {
             "table": {
                 "header": {

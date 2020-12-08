@@ -275,7 +275,7 @@
                 "action": "Akcja",
                 "adventure": "Przygoda",
                 "detective": "Kryminały",
-                "document": "Dokumnety",
+                "document": "Dokumenty",
                 "fantasy": "Fantastyka",
                 "fiction": "Fikcja",
                 "history": "Historia",
@@ -303,6 +303,13 @@
         }
     },
     "promotion": {
+        "create": {
+            "form": {
+                "discount": "Wartość zniżki",
+                "name": "Nazwa promocji",
+                "onCategory": "Zniżka na kategorię"
+            }
+        },
         "list": {
             "table": {
                 "header": {

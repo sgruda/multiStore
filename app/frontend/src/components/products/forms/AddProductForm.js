@@ -99,7 +99,7 @@ function AddProductForm({fields, setFields, register, errors}) {
             </FormControl>
         </Grid>
         <Grid item xs={6}>
-            <FormControl style={{minWidth: '180px'}}>
+            <FormControl style={{minWidth: '180px'}} variant="outlined">
                 <InputLabel>{t('product.create.form.category')}</InputLabel>
                 <NativeSelect
                     value={ fields.category }

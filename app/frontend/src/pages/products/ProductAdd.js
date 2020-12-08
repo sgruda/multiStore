@@ -21,7 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AddProductForm from '../../components/products/AddProductForm';
+import AddProductForm from '../../components/products/forms/AddProductForm';
 import ProductService from '../../services/ProductService';
 
 const useStyles = makeStyles((theme) => ({
