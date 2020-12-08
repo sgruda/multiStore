@@ -49,6 +49,7 @@ function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
             :
                 <ProductDetails
                     product={product}
+                    loadingData={loadingData}
                 />
         }
     </div>

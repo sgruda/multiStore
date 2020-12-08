@@ -15,7 +15,8 @@ import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 import Divider from "@material-ui/core/Divider";
 
 import { useAuth } from '../../context/AuthContext';
-import ProductService from '../../services/ProductService';
+import ProductActivitySwitch from './forms/ProductActivitySwitch';
+import { ROLE_EMPLOYEE } from '../../config/config';
 
 const useStyles = makeStyles({
     root: {
@@ -35,12 +36,11 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductDetails({product}) {
+function ProductDetails({product, setLoadingData}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-
-  const {checkExpiredJWTAndExecute} = useAuth();
+  const { activeRole } = useAuth();
 
   const getIconForNumberInStore = (inStore) => {
     if (inStore === 0)
@@ -88,6 +88,15 @@ function ProductDetails({product}) {
                 {product.active 
                     ? t('product.details.active') + ': ' + t('product.fields.active')
                     : t('product.details.active') + ': ' + t('product.fields.inactive')
+                }
+                {activeRole === ROLE_EMPLOYEE
+                    ?
+                        <ProductActivitySwitch
+                            classes={classes}
+                            product={product}
+                            setLoadingData={setLoadingData}
+                        />
+                    : <></>
                 }
             </Typography>
             <Divider/>

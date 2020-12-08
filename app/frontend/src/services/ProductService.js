@@ -1,7 +1,8 @@
 import axios from 'axios'; 
 import AuthorizationHeader from './AuthorizationHeader'; 
 import {
-    API_URL_PRODUCTS, API_URL_PRODUCT, API_URL_CREATE_PRODUCT, API_URL_EDIT_PRODUCT
+    API_URL_PRODUCTS, API_URL_PRODUCT, API_URL_CREATE_PRODUCT, API_URL_EDIT_PRODUCT, API_URL_BLOCK_PRODUCT,
+    API_URL_UNBLOCK_PRODUCT
 } from '../config/config';
 
 class ProductService { 
@@ -51,6 +52,15 @@ class ProductService {
           signature: product.signature
         };
         return axios.put(API_URL_EDIT_PRODUCT, data,  { headers: AuthorizationHeader() }); 
+      }
+
+      block(product) {
+        console.log(product)
+        return axios.put(API_URL_BLOCK_PRODUCT, product, { headers: AuthorizationHeader()});
+      }
+      unblock(product) {
+        console.log(product)
+        return axios.put(API_URL_UNBLOCK_PRODUCT, product, { headers: AuthorizationHeader()});
       }
 } 
 export default new ProductService(); 
