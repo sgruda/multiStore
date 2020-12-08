@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Pagination from '@material-ui/lab/Pagination';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Backdrop from '@material-ui/core/Backdrop';
+import Collapse from '@material-ui/core/Collapse';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import Switch from '@material-ui/core/Switch';
@@ -59,18 +57,27 @@ function PromotionsList() {
 
   const [loadingData, setLoadingData] = useState(true);
   const [promotions, setPromotions] = useState([]);
-  const [selectedName, setSelectedName] = useState('');
+  const [selectedPromotion, setSelectedPromotion] = useState(Object);
   const [page, setPage] = useState(0);
   const [totalItems, setTotalPages] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  
+  const [openDialog, setOpenDialog] = useState(false);
+
   const {checkExpiredJWTAndExecute} = useAuth();
 
-  const handleClick =  (name) => {
-    name === selectedName ? setSelectedName('') : setSelectedName(name);
+  const handleClick =  (promotion) => {
+    promotion === selectedPromotion ? setSelectedPromotion(null) : setSelectedPromotion(promotion);
+    handleOpenDialog();
   };
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  }
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    handleRefresh();
+  }
 
   const handleChangePage = (event, newPage) => {
       setLoadingData(true);
@@ -88,14 +95,14 @@ function PromotionsList() {
   };
 
   const handleRefresh = () => {
-    setSelectedName('');
+    setSelectedPromotion(null);
     setDense(false);
     setRowsPerPage(5);
     setPage(0);
     setLoadingData(true);
   }
 
-  const isSelected = (name) => selectedName === name ? true : false;
+  const isSelected = (promotion) => selectedPromotion === promotion ? true : false;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
   
@@ -189,6 +196,22 @@ function PromotionsList() {
     >
       {t('refreshData')}
     </Button>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-describedby="dialog-description"
+       >
+        <DialogContent className={classes.details}>
+          <DialogContentText id="dialog-description">
+            Siema
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className={classes.details}>
+          <Button onClick={handleCloseDialog} color="primary" autoFocus>
+            {t('button.close')}
+          </Button>
+        </DialogActions>
+      </Dialog>
   </div>
   );
 }

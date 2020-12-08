@@ -10,11 +10,11 @@ function PromotionsTableBody({promotions, handleClickPromotion, isSelected, clas
     return (
         <TableBody>
             {promotions.map((promotion) => {
-              const isItemSelected = isSelected(promotion.name);
+              const isItemSelected = isSelected(promotion);
               return (
                 <TableRow
                   hover
-                  onClick={() => handleClickPromotion(promotion.name)}
+                  onClick={() => handleClickPromotion(promotion)}
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   key={promotion.id}
