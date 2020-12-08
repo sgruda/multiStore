@@ -21,7 +21,7 @@ import { useAuth } from '../../context/AuthContext';
 import ProductService from '../../services/ProductService';
 import ProductEditFrom from './forms/ProductEditForm';
 import AcceptButtons from '../../components/AcceptButtons';
-
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +62,7 @@ function ProductEdit({product, handleClose, handleRefresh}) {
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const {checkExpiredJWTAndExecute} = useAuth();
 
@@ -71,10 +72,15 @@ function ProductEdit({product, handleClose, handleRefresh}) {
     price: product.price,
   });
 
+  const handleConfirmDialog = () => {
+    setOpenConfirmDialog(!openConfirmDialog);
+  }
+
   const handleEditProduct = () => {
     setLoading(true);
     checkExpiredJWTAndExecute(editProduct);
     setLoading(false);
+    handleConfirmDialog();
   }
 
   const checkErrors = () => {
@@ -138,7 +144,7 @@ function ProductEdit({product, handleClose, handleRefresh}) {
             <Typography gutterBottom variant="h5" component="h2">
                 {t('product.details.title') + ': ' + product.title}
             </Typography>
-            <form noValidate onSubmit={handleSubmit(handleEditProduct)} className={classes.form}>
+            <form noValidate onSubmit={handleSubmit(handleConfirmDialog)} className={classes.form}>
                 <ProductEditFrom
                      fields={fields}
                      setFields={setFields}
@@ -160,16 +166,11 @@ function ProductEdit({product, handleClose, handleRefresh}) {
                     showRefreshButton={showRefresh}
                     setShowRefreshButton={setShowRefresh}
                 />
-                {/* <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    disabled={disabledSubmit}
-                >
-                    {t('button.edit')}
-                </Button> */}
+                <ConfirmDialog
+                  openConfirmDialog={openConfirmDialog}
+                  setOpenConfirmDialog={setOpenConfirmDialog}
+                  handleConfirmAction={handleEditProduct}
+                />
                 { loading && <CircularProgress size={70} className={classes.circularProgress} />}
             </form>
         </CardContent>
