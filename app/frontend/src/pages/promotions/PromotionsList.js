@@ -12,7 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Paper from '@material-ui/core/Paper';
-import Collapse from '@material-ui/core/Collapse';
+import TablePagination from '@material-ui/core/TablePagination';
 import Switch from '@material-ui/core/Switch';
 import SyncIcon from '@material-ui/icons/Sync';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -25,7 +25,7 @@ import PromotionService from '../../services/PromotionService';
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    minWidth: 650,
+    minWidth: 450,
   },
   tableCellHeader: {
     fontSize: 15,
@@ -168,16 +168,16 @@ function PromotionsList() {
           />
         </Table>
       </TableContainer>
-      {/* <TablePagination
+      <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={totalItems}
         rowsPerPage={rowsPerPage}
-        labelRowsPerPage={t('account.list.table.pagination.rows-per-page')}
+        labelRowsPerPage={t('promotion.list.table.pagination.rows-per-page')}
         page={page}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
-      /> */}
+      />
     </Paper>
     <FormControlLabel
       control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}

@@ -306,6 +306,9 @@
                     "discount": "Zniżka",
                     "name": "Nazwa",
                     "onCategory": "Obejmuje kategorię"
+                },
+                "pagination": {
+                    "rows-per-page": "Wiersze na stronę"
                 }
             }
         }

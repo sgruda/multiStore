@@ -306,6 +306,9 @@
                     "discount": "Discount",
                     "name": "Name",
                     "onCategory": "Covers category"
+                },
+                "pagination": {
+                    "rows-per-page": "Rows per page"
                 }
             }
         }
