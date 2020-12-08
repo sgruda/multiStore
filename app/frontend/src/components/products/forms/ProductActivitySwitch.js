@@ -20,7 +20,7 @@ const useStyles = makeStyles(({
     },
 }));
 
-function ProductActivitySwitch({classes, product, setLoadingData}) {
+function ProductActivitySwitch({classes, product, handleLoadingData}) {
     const buttonStyleClasses = useStyles();
     const { t } = useTranslation();
     const [productActivity, setProductActivity] = useState(false);
@@ -42,7 +42,7 @@ function ProductActivitySwitch({classes, product, setLoadingData}) {
     };
 
     const handleRefresh = () => {
-        setLoadingData(true);
+        handleLoadingData();
         setShowRefresh(false);
     }
 

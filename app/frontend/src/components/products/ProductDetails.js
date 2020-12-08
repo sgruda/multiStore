@@ -37,7 +37,7 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductDetails({product, setLoadingData}) {
+function ProductDetails({product, handleLoadingData}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -99,7 +99,7 @@ function ProductDetails({product, setLoadingData}) {
                                 <ProductActivitySwitch
                                     classes={classes}
                                     product={product}
-                                    setLoadingData={setLoadingData}
+                                    handleLoadingData={handleLoadingData}
                                 />
                             : <></>
                         }
