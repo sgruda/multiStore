@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -21,7 +22,7 @@ import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
 import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
 import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
 import Backdrop from '@material-ui/core/Backdrop';
-
+import { ROLE_EMPLOYEE } from '../../config/config';
 
 const useStyles = makeStyles({
     avatar: {
@@ -44,6 +45,14 @@ const useStyles = makeStyles({
         backgroundColor: '#859299',
         "&:hover": {
             backgroundColor: "#859299"
+        }
+    },
+    inactiveCardEmployee: {
+        width: 300,
+        height: 300,
+        backgroundColor: '#859299',
+        "&:hover": {
+            backgroundColor: "#71777a"
         }
     },
     detailsAtFront: {
@@ -74,9 +83,18 @@ function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const { activeRole } = useAuth();
+
   const handleClickCard = () => {
     setSelectedProduct(product.title);
     setShowDetails(true);
+  }
+
+  const handleCardActionActive = () => {
+    if( activeRole === ROLE_EMPLOYEE )
+      return true;
+    else
+      return product.active;
   }
 
   const getIconForNumberInStore = (inStore) => {
@@ -97,6 +115,7 @@ function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}
         <Card
             className={clsx(classes.card, {
                 [classes.inactiveCard]: !product.active,
+                [classes.inactiveCardEmployee]: !product.active && handleCardActionActive(),
                 [classes.detailsAtFront]: showBackdrop
             })}
         >
@@ -124,7 +143,7 @@ function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}
             title={t('product.fields.type.' + product.type)}
             subheader={t('product.fields.category.' + product.category)}
         />
-        <CardActionArea disabled={!product.active} onClick={handleClickCard}>
+        <CardActionArea disabled={!handleCardActionActive()} onClick={handleClickCard}>
             <CardContent 
                 className={clsx(classes.cardContent, {
                     [classes.detailsAtFront]: showBackdrop
