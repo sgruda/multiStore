@@ -12,12 +12,6 @@ import AlertApiResponseHandler from '../AlertApiResponseHandler';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
-      buttonSubmit: {
-        backgroundColor: "#51c953",
-        "&:hover": {
-          backgroundColor: "#0bb00d"
-        }
-      },
       buttonDelete: {
         backgroundColor: "#e35656",
         "&:hover": {
@@ -29,13 +23,6 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
           backgroundColor: "#2c0fab"
         }
-      },
-    circularProgress: {
-        position: 'absolute',
-        top: '42%',
-        left: '47%',
-        margin: theme.spacing(3, 0, 2),
-        color: "#4285F4",
       },
 }));
 
