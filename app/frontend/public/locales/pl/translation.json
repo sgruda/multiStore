@@ -225,6 +225,9 @@
                 "create": "Tworzenie nowego produktu"
             },
             "profile": "Profil",
+            "promotion": {
+                "list": "Lista promocji"
+            },
             "reset-password": "Reset hasła",
             "signin": "Logowanie",
             "signout": "Wyloguj się",
