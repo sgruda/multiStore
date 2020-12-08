@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../context/AuthContext';
 import AlertApiResponseHandler from '../../AlertApiResponseHandler';
 
-import Typography from '@material-ui/core/Typography';
 import { Button } from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Collapse from '@material-ui/core/Collapse';
@@ -92,34 +90,31 @@ function ProductActivitySwitch({classes, product, setLoadingData}) {
     }, [product]);
 
     return (
-        <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
-            <Paper className={classes.paperTwo} elevation={3}>
-                {t('pages.titles.account.activity')}: 
-                <FormControlLabel
-                    control={<Switch checked={productActivity} onChange={handleActivityChange} />}
-                />
-                <AlertApiResponseHandler
-                  openWarningAlert={openWarningAlert}
-                  setOpenWarningAlert={setOpenWarningAlert}
-                  openSuccessAlert={openSuccessAlert}
-                  setOpenSuccessAlert={setOpenSuccessAlert}
-                  alertWarningMessage={alertWarningMessage}
-                  alertInfoMessage={alertInfoMessage}
-                />
-                <Collapse in={showRefresh}>
-                    <Button
-                    onClick={ handleRefresh }
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    className={buttonStyleClasses.buttonRefresh}
-                    startIcon={<SyncIcon size="large" color="primary"/>}
-                    >
-                    {t("button.refresh")}
-                    </Button>
-                </Collapse>
-            </Paper>
-        </Typography>
+        <h>
+            <FormControlLabel
+                control={<Switch color="primary" checked={productActivity} onChange={handleActivityChange} />}
+            />
+            <AlertApiResponseHandler
+                openWarningAlert={openWarningAlert}
+                setOpenWarningAlert={setOpenWarningAlert}
+                openSuccessAlert={openSuccessAlert}
+                setOpenSuccessAlert={setOpenSuccessAlert}
+                alertWarningMessage={alertWarningMessage}
+                alertInfoMessage={alertInfoMessage}
+            />
+            <Collapse in={showRefresh}>
+                <Button
+                onClick={ handleRefresh }
+                variant="contained"
+                color="primary"
+                fullWidth
+                className={buttonStyleClasses.buttonRefresh}
+                startIcon={<SyncIcon size="large" color="primary"/>}
+                >
+                {t("button.refresh")}
+                </Button>
+            </Collapse>
+         </h>
     );
 }
 export default ProductActivitySwitch;

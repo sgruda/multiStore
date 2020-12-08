@@ -17,6 +17,7 @@ import Divider from "@material-ui/core/Divider";
 import { useAuth } from '../../context/AuthContext';
 import ProductActivitySwitch from './forms/ProductActivitySwitch';
 import { ROLE_EMPLOYEE } from '../../config/config';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -85,19 +86,25 @@ function ProductDetails({product, setLoadingData}) {
             </Typography>
             <Divider/>
             <Typography className={classes.inactiveText}>
-                {product.active 
-                    ? t('product.details.active') + ': ' + t('product.fields.active')
-                    : t('product.details.active') + ': ' + t('product.fields.inactive')
-                }
-                {activeRole === ROLE_EMPLOYEE
-                    ?
-                        <ProductActivitySwitch
-                            classes={classes}
-                            product={product}
-                            setLoadingData={setLoadingData}
-                        />
-                    : <></>
-                }
+                <Grid container xs={12} alignItems="center">
+                    <Grid item xs={6}>
+                        {product.active 
+                            ? t('product.details.active') + ': ' + t('product.fields.active')
+                            : t('product.details.active') + ': ' + t('product.fields.inactive')
+                        }
+                    </Grid>
+                    <Grid item xs={6}>
+                        {activeRole === ROLE_EMPLOYEE
+                            ?
+                                <ProductActivitySwitch
+                                    classes={classes}
+                                    product={product}
+                                    setLoadingData={setLoadingData}
+                                />
+                            : <></>
+                        }
+                    </Grid>
+                </Grid>
             </Typography>
             <Divider/>
             <Typography variant="body6" className={classes.priceText} component="p">

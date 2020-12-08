@@ -96,7 +96,7 @@ function ActivitySwitch({classes, account, setLoadingData}) {
             <Paper className={classes.paperTwo} elevation={3}>
                 {t('pages.titles.account.activity')}: 
                 <FormControlLabel
-                    control={<Switch checked={accountActivity} onChange={handleActivityChange} />}
+                    control={<Switch color="primary" checked={accountActivity} onChange={handleActivityChange} />}
                 />
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
