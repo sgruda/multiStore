@@ -91,10 +91,12 @@
             "access-level": "Dodaj poziom dostępu",
             "default": "Dodaj"
         },
+        "block": "Dezaktywuj",
         "cancel": "Anuluj",
         "change": "Zmień",
         "change-password": "Zmień hasło",
         "close": "Zamknij",
+        "delete": "Usuń",
         "edit": "Edytuj",
         "no": "Nie",
         "ok": "OK",
@@ -117,6 +119,7 @@
             "facebook": "Zarejestruj się z kontem Facebook",
             "google": "Zarejestruj się z kontem Google"
         },
+        "unblock": "Aktywuj",
         "yes": "Tak"
     },
     "error": {

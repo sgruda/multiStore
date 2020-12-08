@@ -21,13 +21,40 @@ class PromotionService {
     }
 
     block(promotion) {
-        return axios.put(API_URL_BLOCK_PROMOTION, promotion, { headers: AuthorizationHeader()});
+        const data = {
+            idHash: promotion.id,
+            name: promotion.name,
+            discount: promotion.discount,
+            onCategory: promotion.onCategory,
+            active: promotion.active,
+            version: promotion.version,
+            signature: promotion.signature
+        };
+        return axios.put(API_URL_BLOCK_PROMOTION, data, { headers: AuthorizationHeader()});
     }
     unblock(promotion) {
-        return axios.put(API_URL_UNBLOCK_PROMOTION, promotion, { headers: AuthorizationHeader()});
+        const data = {
+            idHash: promotion.id,
+            name: promotion.name,
+            discount: promotion.discount,
+            onCategory: promotion.onCategory,
+            active: promotion.active,
+            version: promotion.version,
+            signature: promotion.signature
+        };
+        return axios.put(API_URL_UNBLOCK_PROMOTION, data, { headers: AuthorizationHeader()});
     }
     delete(promotion) {
-        return axios.delete(API_URL_DELETE_PROMOTION, promotion, { headers: AuthorizationHeader()});
+        const data = {
+            idHash: promotion.id,
+            name: promotion.name,
+            discount: promotion.discount,
+            onCategory: promotion.onCategory,
+            active: promotion.active,
+            version: promotion.version,
+            signature: promotion.signature
+        };
+        return axios.post(API_URL_DELETE_PROMOTION, data, { headers: AuthorizationHeader()});
     }
 } 
 export default new PromotionService(); 

@@ -19,6 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import PromotionsTableBody from '../../components/promotions/table/PromotionsTableBody';
 import PromotionsTableHeader from '../../components/promotions/table/PromotionsTableHeader';
+import PromotionOperationsButtons from '../../components/promotions/PromotionOperationsButtons';
 import PromotionService from '../../services/PromotionService';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   clearIcon: {
       color: "#eb1e1e"
   },
+  details: {
+    backgroundColor: '#e6f3fa',
+},
 }));
 
 function PromotionsList() {
@@ -76,7 +80,8 @@ function PromotionsList() {
   }
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    handleRefresh();
+    setSelectedPromotion(null);
+    setLoadingData(true)
   }
 
   const handleChangePage = (event, newPage) => {
@@ -105,7 +110,13 @@ function PromotionsList() {
   const isSelected = (promotion) => selectedPromotion === promotion ? true : false;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
-  
+  useEffect(() => {
+    if (loadingData) {
+        setLoadingData(false);
+        checkExpiredJWTAndExecute(getPromotions);
+    }
+  }, [loadingData]);
+
   async function getPromotions() {
       await PromotionService.getPromotions(page, rowsPerPage)
       .then(response => {
@@ -203,7 +214,10 @@ function PromotionsList() {
        >
         <DialogContent className={classes.details}>
           <DialogContentText id="dialog-description">
-            Siema
+            <PromotionOperationsButtons
+              promotion={selectedPromotion}
+              handleClose={handleCloseDialog}
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.details}>

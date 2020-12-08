@@ -91,6 +91,8 @@
             "access-level": "Add access leve;",
             "default": "Add"
         },
+        "block": "Activate",
+        "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
         "change-password": "Change password",
@@ -117,6 +119,7 @@
             "facebook": "Sign up with Facebook",
             "google": "Sign up with Google"
         },
+        "unblock": "Deactivate",
         "yes": "Yes"
     },
     "error": {
