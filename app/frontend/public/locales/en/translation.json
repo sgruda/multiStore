@@ -298,6 +298,18 @@
             "view-settings": "View settings"
         }
     },
+    "promotion": {
+        "list": {
+            "table": {
+                "header": {
+                    "activity": "Activity",
+                    "discount": "Discount",
+                    "name": "Name",
+                    "onCategory": "Covers category"
+                }
+            }
+        }
+    },
     "refreshData": "Refresh data",
     "redirect": {
         "to": {
