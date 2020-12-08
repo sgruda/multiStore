@@ -229,6 +229,7 @@
             },
             "profile": "Profil",
             "promotion": {
+                "create":"Tworzenie nowej promocji",
                 "list": "Lista promocji"
             },
             "reset-password": "Reset hasła",

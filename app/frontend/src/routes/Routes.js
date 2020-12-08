@@ -15,6 +15,7 @@ import ProductAdd from '../pages/products/ProductAdd';
 import ResetPassword from '../pages/ResetPassword';
 import MailVeryfication from '../pages/MailVeryfication';
 import PromotionsList from '../pages/promotions/PromotionsList';
+import PromotionAdd from '../pages/promotions/PromotionAdd';
 
 export default function Routes() {
   return (
@@ -33,6 +34,9 @@ export default function Routes() {
       </EmployeeRoute>
       <EmployeeRoute exact path="/employee/promotionsList">
           <PromotionsList />
+      </EmployeeRoute>
+      <EmployeeRoute exact path="/employee/addPromotion">
+          <PromotionAdd />
       </EmployeeRoute>
       <PrivateRoute exact path="/profile">
           <UserProfile/>

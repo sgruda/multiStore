@@ -44,12 +44,12 @@ function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
                 <ProductEdit
                     product={product}
                     handleClose={handleClose}
-                    handleRefresh={setLoadingData}
+                    handleRefresh={() => setLoadingData(true)}
                 />
             :
                 <ProductDetails
                     product={product}
-                    loadingData={loadingData}
+                    handleLoadingData={() => setLoadingData(true)}
                 />
         }
     </div>

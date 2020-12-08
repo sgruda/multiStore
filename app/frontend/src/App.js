@@ -147,6 +147,8 @@ function App(props) {
   const employeeToolbarListItem = [
     { id: 'productCreation', name: t('pages.titles.product.create'), path: '/employee/addProduct', icon:  <AddIcon/>},
     { id: 'promotionsList', name: t('pages.titles.promotion.list'), path: '/employee/promotionsList', icon:  <MoneyOffIcon/>},
+    { id: 'promotionCreation', name: t('pages.titles.promotion.create'), path: '/employee/addPromotion', icon:  <AddIcon/>},
+
   ];
 
   return (
