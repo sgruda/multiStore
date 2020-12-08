@@ -110,13 +110,6 @@ function PromotionsList() {
   const isSelected = (promotion) => selectedPromotion === promotion ? true : false;
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
-  useEffect(() => {
-    if (loadingData) {
-        setLoadingData(false);
-        checkExpiredJWTAndExecute(getPromotions);
-    }
-  }, [loadingData]);
-
   async function getPromotions() {
       await PromotionService.getPromotions(page, rowsPerPage)
       .then(response => {
