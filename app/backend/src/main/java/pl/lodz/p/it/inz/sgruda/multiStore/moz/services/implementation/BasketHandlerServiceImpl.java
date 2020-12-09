@@ -45,7 +45,7 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public BasketEntity getBasketEntityByOwnerEmail(String ownerMail) throws BasketNotExistsException {
-        return basketRepository.findByAccountEntity_Email(ownerMail)
+        return basketRepository.findByAccountEntityEmail(ownerMail)
                 .orElseThrow(() -> new BasketNotExistsException());
     }
 

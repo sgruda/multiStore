@@ -14,5 +14,5 @@ import java.util.Optional;
         transactionManager = "mozTransactionManager"
 )
 public interface BasketRepository extends JpaRepository<BasketEntity, Long> {
-    Optional<BasketEntity> findByAccountEntity_Email(String ownerEmail);
+    Optional<BasketEntity> findByAccountEntityEmail(String ownerEmail);
 }

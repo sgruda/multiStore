@@ -68,6 +68,20 @@ public class BasketDetailsEndpoint {
         return ResponseEntity.ok(basketDTO);
     }
 
+    @GetMapping("/size")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public ResponseEntity<?> getOwnBasketSize(@CurrentUser UserPrincipal currentUser) {
+        int size;
+        try {
+            size = basketDetailsService.getBasketSizeByOwnerEmail(currentUser.getEmail());
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok("{\"size\": " + size + "}");
+    }
+
     @PutMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<?> addToBasket(@Valid @RequestBody BasketDTO basketDTO, @CurrentUser UserPrincipal currentUser) {
