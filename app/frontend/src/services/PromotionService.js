@@ -17,7 +17,7 @@ class PromotionService {
             onCategory: fields.onCategory,
             signature: "0"
         };
-    return axios.post(API_URL_CREATE_PROMOTION, data,  { headers: AuthorizationHeader() }); 
+        return axios.post(API_URL_CREATE_PROMOTION, data,  { headers: AuthorizationHeader() }); 
     }
 
     block(promotion) {

@@ -2,14 +2,10 @@ import  React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 
-import AccountService from '../../services/AccountService';
 import AuthenticationService from '../../services/AuthenticationService';
 import { useFields } from '../../hooks/FieldHook';
-import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../../config/config';
 
-import AddAccountForm from '../../components/accounts/AddAccountForm';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
-import AccessLevelsCheckboxForm from '../../components/simple/AccessLevelCheckboxForm';
 import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -21,8 +17,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AddProductForm from '../../components/products/AddProductForm';
-import ProductService from '../../services/ProductService';
+import AddPromotionForm from '../../components/promotions/AddPromotionForm';
+import PromotionService from '../../services/PromotionService';
+import { AccordionActions } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,12 +60,9 @@ function PromotionAdd() {
   const classes = useStyles();
   const { t } = useTranslation();
   const [fields, setFields] = useFields({
-    title: "",
-    description: "",
-    inStore: 1.0,
-    price: 1.0,
-    type: 'book',
-    category: "action"
+    name: "",
+    discount: 1.0,
+    onCategory: "action",
   });
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [loading, setLoading] = useState(false);
@@ -80,9 +74,9 @@ function PromotionAdd() {
   const [jwtExpiration, setJwtExpiration] = useState(false);
 
 
-  const handleCreateProduct = () => {
+  const handleCreatePromotion = () => {
     setLoading(true);
-    createProduct();
+    createPromotion();
   }
 
   const checkErrors = () => {
@@ -105,8 +99,8 @@ function PromotionAdd() {
     return retMessage;
   }
 
-  async function createProduct() {
-    await ProductService.createProduct(fields)
+  async function createPromotion() {
+    await PromotionService.createPromotion(fields)
       .then(response => {
         if (response.status === 200) { 
             setAlertInfoMessage(t('response.ok'));
@@ -117,7 +111,7 @@ function PromotionAdd() {
           const resMessage =
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
-            console.error("AddProduct: " + resMessage);
+            console.error("AddPromotion: " + resMessage);
             setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
             setOpenWarningAlert(true);
         }
@@ -135,7 +129,7 @@ function PromotionAdd() {
 
   return (
     <div>
-        {/* <div>
+        <div>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
@@ -143,10 +137,10 @@ function PromotionAdd() {
                 <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {t('pages.titles.product.create')}
+                {t('pages.titles.promotion.create')}
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit(handleCreateProduct)}>
-                <AddProductForm
+              <form className={classes.form} noValidate onSubmit={handleSubmit(handleCreatePromotion)}>
+                <AddPromotionForm
                   fields={fields}
                   setFields={setFields}
                   register={register}
@@ -174,7 +168,7 @@ function PromotionAdd() {
               </form>
             </div>
           </Container>
-       </div > */}
+       </div >
       {jwtExpiration ? 
         <RouterRedirectTo 
           dialogContent={t('dialog.content.jwt-expired')}
