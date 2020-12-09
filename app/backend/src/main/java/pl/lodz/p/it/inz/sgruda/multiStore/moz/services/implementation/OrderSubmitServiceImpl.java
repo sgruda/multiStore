@@ -63,7 +63,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public BasketEntity getBasketEntity(String ownerEmail) throws BasketNotExistsException {
-        return basketRepository.findByAccountEntity_Email(ownerEmail)
+        return basketRepository.findByAccountEntityEmail(ownerEmail)
                 .orElseThrow(() -> new BasketNotExistsException());
     }
 
