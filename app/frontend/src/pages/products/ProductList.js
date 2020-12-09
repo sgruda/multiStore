@@ -17,9 +17,8 @@ import Collapse from '@material-ui/core/Collapse';
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
 import ProductCardsSettingsView from '../../components/products/ProductCardsSettingsView';
-import ProductDetails from '../../components/products/ProductDetails';
-import ProductEdit from '../../components/products/ProductEdit';
-import { ROLE_EMPLOYEE } from '../../config/config';
+import Basket from '../../components/Basket';
+import { ROLE_CLIENT, ROLE_EMPLOYEE } from '../../config/config';
 import ProductEditDetailsHelper from '../../components/products/ProductEditDetailsHandler';
 
 const useStyles = makeStyles((theme) => ({
@@ -165,6 +164,7 @@ useEffect(() => {
       ) : (
         <CircularProgress />
       )}
+      { activeRole === ROLE_CLIENT ? <Basket/> : <></>}
       <Backdrop in={showDetails}/>
       <Dialog
         open={showDetails}

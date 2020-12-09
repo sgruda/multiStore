@@ -5,9 +5,8 @@ import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 import RouterRedirectTo from './components/simple/RouterRedirectTo';
-import ProductList from './pages/products/ProductList';
-
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN, ACTIVE_ROLE} from './config/config';
+import Basket from './components/Basket';
 
 import ProfileSpeedDial from "./components/ProfileSpeedDial";
 import clsx from 'clsx';
@@ -242,7 +241,6 @@ function App(props) {
         </List>
         }
       </Drawer>
-
       <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole, checkExpiredJWTAndExecute}}>
           <Routes />
 
