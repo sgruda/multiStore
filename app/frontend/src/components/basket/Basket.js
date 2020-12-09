@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext'
-import { ROLE_CLIENT, ACTIVE_ROLE } from '../config/config';
-import BasketService from '../services/BasketService';
+import { useAuth } from '../../context/AuthContext'
+import { ROLE_CLIENT, ACTIVE_ROLE } from '../../config/config';
+import BasketService from '../../services/BasketService';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fab from '@material-ui/core/Fab';
 import Badge from '@material-ui/core/Badge';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Collapse from '@material-ui/core/Collapse';
 
 const useStyles = makeStyles((theme) => ({
-    // root: {
-    //   '& > *': {
-    //     margin: theme.spacing(1),
-    //   },
-    // },
     fab: {
         position: 'fixed',
         bottom: theme.spacing(4),
@@ -41,10 +40,15 @@ function Basket() {
     const [loadingData, setLoadingData] = useState(false);
     const [checkBasketSize, setCheckBasketSize] = useState(true);
     const [basketSize, setBasketSize] = useState(0);
+    const [showDetails, setShowDetails] = useState(false);
     const { checkExpiredJWTAndExecute } = useAuth(); 
     
     const handleClickBasket = () => {
-        alert("hello, to twój koszyk")
+        setShowDetails(true);
+    }
+    const handleCloseDetails = () => {
+        setShowDetails(false);
+        setCheckBasketSize(true);
     }
 
 
@@ -83,6 +87,26 @@ function Basket() {
                     <ShoppingBasketIcon className={classes.fabIcon}/>
                 </Badge>
             </Fab>
+            <Dialog
+                open={showDetails}
+                onClose={handleCloseDetails}
+                aria-describedby="dialog-description"
+            >
+                <DialogContent className={classes.details}>
+                <DialogContentText id="dialog-description">
+                    {/* <ProductEditDetailsHelper
+                    productTitle={selectedProductTitle}
+                    showEdit={showEdit}
+                    handleClose={handleCloseDetails}
+                    /> */}
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions className={classes.details}>
+                <Button onClick={handleCloseDetails} color="primary" autoFocus>
+                    {t('button.close')}
+                </Button>
+                </DialogActions>
+            </Dialog>
         </div >
     );
 }

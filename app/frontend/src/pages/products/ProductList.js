@@ -17,7 +17,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
 import ProductCardsSettingsView from '../../components/products/ProductCardsSettingsView';
-import Basket from '../../components/Basket';
+import Basket from '../../components/basket/Basket';
 import { ROLE_CLIENT, ROLE_EMPLOYEE } from '../../config/config';
 import ProductEditDetailsHelper from '../../components/products/ProductEditDetailsHandler';
 
