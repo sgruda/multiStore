@@ -2,9 +2,11 @@ import  React from 'react';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
+import Select from "@material-ui/core/Select";
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { InputLabel } from '@material-ui/core';
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from '@material-ui/core/FormControl';
 
 
 function AddProductForm({fields, setFields, register, errors}) {
@@ -84,41 +86,46 @@ function AddProductForm({fields, setFields, register, errors}) {
         /> 
         </Grid>
         <Grid item xs={6}>
-            <FormControl style={{minWidth: '180px'}}>
+            <FormControl style={{minWidth: '190px'}} variant="outlined" required> 
                 <InputLabel>{t('product.create.form.type.label')}</InputLabel>
-                <NativeSelect
+                <Select
+                    label={t('product.create.form.type.label')}
                     value={ fields.type }
-                    onChange={ setFields }
+                    onChange={(event) => {
+                        event.target.id = "type";
+                        setFields(event);
+                    }}
                     id="type"
                     required
                     fullWidth
                 >
-                    <option value={'book'}>{t("product.create.form.type.book")}</option>
-                    <option value={'movie'}>{t("product.create.form.type.movie")}</option>
-                </NativeSelect>
+                    <MenuItem value={'book'}>{t("product.create.form.type.book")}</MenuItem>
+                    <MenuItem value={'movie'}>{t("product.create.form.type.movie")}</MenuItem>
+                </Select>
             </FormControl>
         </Grid>
         <Grid item xs={6}>
-            <FormControl style={{minWidth: '180px'}} variant="outlined">
-                <InputLabel>{t('product.create.form.category')}</InputLabel>
-                <NativeSelect
+            <FormControl style={{minWidth: '190px'}} variant="outlined" required> 
+                <InputLabel >{t('product.create.form.category')}</InputLabel>
+                <Select
+                    label={t('product.create.form.category')}
                     value={ fields.category }
-                    onChange={setFields}
-                    id="category"
-                    required
+                    onChange={(event) => {
+                        event.target.id = "category";
+                        setFields(event);
+                    }}
                     fullWidth
                 >
-                    <option value={'action'}>{t("product.fields.category.action")}</option>
-                    <option value={'adventure'}>{t("product.fields.category.adventure")}</option>
-                    <option value={'detective'}>{t("product.fields.category.detective")}</option>
-                    <option value={'document'}>{t("product.fields.category.document")}</option>
-                    <option value={'fantasy'}>{t("product.fields.category.fantasy")}</option>
-                    <option value={'fiction'}>{t("product.fields.category.fiction")}</option>
-                    <option value={'history'}>{t("product.fields.category.history")}</option>
-                    <option value={'novel'}>{t("product.fields.category.novel")}</option>
-                    <option value={'science'}>{t("product.fields.category.science")}</option>
-
-                </NativeSelect>
+                    <MenuItem value={'action'}>{t("product.fields.category.action")}</MenuItem>
+                    <MenuItem value={'adventure'}>{t("product.fields.category.adventure")}</MenuItem>
+                    <MenuItem value={'detective'}>{t("product.fields.category.detective")}</MenuItem>
+                    <MenuItem value={'document'}>{t("product.fields.category.document")}</MenuItem>
+                    <MenuItem value={'fantasy'}>{t("product.fields.category.fantasy")}</MenuItem>
+                    <MenuItem value={'fiction'}>{t("product.fields.category.fiction")}</MenuItem>
+                    <MenuItem value={'history'}>{t("product.fields.category.history")}</MenuItem>
+                    <MenuItem value={'novel'}>{t("product.fields.category.novel")}</MenuItem>
+                    <MenuItem value={'science'}>{t("product.fields.category.science")}</MenuItem>
+                </Select>
             </FormControl>
         </Grid>
     </Grid>

@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import { InputLabel } from '@material-ui/core';
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 
 function AddPromotionForm({fields, setFields, register, errors}) {
   const { t } = useTranslation();
@@ -74,7 +72,6 @@ function AddPromotionForm({fields, setFields, register, errors}) {
                     <MenuItem value={'history'}>{t("product.fields.category.history")}</MenuItem>
                     <MenuItem value={'novel'}>{t("product.fields.category.novel")}</MenuItem>
                     <MenuItem value={'science'}>{t("product.fields.category.science")}</MenuItem>
-
                 </Select>
             </FormControl>
         </Grid>
