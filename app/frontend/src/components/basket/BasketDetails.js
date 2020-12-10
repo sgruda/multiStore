@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(7),
         height: theme.spacing(7),
         backgroundColor: theme.palette.primary.main,
-    },
+      },
 
 }));
 
@@ -77,7 +77,6 @@ function BasketDetails() {
     const { t } = useTranslation();
     const [loadingData, setLoadingData] = useState(true);   
     const [orderedItems, setOrderedItems] = useState([]);
-    const [dense, setDense] = useState(false);
 
     const {checkExpiredJWTAndExecute} = useAuth();
 
@@ -134,7 +133,6 @@ function BasketDetails() {
                 <Table
                     className={classes.table}
                     aria-labelledby="tableTitle"
-                    size={dense ? 'small' : 'medium'}
                     aria-label="enhanced table"
                 >
                 <BasketTableHeader
@@ -144,7 +142,6 @@ function BasketDetails() {
                 <BasketTableBody
                     orderedItems={orderedItems}
                     classes={classes}
-                    dense={dense}
                 />
                 </Table>
             </TableContainer>
