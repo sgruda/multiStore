@@ -86,6 +86,19 @@
             "username": "Username"
         }
     },
+    "basket": {
+        "header": {
+            "category": "Category",
+            "orderedNumber": "Number of items",
+            "title": "Title",
+            "price": "Price",
+            "type": {
+                "book": "Book",
+                "label": "Type",
+                "movie": "Movie"
+            }
+        }
+    },
     "button": {
         "add": {
             "access-level": "Add access leve;",
@@ -222,6 +235,9 @@
                 "create": "Create new account",
                 "edit": "Edit account",
                 "list": "Account list"
+            },
+            "basket": {
+                "content": "Content of your shopping basket"
             },
             "email-veryfication": "Address e-mail veryfication",
             "product": {

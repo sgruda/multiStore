@@ -86,6 +86,19 @@
             "username": "Nazwa użytkownika"
         }
     },
+    "basket": {
+        "header": {
+            "category": "Kategoria",
+            "orderedNumber": "Liczba sztuk",
+            "title": "Tytuł",
+            "price": "Cena",
+            "type": {
+                "book": "Książka",
+                "label": "Typ",
+                "movie": "Film"
+            }
+        }
+    },
     "button": {
         "add": {
             "access-level": "Dodaj poziom dostępu",
@@ -222,6 +235,9 @@
                 "create": "Tworzenie nowego konta",
                 "edit": "Edycja konta",
                 "list": "Lista kont"
+            },
+            "basket": {
+                "content": "Zawartość Twojego koszyka"
             },
             "email-veryfication": "Weryfikacja adresu e-mail",
             "product": {
