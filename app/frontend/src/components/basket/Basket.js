@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
         height: '50px',
         color: '#d3ebf8'
     },
+    dialog: {
+        // minWidth: '2000px',
+    },
+    details: {
+        // minWidth: '650px',
+    },
 }));
 
 function Basket() {
@@ -81,7 +87,7 @@ function Basket() {
     }, [loadingData, checkBasketSize]);
 
     return (
-        <div> 
+        <div > 
             <Fab color="primary" aria-label="basket" className={classes.fab} onClick={handleClickBasket}> 
                 <Badge badgeContent={basketSize} color="error">
                     <ShoppingBasketIcon className={classes.fabIcon}/>
@@ -90,14 +96,14 @@ function Basket() {
             <Dialog
                 open={showDetails}
                 onClose={handleCloseDetails}
-                aria-describedby="dialog-description"
+                fullScreen={true}
             >
-                <DialogContent className={classes.details}>
-                <DialogContentText id="dialog-description">
-                    <BasketDetails/>
-                </DialogContentText>
+                <DialogContent>
+                    <DialogContentText>
+                        <BasketDetails/>
+                    </DialogContentText>
                 </DialogContent>
-                <DialogActions className={classes.details}>
+                <DialogActions>
                 <Button onClick={handleCloseDetails} color="primary" autoFocus>
                     {t('button.close')}
                 </Button>

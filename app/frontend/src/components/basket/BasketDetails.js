@@ -5,6 +5,7 @@ import { ROLE_CLIENT, ACTIVE_ROLE } from '../../config/config';
 import BasketService from '../../services/BasketService';
 import BasketTableBody from './table/BasketTableBody';
 import BasketTableHeader from './table/BasketTableHeader';
+import BasketItemOperationsButton from './table/BasketItemOperationsButton';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -17,6 +18,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import { Collapse } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,11 +42,8 @@ const useStyles = makeStyles((theme) => ({
         height: '50px',
         color: '#d3ebf8'
     },
-    details: {
-        backgroundColor: '#e6f3fa',
-    },
     table: {
-        minWidth: 450,
+        minWidth: 550,
     },
     tableCellHeader: {
         fontSize: 15,
@@ -76,9 +75,50 @@ function BasketDetails() {
     const classes = useStyles();
     const { t } = useTranslation();
     const [loadingData, setLoadingData] = useState(true);   
+    const [basket, setBasket] = useState(Object);
     const [orderedItems, setOrderedItems] = useState([]);
 
+    const [openWarningAlert, setOpenWarningAlert] = useState(false);
+    const [alertWarningMessage, setAlertWarningMessage] = useState('');
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [alertInfoMessage, setAlertInfoMessage] = useState('');
+    const [showRefresh, setShowRefresh] = useState(false);
     const {checkExpiredJWTAndExecute} = useAuth();
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [showOperations, setShowOperations] = useState(false);
+
+    const handleDeleteItem = () => {
+        checkExpiredJWTAndExecute(deleteItem);
+        // setLoadingData(true);
+    }
+    const handleCloseSuccessDialog = () => {
+        setSelectedItem(null);
+        setShowOperations(false)
+        setLoadingData(true);
+    }
+
+    const handleClickItem = (item) => {
+        if(selectedItem != null && selectedItem.id === item.id) {
+            setSelectedItem(null);
+            setShowOperations(false)
+        } else {
+            setSelectedItem(item);
+            setShowOperations(true)
+        }
+    }
+    
+    const isSelectedItem = (id) => {
+        if(selectedItem != null)
+            return selectedItem.id === id ? true : false;
+        else 
+            return false;
+    }
+
+    const handleCloseOperations = () => {
+        setShowOperations(false);
+        setLoadingData(true);
+    }
 
     async function getItems() {
         await BasketService.getBasket()
@@ -94,6 +134,7 @@ function BasketDetails() {
                       signature: item.signature,
                     };
                 });
+                setBasket(response.data);
                 setOrderedItems(orderedItems);
             }
         },
@@ -105,7 +146,26 @@ function BasketDetails() {
             }
         );
     }
-    
+
+
+    async function deleteItem() {
+        await BasketService.deleteItemFromBasket(basket, selectedItem)
+        .then(response => {
+            if (response.status === 200) { 
+                setOpenSuccessAlert(true);
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("BasketTableBodyDelete: " + resMessage);
+                setAlertWarningMessage(t(error.response.data.message.toString()));
+                setOpenWarningAlert(true);
+            }
+        );
+    }
+
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
@@ -142,9 +202,23 @@ function BasketDetails() {
                 <BasketTableBody
                     orderedItems={orderedItems}
                     classes={classes}
+                    // handleDeleteItem={handleDeleteItem}
+                    handleClickItem={handleClickItem}
+                    isSelected={isSelectedItem}
                 />
                 </Table>
             </TableContainer>
+            <Collapse
+                in={showOperations}
+            >
+                <BasketItemOperationsButton
+                    basket={basket}
+                    item={selectedItem}
+                    handleClose={handleCloseOperations}
+                    deleteItem={handleDeleteItem}
+                    handleCloseSuccessDialog={handleCloseSuccessDialog}
+                />    
+            </Collapse>
         </Paper >
     );
 }
