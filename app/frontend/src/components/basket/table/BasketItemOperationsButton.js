@@ -99,7 +99,7 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
             if (response.status === 200) { 
                 setAlertInfoMessage(t('response.ok'))
                 setOpenSuccessAlert(true);
-                // handleCloseSuccessDialog();
+                handleCloseSuccessDialog();
             }
         },
             (error) => {
