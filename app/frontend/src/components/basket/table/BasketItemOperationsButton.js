@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { useForm } from "react-hook-form";
 
@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: "#2c0fab"
         }
       },
+      buttonEdit: {
+        backgroundColor: "#51c953",
+        "&:hover": {
+          backgroundColor: "#0bb00d"
+        }
+      },
 }));
 
 
@@ -47,8 +53,7 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
 
-  const [orderedNumber, setOrderedNumber] = useState(item.orderedNumber);
-  const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+  const [orderedNumber, setOrderedNumber] = useState(0);
 
     const handleDelete = () => {
         checkExpiredJWTAndExecute(deleteItem);
@@ -56,8 +61,17 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
     }
 
     const handleChangeNumber = () => {
+        item.orderedNumber = orderedNumber;
         checkExpiredJWTAndExecute(editOrderedNumberItem)
     }
+
+    const checkErrors = () => {
+        if(orderedNumber <= 0)
+          return true ;
+        return false;
+      }
+    
+    const orderedNumberIsWrong = checkErrors();
 
     async function deleteItem() {
         await BasketService.deleteItemFromBasket(basket, item)
@@ -80,30 +94,34 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
         );
     }
     async function editOrderedNumberItem() {
-        // await BasketService.deleteItemFromBasket(basket, item)
-        // .then(response => {
-        //     if (response.status === 200) { 
-        //         setAlertInfoMessage(t('response.ok'))
-        //         setOpenSuccessAlert(true);
-        //         handleCloseSuccessDialog();
-        //     }
-        // },
-        //     (error) => {
-        //     const resMessage =
-        //         (error.response && error.response.data && error.response.data.message) 
-        //         || error.message || error.toString();
-        //         console.error("BasketTableBodyDelete: " + resMessage);
-        //         setAlertWarningMessage(t(error.response.data.message.toString()));
-        //         setOpenWarningAlert(true);
-        //         setShowRefresh(true);
-        //     }
-        // );
+        await BasketService.editItemInBasket(item)
+        .then(response => {
+            if (response.status === 200) { 
+                setAlertInfoMessage(t('response.ok'))
+                setOpenSuccessAlert(true);
+                // handleCloseSuccessDialog();
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("BasketTableBodyEdit: " + resMessage);
+                setAlertWarningMessage(t(error.response.data.message.toString()));
+                setOpenWarningAlert(true);
+                setShowRefresh(true);
+            }
+        );
     }
+
+    useEffect(() => {
+        item != null ? setOrderedNumber(item.orderedNumber) : setOrderedNumber(0);
+    }, [item]);
 
   return (
     <div>
-        <Grid container xs={12} justify="center">
-            <Grid item xs={6}>
+        <Grid container xs={12} justify="center" direction="column" spacing={2}>
+            <Grid item xs={12}>
                 <Button
                     onClick={() => setOpenConfirmDialog(true)}
                     variant="contained"
@@ -115,11 +133,10 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
                 {t('button.delete')}
                 </Button>
             </Grid>
-            <form noValidate onSubmit={handleSubmit(handleChangeNumber)}>
-            <Grid item xs={3}>
+            <Grid item xs={12}>
                 <TextField
                     value={ orderedNumber }
-                    onChange={ setOrderedNumber }
+                    onChange={ (event) => setOrderedNumber(event.target.value) }
                     variant="outlined"
                     type="number"
                     required
@@ -128,13 +145,22 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
                     label={t('basket.edit.orderedNumber')}
                     name="orderedNumber"
                     autoComplete="orderedNumber"
-                    
-                    inputRef={register({ required: true,  pattern: /[0-9.]+/ })}
-                    error={errors.orderedNumber ? true : false}
-                    helperText={errors.orderedNumber ? t('validation.message.incorrect.entry') : ""}
+                    error={orderedNumberIsWrong}
                 /> 
             </Grid>
-            </form>
+            <Grid item xs={12}>
+                <Button
+                    onClick={handleChangeNumber}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    disabled={orderedNumberIsWrong}
+                    className={classes.buttonEdit}
+                    // startIcon={<DeleteIcon size="large"/>}
+                >
+                {t('button.edit')}
+                </Button>
+            </Grid>
             <Grid item xs={12}>
                 <Collapse in={showRefresh}>
                     <Button

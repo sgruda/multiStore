@@ -105,7 +105,8 @@
     "button": {
         "add": {
             "access-level": "Dodaj poziom dostępu",
-            "default": "Dodaj"
+            "default": "Dodaj",
+            "to-basket": "Add to basket"
         },
         "block": "Dezaktywuj",
         "cancel": "Anuluj",

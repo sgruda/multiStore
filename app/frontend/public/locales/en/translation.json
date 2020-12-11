@@ -105,7 +105,8 @@
     "button": {
         "add": {
             "access-level": "Add access leve;",
-            "default": "Add"
+            "default": "Add",
+            "to-basket": "Add to basket"
         },
         "block": "Activate",
         "delete": "Delete",
