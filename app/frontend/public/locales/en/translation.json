@@ -87,6 +87,9 @@
         }
     },
     "basket": {
+        "edit": {
+            "orderedNumber": "Number of items"
+        },
         "header": {
             "category": "Category",
             "orderedNumber": "Number of items",

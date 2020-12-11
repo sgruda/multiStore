@@ -87,6 +87,9 @@
         }
     },
     "basket": {
+        "edit": {
+            "orderedNumber": "Liczba sztuk"
+        },
         "header": {
             "category": "Kategoria",
             "orderedNumber": "Liczba sztuk",

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext'
+import { useAuth } from '../../../context/AuthContext';
+import { useForm } from "react-hook-form";
+
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
       buttonDelete: {
@@ -44,9 +47,16 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
   const [alertInfoMessage, setAlertInfoMessage] = useState('');
   const [showRefresh, setShowRefresh] = useState(false);
 
+  const [orderedNumber, setOrderedNumber] = useState(item.orderedNumber);
+  const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
+
     const handleDelete = () => {
         checkExpiredJWTAndExecute(deleteItem);
         setOpenConfirmDialog(false);
+    }
+
+    const handleChangeNumber = () => {
+        checkExpiredJWTAndExecute(editOrderedNumberItem)
     }
 
     async function deleteItem() {
@@ -65,8 +75,29 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
                 console.error("BasketTableBodyDelete: " + resMessage);
                 setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
+                setShowRefresh(true);
             }
         );
+    }
+    async function editOrderedNumberItem() {
+        // await BasketService.deleteItemFromBasket(basket, item)
+        // .then(response => {
+        //     if (response.status === 200) { 
+        //         setAlertInfoMessage(t('response.ok'))
+        //         setOpenSuccessAlert(true);
+        //         handleCloseSuccessDialog();
+        //     }
+        // },
+        //     (error) => {
+        //     const resMessage =
+        //         (error.response && error.response.data && error.response.data.message) 
+        //         || error.message || error.toString();
+        //         console.error("BasketTableBodyDelete: " + resMessage);
+        //         setAlertWarningMessage(t(error.response.data.message.toString()));
+        //         setOpenWarningAlert(true);
+        //         setShowRefresh(true);
+        //     }
+        // );
     }
 
   return (
@@ -84,6 +115,26 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
                 {t('button.delete')}
                 </Button>
             </Grid>
+            <form noValidate onSubmit={handleSubmit(handleChangeNumber)}>
+            <Grid item xs={3}>
+                <TextField
+                    value={ orderedNumber }
+                    onChange={ setOrderedNumber }
+                    variant="outlined"
+                    type="number"
+                    required
+                    fullWidth
+                    id="orderedNumber"
+                    label={t('basket.edit.orderedNumber')}
+                    name="orderedNumber"
+                    autoComplete="orderedNumber"
+                    
+                    inputRef={register({ required: true,  pattern: /[0-9.]+/ })}
+                    error={errors.orderedNumber ? true : false}
+                    helperText={errors.orderedNumber ? t('validation.message.incorrect.entry') : ""}
+                /> 
+            </Grid>
+            </form>
             <Grid item xs={12}>
                 <Collapse in={showRefresh}>
                     <Button
