@@ -12,13 +12,16 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotContainsItemException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.OrderedItemNotExistException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.ProductAlreadyInactiveException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.BasketRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.OrderedItemRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.ProductRepositoryMOZ;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketHandlerService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,7 +54,7 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public OrderedItemEntity getOrderedItemsEntityOrCreateNew(String identifier, int orderedNumber, String productTitle) throws AppBaseException {
+    public OrderedItemEntity getOrderedItemEntityOrCreateNew(String identifier, int orderedNumber, String productTitle) throws AppBaseException {
         Optional<OrderedItemEntity> optional = orderedItemRepository.findByIdentifier(identifier);
         if(optional.isPresent())
             return optional.get();
@@ -70,14 +73,39 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void addToBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public OrderedItemEntity getOrderedItemEntity(String identifier) throws AppBaseException {
+        return orderedItemRepository.findByIdentifier(identifier)
+                .orElseThrow(() -> new OrderedItemNotExistException());
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public void editOrderedItemInBasket(OrderedItemEntity orderedItemEntity, BasketEntity basketEntity) throws AppBaseException {
+        boolean isRemoved = false;
+        for(int i = 0; i < basketEntity.getOrderedItemEntities().size(); i++) {
+            if(basketEntity.getOrderedItemEntities().get(i).getIdentifier().equals(orderedItemEntity.getIdentifier())) {
+                basketEntity.getOrderedItemEntities().remove(i);
+                isRemoved = true;
+                break;
+            }
+        }
+        if(isRemoved) {
+            basketEntity.getOrderedItemEntities().add(orderedItemEntity);
+            orderedItemRepository.saveAndFlush(orderedItemEntity);
+        } else
+            throw new BasketNotContainsItemException();
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public void addToBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
         basketEntity.getOrderedItemEntities().addAll(orderedItemEntities);
         basketRepository.saveAndFlush(basketEntity);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void removeFromBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public void removeFromBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
         basketEntity.getOrderedItemEntities()
                 .removeIf(item -> !orderedItemEntities.contains(item));
         basketRepository.saveAndFlush(basketEntity);

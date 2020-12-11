@@ -11,10 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ToString
 @NoArgsConstructor
@@ -27,7 +24,7 @@ public @Data class BasketDTO implements SignatureVerifiability  {
 
     @NotNull(message = "validation.notnull")
     @Valid
-    private Set<OrderedItemDTO> orderedItemDTOS = new HashSet<>();
+    private List<OrderedItemDTO> orderedItemDTOS = new ArrayList<>();
 
     @NotNull(message = "validation.notnull")
     @Email(message = "validation.email")

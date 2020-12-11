@@ -13,9 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @ToString
 @Getter
@@ -48,11 +46,11 @@ public class OrderEntity implements Serializable, VersionGetter {
     @ManyToOne(optional = false)
     private AccountEntity accountEntity;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ordered_item_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
-    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
+    private List<OrderedItemEntity> orderedItemEntities = new ArrayList<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @Basic(optional = false)

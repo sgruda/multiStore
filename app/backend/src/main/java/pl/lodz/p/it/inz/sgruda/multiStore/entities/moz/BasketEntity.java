@@ -8,7 +8,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @ToString
@@ -29,7 +31,7 @@ public class BasketEntity implements Serializable, VersionGetter {
     @JoinTable(name = "ordered_item_basket_mapping",
             joinColumns = @JoinColumn(name = "basket_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
-    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
+    private List<OrderedItemEntity> orderedItemEntities = new ArrayList<>();
 
     @OneToOne(mappedBy = "basketEntity")
     private AccountEntity accountEntity;

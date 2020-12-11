@@ -40,6 +40,13 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         }
     }
 
+    public void checkOrderedItemDTOSignature(OrderedItemDTO dto) throws DTOSignatureException {
+        if(dto != null) {
+            super.checkSignatureSingleDTO(dto);
+            super.checkSignatureSingleDTO(dto.getOrderedProduct());
+        }
+    }
+
     public void checkOrderDTOVersion(OrderEntity entity, OrderDTO dto) throws DTOVersionException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
@@ -62,6 +69,12 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
                     }
             }
             super.checkVersionSingleDTO(entity, dto);
+        }
+    }
+    public void checkOrderedItemDTOVersion(OrderedItemEntity entity, OrderedItemDTO dto) throws DTOVersionException {
+        if(dto != null && entity != null) {
+                super.checkVersionSingleDTO(entity, dto);
+                super.checkVersionSingleDTO(entity.getProductEntity(), dto.getOrderedProduct());
         }
     }
 }

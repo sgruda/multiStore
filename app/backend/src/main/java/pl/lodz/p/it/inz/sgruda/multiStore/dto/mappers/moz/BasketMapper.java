@@ -24,7 +24,7 @@ public class BasketMapper implements Mapper<BasketEntity, BasketDTO> {
         dto.setOrderedItemDTOS(
                 entity.getOrderedItemEntities().stream()
                 .map(entityItem -> orderedItemMapper.toDTO(entityItem))
-                .collect(Collectors.toSet())
+                .collect(Collectors.toList())
         );
         dto.setOwnerEmail(entity.getAccountEntity().getEmail());
         dto.setVersion(entity.getVersion());

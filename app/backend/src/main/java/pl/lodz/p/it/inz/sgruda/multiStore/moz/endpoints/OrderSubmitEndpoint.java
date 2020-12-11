@@ -25,7 +25,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Log
@@ -56,11 +58,11 @@ public class OrderSubmitEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
+            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-                orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
+                orderedItemEntityList.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
+            basketEntity.setOrderedItemEntities(orderedItemEntityList);
             orderSubmitService.createOrder(basketEntity);
         } catch(AppBaseException e) {
             log.severe("Error: " + e);

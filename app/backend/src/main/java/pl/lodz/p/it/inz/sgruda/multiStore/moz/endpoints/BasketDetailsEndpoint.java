@@ -25,7 +25,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -82,6 +84,26 @@ public class BasketDetailsEndpoint {
         return ResponseEntity.ok("{\"size\": " + size + "}");
     }
 
+    @PutMapping("/item/edit")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public ResponseEntity<?> editItemInBasket(@Valid @RequestBody OrderedItemDTO itemDTO, @CurrentUser UserPrincipal currentUser) {
+        BasketEntity basketEntity;
+        OrderedItemEntity orderedItemEntity;
+        try {
+            checkerMozDTO.checkOrderedItemDTOSignature(itemDTO);
+            basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
+            orderedItemEntity = basketHandlerService.getOrderedItemEntity(itemDTO.getIdentifier());
+            orderedItemEntity.setOrderedNumber(itemDTO.getOrderedNumber());
+            checkerMozDTO.checkOrderedItemDTOVersion(orderedItemEntity, itemDTO);
+            basketHandlerService.editOrderedItemInBasket(orderedItemEntity, basketEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "ordered.item.correctly.edited"));
+    }
+
     @PutMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<?> addToBasket(@Valid @RequestBody BasketDTO basketDTO, @CurrentUser UserPrincipal currentUser) {
@@ -92,14 +114,14 @@ public class BasketDetailsEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
+            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-                orderedItemEntitySet.add(basketHandlerService.getOrderedItemsEntityOrCreateNew(
+                orderedItemEntityList.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
                         itemDTO.getIdentifier(), itemDTO.getOrderedNumber(), itemDTO.getOrderedProduct().getTitle())
                 );
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
-            basketHandlerService.addToBasket(orderedItemEntitySet, basketEntity);
+            basketEntity.setOrderedItemEntities(orderedItemEntityList);
+            basketHandlerService.addToBasket(orderedItemEntityList, basketEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -118,14 +140,14 @@ public class BasketDetailsEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
+            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-                orderedItemEntitySet.add(basketHandlerService.getOrderedItemsEntityOrCreateNew(
+                orderedItemEntityList.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
                         itemDTO.getIdentifier(), itemDTO.getOrderedNumber(), itemDTO.getOrderedProduct().getTitle())
                 );
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
-            basketHandlerService.removeFromBasket(orderedItemEntitySet, basketEntity);
+            basketEntity.setOrderedItemEntities(orderedItemEntityList);
+            basketHandlerService.removeFromBasket(orderedItemEntityList, basketEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

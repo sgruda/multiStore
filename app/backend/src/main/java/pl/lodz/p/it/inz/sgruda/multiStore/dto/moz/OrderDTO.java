@@ -9,10 +9,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiabilit
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ToString
@@ -39,7 +36,7 @@ public @Data class OrderDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     @Valid
-    private Set<OrderedItemDTO> orderedItemDTOS = new HashSet<>();
+    private List<OrderedItemDTO> orderedItemDTOS = new ArrayList<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @NotNull(message = "validation.notnull")

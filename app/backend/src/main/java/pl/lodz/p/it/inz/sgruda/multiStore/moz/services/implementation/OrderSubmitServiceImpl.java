@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Log
@@ -69,7 +70,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public double calcPrice(Set<OrderedItemEntity> orderedItems) {
+    public double calcPrice(List<OrderedItemEntity> orderedItems) {
         return new BigDecimal(orderedItems.stream()
                 .mapToDouble(
                         item -> {

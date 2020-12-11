@@ -9,6 +9,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 
+import java.util.List;
 import java.util.Set;
 @Log
 @Component
@@ -20,7 +21,7 @@ public class SignMozDTOUtil extends SignSimpleDTO {
 
     public void signOrderDTO(OrderDTO dto) {
         if(dto != null) {
-            Set<OrderedItemDTO> items = dto.getOrderedItemDTOS();
+            List<OrderedItemDTO> items = dto.getOrderedItemDTOS();
             if(items.size() > 0) {
                 items.forEach(item -> {
                     super.signDTO(item);
