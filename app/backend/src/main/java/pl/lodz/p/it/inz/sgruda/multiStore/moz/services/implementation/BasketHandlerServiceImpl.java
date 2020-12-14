@@ -54,14 +54,18 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public OrderedItemEntity getOrderedItemEntityOrCreateNew(String identifier, int orderedNumber, String productTitle) throws AppBaseException {
+    public OrderedItemEntity getOrderedItemEntityOrCreateNew(String identifier, int orderedNumber, String productTitle, ProductEntity orderedProductIfPresent) throws AppBaseException {
         Optional<OrderedItemEntity> optional = orderedItemRepository.findByIdentifier(identifier);
         if(optional.isPresent())
             return optional.get();
         else {
             OrderedItemEntity orderedItemEntity = new OrderedItemEntity();
             orderedItemEntity.setOrderedNumber(orderedNumber);
-            ProductEntity productEntity = productRepository.findByTitle(productTitle)
+            ProductEntity productEntity;
+            if(orderedProductIfPresent != null)
+                productEntity = orderedProductIfPresent;
+            else
+                productEntity = productRepository.findByTitle(productTitle)
                     .orElseThrow(() -> new ProductNotExistsException());
             if(!productEntity.isActive())
                 throw new ProductAlreadyInactiveException();
@@ -69,6 +73,13 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
             orderedItemRepository.saveAndFlush(orderedItemEntity);
             return orderedItemEntity;
         }
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public ProductEntity getProductEntityByTitle(String title) throws AppBaseException {
+        return productRepository.findByTitle(title)
+                .orElseThrow(() -> new ProductNotExistsException());
     }
 
     @Override
@@ -99,7 +110,9 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void addToBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
-        basketEntity.getOrderedItemEntities().addAll(orderedItemEntities);
+        for(OrderedItemEntity entity : orderedItemEntities)
+            if(!basketEntity.getOrderedItemEntities().contains(entity))
+                basketEntity.getOrderedItemEntities().add(entity);
         basketRepository.saveAndFlush(basketEntity);
     }
 
