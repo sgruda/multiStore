@@ -98,6 +98,10 @@ function ProductList() {
     setLoadingData(true);
   }
 
+  const handleBasketAdd = () => {
+    setShowAddToBasket(!showAddToBasket);
+    setLoadingData(true);
+  }
 
   async function getProducts() {
     await ProductService.getProducts(textToSearch === '' ? null : textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
@@ -224,7 +228,7 @@ useEffect(() => {
       </Dialog>
       <BasketAddDialog
             openDialog={showAddToBasket}
-            setOpenDialog={setShowAddToBasket}
+            handleClose={handleBasketAdd}
             getProduct={() => {
               let data;
               products.map(product => {

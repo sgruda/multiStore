@@ -216,6 +216,7 @@
     "densePadding": "Małe komórki w wierszach",
     "dialog": {
         "content": {
+            "how-many-items": "Jak dużo przedmiotów chcesz dodać?",
             "confirm": "Jesteś pewny?",
             "jwt-expired": "Twoja sesja użytkownika wygasła. Zaloguj się jeszcze raz",
             "remove": {

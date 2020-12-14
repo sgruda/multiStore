@@ -215,7 +215,8 @@
     },
     "densePadding": "Dense padding",
     "dialog": {
-        "content": {
+        "content": {            
+            "how-many-items": "How many items do you want add?",
             "confirm": "Are you sure?",
             "jwt-expired": "Your session has been expired. Sign in one more time.",
             "remove": {
