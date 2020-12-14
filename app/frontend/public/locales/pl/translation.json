@@ -106,8 +106,9 @@
         "add": {
             "access-level": "Dodaj poziom dostępu",
             "default": "Dodaj",
-            "to-basket": "Add to basket"
+            "to-basket": "Dodaj do koszyka"
         },
+        "back": "Wróć",
         "block": "Dezaktywuj",
         "cancel": "Anuluj",
         "change": "Zmień",

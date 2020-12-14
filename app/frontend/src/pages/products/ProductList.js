@@ -13,6 +13,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Backdrop from '@material-ui/core/Backdrop';
 import Collapse from '@material-ui/core/Collapse';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
@@ -20,6 +22,8 @@ import ProductCardsSettingsView from '../../components/products/ProductCardsSett
 import Basket from '../../components/basket/Basket';
 import { ROLE_CLIENT, ROLE_EMPLOYEE } from '../../config/config';
 import ProductEditDetailsHelper from '../../components/products/ProductEditDetailsHandler';
+import BasketAddDialog from '../../components/basket/BasketAddDialog';
+import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 
 const useStyles = makeStyles((theme) => ({
     gridContainer: {
@@ -56,6 +60,12 @@ function ProductList() {
   const [selectedProductTitle, setSelectedProductTitle] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showAddToBasket, setShowAddToBasket] = useState(false);
+
+  const [openWarningAlert, setOpenWarningAlert] = useState(false);
+  const [alertWarningMessage, setAlertWarningMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [alertInfoMessage, setAlertInfoMessage] = useState('');
 
   const {activeRole, checkExpiredJWTAndExecute} = useAuth();
 
@@ -103,6 +113,8 @@ function ProductList() {
                   type: product.type,
                   category: product.category,
                   active: product.active,
+                  version: product.version,
+                  signature: product.signature
                 };
             });
             setProducts(products);
@@ -179,6 +191,15 @@ useEffect(() => {
               handleClose={handleCloseDetails}
             />
           </DialogContentText>
+          <AlertApiResponseHandler
+                openWarningAlert={openWarningAlert}
+                setOpenWarningAlert={setOpenWarningAlert}
+                openSuccessAlert={openSuccessAlert}
+                setOpenSuccessAlert={setOpenSuccessAlert}
+                alertWarningMessage={alertWarningMessage}
+                alertInfoMessage={alertInfoMessage}
+              />
+          
         </DialogContent>
         <DialogActions className={classes.details}>
           { activeRole === ROLE_EMPLOYEE 
@@ -189,13 +210,44 @@ useEffect(() => {
               </Button>
             </Collapse> 
             :
-              <></>
+              activeRole === ROLE_CLIENT
+                ? 
+                <Button onClick={() => setShowAddToBasket(true)} color="primary" autoFocus startIcon={<AddShoppingCartIcon/>}>
+                  {t('button.add.to-basket')}
+                </Button>
+                :<></>
           }
-          <Button onClick={handleCloseDetails} color="primary" autoFocus>
+          <Button onClick={handleCloseDetails} color="primary" autoFocus startIcon={<ExitToAppIcon/>}>
             {t('button.close')}
           </Button>
         </DialogActions>
       </Dialog>
+      <BasketAddDialog
+            openDialog={showAddToBasket}
+            setOpenDialog={setShowAddToBasket}
+            getProduct={() => {
+              let data;
+              products.map(product => {
+                if(product.title === selectedProductTitle)
+                  data = {
+                    idHash: product.id,
+                    title: product.title,
+                    description: product.description,
+                    inStore: product.inStore,
+                    price: product.price,
+                    type: product.type,
+                    category: product.category,
+                    version: product.version,
+                    signature: product.signature
+                  };
+              })
+              return data;
+            }}
+            setOpenWarningAlert={setOpenWarningAlert}
+            setOpenSuccessAlert={setOpenSuccessAlert}
+            setAlertWarningMessage={setAlertWarningMessage}
+            setAlertInfoMessage={setAlertInfoMessage}
+          />
     </div>
   );
 }

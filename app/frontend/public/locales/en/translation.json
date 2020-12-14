@@ -108,6 +108,7 @@
             "default": "Add",
             "to-basket": "Add to basket"
         },
+        "back": "Back",
         "block": "Activate",
         "delete": "Delete",
         "cancel": "Cancel",

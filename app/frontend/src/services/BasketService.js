@@ -5,15 +5,6 @@ import {
 } from '../config/config';
 
 class BasketService { 
-    removeItemOnce(arr, value) {
-        var index = arr.indexOf(value);
-        if (index > -1) {
-          arr.splice(index, 1);
-        }
-        return arr;
-    }
-
-
     getBasket() { 
         return axios.get(API_URL_BASKET,  { headers: AuthorizationHeader() });
     } 
@@ -35,5 +26,31 @@ class BasketService {
         }
         return axios.put(API_URL_BASKET_ITEM_EDIT, data, { headers: AuthorizationHeader() });
     }
+    addToBasket(basket, item, orderedNumber) {
+        const orderedItem = {
+            idHash: "0",
+            identifier: "0",
+            orderedNumber: orderedNumber,
+            orderedProduct: {
+                idHash: item.idHash,
+                title: item.title,
+                description: item.description,
+                inStore: item.inStore,
+                price: item.price,
+                type: item.type,
+                category: item.category,
+                version: item.version,
+                signature: item.signature
+            },
+            version: 0,
+            signature: "0",
+        };
+        const data = {
+            basketDTO: basket,
+            orderedItemDTO: orderedItem
+        };
+        return axios.put(API_URL_BASKET_ADD, data, { headers: AuthorizationHeader() });
+    }
+
 } 
 export default new BasketService(); 
