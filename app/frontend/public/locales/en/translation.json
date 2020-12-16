@@ -110,7 +110,6 @@
         },
         "back": "Back",
         "block": "Activate",
-        "buy": "Buy",
         "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
@@ -119,6 +118,7 @@
         "edit": "Edit",
         "no": "No",
         "ok": "OK",
+        "order": "Order",
         "refresh": "Refresh data",
         "remove": {
             "access-level": "Remove access level",
@@ -220,6 +220,7 @@
             "how-many-items": "How many items do you want add?",
             "confirm": "Are you sure?",
             "jwt-expired": "Your session has been expired. Sign in one more time.",
+            "order-address": "Enter address of order.",
             "remove": {
                 "the": "The ",
                 "deleted": " account was successfully deleted."
@@ -229,6 +230,9 @@
         }
     },
     "order": {
+        "submit": {
+            "address": "Address of order"
+        },
         "total-price": "Total price"
     },
     "pages": {

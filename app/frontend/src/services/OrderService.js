@@ -5,6 +5,13 @@ import {
 } from '../config/config';
 
 class OrderService { 
+    submit(basket, address) {
+        const data = {
+            basketDTO: basket,
+            address: address
+        };
+        return axios.post(API_URL_ORDER_SUBMIT, data, { headers: AuthorizationHeader() });
+    }
     getTotalPrice(basket) { 
         return axios.post(API_URL_ORDER_TOTAL_PRICE, basket, { headers: AuthorizationHeader() });
     } 

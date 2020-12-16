@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { ROLE_CLIENT, ACTIVE_ROLE } from '../../config/config';
 import BasketService from '../../services/BasketService';
 import BasketDetails from '../../components/basket/BasketDetails';
+import OrderDialog from '../../components/orders/OrderDialog';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -15,6 +16,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Collapse from '@material-ui/core/Collapse';
+import SyncIcon from '@material-ui/icons/Sync';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     details: {
         // minWidth: '650px',
     },
-    buttonBuy: {
+    buttonOrder: {
         minWidth: '100px',
         color: 'white',
         backgroundColor: "#51c953",
@@ -55,14 +57,24 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#eb1e1e"
         }
     },
+    buttonRefresh: {
+        minWidth: '100px',
+        color: 'white',
+        backgroundColor: "#4285F4",
+        "&:hover": {
+          backgroundColor: "#2c0fab"
+        }
+    },
 }));
 
 function Basket({checkSize, setCheckSize}) {
     const classes = useStyles();
     const { t } = useTranslation();
-    const [loadingData, setLoadingData] = useState(false);
+    const [loadingData, setLoadingData] = useState(true);
+    const [basket, setBasket] = useState(Object);
     const [basketSize, setBasketSize] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
+    const [showOrderDialog, setShowOrderDialog] = useState(false);
     const { checkExpiredJWTAndExecute } = useAuth(); 
     
     const handleClickBasket = () => {
@@ -70,6 +82,16 @@ function Basket({checkSize, setCheckSize}) {
     }
     const handleCloseDetails = () => {
         setShowDetails(false);
+        setCheckSize(true);
+    }
+    const handleOrder = () => {
+        setShowOrderDialog(true);
+    }
+    const handleCloseOrderDialog = () => {
+        setShowOrderDialog(false);
+    }
+    const handleRefresh = () => {
+        setLoadingData(true);
         setCheckSize(true);
     }
 
@@ -90,10 +112,26 @@ function Basket({checkSize, setCheckSize}) {
         );
     }
 
+    async function getBasket() {
+        await BasketService.getBasket()
+        .then(response => {
+            if (response.status === 200) { 
+                setBasket(response.data);
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("Basket: " + resMessage);
+            }
+        );
+    }
+
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
-            // checkExpiredJWTAndExecute();
+            checkExpiredJWTAndExecute(getBasket);
         }
         if (checkSize) {
             setCheckSize(false);
@@ -114,13 +152,23 @@ function Basket({checkSize, setCheckSize}) {
                 fullScreen={true}
             >
                 <DialogContent>
-                    <DialogContentText>
-                        <BasketDetails/>
-                    </DialogContentText>
+                    <BasketDetails
+                        loadingData={loadingData}
+                        setLoadingData={setLoadingData}
+                    />
+                    <OrderDialog
+                        openDialog={showOrderDialog}
+                        handleClose={handleCloseOrderDialog}
+                        basket={basket}
+                        reloadBasket={setLoadingData}
+                    />
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleCloseDetails} color="primary" autoFocus className={classes.buttonBuy}>
-                    {t('button.buy')}
+                <Button onClick={handleRefresh} startIcon={<SyncIcon/>} className={classes.buttonRefresh}>
+                    {t('button.refresh')}
+                </Button>
+                <Button onClick={handleOrder} color="primary" autoFocus className={classes.buttonOrder}>
+                    {t('button.order')}
                 </Button>
                 <Button onClick={handleCloseDetails} color="primary" className={classes.buttonClose}>
                     {t('button.close')}

@@ -72,14 +72,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function BasketDetails() {
+function BasketDetails({loadingData, setLoadingData}) {
     const classes = useStyles();
     const { t } = useTranslation();
-    const [loadingData, setLoadingData] = useState(true);   
     const [basket, setBasket] = useState(Object);
     const [orderedItems, setOrderedItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(-1);
 
+    const [firstLoading, setFirstLoading] = useState(true);
     const [openWarningAlert, setOpenWarningAlert] = useState(false);
     const [alertWarningMessage, setAlertWarningMessage] = useState('');
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
@@ -185,11 +185,12 @@ function BasketDetails() {
     }
 
     useEffect(() => {
-        if (loadingData) {
+        if (loadingData || firstLoading) {
             setLoadingData(false);
+            setFirstLoading(false);
             checkExpiredJWTAndExecute(getItems);
         }
-    }, [loadingData]);
+    }, [loadingData, firstLoading]);
 
     const headerCells = [
         { id: 'title', disablePadding: false, label: t('basket.header.title') },

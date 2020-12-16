@@ -109,7 +109,6 @@
             "to-basket": "Dodaj do koszyka"
         },
         "back": "Wróć",
-        "buy": "Kup",
         "block": "Dezaktywuj",
         "cancel": "Anuluj",
         "change": "Zmień",
@@ -119,6 +118,7 @@
         "edit": "Edytuj",
         "no": "Nie",
         "ok": "OK",
+        "order": "Zamów",
         "refresh": "Odśwież dane",
         "remove": {
             "access-level": "Usuń poziom dostępu",
@@ -220,6 +220,7 @@
             "how-many-items": "Jak dużo przedmiotów chcesz dodać?",
             "confirm": "Jesteś pewny?",
             "jwt-expired": "Twoja sesja użytkownika wygasła. Zaloguj się jeszcze raz",
+            "order-address": "Podaj adres dostawy.",
             "remove": {
                 "the": "Konto ",
                 "deleted": " zostało pomyślnie usunięte."
@@ -229,6 +230,9 @@
         }
     },
     "order": {
+        "submit": {
+            "address": "Adres dostawy"
+        },
         "total-price": "Cena całkowita"
     },
     "pages": {
