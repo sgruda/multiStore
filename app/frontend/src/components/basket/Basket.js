@@ -41,11 +41,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Basket() {
+function Basket({checkSize, setCheckSize}) {
     const classes = useStyles();
     const { t } = useTranslation();
     const [loadingData, setLoadingData] = useState(false);
-    const [checkBasketSize, setCheckBasketSize] = useState(true);
     const [basketSize, setBasketSize] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
     const { checkExpiredJWTAndExecute } = useAuth(); 
@@ -55,7 +54,7 @@ function Basket() {
     }
     const handleCloseDetails = () => {
         setShowDetails(false);
-        setCheckBasketSize(true);
+        setCheckSize(true);
     }
 
 
@@ -80,11 +79,11 @@ function Basket() {
             setLoadingData(false);
             // checkExpiredJWTAndExecute();
         }
-        if (checkBasketSize) {
-            setCheckBasketSize(false);
+        if (checkSize) {
+            setCheckSize(false);
             checkExpiredJWTAndExecute(getBasketSize);
         }
-    }, [loadingData, checkBasketSize]);
+    }, [loadingData, checkSize]);
 
     return (
         <div > 

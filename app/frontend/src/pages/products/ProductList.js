@@ -61,6 +61,9 @@ function ProductList() {
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showAddToBasket, setShowAddToBasket] = useState(false);
+  const [checkBasketSize, setCheckBasketSize] = useState(true);
+  const [loadingBasketToAdd, setLoadingBasketToAdd] = useState(true);   
+
 
   const [openWarningAlert, setOpenWarningAlert] = useState(false);
   const [alertWarningMessage, setAlertWarningMessage] = useState('');
@@ -89,6 +92,8 @@ function ProductList() {
     setCardsPerPage(7);
     setPage(1);
     setLoadingData(true);
+    setLoadingBasketToAdd(true);
+    setCheckBasketSize(true);
   }
 
   const handleCloseDetails = () => {
@@ -96,11 +101,15 @@ function ProductList() {
     setShowEdit(false);
     setSelectedProductTitle(null);
     setLoadingData(true);
+    setLoadingBasketToAdd(true);
+    setCheckBasketSize(true);
   }
 
   const handleBasketAdd = () => {
     setShowAddToBasket(!showAddToBasket);
+    setCheckBasketSize(true);
     setLoadingData(true);
+    setLoadingBasketToAdd(true);
   }
 
   async function getProducts() {
@@ -180,7 +189,7 @@ useEffect(() => {
       ) : (
         <CircularProgress />
       )}
-      { activeRole === ROLE_CLIENT ? <Basket/> : <></>}
+      { activeRole === ROLE_CLIENT ? <Basket checkSize={checkBasketSize} setCheckSize={setCheckBasketSize}/> : <></>}
       <Backdrop in={showDetails}/>
       <Dialog
         open={showDetails}
@@ -251,6 +260,8 @@ useEffect(() => {
             setOpenSuccessAlert={setOpenSuccessAlert}
             setAlertWarningMessage={setAlertWarningMessage}
             setAlertInfoMessage={setAlertInfoMessage}
+            loadingData={loadingBasketToAdd}
+            setLoadingData={setLoadingBasketToAdd}
           />
     </div>
   );

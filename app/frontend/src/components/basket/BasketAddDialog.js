@@ -13,10 +13,9 @@ import TextField from '@material-ui/core/TextField';
 import AlertApiResponseHandler from '../AlertApiResponseHandler';
 import BasketService from '../../services/BasketService';
 
-function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAlert, setOpenSuccessAlert, setAlertWarningMessage, setAlertInfoMessage}) {
+function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAlert, setOpenSuccessAlert, setAlertWarningMessage, setAlertInfoMessage, loadingData, setLoadingData}) {
     const { t } = useTranslation();
     const [orderedNumber, setOrderedNumber] = useState(1);
-    const [loadingData, setLoadingData] = useState(true);   
     const [basket, setBasket] = useState(Object);
     const {checkExpiredJWTAndExecute} = useAuth();
     const product = getProduct();
@@ -27,6 +26,7 @@ function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAle
 
     const handleConfirm = () => {
         checkExpiredJWTAndExecute(addItem);
+        // setLoadingData(true);
         handleClose();
     }
     const checkErrors = () => {
