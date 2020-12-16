@@ -93,7 +93,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void createOrder(BasketEntity basketEntity) throws AppBaseException {
+    public void createOrder(BasketEntity basketEntity, String address) throws AppBaseException {
         OrderEntity orderEntity = new OrderEntity();
 
         orderEntity.setOrderDate(LocalDateTime.now());
@@ -103,6 +103,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
         orderEntity.setStatusEntity(statusRepository.findByStatusName(StatusName.submitted)
                                                     .orElseThrow(() -> new StatusNotExistsException())
         );
+        orderEntity.setAddress(address);
 
         for(OrderedItemEntity itemEntity : orderEntity.getOrderedItemEntities()) {
             if(!itemEntity.getProductEntity().isActive())

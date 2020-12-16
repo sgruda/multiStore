@@ -13,5 +13,5 @@ public interface OrderSubmitService {
     OrderedItemEntity getOrderedItemsEntityByIdentifier(String indentifier) throws OrderedItemNotExistException;
     BasketEntity getBasketEntity(String ownerEmail) throws BasketNotExistsException;
     double calcPrice(List<OrderedItemEntity> orderedItems);
-    void createOrder(BasketEntity basketEntity) throws AppBaseException;
+    void createOrder(BasketEntity basketEntity, String address) throws AppBaseException;
 }
