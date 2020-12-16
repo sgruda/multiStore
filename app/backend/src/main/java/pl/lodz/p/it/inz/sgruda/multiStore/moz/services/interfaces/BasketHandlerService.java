@@ -15,6 +15,6 @@ public interface BasketHandlerService {
     ProductEntity getProductEntityByTitle(String title) throws AppBaseException;
     OrderedItemEntity getOrderedItemEntity(String identifier) throws AppBaseException;
     void editOrderedItemInBasket(OrderedItemEntity orderedItemEntity, BasketEntity basketEntity) throws AppBaseException;
-    void addToBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity);
-    void removeFromBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity);
+    void addToBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity);
+    void removeFromBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity);
 }

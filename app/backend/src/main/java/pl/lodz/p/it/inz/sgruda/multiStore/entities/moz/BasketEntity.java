@@ -31,7 +31,7 @@ public class BasketEntity implements Serializable, VersionGetter {
     @JoinTable(name = "ordered_item_basket_mapping",
             joinColumns = @JoinColumn(name = "basket_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
-    private List<OrderedItemEntity> orderedItemEntities = new ArrayList<>();
+    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
 
     @OneToOne(mappedBy = "basketEntity")
     private AccountEntity accountEntity;

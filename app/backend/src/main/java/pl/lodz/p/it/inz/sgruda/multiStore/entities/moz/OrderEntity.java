@@ -50,7 +50,7 @@ public class OrderEntity implements Serializable, VersionGetter {
     @JoinTable(name = "ordered_item_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
-    private List<OrderedItemEntity> orderedItemEntities = new ArrayList<>();
+    private Set<OrderedItemEntity> orderedItemEntities = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @Basic(optional = false)

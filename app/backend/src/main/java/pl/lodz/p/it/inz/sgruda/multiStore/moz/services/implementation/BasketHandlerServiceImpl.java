@@ -92,24 +92,29 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void editOrderedItemInBasket(OrderedItemEntity orderedItemEntity, BasketEntity basketEntity) throws AppBaseException {
-        boolean isRemoved = false;
-        for(int i = 0; i < basketEntity.getOrderedItemEntities().size(); i++) {
-            if(basketEntity.getOrderedItemEntities().get(i).getIdentifier().equals(orderedItemEntity.getIdentifier())) {
-                basketEntity.getOrderedItemEntities().remove(i);
-                isRemoved = true;
-                break;
-            }
-        }
-        if(isRemoved) {
-            basketEntity.getOrderedItemEntities().add(orderedItemEntity);
-            orderedItemRepository.saveAndFlush(orderedItemEntity);
-        } else
+//        OrderedItemEntity toRemove = null;
+//        for(OrderedItemEntity item : basketEntity.getOrderedItemEntities()) {
+//            if(item.getIdentifier().equals(orderedItemEntity.getIdentifier())) {
+//                toRemove = item;
+//                break;
+//            }
+//        }
+//        if(toRemove != null) {
+//            basketEntity.getOrderedItemEntities().remove(toRemove);
+//            basketEntity.getOrderedItemEntities().add(orderedItemEntity);
+//            orderedItemRepository.saveAndFlush(orderedItemEntity);
+//        } else
+//            throw new BasketNotContainsItemException();
+        if(!basketEntity.getOrderedItemEntities()
+                .removeIf(item -> item.getIdentifier().equals(orderedItemEntity.getIdentifier())))
             throw new BasketNotContainsItemException();
+        basketEntity.getOrderedItemEntities().add(orderedItemEntity);
+        orderedItemRepository.saveAndFlush(orderedItemEntity);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void addToBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public void addToBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
         for(OrderedItemEntity entity : orderedItemEntities)
             if(!basketEntity.getOrderedItemEntities().contains(entity))
                 basketEntity.getOrderedItemEntities().add(entity);
@@ -118,7 +123,7 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void removeFromBasket(List<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public void removeFromBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
         basketEntity.getOrderedItemEntities()
                 .removeIf(item -> !orderedItemEntities.contains(item));
         basketRepository.saveAndFlush(basketEntity);

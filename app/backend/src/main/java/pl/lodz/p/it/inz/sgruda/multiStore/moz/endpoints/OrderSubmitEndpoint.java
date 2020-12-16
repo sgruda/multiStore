@@ -59,11 +59,11 @@ public class OrderSubmitEndpoint {
             checkerMozDTO.checkBasketDTOSignature(orderRequest.getBasketDTO());
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(orderRequest.getBasketDTO().getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, orderRequest.getBasketDTO());
-            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
+            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : orderRequest.getBasketDTO().getOrderedItemDTOS()) {
-                orderedItemEntityList.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
+                orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntityList);
+            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
             orderSubmitService.createOrder(basketEntity, orderRequest.getAddress());
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
@@ -85,11 +85,11 @@ public class OrderSubmitEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
+            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-                orderedItemEntityList.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
+                orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            totalPrice = orderSubmitService.calcPrice(orderedItemEntityList);
+            totalPrice = orderSubmitService.calcPrice(orderedItemEntitySet);
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

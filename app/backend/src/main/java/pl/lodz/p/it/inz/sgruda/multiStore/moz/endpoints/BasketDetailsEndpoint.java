@@ -123,20 +123,20 @@ public class BasketDetailsEndpoint {
             checkerSimpleDTO.checkVersion(productEntity, request.getOrderedItemDTO().getOrderedProduct());
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, request.getBasketDTO());
-            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
+            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : request.getBasketDTO().getOrderedItemDTOS()) {
-                orderedItemEntityList.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
+                orderedItemEntitySet.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
                         itemDTO.getIdentifier(), itemDTO.getOrderedNumber(), itemDTO.getOrderedProduct().getTitle(), null)
                 );
             }
-            orderedItemEntityList.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
+            orderedItemEntitySet.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
                     request.getOrderedItemDTO().getIdentifier(),
                     request.getOrderedItemDTO().getOrderedNumber(),
                     request.getOrderedItemDTO().getOrderedProduct().getTitle(),
                     productEntity)
             );
-            basketEntity.setOrderedItemEntities(orderedItemEntityList);
-            basketHandlerService.addToBasket(orderedItemEntityList, basketEntity);
+            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
+            basketHandlerService.addToBasket(orderedItemEntitySet, basketEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -155,14 +155,14 @@ public class BasketDetailsEndpoint {
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
-            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
+            Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
-                orderedItemEntityList.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
+                orderedItemEntitySet.add(basketHandlerService.getOrderedItemEntityOrCreateNew(
                         itemDTO.getIdentifier(), itemDTO.getOrderedNumber(), itemDTO.getOrderedProduct().getTitle(), null)
                 );
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntityList);
-            basketHandlerService.removeFromBasket(orderedItemEntityList, basketEntity);
+            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
+            basketHandlerService.removeFromBasket(orderedItemEntitySet, basketEntity);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

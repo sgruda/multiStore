@@ -1,47 +1,48 @@
 spring:
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    #    username: docker
-    #    password: docker
+    #    url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    #    username: root
+    #    password: root
     mok:
-      url: DATASOURCE_MOK_URL
-      username: DATASOURCE_MOK_USERNAME
-      password: DATASOURCE_MOK_PASSWORD
+      url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      username: mok
+      password: mok123
       driverClassName: org.postgresql.Driver
     mop:
-      url: DATASOURCE_MOP_URL
-      username: DATASOURCE_MOP_USERNAME
-      password: DATASOURCE_MOP_PASSWORD
+      url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      username: mop
+      password: mop123
       driverClassName: org.postgresql.Driver
     moz:
-      url: DATASOURCE_MOZ_URL
-      username: DATASOURCE_MOZ_USERNAME
-      password: DATASOURCE_MOZ_PASSWORD
+      url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      username: moz
+      password: moz123
       driverClassName: org.postgresql.Driver
 
 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  #        flushMode: COMMIT
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: OAUTH2_GOOGLE_CLIENT_ID
-            clientSecret: OAUTH2_GOOGLE_CLIENT_SECRET
+            clientId: 588236016572-ol2h6djeb1opi79trdajhd2gnr33crh9.apps.googleusercontent.com
+            clientSecret: xN895XYM3PE0yiMGOQw6tCd1
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           facebook:
-            clientId: OAUTH2_FACEBOOK_CLIENT_ID
-            clientSecret: OAUTH2_FACEBOOK_CLIENT_SECRET
+            clientId: 414586949544756
+            clientSecret: 265cb2cd590cf11c24bf8c003ac82593
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -54,11 +55,11 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: SEND_EMAIL_ADDRESS
-    password: SEND_EMAIL_PASSWORD
+    username: sg.spring.system@gmail.com
+    password: Twxy9qHac2BwMT6
     redirect:
       server:
-        uri: MAIL_REDIRECT_URI
+        uri: http://localhost:3000
     properties:
       mail:
         smtp:
@@ -68,10 +69,10 @@ spring:
 
 app:
   signature:
-    secret: SIGNATURE_SECRET
+    secret: S97ygsgvYpwy3HW2afAEeEOlh2DAZwOzyFHMsrlDGrRmC7MXyvbGI6PChQhf
   auth:
     jwt:
-      secret: JWT_SECRET
+      secret: 926D96C90030DD58429D2751AC1BDBBC
       expiration:
         mili-sec: 3600000
     forgotPasswordToken:

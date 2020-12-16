@@ -70,7 +70,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public double calcPrice(List<OrderedItemEntity> orderedItems) {
+    public double calcPrice(Set<OrderedItemEntity> orderedItems) {
         return new BigDecimal(orderedItems.stream()
                 .mapToDouble(
                         item -> {
