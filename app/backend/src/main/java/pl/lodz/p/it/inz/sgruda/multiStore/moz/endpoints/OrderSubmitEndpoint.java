@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
@@ -70,5 +67,30 @@ public class OrderSubmitEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "order.correctly.submitted"));
+    }
+
+    @PostMapping("/total-price")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public ResponseEntity<?> getTotalPrice(@Valid @RequestBody BasketDTO basketDTO, @CurrentUser UserPrincipal currentUser) {
+        double totalPrice = -1;
+        if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail())) {
+            log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
+            throw new UnauthorizedRequestException();
+        }
+        try {
+            checkerMozDTO.checkBasketDTOSignature(basketDTO);
+            BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
+            checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
+            List<OrderedItemEntity> orderedItemEntityList = new ArrayList<>();
+            for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
+                orderedItemEntityList.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
+            }
+            totalPrice = orderSubmitService.calcPrice(orderedItemEntityList);
+        } catch(AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok("{\"totalPrice\": " + totalPrice + "}");
     }
 }
