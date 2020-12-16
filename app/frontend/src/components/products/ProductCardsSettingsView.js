@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
+
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,7 +20,8 @@ const useStyles = makeStyles({
         minHeight: 100,
         backgroundColor: '#4dc4ff',
         paddingLeft: '2%',
-        paddingRight: '2%'
+        paddingRight: '2%',
+        paddingTop: '1%',
     },
 });
 
