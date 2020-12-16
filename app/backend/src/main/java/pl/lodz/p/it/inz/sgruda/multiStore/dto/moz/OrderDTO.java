@@ -46,6 +46,9 @@ public @Data class OrderDTO implements SignatureVerifiability {
     private String status;
 
     @NotNull(message = "validation.notnull")
+    private String address;
+
+    @NotNull(message = "validation.notnull")
     private long version;
 
     @NotNull(message = "validation.notnull")
@@ -56,6 +59,6 @@ public @Data class OrderDTO implements SignatureVerifiability {
         String items = orderedItemDTOS.stream()
                 .map(item -> item.getSignature())
                 .collect(Collectors.joining());
-        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), status, items, String.valueOf(version));
+        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), status, items, address, String.valueOf(version));
     }
 }

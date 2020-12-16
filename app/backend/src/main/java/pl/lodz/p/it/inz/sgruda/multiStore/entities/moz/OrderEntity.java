@@ -63,6 +63,12 @@ public class OrderEntity implements Serializable, VersionGetter {
     @ManyToOne(optional = false)
     private StatusEntity statusEntity;
 
+    @NotNull(message = "validation.notnull")
+    @Size(max = 64, message = "validation.size")
+    @Pattern(regexp = "[0-9A-Za-z-/]+", message = "validation.pattern")
+    @Column(name = "address", nullable = false, length = 32)
+    private String address;
+
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Basic

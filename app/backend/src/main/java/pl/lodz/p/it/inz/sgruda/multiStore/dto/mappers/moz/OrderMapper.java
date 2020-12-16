@@ -32,6 +32,7 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
         );
         dto.setTotalPrice(entity.getTotalPrice());
         dto.setStatus(entity.getStatusEntity().getStatusName().name());
+        dto.setAddress(entity.getAddress());
         dto.setVersion(entity.getVersion());
 
         return dto;
