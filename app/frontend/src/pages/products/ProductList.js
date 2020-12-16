@@ -52,7 +52,7 @@ function ProductList() {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [cardsPerPage, setCardsPerPage] = useState(7);
+  const [cardsPerPage, setCardsPerPage] = useState(8);
   const [textToSearch, setTextToSearch] = useState(null);
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
   const [filterType, setFilterType] = useState(null);
@@ -156,14 +156,15 @@ useEffect(() => {
   return (
     <div>
         {!loadingData ? (
-        <Grid container spacing={3} className={classes.gridContainer} justify="center">
+        <div>
           <ProductCardsSettingsView
-            activeRole={activeRole}
-            setFilterActiveProducts={setFilterActiveProducts}
-            setFilterTypeProducts={setFilterType}
-            handleSearch={handleSearch}
-            handleRefresh={handleRefresh}
-          />
+          activeRole={activeRole}
+          setFilterActiveProducts={setFilterActiveProducts}
+          setFilterTypeProducts={setFilterType}
+          handleSearch={handleSearch}
+          handleRefresh={handleRefresh}
+        />
+        <Grid container spacing={3} className={classes.gridContainer} justify="center">
           {products.map(
             (product) =>
               <ProductCard
@@ -186,6 +187,7 @@ useEffect(() => {
             />
           </Grid>
         </Grid>
+        </div>
       ) : (
         <CircularProgress />
       )}

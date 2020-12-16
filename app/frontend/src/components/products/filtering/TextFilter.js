@@ -8,14 +8,14 @@ function TextFilter({fields, setFields, register, errors}) {
   const { t } = useTranslation();
 
   return (
-    <Grid item xs={12} >
+    <Grid item xs={4} >
         <TextField
         value={ fields.textToSearch }
         onChange={ setFields }
         name="textToSearch"
         fullWidth
         id="textToSearch"
-        label={t('product.list.filter.search')}
+        label={t('product.list.filter.label.text')}
 
         inputRef={register({ pattern: /[a-zA-Z0-9!@#$%^* ]+/ })}
         error={errors.textToSearch ? true : false}

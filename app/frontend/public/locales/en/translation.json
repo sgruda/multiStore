@@ -314,7 +314,11 @@
         "list": {
             "filter": {
                 "all": "All",
-                "label": "Show products",
+                "label": {
+                    "activity": "Show products",
+                    "text": "Products, which are containing phrase",
+                    "type": "Type of searchich products"
+                },
                 "only-active": "Only active products",
                 "only-books": "Only books",
                 "only-movies": "Only movies",

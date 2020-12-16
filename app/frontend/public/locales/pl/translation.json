@@ -314,7 +314,11 @@
         "list": {
             "filter": {
                 "all": "Wszystkie",
-                "label": "Pokaż produkty",
+                "label": {
+                    "activity": "Pokaż produkty",
+                    "text": "Produkty zawierające frazę",
+                    "type": "Typ szukanych produktów"
+                },
                 "only-active": "Tylko aktywne produkty",
                 "only-books": "Tylko ksiązki",
                 "only-movies": "Tylko filmy",

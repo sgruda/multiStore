@@ -28,9 +28,9 @@ function ProductActivityFilter({setFilterActiveProducts}) {
   }, []);
 
   return (
-    <Grid item xs={6}>
-        <FormControl className={classes.formControl}>
-        <InputLabel>{t("product.list.filter.label")}</InputLabel>
+    <Grid item xs={4}>
+        <FormControl className={classes.formControl} fullWidth>
+        <InputLabel>{t("product.list.filter.label.activity")}</InputLabel>
         <NativeSelect
           onChange={(event) => handleChange(event)}
           fullWidth
