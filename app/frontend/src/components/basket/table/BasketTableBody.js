@@ -10,21 +10,8 @@ import { Typography } from "@material-ui/core";
 import { useAuth } from '../../../context/AuthContext';
 import ConfirmDialog from '../../ConfirmDialog';
 
-function BasketTableBody({orderedItems, handleClickItem, isSelected, classes}) {
+function BasketTableBody({orderedItems, handleClickItem, isSelected, classes, totalPrice}) {
     const { t } = useTranslation();
-
-    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-    const [clickedItem, setClickedItem] = useState(null);
-
-    // const handleClick = (item) => {
-        // if(clickedItem === item) {
-        //     setClickedItem(null);
-        //     handleClickItem(item, true);
-        // } else {
-        //     setClickedItem(item);
-        //     handleClickItem(item, false);
-        // }
-    // }
 
     return (
         <TableBody>
@@ -45,22 +32,12 @@ function BasketTableBody({orderedItems, handleClickItem, isSelected, classes}) {
                     <TableCell align="center" className={classes.tableCell}>{t('product.fields.category.' + orderedItem.orderedProduct.category)}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{orderedItem.orderedProduct.price}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{orderedItem.orderedNumber}</TableCell>
-                    {/* <TableCell align="center" className={classes.tableCell}>
-                        <Button 
-                            onClick={() => {
-                                setOpenConfirmDialog(true);
-                                setClickedItem(orderedItem);
-                            }}
-                            style={{backgroundColor: "red"}}
-                            variant="outlined" 
-                            startIcon={<DeleteIcon style={{color: "white"}}/>}
-                        >
-                            <Typography style={{color: "white"}}>{t('button.delete')}</Typography>
-                        </Button>
-                    </TableCell> */}
                 </TableRow>
                 );
             })}
+                    <TableRow>
+                        <TableCell colSpan={3} align="right">{t('order.total-price') + ": " + totalPrice}</TableCell>
+                    </TableRow>
           </TableBody>
     );
 }

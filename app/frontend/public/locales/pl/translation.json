@@ -109,6 +109,7 @@
             "to-basket": "Dodaj do koszyka"
         },
         "back": "Wróć",
+        "buy": "Kup",
         "block": "Dezaktywuj",
         "cancel": "Anuluj",
         "change": "Zmień",
@@ -226,6 +227,9 @@
             "reset-password": "Hasło zostało pomyślnie zresetowane. Proszę zaloguj się.",
             "signup": "Rejestracja się powiodła! Potwierdź swój adres e-mail (otrzymasz w wiadomości link aktywujący konto)."
         }
+    },
+    "order": {
+        "total-price": "Cena całkowita"
     },
     "pages": {
         "titles": {

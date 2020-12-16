@@ -39,6 +39,22 @@ const useStyles = makeStyles((theme) => ({
     details: {
         // minWidth: '650px',
     },
+    buttonBuy: {
+        minWidth: '100px',
+        color: 'white',
+        backgroundColor: "#51c953",
+        "&:hover": {
+          backgroundColor: "#0bb00d"
+        }
+    },
+    buttonClose: {
+        minWidth: '100px',
+        color: 'white',
+        backgroundColor: "#e35656",
+        "&:hover": {
+            backgroundColor: "#eb1e1e"
+        }
+    },
 }));
 
 function Basket({checkSize, setCheckSize}) {
@@ -103,7 +119,10 @@ function Basket({checkSize, setCheckSize}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleCloseDetails} color="primary" autoFocus>
+                <Button onClick={handleCloseDetails} color="primary" autoFocus className={classes.buttonBuy}>
+                    {t('button.buy')}
+                </Button>
+                <Button onClick={handleCloseDetails} color="primary" className={classes.buttonClose}>
                     {t('button.close')}
                 </Button>
                 </DialogActions>

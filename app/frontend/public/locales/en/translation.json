@@ -110,6 +110,7 @@
         },
         "back": "Back",
         "block": "Activate",
+        "buy": "Buy",
         "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
@@ -226,6 +227,9 @@
             "reset-password": "Password was successfully resetted. Please sign in.",
             "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
         }
+    },
+    "order": {
+        "total-price": "Total price"
     },
     "pages": {
         "titles": {

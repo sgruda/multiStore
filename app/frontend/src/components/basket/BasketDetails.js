@@ -19,6 +19,7 @@ import Table from '@material-ui/core/Table';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { Collapse } from '@material-ui/core';
+import OrderService from '../../services/OrderService';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -77,6 +78,7 @@ function BasketDetails() {
     const [loadingData, setLoadingData] = useState(true);   
     const [basket, setBasket] = useState(Object);
     const [orderedItems, setOrderedItems] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(-1);
 
     const [openWarningAlert, setOpenWarningAlert] = useState(false);
     const [alertWarningMessage, setAlertWarningMessage] = useState('');
@@ -136,6 +138,7 @@ function BasketDetails() {
                 });
                 setBasket(response.data);
                 setOrderedItems(orderedItems);
+                getTotalPrice(response.data);
             }
         },
             (error) => {
@@ -147,6 +150,21 @@ function BasketDetails() {
         );
     }
 
+    async function getTotalPrice(basket2) {
+        await OrderService.getTotalPrice(basket2)
+        .then(response => {
+            if (response.status === 200) { 
+                setTotalPrice(response.data.totalPrice);
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("BasketDetails TotalPrice: " + resMessage);
+            }
+        );
+    }
 
     async function deleteItem() {
         await BasketService.deleteItemFromBasket(basket, selectedItem)
@@ -202,9 +220,9 @@ function BasketDetails() {
                 <BasketTableBody
                     orderedItems={orderedItems}
                     classes={classes}
-                    // handleDeleteItem={handleDeleteItem}
                     handleClickItem={handleClickItem}
                     isSelected={isSelectedItem}
+                    totalPrice={totalPrice}
                 />
                 </Table>
             </TableContainer>
