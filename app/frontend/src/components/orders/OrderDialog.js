@@ -15,7 +15,7 @@ import BasketService from '../../services/BasketService';
 import OrderService from '../../services/OrderService';
 import ConfirmDialog from '../ConfirmDialog';
 
-function OrderDialog({openDialog, handleClose, basket, reloadBasket}) {
+function OrderDialog({openDialog, handleClose, basket}) {
     const { t } = useTranslation();
     const [address, setAddress] = useState('');
     const [openWarningAlert, setOpenWarningAlert] = useState(false);
@@ -31,7 +31,6 @@ function OrderDialog({openDialog, handleClose, basket, reloadBasket}) {
     }
     const handleSubmit = () => {
         checkExpiredJWTAndExecute(submitOrder);
-        reloadBasket(true);
     }
 
     const checkErrors = () => {

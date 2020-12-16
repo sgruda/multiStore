@@ -72,10 +72,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function BasketDetails({loadingData, setLoadingData}) {
+function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
     const classes = useStyles();
     const { t } = useTranslation();
-    const [basket, setBasket] = useState(Object);
+    // const [basket, setBasket] = useState(Object);
     const [orderedItems, setOrderedItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(-1);
 
@@ -119,7 +119,6 @@ function BasketDetails({loadingData, setLoadingData}) {
 
     const handleCloseOperations = () => {
         setShowOperations(false);
-        setLoadingData(true);
     }
 
     async function getItems() {

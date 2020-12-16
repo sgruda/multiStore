@@ -89,6 +89,7 @@ function Basket({checkSize, setCheckSize}) {
     }
     const handleCloseOrderDialog = () => {
         setShowOrderDialog(false);
+        setLoadingData(true);
     }
     const handleRefresh = () => {
         setLoadingData(true);
@@ -155,12 +156,13 @@ function Basket({checkSize, setCheckSize}) {
                     <BasketDetails
                         loadingData={loadingData}
                         setLoadingData={setLoadingData}
+                        basket={basket}
+                        setBasket={setBasket}
                     />
                     <OrderDialog
                         openDialog={showOrderDialog}
                         handleClose={handleCloseOrderDialog}
                         basket={basket}
-                        reloadBasket={setLoadingData}
                     />
                 </DialogContent>
                 <DialogActions>
