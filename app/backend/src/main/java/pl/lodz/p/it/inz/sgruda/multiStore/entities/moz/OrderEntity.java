@@ -65,7 +65,7 @@ public class OrderEntity implements Serializable, VersionGetter {
 
     @NotNull(message = "validation.notnull")
     @Size(max = 64, message = "validation.size")
-    @Pattern(regexp = "[0-9A-Za-z-/]+", message = "validation.pattern")
+    @Pattern(regexp = "[0-9A-Za-z-/ ]+", message = "validation.pattern")
     @Column(name = "address", nullable = false, length = 64)
     private String address;
 

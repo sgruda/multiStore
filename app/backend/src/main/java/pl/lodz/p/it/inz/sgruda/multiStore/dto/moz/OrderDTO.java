@@ -46,6 +46,7 @@ public @Data class OrderDTO implements SignatureVerifiability {
     private String status;
 
     @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "[0-9A-Za-z-/ ]+", message = "validation.pattern")
     private String address;
 
     @NotNull(message = "validation.notnull")
