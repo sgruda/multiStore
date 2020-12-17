@@ -12,12 +12,13 @@ function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRo
     order.orderedItemDTOS.map(item => {
       orderedTitles += item.orderedProduct.title + ', ';
     })
-    return orderedTitles.slice(0, orderedTitles.length);
+    return orderedTitles.slice(0, orderedTitles.length - 2);
   }
     return (
         <TableBody>
             {orders.map((order) => {
               const isItemSelected = isSelected(order.id);
+              const orderedTitles = handleOrderedTitles(order);
               return (
                 <TableRow
                   hover
@@ -34,7 +35,7 @@ function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRo
                     </TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.orderDate}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.buyerEmail}</TableCell>
-                    <TableCell align="center" className={classes.tableCell}>{handleOrderedTitles}</TableCell>
+                    <TableCell align="center" className={classes.tableCell}>{orderedTitles}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.totalPrice}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.address}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.status}</TableCell>
