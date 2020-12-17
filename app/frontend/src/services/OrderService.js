@@ -16,5 +16,12 @@ class OrderService {
         return axios.post(API_URL_ORDER_TOTAL_PRICE, basket, { headers: AuthorizationHeader() });
     } 
 
+    getAllOrders() {
+        return axios.get(API_URL_ORDERS_ALL, { headers: AuthorizationHeader() });
+    }
+    getClientOrders() {
+        return axios.get(API_URL_ORDERS_MINE, { headers: AuthorizationHeader() });
+    }
+
 } 
 export default new OrderService(); 
