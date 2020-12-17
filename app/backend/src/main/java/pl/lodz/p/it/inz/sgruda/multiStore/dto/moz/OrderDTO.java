@@ -36,7 +36,7 @@ public @Data class OrderDTO implements SignatureVerifiability {
 
     @NotNull(message = "validation.notnull")
     @Valid
-    private List<OrderedItemDTO> orderedItemDTOS = new ArrayList<>();
+    private Set<OrderedItemDTO> orderedItemDTOS = new HashSet<>();
 
     @Digits(integer = 7, fraction = 2, message = "validation.digits")
     @NotNull(message = "validation.notnull")

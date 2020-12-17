@@ -21,7 +21,7 @@ public class SignMozDTOUtil extends SignSimpleDTO {
 
     public void signOrderDTO(OrderDTO dto) {
         if(dto != null) {
-            List<OrderedItemDTO> items = dto.getOrderedItemDTOS();
+            Set<OrderedItemDTO> items = dto.getOrderedItemDTOS();
             if(items.size() > 0) {
                 items.forEach(item -> {
                     super.signDTO(item);

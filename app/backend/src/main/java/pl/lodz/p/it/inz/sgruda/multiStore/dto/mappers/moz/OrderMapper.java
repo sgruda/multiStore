@@ -28,7 +28,7 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
         dto.setOrderedItemDTOS(
                 entity.getOrderedItemEntities().stream()
                         .map(entityItem -> orderedItemMapper.toDTO(entityItem))
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toSet())
         );
         dto.setTotalPrice(entity.getTotalPrice());
         dto.setStatus(entity.getStatusEntity().getStatusName().name());
