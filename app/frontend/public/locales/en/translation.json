@@ -230,6 +230,19 @@
         }
     },
     "order": {
+        "list": {
+            "table": {
+                "header": {
+                    "address": "Address of delivery",
+                    "buyerEmail": "Buyer's address e-mail",
+                    "identifier": "Identifier",
+                    "orderDate": "Date of submitting",
+                    "orderedTitles": "Ordered titles",
+                    "status": "Status",
+                    "totalPrice": "Price"
+                }
+            }
+        },
         "submit": {
             "address": "Address of order"
         },
@@ -254,6 +267,9 @@
                 "content": "Content of your shopping basket"
             },
             "email-veryfication": "Address e-mail veryfication",
+            "order": {
+                "list": "Lista zamówień"
+            },
             "product": {
                 "create": "Create new product"
             },

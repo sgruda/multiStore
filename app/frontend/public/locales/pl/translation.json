@@ -230,6 +230,19 @@
         }
     },
     "order": {
+        "list": {
+            "table": {
+                "header": {
+                    "address": "Adres dostawy",
+                    "buyerEmail": "Adres e-mail nabywcy",
+                    "identifier": "Identyfikator",
+                    "orderDate": "Data zamówienia",
+                    "orderedTitles": "Zamówione tytuły",
+                    "status": "Status",
+                    "totalPrice": "Cena"
+                }
+            }
+        },
         "submit": {
             "address": "Adres dostawy"
         },
@@ -254,6 +267,9 @@
                 "content": "Zawartość Twojego koszyka"
             },
             "email-veryfication": "Weryfikacja adresu e-mail",
+            "order": {
+                "list": "Lista zamówień"
+            },
             "product": {
                 "create": "Tworzenie nowego produktu"
             },
