@@ -110,6 +110,7 @@ function ProductList() {
     setCheckBasketSize(true);
     setLoadingData(true);
     setLoadingBasketToAdd(true);
+    console.log("loadingData " + loadingData)
   }
 
   async function getProducts() {
@@ -191,7 +192,13 @@ useEffect(() => {
       ) : (
         <CircularProgress />
       )}
-      { activeRole === ROLE_CLIENT ? <Basket checkSize={checkBasketSize} setCheckSize={setCheckBasketSize}/> : <></>}
+      { activeRole === ROLE_CLIENT 
+      ? 
+      <Basket 
+        checkSize={checkBasketSize} 
+        setCheckSize={setCheckBasketSize}
+        reloadProductList={setLoadingData}
+      /> : <></>}
       <Backdrop in={showDetails}/>
       <Dialog
         open={showDetails}

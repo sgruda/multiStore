@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Basket({checkSize, setCheckSize}) {
+function Basket({checkSize, setCheckSize, reloadProductList}) {
     const classes = useStyles();
     const { t } = useTranslation();
     const [loadingData, setLoadingData] = useState(true);
@@ -90,6 +90,7 @@ function Basket({checkSize, setCheckSize}) {
     const handleCloseOrderDialog = () => {
         setShowOrderDialog(false);
         setLoadingData(true);
+        reloadProductList(true);
     }
     const handleRefresh = () => {
         setLoadingData(true);
@@ -133,6 +134,7 @@ function Basket({checkSize, setCheckSize}) {
         if (loadingData) {
             setLoadingData(false);
             checkExpiredJWTAndExecute(getBasket);
+
         }
         if (checkSize) {
             setCheckSize(false);

@@ -10,19 +10,15 @@ import { Backdrop } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
-import AlertApiResponseHandler from '../AlertApiResponseHandler';
+import { ROLE_CLIENT } from '../../config/config';
 import BasketService from '../../services/BasketService';
 
 function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAlert, setOpenSuccessAlert, setAlertWarningMessage, setAlertInfoMessage, loadingData, setLoadingData}) {
     const { t } = useTranslation();
     const [orderedNumber, setOrderedNumber] = useState(1);
     const [basket, setBasket] = useState(Object);
-    const {checkExpiredJWTAndExecute} = useAuth();
+    const { checkExpiredJWTAndExecute } = useAuth();
     const product = getProduct();
-
-    const handleOpenDialog = () => {
-        handleClose();
-    }
 
     const handleConfirm = () => {
         checkExpiredJWTAndExecute(addItem);
@@ -108,7 +104,7 @@ function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAle
             <Button onClick={handleConfirm} color="primary" autoFocus startIcon={<DoneIcon/>}>
                 {t('button.ok')}
             </Button>
-            <Button onClick={handleOpenDialog} color="primary" autoFocus startIcon={<CloseIcon/>}>
+            <Button onClick={handleClose} color="primary" autoFocus startIcon={<CloseIcon/>}>
                 {t('button.back')}
             </Button>
             </DialogActions>
