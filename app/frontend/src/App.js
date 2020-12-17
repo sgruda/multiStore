@@ -30,6 +30,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
 import AddIcon from '@material-ui/icons/Add';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 const drawerWidth = 240;
 const appBarHeight = 80;
@@ -146,6 +147,7 @@ function App(props) {
     { id: 'productCreation', name: t('pages.titles.product.create'), path: '/employee/addProduct', icon:  <AddIcon/>},
     { id: 'promotionsList', name: t('pages.titles.promotion.list'), path: '/employee/promotionsList', icon:  <MoneyOffIcon/>},
     { id: 'promotionCreation', name: t('pages.titles.promotion.create'), path: '/employee/addPromotion', icon:  <AddIcon/>},
+    { id: 'orderList', name: t('pages.titles.order.list'), path: '/employee/orders', icon:  <LibraryBooksIcon/>},
 
   ];
 

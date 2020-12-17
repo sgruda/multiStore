@@ -39,6 +39,9 @@ export default function Routes() {
       <EmployeeRoute exact path="/employee/addPromotion">
           <PromotionAdd />
       </EmployeeRoute>
+      <EmployeeRoute exact path="/employee/orders">
+          <OrderList/>
+      </EmployeeRoute>
       <PrivateRoute exact path="/orders">
           <OrderList/>
       </PrivateRoute>
