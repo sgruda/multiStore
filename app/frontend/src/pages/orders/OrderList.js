@@ -65,7 +65,7 @@ function OrderList() {
     const { activeRole, checkExpiredJWTAndExecute } = useAuth();
   
     const handleClick =  (order) => {
-      if(order.id === selectedOrder.id) {
+      if(selectedOrder != null && order.id === selectedOrder.id) {
         setSelectedOrder(null);
       } else {
         setSelectedOrder(order);
@@ -96,7 +96,7 @@ function OrderList() {
       setLoadingData(true);
     }
 
-    const isSelected = (id) => selectedOrder.id === id ? true : false;
+    const isSelected = (id) => selectedOrder != null && selectedOrder.id === id ? true : false;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalItems - page * rowsPerPage);
 
     
@@ -165,11 +165,14 @@ function OrderList() {
 
     useEffect(() => {
         if (loadingData) {
-            setLoadingData(false);
-            if(activeRole === ROLE_CLIENT)
-                checkExpiredJWTAndExecute(getClientOrders);
-            else if(activeRole === ROLE_EMPLOYEE)
+            if(activeRole === ROLE_EMPLOYEE) {
                 checkExpiredJWTAndExecute(getOrders);
+                setLoadingData(false);
+            }
+            else {
+                checkExpiredJWTAndExecute(getClientOrders);
+                setLoadingData(false);
+            }
         }
     }, [loadingData]);
 

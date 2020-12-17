@@ -31,7 +31,7 @@ function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRo
                   className={classes.tableRow}
                 >
                     <TableCell align="center" className={classes.tableCell}>
-                        {order.identifier}
+                        {order.identifier.slice(0, 8) + '...'}
                     </TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.orderDate}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.buyerEmail}</TableCell>
