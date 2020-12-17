@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -7,6 +8,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 
 function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRows, dense}) {
+  const { t } = useTranslation();
+
   const handleOrderedTitles = (order) => {
     let orderedTitles = '';
     order.orderedItemDTOS.map(item => {
@@ -33,12 +36,20 @@ function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRo
                     <TableCell align="center" className={classes.tableCell}>
                         {order.identifier.slice(0, 8) + '...'}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>{order.orderDate}</TableCell>
+                    <TableCell align="center" className={classes.tableCell}>
+                      {
+                        new Intl.DateTimeFormat("en-GB", {
+                          year: 'numeric', month: 'numeric', day: 'numeric',
+                          hour: 'numeric', minute: 'numeric',
+                          hour12: false,
+                        }).format(new Date(order.orderDate))
+                      }
+                    </TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.buyerEmail}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{orderedTitles}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.totalPrice}</TableCell>
                     <TableCell align="center" className={classes.tableCell}>{order.address}</TableCell>
-                    <TableCell align="center" className={classes.tableCell}>{order.status}</TableCell>
+                    <TableCell align="center" className={classes.tableCell}>{t('order.status.' + order.status)}</TableCell>
                 </TableRow>
                 );
             })}

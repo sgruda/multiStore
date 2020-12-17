@@ -243,6 +243,12 @@
                 }
             }
         },
+        "status": {
+            "submitted": "Submitted", 
+            "prepared": "Prepared", 
+            "send": "Send", 
+            "delivered": "Delivered"
+        },
         "submit": {
             "address": "Address of order"
         },

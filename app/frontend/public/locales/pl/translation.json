@@ -243,6 +243,12 @@
                 }
             }
         },
+        "status": {
+            "submitted": "Złożony", 
+            "prepared": "Przygotowywany", 
+            "send": "Wysłany", 
+            "delivered": "Dostarczony"
+        },
         "submit": {
             "address": "Adres dostawy"
         },
