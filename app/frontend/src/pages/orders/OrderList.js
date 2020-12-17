@@ -101,7 +101,7 @@ function OrderList() {
 
     
     async function getOrders() {
-        await OrderService.getAllOrders()
+        await OrderService.getAllOrders(page, rowsPerPage)
         .then(response => {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
@@ -132,7 +132,7 @@ function OrderList() {
         );
     }
     async function getClientOrders() {
-        await OrderService.getClientOrders()
+        await OrderService.getClientOrders(page, rowsPerPage)
         .then(response => {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
@@ -151,7 +151,7 @@ function OrderList() {
                 });
                 setOrders(orders);
                 setPage(response.data.currentPage);
-                setTotalPages( response.data.totalItems);
+                setTotalPages( response.data.totalItems); 
             }
         },
             (error) => {
