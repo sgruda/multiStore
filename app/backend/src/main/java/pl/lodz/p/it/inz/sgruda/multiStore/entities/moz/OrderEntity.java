@@ -46,7 +46,7 @@ public class OrderEntity implements Serializable, VersionGetter {
     @ManyToOne(optional = false)
     private AccountEntity accountEntity;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ordered_item_order_mapping",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ordered_item_id"))
