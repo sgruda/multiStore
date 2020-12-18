@@ -78,6 +78,7 @@ function OrderList() {
     const [showRefreshButton, setShowRefreshButton] = useState(false);
 
     const [loadingData, setLoadingData] = useState(true);
+    const [refreshDetails, setRefreshDetails] = useState(false);
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(Object);
     const [page, setPage] = useState(0);
@@ -129,10 +130,12 @@ function OrderList() {
 
     const handleRefreshDetails = () => {
       checkExpiredJWTAndExecute(getOrder);
+      setShowRefreshButton(false);
     }
 
     const handleChangeStatus = () => {
       checkExpiredJWTAndExecute(changeStatus);
+      setRefreshDetails(true);
     }
 
     const getNextStatus = (presentStatus) => {
@@ -266,7 +269,11 @@ function OrderList() {
                 setLoadingData(false);
             }
         }
-    }, [loadingData]);
+        if(refreshDetails) {
+          setRefreshDetails(false);
+          checkExpiredJWTAndExecute(getOrder);
+        }
+    }, [loadingData, refreshDetails]);
 
 
     const headerCells = [
