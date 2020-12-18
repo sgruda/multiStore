@@ -105,7 +105,7 @@ public class OrderSubmitEndpoint {
 
         @NotNull(message = "validation.notnull")
         @Size(max = 64, message = "validation.size")
-        @Pattern(regexp = "[0-9A-Za-z-/ ]+", message = "validation.pattern")
+        @Pattern(regexp = "[-0-9A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ/,.' ]+", message = "validation.pattern")
         private String address;
     }
 }
