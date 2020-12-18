@@ -21,7 +21,32 @@ export const API_URL_RESET_PASSWORD = API_BASE_URL + '/api/auth/reset-password';
 export const API_URL_CHANGE_RESETTED_PASSWORD = API_URL_RESET_PASSWORD + '/change';
 
 export const API_URL_PRODUCTS = API_BASE_URL + "/api/products";
+export const API_URL_PRODUCT = API_BASE_URL + "/api/product";
+export const API_URL_CREATE_PRODUCT = API_URL_PRODUCT + "/create";
+export const API_URL_EDIT_PRODUCT = API_URL_PRODUCT + "/edit";
+export const API_URL_BLOCK_PRODUCT = API_URL_PRODUCT + "/block";
+export const API_URL_UNBLOCK_PRODUCT = API_URL_PRODUCT + "/unblock";
 
+export const API_URL_PROMOTIONS = API_BASE_URL + "/api/promotions";
+export const API_URL_PROMOTION = API_BASE_URL + "/api/promotion";
+export const API_URL_CREATE_PROMOTION = API_URL_PROMOTION + "/create";
+export const API_URL_DELETE_PROMOTION = API_URL_PROMOTION + "/delete";
+export const API_URL_BLOCK_PROMOTION = API_URL_PROMOTION + "/block";
+export const API_URL_UNBLOCK_PROMOTION = API_URL_PROMOTION + "/unblock";
+
+export const API_URL_BASKET = API_BASE_URL + "/api/basket";
+export const API_URL_BASKET_SIZE = API_URL_BASKET + "/size";
+export const API_URL_BASKET_ADD = API_URL_BASKET + "/add";
+export const API_URL_BASKET_ITEM_EDIT = API_URL_BASKET + "/item/edit";
+export const API_URL_BASKET_REMOVE = API_URL_BASKET + "/remove";
+
+export const API_URL_ORDER = API_BASE_URL + "/api/order";
+export const API_URL_ORDER_CHANGE_STATUS = API_URL_ORDER + "/change-status";
+export const API_URL_ORDER_SUBMIT = API_URL_ORDER + "/submit";
+export const API_URL_ORDER_TOTAL_PRICE = API_URL_ORDER + "/total-price";
+export const API_URL_ORDERS = API_BASE_URL + "/api/orders";
+export const API_URL_ORDERS_ALL = API_URL_ORDERS + "/all";
+export const API_URL_ORDERS_MINE = API_URL_ORDERS + "/mine";
 
 
 export const ACCESS_TOKEN = 'accessToken';
