@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
@@ -12,7 +13,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
-
+@Log
 @Component
 public class CheckerMozDTO extends CheckerSimpleDTO {
     @Autowired

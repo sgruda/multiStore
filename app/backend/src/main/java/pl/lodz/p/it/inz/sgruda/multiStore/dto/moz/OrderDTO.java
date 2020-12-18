@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
 import javax.validation.Valid;
@@ -11,7 +12,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Log
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -58,8 +59,9 @@ public @Data class OrderDTO implements SignatureVerifiability {
     @Override
     public List<String> specifySigningParams() {
         String items = orderedItemDTOS.stream()
-                .map(item -> item.getSignature())
+                .map(item -> item.getIdentifier())
+                .sorted()
                 .collect(Collectors.joining());
-        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), status, items, address, String.valueOf(version));
+        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, address, String.valueOf(version));
     }
 }
