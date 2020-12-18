@@ -22,6 +22,26 @@ class OrderService {
     getClientOrders(page, size) {
         return axios.get(API_URL_ORDERS_MINE + "?page=" + page + "&size=" + size, { headers: AuthorizationHeader() });
     }
+    changeStatus(order) {
+        const data = {
+            idHash: order.id,
+            identifier: order.identifier,
+            orderDate: order.orderDate,
+            buyerEmail: order.buyerEmail,
+            orderedItemDTOS: order.orderedItemDTOS,
+            totalPrice: order.totalPrice,
+            status: order.status,
+            address: order.address,
+            version: order.version,
+            signature: order.signature
+        };
+        console.log("data")
+        console.log(data)
+        return axios.put(API_URL_ORDER_CHANGE_STATUS, data, { headers: AuthorizationHeader() });
+    }
+    getOrder(id) {
+        return axios.get(API_URL_ORDER + "?id=" + id, { headers: AuthorizationHeader() });
+    }
 
 } 
 export default new OrderService(); 

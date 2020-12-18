@@ -15,6 +15,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import Collapse from '@material-ui/core/Collapse';
 
 import OrderService from '../../services/OrderService';
 import OrdersTableHeader from '../../components/orders/table/OrdersTableHeader';
@@ -22,6 +24,7 @@ import OrdersTableBody from '../../components/orders/table/OrdersTableBody';
 import { Button } from "@material-ui/core";
 import { ROLE_CLIENT, ROLE_EMPLOYEE } from "../../config/config";
 import OrderDetails from '../../components/orders/OrderDetails';
+import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 
 const useStyles = makeStyles({
     table: {
@@ -54,6 +57,12 @@ const useStyles = makeStyles({
     details: {
         backgroundColor: '#e6f3fa',
     },
+    buttonRefresh: {
+      backgroundColor: "#4285F4",
+      "&:hover": {
+        backgroundColor: "#2c0fab"
+      }
+    },
 });
 
 
@@ -61,6 +70,12 @@ const useStyles = makeStyles({
 function OrderList() {
     const classes = useStyles();
     const { t } = useTranslation();
+
+    const [openWarningAlert, setOpenWarningAlert] = useState(false);
+    const [alertWarningMessage, setAlertWarningMessage] = useState('');
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [alertInfoMessage, setAlertInfoMessage] = useState('');
+    const [showRefreshButton, setShowRefreshButton] = useState(false);
 
     const [loadingData, setLoadingData] = useState(true);
     const [orders, setOrders] = useState([]);
@@ -110,6 +125,21 @@ function OrderList() {
       setRowsPerPage(5);
       setPage(0);
       setLoadingData(true);
+    }
+
+    const handleRefreshDetails = () => {
+      checkExpiredJWTAndExecute(getOrder);
+    }
+
+    const handleChangeStatus = () => {
+      checkExpiredJWTAndExecute(changeStatus);
+    }
+
+    const getNextStatus = (presentStatus) => {
+      if(presentStatus === "submitted") return 'prepared';
+      else if(presentStatus === "prepared") return 'send';
+      else if(presentStatus === "send") return 'delivered';
+      else if(presentStatus === "delivered") return '';
     }
 
     const isSelected = (id) => selectedOrder != null && selectedOrder.id === id ? true : false;
@@ -178,6 +208,52 @@ function OrderList() {
             }
         );
     }
+    async function getOrder() {
+      await OrderService.getOrder(selectedOrder.identifier)
+      .then(response => {
+          if (response.status === 200) { 
+                  const order = {
+                      id: response.data.idHash,
+                      identifier: response.data.identifier,
+                      orderDate: response.data.orderDate,
+                      buyerEmail: response.data.buyerEmail,
+                      orderedItemDTOS: response.data.orderedItemDTOS,
+                      totalPrice: response.data.totalPrice,
+                      status: response.data.status,
+                      address: response.data.address,
+                      version: response.data.version,
+                      signature: response.data.signature,
+                  };
+              setSelectedOrder(order);
+          }
+      },
+          (error) => {
+          const resMessage =
+              (error.response && error.response.data && error.response.data.message) 
+              || error.message || error.toString();
+              console.error("OrderList: " + resMessage);
+          }
+      );
+  }
+    async function changeStatus() {
+      await OrderService.changeStatus(selectedOrder)
+      .then(response => {
+          if (response.status === 200) { 
+            setAlertInfoMessage(t('response.ok'));
+            setOpenSuccessAlert(true);
+          }
+      },
+          (error) => {
+          const resMessage =
+              (error.response && error.response.data && error.response.data.message) 
+              || error.message || error.toString();
+              console.error("OrderList: " + resMessage);
+              setAlertWarningMessage(t(error.response.data.message.toString()));
+              setOpenWarningAlert(true);
+              setShowRefreshButton(true);
+          }
+      );
+  }
 
     useEffect(() => {
         if (loadingData) {
@@ -235,25 +311,36 @@ function OrderList() {
                 <OrderDetails
                   order={selectedOrder}
                 />
+                <AlertApiResponseHandler
+                  openWarningAlert={openWarningAlert}
+                  setOpenWarningAlert={setOpenWarningAlert}
+                  openSuccessAlert={openSuccessAlert}
+                  setOpenSuccessAlert={setOpenSuccessAlert}
+                  alertWarningMessage={alertWarningMessage}
+                  alertInfoMessage={alertInfoMessage}
+                />
               </DialogContentText>
-              {/* <AlertApiResponseHandler
-                    openWarningAlert={openWarningAlert}
-                    setOpenWarningAlert={setOpenWarningAlert}
-                    openSuccessAlert={openSuccessAlert}
-                    setOpenSuccessAlert={setOpenSuccessAlert}
-                    alertWarningMessage={alertWarningMessage}
-                    alertInfoMessage={alertInfoMessage}
-                  /> */}
             </DialogContent>
             <DialogActions className={classes.details}>
-          { activeRole === ROLE_EMPLOYEE 
+          { activeRole === ROLE_EMPLOYEE && selectedOrder != null && selectedOrder.status != 'delivered'
             ?
-            <></>
-            // <Collapse in={!showEdit}>    
-            //   <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>
-            //     {t('button.edit')}
-            //   </Button>
-            // </Collapse> 
+              <div>
+                <Button onClick={handleChangeStatus} color="primary" autoFocus startIcon={<PlayArrowIcon/>}>
+                  {t('button.change-status') + ' "' + t('order.status.' + getNextStatus(selectedOrder.status)) + '"'}
+                </Button>
+                <Collapse in={showRefreshButton}>
+                  <Button
+                    onClick={handleRefreshDetails}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    className={classes.buttonRefresh}
+                    startIcon={<SyncIcon size="large" color="primary"/>}
+                  >
+                    {t('button.refresh')}
+                  </Button>
+                </Collapse>
+              </div>
             :
               <></>
           }

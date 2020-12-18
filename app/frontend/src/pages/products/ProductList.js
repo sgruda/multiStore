@@ -110,7 +110,6 @@ function ProductList() {
     setCheckBasketSize(true);
     setLoadingData(true);
     setLoadingBasketToAdd(true);
-    console.log("loadingData " + loadingData)
   }
 
   async function getProducts() {
