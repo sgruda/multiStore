@@ -230,6 +230,20 @@
         }
     },
     "order": {
+        "details": {
+            "address":"Address of delivery",
+            "buyerEmail": "Buyer's address e-mail",
+            "identifier": "Identifier of order",
+            "orderDate": "Date of submitting order",
+            "orderedProducts": "Ordered products",
+            "product": {
+                "orderedNumber":"Ordered number of items",
+                "price":"Price",
+                "title": "Title"
+            },
+            "status": "Status",
+            "totalPrice": "Total price"
+        },
         "list": {
             "table": {
                 "header": {

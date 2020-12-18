@@ -230,6 +230,20 @@
         }
     },
     "order": {
+        "details": {
+            "address":"Adres dostawy",
+            "buyerEmail": "Adres e-mail zamawiającego",
+            "identifier": "Identyfikator zamówienia",
+            "orderDate": "Data złożenia zamówienia",
+            "orderedProducts": "Zamówione produkty",
+            "product": {
+                "orderedNumber":"Zamówiona liczba sztuk",
+                "price":"Cena",
+                "title": "Tytuł"
+            },
+            "status": "Status",
+            "totalPrice": "Suma zamówienia"
+        },
         "list": {
             "table": {
                 "header": {
