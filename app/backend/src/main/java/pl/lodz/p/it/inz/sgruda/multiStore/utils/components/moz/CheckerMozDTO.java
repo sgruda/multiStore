@@ -1,5 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
@@ -12,7 +13,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
-
+@Log
 @Component
 public class CheckerMozDTO extends CheckerSimpleDTO {
     @Autowired
@@ -40,6 +41,13 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         }
     }
 
+    public void checkOrderedItemDTOSignature(OrderedItemDTO dto) throws DTOSignatureException {
+        if(dto != null) {
+            super.checkSignatureSingleDTO(dto);
+            super.checkSignatureSingleDTO(dto.getOrderedProduct());
+        }
+    }
+
     public void checkOrderDTOVersion(OrderEntity entity, OrderDTO dto) throws DTOVersionException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
@@ -62,6 +70,12 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
                     }
             }
             super.checkVersionSingleDTO(entity, dto);
+        }
+    }
+    public void checkOrderedItemDTOVersion(OrderedItemEntity entity, OrderedItemDTO dto) throws DTOVersionException {
+        if(dto != null && entity != null) {
+                super.checkVersionSingleDTO(entity, dto);
+                super.checkVersionSingleDTO(entity.getProductEntity(), dto.getOrderedProduct());
         }
     }
 }

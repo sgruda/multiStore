@@ -27,6 +27,10 @@
             },
             "roles": "Poziomy dostępu konta"
         },
+        "edit": {
+            "firstName": "Imię",
+            "lastName": "Nazwisko"
+        },
         "list": {
             "table": {
                 "filter": {
@@ -82,18 +86,40 @@
             "username": "Nazwa użytkownika"
         }
     },
+    "basket": {
+        "edit": {
+            "orderedNumber": "Liczba sztuk"
+        },
+        "header": {
+            "category": "Kategoria",
+            "orderedNumber": "Liczba sztuk",
+            "title": "Tytuł",
+            "price": "Cena",
+            "type": {
+                "book": "Książka",
+                "label": "Typ",
+                "movie": "Film"
+            }
+        }
+    },
     "button": {
         "add": {
             "access-level": "Dodaj poziom dostępu",
-            "default": "Dodaj"
+            "default": "Dodaj",
+            "to-basket": "Dodaj do koszyka"
         },
+        "back": "Wróć",
+        "block": "Dezaktywuj",
         "cancel": "Anuluj",
         "change": "Zmień",
         "change-password": "Zmień hasło",
+        "change-status": "Zmień status na",
         "close": "Zamknij",
+        "delete": "Usuń",
         "edit": "Edytuj",
         "no": "Nie",
         "ok": "OK",
+        "order": "Zamów",
         "refresh": "Odśwież dane",
         "remove": {
             "access-level": "Usuń poziom dostępu",
@@ -113,6 +139,7 @@
             "facebook": "Zarejestruj się z kontem Facebook",
             "google": "Zarejestruj się z kontem Google"
         },
+        "unblock": "Aktywuj",
         "yes": "Tak"
     },
     "error": {
@@ -191,8 +218,10 @@
     "densePadding": "Małe komórki w wierszach",
     "dialog": {
         "content": {
+            "how-many-items": "Jak dużo przedmiotów chcesz dodać?",
             "confirm": "Jesteś pewny?",
             "jwt-expired": "Twoja sesja użytkownika wygasła. Zaloguj się jeszcze raz",
+            "order-address": "Podaj adres dostawy.",
             "remove": {
                 "the": "Konto ",
                 "deleted": " zostało pomyślnie usunięte."
@@ -200,6 +229,45 @@
             "reset-password": "Hasło zostało pomyślnie zresetowane. Proszę zaloguj się.",
             "signup": "Rejestracja się powiodła! Potwierdź swój adres e-mail (otrzymasz w wiadomości link aktywujący konto)."
         }
+    },
+    "order": {
+        "details": {
+            "address":"Adres dostawy",
+            "buyerEmail": "Adres e-mail zamawiającego",
+            "identifier": "Identyfikator zamówienia",
+            "orderDate": "Data złożenia zamówienia",
+            "orderedProducts": "Zamówione produkty",
+            "product": {
+                "orderedNumber":"Zamówiona liczba sztuk",
+                "price":"Cena",
+                "title": "Tytuł"
+            },
+            "status": "Status",
+            "totalPrice": "Suma zamówienia"
+        },
+        "list": {
+            "table": {
+                "header": {
+                    "address": "Adres dostawy",
+                    "buyerEmail": "Adres e-mail nabywcy",
+                    "identifier": "Identyfikator",
+                    "orderDate": "Data zamówienia",
+                    "orderedTitles": "Zamówione tytuły",
+                    "status": "Status",
+                    "totalPrice": "Cena"
+                }
+            }
+        },
+        "status": {
+            "submitted": "Złożony", 
+            "prepared": "Przygotowywany", 
+            "send": "Wysłany", 
+            "delivered": "Dostarczony"
+        },
+        "submit": {
+            "address": "Adres dostawy"
+        },
+        "total-price": "Cena całkowita"
     },
     "pages": {
         "titles": {
@@ -210,14 +278,27 @@
                 },
                 "accounts": "Konta",
                 "activity": "Aktywność",
-                "add": "Dodanie konta",
+                "add": "Dodawanie konta",
                 "change-password": "Zmienianie hasła",
                 "create": "Tworzenie nowego konta",
                 "edit": "Edycja konta",
                 "list": "Lista kont"
             },
+            "basket": {
+                "content": "Zawartość Twojego koszyka"
+            },
             "email-veryfication": "Weryfikacja adresu e-mail",
+            "order": {
+                "list": "Lista zamówień"
+            },
+            "product": {
+                "create": "Tworzenie nowego produktu"
+            },
             "profile": "Profil",
+            "promotion": {
+                "create":"Tworzenie nowej promocji",
+                "list": "Lista promocji"
+            },
             "reset-password": "Reset hasła",
             "signin": "Logowanie",
             "signout": "Wyloguj się",
@@ -225,12 +306,43 @@
         }
     },
     "product": {
+        "create": {
+            "form": {
+                "category": "Kategoria",
+                "description": "Opis",
+                "inStore": "Liczba w magazynie",
+                "title": "Tytuł",
+                "price": "Cena",
+                "type": {
+                    "book": "Książka",
+                    "label": "Typ",
+                    "movie": "Film"
+                }
+            }
+        },
+        "details": {
+            "active": "Dostępność",
+            "category": "Kategoria",
+            "description": "Opis",
+            "inStore": "W magazynie",
+            "price": "Cena",
+            "title": "Tytuł",
+            "type": "Typ"
+        },
+        "edit": {
+            "form": {
+                "description": "Opis",
+                "inStore": "Liczba w magazynie",
+                "price": "Cena"
+            }
+        },
         "fields": {
+            "active": "DOSTĘPNY",
             "category": {
                 "action": "Akcja",
                 "adventure": "Przygoda",
                 "detective": "Kryminały",
-                "document": "Dokumnety",
+                "document": "Dokumenty",
                 "fantasy": "Fantastyka",
                 "fiction": "Fikcja",
                 "history": "Historia",
@@ -242,6 +354,44 @@
             "type": {
                 "book": "Książka",
                 "movie": "Film"
+            }
+        },
+        "list": {
+            "filter": {
+                "all": "Wszystkie",
+                "label": {
+                    "activity": "Pokaż produkty",
+                    "text": "Produkty zawierające frazę",
+                    "type": "Typ szukanych produktów"
+                },
+                "only-active": "Tylko aktywne produkty",
+                "only-books": "Tylko ksiązki",
+                "only-movies": "Tylko filmy",
+                "only-non-active": "Tylko nieaktywne produkty",
+                "search": "Szukaj"
+            },
+            "view-settings": "Ustawienia widoku"
+        }
+    },
+    "promotion": {
+        "create": {
+            "form": {
+                "discount": "Wartość zniżki",
+                "name": "Nazwa promocji",
+                "onCategory": "Zniżka na kategorię"
+            }
+        },
+        "list": {
+            "table": {
+                "header": {
+                    "activity": "Aktywność",
+                    "discount": "Zniżka",
+                    "name": "Nazwa",
+                    "onCategory": "Obejmuje kategorię"
+                },
+                "pagination": {
+                    "rows-per-page": "Wiersze na stronę"
+                }
             }
         }
     },

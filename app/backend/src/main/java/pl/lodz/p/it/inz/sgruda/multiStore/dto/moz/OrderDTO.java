@@ -4,17 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-
+@Log
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,6 +47,10 @@ public @Data class OrderDTO implements SignatureVerifiability {
     private String status;
 
     @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "[-0-9A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ/,.' ]+", message = "validation.pattern")
+    private String address;
+
+    @NotNull(message = "validation.notnull")
     private long version;
 
     @NotNull(message = "validation.notnull")
@@ -57,8 +59,9 @@ public @Data class OrderDTO implements SignatureVerifiability {
     @Override
     public List<String> specifySigningParams() {
         String items = orderedItemDTOS.stream()
-                .map(item -> item.getSignature())
+                .map(item -> item.getIdentifier())
+                .sorted()
                 .collect(Collectors.joining());
-        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), status, items, String.valueOf(version));
+        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, address, String.valueOf(version));
     }
 }

@@ -6,9 +6,24 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Pagination from '@material-ui/lab/Pagination';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Backdrop from '@material-ui/core/Backdrop';
+import Collapse from '@material-ui/core/Collapse';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 import ProductService from '../../services/ProductService';
 import ProductCard from '../../components/products/ProductCard';
+import ProductCardsSettingsView from '../../components/products/ProductCardsSettingsView';
+import Basket from '../../components/basket/Basket';
+import { ROLE_CLIENT, ROLE_EMPLOYEE } from '../../config/config';
+import ProductEditDetailsHelper from '../../components/products/ProductEditDetailsHandler';
+import BasketAddDialog from '../../components/basket/BasketAddDialog';
+import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 
 const useStyles = makeStyles((theme) => ({
     gridContainer: {
@@ -22,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             marginTop: theme.spacing(3),
         },
+    },
+    details: {
+        backgroundColor: '#e6f3fa',
     },
 }));
 
@@ -39,17 +57,63 @@ function ProductList() {
   const [filterActiveProducts, setFilterActiveProducts] = useState(null);
   const [filterType, setFilterType] = useState(null);
 
-  const {checkExpiredJWTAndExecute} = useAuth();
+  const [selectedProductTitle, setSelectedProductTitle] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showAddToBasket, setShowAddToBasket] = useState(false);
+  const [checkBasketSize, setCheckBasketSize] = useState(true);
+  const [loadingBasketToAdd, setLoadingBasketToAdd] = useState(true);   
+
+
+  const [openWarningAlert, setOpenWarningAlert] = useState(false);
+  const [alertWarningMessage, setAlertWarningMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [alertInfoMessage, setAlertInfoMessage] = useState('');
+
+  const {activeRole, checkExpiredJWTAndExecute} = useAuth();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     setLoadingData(true);
   }
 
-  const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems - (page - 1) * cardsPerPage));
+  const emptyCards = cardsPerPage - Math.abs(Math.min(cardsPerPage, totalItems  - (page - 1) * cardsPerPage));
+
+  const handleSearch = (text) => {
+      setTextToSearch(text);
+      setPage(1);
+      setLoadingData(true);
+  }
+
+  const handleRefresh = () => {
+    setFilterType(null);
+    setFilterActiveProducts(null);
+    setTextToSearch(null);
+    setCardsPerPage(7);
+    setPage(1);
+    setLoadingData(true);
+    setLoadingBasketToAdd(true);
+    setCheckBasketSize(true);
+  }
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+    setShowEdit(false);
+    setSelectedProductTitle(null);
+    setLoadingData(true);
+    setLoadingBasketToAdd(true);
+    setCheckBasketSize(true);
+  }
+
+  const handleBasketAdd = () => {
+    setShowAddToBasket(!showAddToBasket);
+    setCheckBasketSize(true);
+    setLoadingData(true);
+    setLoadingBasketToAdd(true);
+  }
 
   async function getProducts() {
-    await ProductService.getProducts(textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
+    await ProductService.getProducts(textToSearch === '' ? null : textToSearch, page - 1, cardsPerPage, filterType, filterActiveProducts)
     .then(response => {
         if (response.status === 200) { 
             const products = response.data.products.map(product => {
@@ -62,6 +126,8 @@ function ProductList() {
                   type: product.type,
                   category: product.category,
                   active: product.active,
+                  version: product.version,
+                  signature: product.signature
                 };
             });
             setProducts(products);
@@ -90,12 +156,23 @@ useEffect(() => {
   return (
     <div>
         {!loadingData ? (
+        <div>
+          <ProductCardsSettingsView
+          activeRole={activeRole}
+          setFilterActiveProducts={setFilterActiveProducts}
+          setFilterTypeProducts={setFilterType}
+          handleSearch={handleSearch}
+          handleRefresh={handleRefresh}
+        />
         <Grid container spacing={3} className={classes.gridContainer} justify="center">
           {products.map(
             (product) =>
               <ProductCard
                 product={product}
-              /> 
+                setSelectedProduct={setSelectedProductTitle}
+                setShowDetails={setShowDetails}
+                showBackdrop={showDetails}
+              />
           )}
           {emptyCards > 0 && (
               <Grid item  style={{ height: 100 * emptyCards }}/>
@@ -110,9 +187,90 @@ useEffect(() => {
             />
           </Grid>
         </Grid>
+        </div>
       ) : (
         <CircularProgress />
       )}
+      { activeRole === ROLE_CLIENT 
+      ? 
+      <Basket 
+        checkSize={checkBasketSize} 
+        setCheckSize={setCheckBasketSize}
+        reloadProductList={setLoadingData}
+      /> : <></>}
+      <Backdrop in={showDetails}/>
+      <Dialog
+        open={showDetails}
+        onClose={handleCloseDetails}
+        aria-describedby="dialog-description"
+       >
+        <DialogContent className={classes.details}>
+          <DialogContentText id="dialog-description">
+            <ProductEditDetailsHelper
+              productTitle={selectedProductTitle}
+              showEdit={showEdit}
+              handleClose={handleCloseDetails}
+            />
+          </DialogContentText>
+          <AlertApiResponseHandler
+                openWarningAlert={openWarningAlert}
+                setOpenWarningAlert={setOpenWarningAlert}
+                openSuccessAlert={openSuccessAlert}
+                setOpenSuccessAlert={setOpenSuccessAlert}
+                alertWarningMessage={alertWarningMessage}
+                alertInfoMessage={alertInfoMessage}
+              />
+          
+        </DialogContent>
+        <DialogActions className={classes.details}>
+          { activeRole === ROLE_EMPLOYEE 
+            ?
+            <Collapse in={!showEdit}>    
+              <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>
+                {t('button.edit')}
+              </Button>
+            </Collapse> 
+            :
+              activeRole === ROLE_CLIENT
+                ? 
+                <Button onClick={() => setShowAddToBasket(true)} color="primary" autoFocus startIcon={<AddShoppingCartIcon/>}>
+                  {t('button.add.to-basket')}
+                </Button>
+                :<></>
+          }
+          <Button onClick={handleCloseDetails} color="primary" autoFocus startIcon={<ExitToAppIcon/>}>
+            {t('button.close')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <BasketAddDialog
+            openDialog={showAddToBasket}
+            handleClose={handleBasketAdd}
+            getProduct={() => {
+              let data;
+              products.map(product => {
+                if(product.title === selectedProductTitle)
+                  data = {
+                    idHash: product.id,
+                    title: product.title,
+                    description: product.description,
+                    inStore: product.inStore,
+                    price: product.price,
+                    type: product.type,
+                    category: product.category,
+                    version: product.version,
+                    signature: product.signature
+                  };
+              })
+              return data;
+            }}
+            setOpenWarningAlert={setOpenWarningAlert}
+            setOpenSuccessAlert={setOpenSuccessAlert}
+            setAlertWarningMessage={setAlertWarningMessage}
+            setAlertInfoMessage={setAlertInfoMessage}
+            loadingData={loadingBasketToAdd}
+            setLoadingData={setLoadingBasketToAdd}
+          />
     </div>
   );
 }

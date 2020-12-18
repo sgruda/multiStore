@@ -206,8 +206,9 @@ create table "order"
             references account_data,
     status_id   bigint           not null
         constraint status_id_references_to_status_order
-            references status
-);
+            references status,
+        address     varchar(64)  not null
+    );
 
 alter table "order"
     owner to root;

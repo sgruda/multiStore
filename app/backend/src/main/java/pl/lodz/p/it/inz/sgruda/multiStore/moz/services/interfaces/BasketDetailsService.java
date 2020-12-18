@@ -5,4 +5,5 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsExceptio
 
 public interface BasketDetailsService {
     BasketEntity getBasketEntityByOwnerEmail(String email) throws BasketNotExistsException;
+    int getBasketSizeByOwnerEmail(String email) throws BasketNotExistsException;
 }

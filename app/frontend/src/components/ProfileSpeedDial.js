@@ -14,6 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
@@ -61,9 +62,15 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
       handleCurrentAccessLevel(e);
     } else if(operation === "handleSignOut") {
         handleSignOut();
-    }
+    } else if(operation === "handleOrderList") {
+      handleOrderList();
+  }
   }
 
+  const handleOrderList = () => {
+    setOpenSpeedDial(false);
+    history.push("/orders");
+  }
   const handleProfile = () => {
     setOpenSpeedDial(false);
     history.push("/profile")
@@ -83,9 +90,10 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
   };
 
   const actions = [
-    { icon: <AccountBoxIcon className={classes.actionIcon} />, name: t('pages.titles.profile'), operation: "handleProfile"},
-    { icon: <SettingsIcon className={classes.actionIcon}/>, name: t('pages.titles.account.access-level.current'), operation: "handleCurrentAccessLevel"},
-    { icon: <ExitToAppIcon className={classes.actionIcon}/>, name: t('pages.titles.signout'),  operation: "handleSignOut"},
+    { icon: <AccountBoxIcon className={classes.actionIcon} />, name: t('pages.titles.profile'), operation: "handleProfile", role: "all"},
+    { icon: <LibraryBooksIcon className={classes.actionIcon}/>, name: t('pages.titles.order.list'), operation: "handleOrderList", role: "ROLE_CLIENT"},
+    { icon: <SettingsIcon className={classes.actionIcon}/>, name: t('pages.titles.account.access-level.current'), operation: "handleCurrentAccessLevel", role: "all"},
+    { icon: <ExitToAppIcon className={classes.actionIcon}/>, name: t('pages.titles.signout'),  operation: "handleSignOut", role: "all"},
   ];
 
   return (
@@ -104,16 +112,20 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
                 open={openSpeedDial}
                 direction="down"
             >
-                {actions.map((action) => (
-                <SpeedDialAction 
-                    key={action.name}
-                    icon={action.icon}
-                    tooltipTitle={action.name}
-                    onClick={(e) => {
-                        handleSpeedDialActionClick(e, action.operation);
-                }}
-                />
-                ))}
+                {actions.map((action) => {
+                  if(action.role === activeRole || action.role === "all") {
+                   return (
+                    <SpeedDialAction 
+                      key={action.name}
+                      icon={action.icon}
+                      tooltipTitle={action.name}
+                      onClick={(e) => {
+                          handleSpeedDialActionClick(e, action.operation);
+                      }}
+                    />
+                   );
+                  }
+              })}
             </SpeedDial>
             <Grid item>
                   <Popper open={openPopper} anchorEl={anchorElPopper} placement="left" transition>

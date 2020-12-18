@@ -1,8 +1,8 @@
 spring:
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/docker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    #    username: docker
-    #    password: docker
+    #    url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    #    username: root
+    #    password: root
     mok:
       url: DATASOURCE_MOK_URL
       username: DATASOURCE_MOK_USERNAME
@@ -23,11 +23,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  #        flushMode: COMMIT
   security:
     oauth2:
       client:

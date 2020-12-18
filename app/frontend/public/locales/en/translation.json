@@ -27,6 +27,10 @@
             },
             "roles": "Account's access levels"
         },
+        "edit": {
+            "firstName": "First Name",
+            "lastName": "Last Name"
+        },
         "list": {
             "table": {
                 "filter": {
@@ -82,18 +86,40 @@
             "username": "Username"
         }
     },
+    "basket": {
+        "edit": {
+            "orderedNumber": "Number of items"
+        },
+        "header": {
+            "category": "Category",
+            "orderedNumber": "Number of items",
+            "title": "Title",
+            "price": "Price",
+            "type": {
+                "book": "Book",
+                "label": "Type",
+                "movie": "Movie"
+            }
+        }
+    },
     "button": {
         "add": {
             "access-level": "Add access leve;",
-            "default": "Add"
+            "default": "Add",
+            "to-basket": "Add to basket"
         },
+        "back": "Back",
+        "block": "Activate",
+        "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
         "change-password": "Change password",
+        "change-status": "Change status for",
         "close": "Close",
         "edit": "Edit",
         "no": "No",
         "ok": "OK",
+        "order": "Order",
         "refresh": "Refresh data",
         "remove": {
             "access-level": "Remove access level",
@@ -113,6 +139,7 @@
             "facebook": "Sign up with Facebook",
             "google": "Sign up with Google"
         },
+        "unblock": "Deactivate",
         "yes": "Yes"
     },
     "error": {
@@ -190,9 +217,11 @@
     },
     "densePadding": "Dense padding",
     "dialog": {
-        "content": {
+        "content": {            
+            "how-many-items": "How many items do you want add?",
             "confirm": "Are you sure?",
             "jwt-expired": "Your session has been expired. Sign in one more time.",
+            "order-address": "Enter address of order.",
             "remove": {
                 "the": "The ",
                 "deleted": " account was successfully deleted."
@@ -200,6 +229,45 @@
             "reset-password": "Password was successfully resetted. Please sign in.",
             "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
         }
+    },
+    "order": {
+        "details": {
+            "address":"Address of delivery",
+            "buyerEmail": "Buyer's address e-mail",
+            "identifier": "Identifier of order",
+            "orderDate": "Date of submitting order",
+            "orderedProducts": "Ordered products",
+            "product": {
+                "orderedNumber":"Ordered number of items",
+                "price":"Price",
+                "title": "Title"
+            },
+            "status": "Status",
+            "totalPrice": "Total price"
+        },
+        "list": {
+            "table": {
+                "header": {
+                    "address": "Address of delivery",
+                    "buyerEmail": "Buyer's address e-mail",
+                    "identifier": "Identifier",
+                    "orderDate": "Date of submitting",
+                    "orderedTitles": "Ordered titles",
+                    "status": "Status",
+                    "totalPrice": "Price"
+                }
+            }
+        },
+        "status": {
+            "submitted": "Submitted", 
+            "prepared": "Prepared", 
+            "send": "Send", 
+            "delivered": "Delivered"
+        },
+        "submit": {
+            "address": "Address of order"
+        },
+        "total-price": "Total price"
     },
     "pages": {
         "titles": {
@@ -216,8 +284,21 @@
                 "edit": "Edit account",
                 "list": "Account list"
             },
+            "basket": {
+                "content": "Content of your shopping basket"
+            },
             "email-veryfication": "Address e-mail veryfication",
+            "order": {
+                "list": "Lista zamówień"
+            },
+            "product": {
+                "create": "Create new product"
+            },
             "profile": "Profile",
+            "promotion": {
+                "create":"Promotion createing",
+                "list": "Promotions list"
+            },
             "reset-password": "Reset password",
             "signin": "Sign in",
             "signout": "Sign out",
@@ -225,7 +306,38 @@
         }
     },
     "product": {
+        "create": {
+            "form": {
+                "category": "Category",
+                "description": "Description",
+                "inStore": "Number in store",
+                "title": "Title",
+                "price": "Price",
+                "type": {
+                    "book": "Book",
+                    "label": "Type",
+                    "movie": "Movie"
+                }
+            }
+        },
+        "details": {
+            "active": "Availability",
+            "category": "Category",
+            "description": "Description",
+            "inStore": "In store",
+            "price": "Price",
+            "title": "Title",
+            "type": "Type"
+        },
+        "edit": {
+            "form": {
+                "description": "Description",
+                "inStore": "Number in store",
+                "price": "Price"
+            }
+        },
         "fields": {
+            "active": "AVAILABLE",
             "category": {
                 "action": "Action",
                 "adventure": "Adventure",
@@ -242,6 +354,44 @@
             "type": {
                 "book": "Book",
                 "movie": "Movie"
+            }
+        },
+        "list": {
+            "filter": {
+                "all": "All",
+                "label": {
+                    "activity": "Show products",
+                    "text": "Products, which are containing phrase",
+                    "type": "Type of searchich products"
+                },
+                "only-active": "Only active products",
+                "only-books": "Only books",
+                "only-movies": "Only movies",
+                "only-non-active": "Only non active products",
+                "search": "Search"
+            },
+            "view-settings": "View settings"
+        }
+    },
+    "promotion": {
+        "create": {
+            "form": {
+                "discount": "Value of discount",
+                "name": "Name of discount",
+                "onCategory": "Discount for category"
+            }
+        },
+        "list": {
+            "table": {
+                "header": {
+                    "activity": "Activity",
+                    "discount": "Discount",
+                    "name": "Name",
+                    "onCategory": "Covers category"
+                },
+                "pagination": {
+                    "rows-per-page": "Rows per page"
+                }
             }
         }
     },

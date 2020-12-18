@@ -9,6 +9,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 
+import java.util.List;
 import java.util.Set;
 @Log
 @Component

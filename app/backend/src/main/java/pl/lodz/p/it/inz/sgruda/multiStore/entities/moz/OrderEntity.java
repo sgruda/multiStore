@@ -13,9 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @ToString
 @Getter
@@ -64,6 +62,12 @@ public class OrderEntity implements Serializable, VersionGetter {
     @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private StatusEntity statusEntity;
+
+    @NotNull(message = "validation.notnull")
+    @Size(max = 64, message = "validation.size")
+    @Pattern(regexp = "[-0-9A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ/,.' ]+", message = "validation.pattern")
+    @Column(name = "address", nullable = false, length = 64)
+    private String address;
 
     @Version
     @Setter(lombok.AccessLevel.NONE)

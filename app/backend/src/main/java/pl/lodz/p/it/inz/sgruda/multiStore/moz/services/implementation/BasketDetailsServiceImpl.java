@@ -31,7 +31,16 @@ public class BasketDetailsServiceImpl implements BasketDetailsService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public BasketEntity getBasketEntityByOwnerEmail(String email) throws BasketNotExistsException {
-        return basketRepository.findByAccountEntity_Email(email)
+        return basketRepository.findByAccountEntityEmail(email)
                 .orElseThrow(() -> new BasketNotExistsException());
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public int getBasketSizeByOwnerEmail(String email) throws BasketNotExistsException {
+        return basketRepository.findByAccountEntityEmail(email)
+                .orElseThrow(() -> new BasketNotExistsException())
+                .getOrderedItemEntities()
+                .size();
     }
 }

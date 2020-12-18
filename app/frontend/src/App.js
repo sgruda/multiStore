@@ -5,8 +5,6 @@ import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
 import AuthenticationService from './services/AuthenticationService';
 import RouterRedirectTo from './components/simple/RouterRedirectTo';
-import ProductList from './pages/products/ProductList';
-
 import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN, ACCESS_TOKEN, ACTIVE_ROLE} from './config/config';
 
 import ProfileSpeedDial from "./components/ProfileSpeedDial";
@@ -30,6 +28,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
+import AddIcon from '@material-ui/icons/Add';
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 const drawerWidth = 240;
 const appBarHeight = 80;
@@ -142,6 +143,13 @@ function App(props) {
     { id: 'accountList', name: t('pages.titles.account.list'), path: '/admin/accountsList', icon: <PeopleIcon/>},
     { id: 'accountCreation', name: t('pages.titles.account.create'), path: '/admin/addAccount', icon:  <PersonAddIcon/>},
   ];
+  const employeeToolbarListItem = [
+    { id: 'productCreation', name: t('pages.titles.product.create'), path: '/employee/addProduct', icon:  <AddIcon/>},
+    { id: 'promotionsList', name: t('pages.titles.promotion.list'), path: '/employee/promotionsList', icon:  <MoneyOffIcon/>},
+    { id: 'promotionCreation', name: t('pages.titles.promotion.create'), path: '/employee/addPromotion', icon:  <AddIcon/>},
+    { id: 'orderList', name: t('pages.titles.order.list'), path: '/employee/orders', icon:  <LibraryBooksIcon/>},
+
+  ];
 
   return (
     // !currentAccessToken &&
@@ -218,16 +226,22 @@ function App(props) {
         <Divider />
         { userIsAuthenticated  && activeRole === ROLE_EMPLOYEE &&
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+         {employeeToolbarListItem.map((item) => (
+            <ListItem 
+                className={classes.item}
+                button 
+                key={item.id} 
+                onClick={() => history.push(item.path)}
+            >
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
             </ListItem>
           ))}
         </List>
         }
       </Drawer>
-
       <AuthContext.Provider value={{setCurrentAccessToken, userIsAuthenticated, setUserIsAuthenticated , activeRole, checkExpiredJWTAndExecute}}>
           <Routes />
 

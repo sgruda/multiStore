@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -20,6 +21,8 @@ import SignalCellular1BarIcon from '@material-ui/icons/SignalCellular1Bar';
 import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
 import SignalCellular3BarIcon from '@material-ui/icons/SignalCellular3Bar';
 import SignalCellular4BarIcon from '@material-ui/icons/SignalCellular4Bar';
+import Backdrop from '@material-ui/core/Backdrop';
+import { ROLE_EMPLOYEE } from '../../config/config';
 
 const useStyles = makeStyles({
     avatar: {
@@ -40,6 +43,21 @@ const useStyles = makeStyles({
         width: 300,
         height: 300,
         backgroundColor: '#859299',
+        "&:hover": {
+            backgroundColor: "#859299"
+        }
+    },
+    inactiveCardEmployee: {
+        width: 300,
+        height: 300,
+        backgroundColor: '#859299',
+        "&:hover": {
+            backgroundColor: "#71777a"
+        }
+    },
+    detailsAtFront: {
+        backgroundColor: '#4e5457',
+        color: '#5c6469',
     },
     inactiveText: {
         displayBlock: "true",
@@ -61,65 +79,94 @@ const useStyles = makeStyles({
     },
 });
 
-function ProductCard({product}) {
+function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const { activeRole } = useAuth();
+
   const handleClickCard = () => {
-      alert("hej dodwanie do koszyka się robi")
-      ////Todo
+    setSelectedProduct(product.title);
+    setShowDetails(true);
+  }
+
+  const handleCardActionActive = () => {
+    if( activeRole === ROLE_EMPLOYEE )
+      return true;
+    else
+      return product.active;
   }
 
   const getIconForNumberInStore = (inStore) => {
     if (inStore === 0)
-        return <SignalCellularConnectedNoInternet0BarIcon className={classes.inStoreIcon}/>
+        return <SignalCellularConnectedNoInternet0BarIcon className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.inStoreIcon]: !showBackdrop})}/>
     else if(inStore < 20)
-        return <SignalCellular1BarIcon className={classes.inStoreIcon}/>
+        return <SignalCellular1BarIcon className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.inStoreIcon]: !showBackdrop})}/>
     else if(inStore < 50)
-        return <SignalCellular2BarIcon className={classes.inStoreIcon}/>
+        return <SignalCellular2BarIcon className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.inStoreIcon]: !showBackdrop})}/>
     else if(inStore < 100)
-        return <SignalCellular3BarIcon className={classes.inStoreIcon}/>
+        return <SignalCellular3BarIcon className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.inStoreIcon]: !showBackdrop})}/>
     else if(inStore >= 100)
-        return <SignalCellular4BarIcon className={classes.inStoreIcon}/>    
-  }
+        return <SignalCellular4BarIcon className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.inStoreIcon]: !showBackdrop})}/>
+}
 
   return (
     <Grid item xs={12} sm={6} md={3} key={product.id}>
         <Card
             className={clsx(classes.card, {
                 [classes.inactiveCard]: !product.active,
+                [classes.inactiveCardEmployee]: !product.active && handleCardActionActive(),
+                [classes.detailsAtFront]: showBackdrop
             })}
         >
         <CardHeader
             avatar={
-            <Avatar aria-label="productType" className={classes.avatar}>
-                {product.type === 'book' ? <BookIcon/> : <MovieIcon/> }
+            <Avatar aria-label="productType" 
+                className={clsx(classes.avatar, {
+                    [classes.detailsAtFront]: showBackdrop
+                })}
+            >
+                {product.type === 'book' 
+                ? <BookIcon 
+                    className={clsx({
+                        [classes.detailsAtFront]: showBackdrop
+                    })}
+                    /> 
+                : <MovieIcon
+                        className={clsx({
+                            [classes.detailsAtFront]: showBackdrop
+                        })}
+                    /> 
+                }
             </Avatar>
             }
-            // action={
-            // // <IconButton aria-label="settings">
-            // //     <MoreVertIcon />
-            // // </IconButton>
-            // }
             title={t('product.fields.type.' + product.type)}
             subheader={t('product.fields.category.' + product.category)}
         />
-        <CardActionArea disabled={!product.active} onClick={handleClickCard}>
-            <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
+        <CardActionArea disabled={!handleCardActionActive()} onClick={handleClickCard}>
+            <CardContent 
+                className={clsx(classes.cardContent, {
+                    [classes.detailsAtFront]: showBackdrop
+                })}
+            >
+                <Typography gutterBottom variant="h5" component="h2"  className={clsx({[classes.detailsAtFront]: showBackdrop})}>
                     {product.title}
                 </Typography>
                 {product.active ? 
-                <div>               
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {product.description}
-                    </Typography>
-                    <Typography variant="body6" color="textSecondary" component="p">
-                        W magazynie: {getIconForNumberInStore(product.inStore)}
+                <div>    
+                    <Typography variant="body6" color="textSecondary" component="p" className={clsx({[classes.detailsAtFront]: showBackdrop})}>
+                        {t('product.details.inStore') + ' '}
+                        {getIconForNumberInStore(product.inStore)}
+                    </Typography>           
+                    <Typography variant="body2" color="textSecondary" component="p" className={clsx({[classes.detailsAtFront]: showBackdrop})}>
+                        { product.description.length <= 197 
+                            ? product.description 
+                            : product.description.substring(0, 197) + '...'
+                        }
                     </Typography>
                 </div>
                 :
-                    <Typography className={classes.inactiveText}>
+                    <Typography className={classes.inactiveText} className={clsx({[classes.detailsAtFront]: showBackdrop})}>
                         {t('product.fields.inactive')}
                     </Typography>
                 }
@@ -127,7 +174,7 @@ function ProductCard({product}) {
         </CardActionArea>
         <CardActions>
                 <Grid item xs={12}>
-                    <Typography variant="body6" className={classes.priceText} component="p">
+                    <Typography variant="body6" className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.priceText]: !showBackdrop})} component="p">
                         {t('product.fields.price')}: {product.price}
                     </Typography>
                 </Grid>
