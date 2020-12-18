@@ -35,8 +35,6 @@ class OrderService {
             version: order.version,
             signature: order.signature
         };
-        console.log("data")
-        console.log(data)
         return axios.put(API_URL_ORDER_CHANGE_STATUS, data, { headers: AuthorizationHeader() });
     }
     getOrder(id) {
