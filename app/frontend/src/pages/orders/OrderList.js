@@ -10,13 +10,18 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import OrderService from '../../services/OrderService';
 import OrdersTableHeader from '../../components/orders/table/OrdersTableHeader';
 import OrdersTableBody from '../../components/orders/table/OrdersTableBody';
 import { Button } from "@material-ui/core";
 import { ROLE_CLIENT, ROLE_EMPLOYEE } from "../../config/config";
+import OrderDetails from '../../components/orders/OrderDetails';
 
 const useStyles = makeStyles({
     table: {
@@ -46,6 +51,9 @@ const useStyles = makeStyles({
     clearIcon: {
         color: "#eb1e1e"
     },
+    details: {
+        backgroundColor: '#e6f3fa',
+    },
 });
 
 
@@ -62,15 +70,23 @@ function OrderList() {
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     
+    const [showDetails, setShowDetails] = useState(false);
     const { activeRole, checkExpiredJWTAndExecute } = useAuth();
   
     const handleClick =  (order) => {
       if(selectedOrder != null && order.id === selectedOrder.id) {
         setSelectedOrder(null);
+        setShowDetails(false);
       } else {
         setSelectedOrder(order);
+        setShowDetails(true);
       }
     };
+    const handleCloseDetails = () => {
+      setShowDetails(false);
+      setLoadingData(true);
+      // setSelectedOrder(null);
+    }
 
 
     const handleChangePage = (event, newPage) => {
@@ -209,6 +225,43 @@ function OrderList() {
             emptyRows={emptyRows}
             dense={dense}
           />
+          <Dialog
+            open={showDetails}
+            onClose={handleCloseDetails}
+            aria-describedby="dialog-description"
+          >
+            <DialogContent className={classes.details}>
+              <DialogContentText id="dialog-description">
+                <OrderDetails
+                  order={selectedOrder}
+                />
+              </DialogContentText>
+              {/* <AlertApiResponseHandler
+                    openWarningAlert={openWarningAlert}
+                    setOpenWarningAlert={setOpenWarningAlert}
+                    openSuccessAlert={openSuccessAlert}
+                    setOpenSuccessAlert={setOpenSuccessAlert}
+                    alertWarningMessage={alertWarningMessage}
+                    alertInfoMessage={alertInfoMessage}
+                  /> */}
+            </DialogContent>
+            <DialogActions className={classes.details}>
+          { activeRole === ROLE_EMPLOYEE 
+            ?
+            <></>
+            // <Collapse in={!showEdit}>    
+            //   <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>
+            //     {t('button.edit')}
+            //   </Button>
+            // </Collapse> 
+            :
+              <></>
+          }
+          <Button onClick={handleCloseDetails} color="primary" autoFocus startIcon={<ExitToAppIcon/>}>
+            {t('button.close')}
+          </Button>
+        </DialogActions>
+          </Dialog>
         </Table>
       </TableContainer>
       <TablePagination
