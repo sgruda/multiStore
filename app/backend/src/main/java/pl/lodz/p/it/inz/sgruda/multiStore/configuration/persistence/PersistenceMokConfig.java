@@ -65,7 +65,8 @@ public class PersistenceMokConfig {
     public LocalContainerEntityManagerFactoryBean mokManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mokDataSource())
-                .packages(AccountEntity.class, AccessLevelEntity.class, AuthenticationDataEntity.class, ForgotPasswordTokenEntity.class, BasketEntity.class, OrderEntity.class, ProductEntity.class)
+                .packages(AccountEntity.class, AccessLevelEntity.class, AuthenticationDataEntity.class,
+                        ForgotPasswordTokenEntity.class, BasketEntity.class, OrderEntity.class, ProductEntity.class)
                 .build();
     }
 

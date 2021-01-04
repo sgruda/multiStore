@@ -28,9 +28,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
