@@ -9,11 +9,4 @@ public class ProductNotExistsException extends AppBaseException {
         super(KEY_PRODUCT_NOT_EXISTS);
     }
 
-    public ProductNotExistsException(String message) {
-        super(message);
-    }
-
-    public ProductNotExistsException(Throwable cause) {
-        super(KEY_PRODUCT_NOT_EXISTS, cause);
-    }
 }

@@ -9,11 +9,4 @@ public class UsernameAlreadyExistsException extends AppBaseException {
         super(KEY_ACCOUNT_USERNAME_PROBLEM);
     }
 
-    public UsernameAlreadyExistsException(String message) {
-        super(message);
-    }
-
-    public UsernameAlreadyExistsException(Throwable cause) {
-        super(KEY_ACCOUNT_USERNAME_PROBLEM, cause);
-    }
 }

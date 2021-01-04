@@ -8,12 +8,4 @@ public class OrderNotExistsException extends AppBaseException {
     public OrderNotExistsException() {
         super(KEY_ORDER_NOT_EXISTS);
     }
-
-    public OrderNotExistsException(String message) {
-        super(message);
-    }
-
-    public OrderNotExistsException(Throwable cause) {
-        super(KEY_ORDER_NOT_EXISTS, cause);
-    }
 }

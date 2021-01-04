@@ -9,11 +9,4 @@ public class TokenJWTVariousIDException extends AppBaseException {
         super(KEY_JWT_VARIOUS_ID);
     }
 
-    public TokenJWTVariousIDException(String message) {
-        super(message);
-    }
-
-    public TokenJWTVariousIDException(Throwable cause) {
-        super(KEY_JWT_VARIOUS_ID, cause);
-    }
 }

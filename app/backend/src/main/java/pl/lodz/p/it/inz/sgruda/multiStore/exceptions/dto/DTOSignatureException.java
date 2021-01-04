@@ -9,11 +9,4 @@ public class DTOSignatureException extends AppBaseException {
         super(KEY_DTO_SIGNATURE);
     }
 
-    public DTOSignatureException(String message) {
-        super(message);
-    }
-
-    public DTOSignatureException(Throwable cause) {
-        super(KEY_DTO_SIGNATURE, cause);
-    }
 }
