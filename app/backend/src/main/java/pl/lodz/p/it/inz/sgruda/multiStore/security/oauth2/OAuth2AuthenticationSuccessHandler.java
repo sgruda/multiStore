@@ -6,6 +6,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.BadRequestException;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.TokenJWTService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.CookieUtils;
@@ -53,7 +54,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .map(Cookie::getValue);
 
         if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new BadRequestException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
+            throw new BadRequestException(); //Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication
         }
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
