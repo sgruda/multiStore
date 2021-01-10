@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return  tokenService.generateToken(authentication);
+        return tokenService.generateToken(authentication);
     }
 
     @Override

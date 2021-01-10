@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>pl.lodz.p.it.inz.sgruda</groupId>
 	<artifactId>multiStore</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>multiStore</name>
 	<description>Praca inzynierska</description>
 	<packaging>jar</packaging>
