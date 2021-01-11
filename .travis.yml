@@ -4,11 +4,11 @@ jdk:
 services: docker
 env:
   global:
-  - GCP_PROJECT_ID=multistore-289010
-  - IMAGE_BACKEND=gcr.io/multistore-289010/app_backend
-  - IMAGE_FRONTEND=gcr.io/multistore-289010/app_frontend
-  - CLOUD_RUN_SERVICE_BACKEND=multistore-backend
-  - CLOUD_RUN_SERVICE_FRONTEND=multistore-app-frontend
+  - GCP_PROJECT_ID=sigma-kayak-301311
+  - IMAGE_BACKEND=gcr.io/sigma-kayak-301311/backend
+  - IMAGE_FRONTEND=gcr.io/sigma-kayak-301311/frontend
+  - CLOUD_RUN_SERVICE_BACKEND=backend
+  - CLOUD_RUN_SERVICE_FRONTEND=frontend
   - CLOUD_RUN_REGION=europe-west3
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1 # prevent gcloud from prompting
 before_install:
