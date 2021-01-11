@@ -1,8 +1,5 @@
 spring:
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/multistore?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    #    username: root
-    #    password: root
     mok:
       url: DATASOURCE_MOK_URL
       username: DATASOURCE_MOK_USERNAME
@@ -36,14 +33,14 @@ spring:
           google:
             clientId: OAUTH2_GOOGLE_CLIENT_ID
             clientSecret: OAUTH2_GOOGLE_CLIENT_SECRET
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirectUri: "https://backend-7lhoj5kiqa-ey.a.run.app/oauth2/callback/google"
             scope:
               - email
               - profile
           facebook:
             clientId: OAUTH2_FACEBOOK_CLIENT_ID
             clientSecret: OAUTH2_FACEBOOK_CLIENT_SECRET
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirectUri: "https://backend-7lhoj5kiqa-ey.a.run.app/oauth2/callback/facebook"
             scope:
               - email
               - public_profile
@@ -85,16 +82,11 @@ app:
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
-      - http://localhost:3000/oauth2/redirect
-      - http://localhost:5000/oauth2/redirect
-      - https://multistore-app-frontend-yka4rjl6za-ey.a.run.app/oauth2/redirect
+      - https://frontend-7lhoj5kiqa-ey.a.run.app/oauth2/redirect
 logging:
   level:
     ROOT: INFO
     org:
-      #      springframework:
-      #        orm:
-      #         jpa: DEBUG
       hibernate:
         engine:
           transaction:
