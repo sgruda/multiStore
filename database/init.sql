@@ -1,4 +1,4 @@
-GRANT ALL PRIVILEGES ON DATABASE multistore TO root;
+GRANT ALL PRIVILEGES ON DATABASE multistore TO postgres;
 ---------------------------------------------------------------------------------------------------
 create table access_level
 (
@@ -11,7 +11,7 @@ create table access_level
 );
 
 alter table access_level
-    owner to root;
+    owner to postgres;
 
 create table basket
 (
@@ -22,7 +22,7 @@ create table basket
 );
 
 alter table basket
-    owner to root;
+    owner to postgres;
 
 create table account_data
 (
@@ -45,7 +45,7 @@ create table account_data
 );
 
 alter table account_data
-    owner to root;
+    owner to postgres;
 
 create table category
 (
@@ -59,7 +59,7 @@ create table category
 );
 
 alter table category
-    owner to root;
+    owner to postgres;
 
 create table forgot_password_token
 (
@@ -79,7 +79,7 @@ create table forgot_password_token
 );
 
 alter table forgot_password_token
-    owner to root;
+    owner to postgres;
 
 create table authentication_data
 (
@@ -101,7 +101,7 @@ create table authentication_data
 );
 
 alter table authentication_data
-    owner to root;
+    owner to postgres;
 
 alter table account_data
     add constraint fk_authetication_data_id_account_data
@@ -116,7 +116,7 @@ create table id_generator
 );
 
 alter table id_generator
-    owner to root;
+    owner to postgres;
 
 create table product
 (
@@ -138,7 +138,7 @@ create table product
 );
 
 alter table product
-    owner to root;
+    owner to postgres;
 
 create table ordered_item
 (
@@ -156,7 +156,7 @@ create table ordered_item
 );
 
 alter table ordered_item
-    owner to root;
+    owner to postgres;
 
 create table promotion
 (
@@ -175,7 +175,7 @@ create table promotion
 );
 
 alter table promotion
-    owner to root;
+    owner to postgres;
 
 create table status
 (
@@ -188,7 +188,7 @@ create table status
 );
 
 alter table status
-    owner to root;
+    owner to postgres;
 
 create table "order"
 (
@@ -211,7 +211,7 @@ create table "order"
     );
 
 alter table "order"
-    owner to root;
+    owner to postgres;
 
 create table account_access_level_mapping
 (
@@ -226,7 +226,7 @@ create table account_access_level_mapping
 );
 
 alter table account_access_level_mapping
-    owner to root;
+    owner to postgres;
 
 create table ordered_item_basket_mapping
 (
@@ -241,7 +241,7 @@ create table ordered_item_basket_mapping
 );
 
 alter table ordered_item_basket_mapping
-    owner to root;
+    owner to postgres;
 
 create table ordered_item_order_mapping
 (
@@ -256,7 +256,7 @@ create table ordered_item_order_mapping
 );
 
 alter table ordered_item_order_mapping
-    owner to root;
+    owner to postgres;
 
 
 
