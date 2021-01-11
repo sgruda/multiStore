@@ -170,7 +170,7 @@ function App(props) {
             }
           
             <Typography variant="h6" className={classes.title} >
-              <Button component={Link} to="/" color="inherit">EMPIK</Button>
+              <Button component={Link} to="/" color="inherit">Inżynierka</Button>
             </Typography>
               { userIsAuthenticated && activeRole === ROLE_ADMIN &&
                 <></>

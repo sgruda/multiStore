@@ -4,14 +4,15 @@ jdk:
 services: docker
 env:
   global:
-  - GCP_PROJECT_ID=multistore-289010
-  - IMAGE_BACKEND=gcr.io/multistore-289010/app_backend
-  - IMAGE_FRONTEND=gcr.io/multistore-289010/app_frontend
-  - CLOUD_RUN_SERVICE_BACKEND=multistore-backend
-  - CLOUD_RUN_SERVICE_FRONTEND=multistore-app-frontend
+  - GCP_PROJECT_ID=sigma-kayak-301311
+  - IMAGE_BACKEND=gcr.io/sigma-kayak-301311/backend
+  - IMAGE_FRONTEND=gcr.io/sigma-kayak-301311/frontend
+  - CLOUD_RUN_SERVICE_BACKEND=backend
+  - CLOUD_RUN_SERVICE_FRONTEND=frontend
   - CLOUD_RUN_REGION=europe-west3
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1 # prevent gcloud from prompting
 before_install:
+- openssl aes-256-cbc -K $encrypted_1116e8e6e492_key -iv $encrypted_1116e8e6e492_iv -in ./app/backend/src/main/resources/application.yml.enc -out ./app/backend/src/main/resources/application.yml -d
 - openssl aes-256-cbc -K $encrypted_98d237b7dbf4_key -iv $encrypted_98d237b7dbf4_iv -in google-key.json.enc -out google-key.json -d
 - curl https://sdk.cloud.google.com | bash > /dev/null
 - source "$HOME/google-cloud-sdk/path.bash.inc"

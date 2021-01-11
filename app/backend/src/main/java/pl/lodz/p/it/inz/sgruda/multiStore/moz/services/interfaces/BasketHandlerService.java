@@ -6,7 +6,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsException;
 
-import java.util.List;
 import java.util.Set;
 
 public interface BasketHandlerService {

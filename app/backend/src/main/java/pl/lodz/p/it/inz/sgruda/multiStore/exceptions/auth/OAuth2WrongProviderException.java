@@ -8,12 +8,4 @@ public class OAuth2WrongProviderException extends AuthenticationException {
     public OAuth2WrongProviderException() {
         super(KEY_OAUTH2_WRONG_PROVIDER);
     }
-
-    public OAuth2WrongProviderException(Throwable t) {
-        super(KEY_OAUTH2_WRONG_PROVIDER, t);
-    }
-
-    public OAuth2WrongProviderException(String msg) {
-        super(msg);
-    }
 }

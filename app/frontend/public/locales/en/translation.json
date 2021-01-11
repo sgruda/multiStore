@@ -164,6 +164,35 @@
             "disabled": "Account has non-verified e-mail address.",
             "locked": "Account is non-active."
         },
+        "basket": {
+            "not": {
+                "contains": {
+                    "item": "Basket not contains any items."
+                },
+                "exists": "Basket not exists."
+            },
+            "unauthorized": {
+                "attempt": {
+                    "of": {
+                        "access": "Unauthorized attempt of access to basket."
+                    }
+                }
+            }
+        },
+        "category": {
+            "not": {
+                "exists": "Category not exists."
+            }
+        },
+        "current": {
+            "order": {
+                "status": {
+                    "is": {
+                        "final": "Current order status is final."
+                    }
+                }
+            }
+        },
         "default": "Error occured during perfoming operation!",
         "dto": {
             "signature": "Invalid dto signature. Refresh data and try again.",
@@ -204,14 +233,54 @@
                 "provider": "Wrong OAuth2 provider."
             }
         },
+        "order": {
+            "not": {
+                "exist": "Order with given id does not exist."
+            }
+        },
+        "ordered": {
+            "item": {
+                "not": {
+                    "exist": "That ordered item does not exist."
+                }
+            }
+        },
         "passwords": {
             "not": {
                 "equals": "Both password must be the same!"
             }
         },
+        "product": {
+            "already": {
+                "inactive": "That product is already inactive."
+            },
+            "not": {
+                "enough": "Store is not having enough product.",
+                "exists": "Product not exists."
+            },
+            "title": {
+                "exists": "Product title already exists."
+            }
+        },
+        "promotion": {
+            "is": {
+                "active": "Promotion is active."
+            },
+            "name": {
+                "exists": "Promotion name already exists."
+            },
+            "not": {
+                "exists": "Promotion not exists."
+            }
+        },
         "roles": {
             "set": {
                 "empty": "Set of access levels cannot be empty!"
+            }
+        },
+        "status": {
+            "not": {
+                "exist": "Status with given name does not exist."
             }
         }
     },

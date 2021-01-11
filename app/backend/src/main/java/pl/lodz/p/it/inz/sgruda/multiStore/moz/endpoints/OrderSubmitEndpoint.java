@@ -9,13 +9,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.UnauthorizedRequestException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.UnauthorizedAttemptOfAccessToBasketException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderSubmitService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
@@ -26,9 +29,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Log
@@ -51,11 +52,11 @@ public class OrderSubmitEndpoint {
     @PostMapping("/submit")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<?> submitOrder(@Valid @RequestBody OrderRequest orderRequest, @CurrentUser UserPrincipal currentUser) {
-        if(!orderRequest.getBasketDTO().getOwnerEmail().equals(currentUser.getEmail())) {
-            log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
-            throw new UnauthorizedRequestException();
-        }
         try {
+            if(!orderRequest.getBasketDTO().getOwnerEmail().equals(currentUser.getEmail())) {
+                log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
+                throw new UnauthorizedAttemptOfAccessToBasketException();
+            }
             checkerMozDTO.checkBasketDTOSignature(orderRequest.getBasketDTO());
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(orderRequest.getBasketDTO().getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, orderRequest.getBasketDTO());
@@ -77,11 +78,11 @@ public class OrderSubmitEndpoint {
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<?> getTotalPrice(@Valid @RequestBody BasketDTO basketDTO, @CurrentUser UserPrincipal currentUser) {
         double totalPrice = -1;
-        if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail())) {
-            log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
-            throw new UnauthorizedRequestException();
-        }
         try {
+            if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail())) {
+                log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
+                throw new UnauthorizedAttemptOfAccessToBasketException();
+            }
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);

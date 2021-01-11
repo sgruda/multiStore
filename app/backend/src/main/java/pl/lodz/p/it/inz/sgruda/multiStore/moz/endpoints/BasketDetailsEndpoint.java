@@ -17,7 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.UnauthorizedRequestException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.UnauthorizedAttemptOfAccessToBasketException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketDetailsService;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketHandlerService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
@@ -28,9 +28,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -114,9 +112,9 @@ public class BasketDetailsEndpoint {
     public ResponseEntity<?> addToBasket(@Valid @RequestBody AddToBasketRequest request, @CurrentUser UserPrincipal currentUser) {
         BasketEntity basketEntity;
         ProductEntity productEntity;
-        if(!request.getBasketDTO().getOwnerEmail().equals(currentUser.getEmail()))
-            throw new UnauthorizedRequestException();
         try {
+            if(!request.getBasketDTO().getOwnerEmail().equals(currentUser.getEmail()))
+                throw new UnauthorizedAttemptOfAccessToBasketException();
             checkerMozDTO.checkBasketDTOSignature(request.getBasketDTO());
             checkerSimpleDTO.checkSignature(request.getOrderedItemDTO().getOrderedProduct());
             productEntity = basketHandlerService.getProductEntityByTitle(request.getOrderedItemDTO().getOrderedProduct().getTitle());
@@ -149,9 +147,9 @@ public class BasketDetailsEndpoint {
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public ResponseEntity<?> removeFromBasket(@Valid @RequestBody BasketDTO basketDTO, @CurrentUser UserPrincipal currentUser) {
         BasketEntity basketEntity;
-        if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail()))
-            throw new UnauthorizedRequestException();
         try {
+            if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail()))
+                throw new UnauthorizedAttemptOfAccessToBasketException();
             checkerMozDTO.checkBasketDTOSignature(basketDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);

@@ -9,11 +9,4 @@ public class DTOVersionException extends AppBaseException {
         super(KEY_DTO_VERSION);
     }
 
-    public DTOVersionException(String message) {
-        super(message);
-    }
-
-    public DTOVersionException(Throwable cause) {
-        super(KEY_DTO_VERSION, cause);
-    }
 }

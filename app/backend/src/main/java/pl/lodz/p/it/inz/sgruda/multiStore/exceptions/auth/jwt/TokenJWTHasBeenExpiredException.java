@@ -9,11 +9,4 @@ public class TokenJWTHasBeenExpiredException extends AppBaseException {
         super(KEY_JWT_EXPIRED);
     }
 
-    public TokenJWTHasBeenExpiredException(String message) {
-        super(message);
-    }
-
-    public TokenJWTHasBeenExpiredException(Throwable cause) {
-        super(KEY_JWT_EXPIRED, cause);
-    }
 }

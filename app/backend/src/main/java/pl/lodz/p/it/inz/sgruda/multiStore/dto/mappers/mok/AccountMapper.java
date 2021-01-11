@@ -39,7 +39,6 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
         if(entity.getAuthenticationDataEntity() != null)
             dto.setAuthenticationDataDTO(authenticationDataMapper.toDTO(entity.getAuthenticationDataEntity()));
         dto.setVersion(entity.getVersion());
-//        dto.setSignature(HashMethod.sign(dto.getSigningParams()));
         return dto;
     }
 

@@ -9,10 +9,6 @@ public class OAuth2AuthenticationProcessingException extends AuthenticationExcep
         super(KEY_OAUTH2_AUTHENTICATION_PROCESSING);
     }
 
-    public OAuth2AuthenticationProcessingException(Throwable t) {
-        super(KEY_OAUTH2_AUTHENTICATION_PROCESSING, t);
-    }
-//Email not found from OAuth2 provider
     public OAuth2AuthenticationProcessingException(String msg) {
         super(msg);
     }

@@ -164,6 +164,35 @@
             "disabled": "Konto ma niepotwierdzony adres e-mail.",
             "locked": "Konto jest nieaktywne."
         },
+        "basket": {
+            "not": {
+                "contains": {
+                    "item": "Koszyk nie zawiera żadnych przedmiotów."
+                },
+                "exists": "Koszyk nie istnieje."
+            },
+            "unauthorized": {
+                "attempt": {
+                    "of": {
+                        "access": "Nieautoryzowana próba dostępu do koszyka."
+                    }
+                }
+            }
+        },
+        "category": {
+            "not": {
+                "exists": "Kategoria nie istnieje."
+            }
+        },
+        "current": {
+            "order": {
+                "status": {
+                    "is": {
+                        "final": "Obecny status jest niezmienialny."
+                    }
+                }
+            }
+        },
         "default": "Wystąpił błąd podczas przetwarzania wykonywania tej operacji!",
         "dto": {
             "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",
@@ -204,16 +233,57 @@
                 "provider": "Zły dostawca OAuth2."
             }
         },
+        "order": {
+            "not": {
+                "exist": "Zamówienie nie istnieje."
+            }
+        },
+        "ordered": {
+            "item": {
+                "not": {
+                    "exist": "Ten zamówiony produkt nie istnieje."
+                }
+            }
+        },
         "passwords": {
             "not": {
                 "equals": "Oba hasła muszą być takie same!"
+            }
+        },
+        "product": {
+            "already": {
+                "inactive": "Ten produkt jest nieaktywny."
+            },
+            "not": {
+                "enough": "Magazyn nie zawiera wystarczącej liczby produktu.",
+                "exists": "Produkt nie istnieje."
+            },
+            "title": {
+                "exists": "Tytuł produktu już istnieje."
+            }
+        },
+        "promotion": {
+            "is": {
+                "active": "Promocja jest aktywna."
+            },
+            "name": {
+                "exists": "Nazwa promocji już istnieje."
+            },
+            "not": {
+                "exists": "Promocja nie istnieje."
             }
         },
         "roles": {
             "set": {
                 "empty": "Zbiór poziomów dostępu nie może być pusty!"
             }
+        },
+        "status": {
+            "not": {
+                "exist": "Status o podanej nazwie nie istnieje."
+            }
         }
+        
     },
     "densePadding": "Małe komórki w wierszach",
     "dialog": {

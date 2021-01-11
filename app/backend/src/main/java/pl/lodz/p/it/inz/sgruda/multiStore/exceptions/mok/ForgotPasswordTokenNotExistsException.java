@@ -8,5 +8,4 @@ public class ForgotPasswordTokenNotExistsException  extends AppBaseException {
     public ForgotPasswordTokenNotExistsException() {
         super(KEY_FORGOT_PASSWORD_TOKEN_NOT_EXISTS);
     }
-
 }

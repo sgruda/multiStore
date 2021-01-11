@@ -8,12 +8,4 @@ public class EmailAlreadyVerifyException extends AppBaseException {
     public EmailAlreadyVerifyException() {
         super(KEY_ACCOUNT_EMAIL_VERIFIED);
     }
-
-    public EmailAlreadyVerifyException(String message) {
-        super(message);
-    }
-
-    public EmailAlreadyVerifyException(Throwable cause) {
-        super(KEY_ACCOUNT_EMAIL_VERIFIED, cause);
-    }
 }
