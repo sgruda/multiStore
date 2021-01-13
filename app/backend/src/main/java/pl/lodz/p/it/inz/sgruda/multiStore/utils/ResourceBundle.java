@@ -1,30 +1,28 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.utils;
-import lombok.extern.java.Log;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-@Log
 public class ResourceBundle {
-    private final String TRANSLATION_LOCATION = "classpath:translation.properties";
-    private Properties properties;
+    private final String PL_RESET_PASSWORD_BODY = "Oto twoj token do resetu hasla w systemie.";
+    private final String EN_RESET_PASSWORD_BODY = "That is password reset token.";
+    private final String PL_RESET_PASSWORD_SUBJECT = "Reset hasła.";
+    private final String EN_RESET_PASSWORD_SUBJECT = "Password reset.";
 
-    public ResourceBundle() {
-        this.properties = new Properties();
-        try {
-            File file = ResourceUtils.getFile(TRANSLATION_LOCATION);
-            InputStream in = new FileInputStream(file);
-            this.properties.load(in);
-        } catch (IOException e) {
-            log.severe("Error: " + e.getMessage());
-        }
-    }
+    private final String PL_CONFIRM_ACCOUNT_BODY = "Twoj adres e-mail zostal uzyty, podczas rejestracji w systemie, aby potwierdzic, ze to twoj mail, kliknij w link.";
+    private final String EN_CONFIRM_ACCOUNT_BODY = "Your address e-mail has been used, during registration in system, to confirm that is your e-mail. Click link.";
+    private final String PL_CONFIRM_ACCOUNT_SUBJECT = "Rejestracja konta w systemie.";
+    private final String EN_CONFIRM_ACCOUNT_SUBJECT = "Account registration in system.";
 
     public String getProperty(String key) {
-        return this.properties.getProperty(key);
+        switch(key) {
+            case "pl.reset.password.body": return PL_RESET_PASSWORD_BODY;
+            case "en.reset.password.body": return EN_RESET_PASSWORD_BODY;
+            case "pl.reset.password.subject": return PL_RESET_PASSWORD_SUBJECT;
+            case "en.reset.password.subject": return EN_RESET_PASSWORD_SUBJECT;
+
+            case "pl.confirm.account.body": return PL_CONFIRM_ACCOUNT_BODY;
+            case "en.confirm.account.body": return EN_CONFIRM_ACCOUNT_BODY;
+            case "pl.confirm.account.subject": return PL_CONFIRM_ACCOUNT_SUBJECT;
+            case "en.confirm.account.subject": return EN_CONFIRM_ACCOUNT_SUBJECT;
+            default: return "Lack of translation";
+        }
     }
 }

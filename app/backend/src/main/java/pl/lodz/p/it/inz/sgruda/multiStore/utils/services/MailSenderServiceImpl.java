@@ -30,9 +30,9 @@ public class MailSenderServiceImpl implements MailSenderService {
     @Override
     public void sendPasswordResetMail(String email, String resetToken, Language language) throws MessagingException {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(resourceBundle.getProperty(language.name() + ".mail.account.reset.password.body"));
+        stringBuilder.append(resourceBundle.getProperty(language.name() + ".reset.password.body"));
         stringBuilder.append(resetToken);
-        sendMail(email, resourceBundle.getProperty(language.name() + ".mail.account.reset.password.subject"), stringBuilder.toString(), false);
+        sendMail(email, resourceBundle.getProperty(language.name() + ".reset.password.subject"), stringBuilder.toString(), false);
     }
 
     @Async
@@ -44,9 +44,9 @@ public class MailSenderServiceImpl implements MailSenderService {
         stringBuilder.append("/verify-email?token=");
         stringBuilder.append(veryficationToken);
         stringBuilder.append("\">");
-        stringBuilder.append(resourceBundle.getProperty(language.name() + ".mail.account.confirm.body"));
+        stringBuilder.append(resourceBundle.getProperty(language.name() + ".confirm.account.body"));
         stringBuilder.append("</a>");
-        sendMail(email, resourceBundle.getProperty(language.name() + ".mail.account.confirm.subject"), stringBuilder.toString(), true);
+        sendMail(email, resourceBundle.getProperty(language.name() + ".confirm.account.subject"), stringBuilder.toString(), true);
 
     }
     private void sendMail(String to, String subject, String text, boolean isHtmlContent) throws MessagingException {
