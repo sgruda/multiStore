@@ -92,6 +92,7 @@ function ProductEdit({product, handleClose, handleRefresh}) {
   const disabledSubmit = checkErrors();
 
   const convertValidationMessage = (message) => {
+    if(message.startsWith("error")) return t(message);
     let retMessage = '';
     message = message.replace('{', '').replace('}', '')
     let parts = message.split(", ");

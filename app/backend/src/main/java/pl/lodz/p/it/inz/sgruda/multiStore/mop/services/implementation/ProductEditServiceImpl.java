@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductIsActiveException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.ProductRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditService;
@@ -30,7 +31,9 @@ public class ProductEditServiceImpl implements ProductEditService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void editProduct(ProductEntity productEntity) {
+    public void editProduct(ProductEntity productEntity) throws ProductIsActiveException {
+        if(productEntity.isActive())
+            throw new ProductIsActiveException();
         productRepository.saveAndFlush(productEntity);
     }
 

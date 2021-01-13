@@ -254,6 +254,9 @@
             "already": {
                 "inactive": "That product is already inactive."
             },
+            "is": {
+                "active": "Product is active."
+            },
             "not": {
                 "enough": "Store is not having enough product.",
                 "exists": "Product not exists."

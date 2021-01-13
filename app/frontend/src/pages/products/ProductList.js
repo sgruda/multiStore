@@ -223,7 +223,7 @@ useEffect(() => {
           
         </DialogContent>
         <DialogActions className={classes.details}>
-          { activeRole === ROLE_EMPLOYEE 
+          { activeRole === ROLE_EMPLOYEE
             ?
             <Collapse in={!showEdit}>    
               <Button onClick={() => setShowEdit(true)} color="primary" autoFocus>

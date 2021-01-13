@@ -42,7 +42,6 @@ const signUp = (fields) => {
         'password': fields.password,
         "language": navigator.language || navigator.userLanguage
       };
-      console.log(data)
     return axios
         .post(API_URL_SIGN_UP, data)
 };
