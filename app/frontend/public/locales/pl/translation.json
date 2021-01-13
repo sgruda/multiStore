@@ -254,6 +254,9 @@
             "already": {
                 "inactive": "Ten produkt jest nieaktywny."
             },
+            "is": {
+                "active": "Prodult jest aktywny."
+            },
             "not": {
                 "enough": "Magazyn nie zawiera wystarczącej liczby produktu.",
                 "exists": "Produkt nie istnieje."
