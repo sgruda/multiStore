@@ -86,6 +86,7 @@ function SpeedDialTooltipOpen({setUserIsAuthenticated, history, activeRole, setA
   const handleSignOut = () => {
         AuthenticationService.signOut();
         setUserIsAuthenticated(false);
+        setActiveRole(undefined);
         history.push("/")
   };
 

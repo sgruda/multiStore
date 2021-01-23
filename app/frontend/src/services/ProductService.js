@@ -55,11 +55,9 @@ class ProductService {
       }
 
       block(product) {
-        console.log(product)
         return axios.put(API_URL_BLOCK_PRODUCT, product, { headers: AuthorizationHeader()});
       }
       unblock(product) {
-        console.log(product)
         return axios.put(API_URL_UNBLOCK_PRODUCT, product, { headers: AuthorizationHeader()});
       }
 } 

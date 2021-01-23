@@ -56,6 +56,7 @@ function ProductDetails({product, handleLoadingData}) {
         return <SignalCellular4BarIcon className={classes.inStoreIcon}/>    
   }
 
+
   return (
     <div className={classes.root}>
         <CardHeader
