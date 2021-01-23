@@ -17,7 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductGetServ
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 2500)
+        backoff = @Backoff(delay = 500)
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

@@ -30,7 +30,7 @@ import java.util.Collections;
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 2500)
+        backoff = @Backoff(delay = 500)
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

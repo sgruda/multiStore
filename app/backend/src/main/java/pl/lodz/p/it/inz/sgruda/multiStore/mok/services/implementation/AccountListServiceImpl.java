@@ -18,7 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListSer
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 2500)
+        backoff = @Backoff(delay = 500)
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
