@@ -175,7 +175,7 @@ function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}
         <CardActions>
                 <Grid item xs={12}>
                     <Typography variant="body6" className={clsx({[classes.detailsAtFront]: showBackdrop, [classes.priceText]: !showBackdrop})} component="p">
-                        {t('product.fields.price')}: {product.price}
+                        {t('product.fields.price')}: {product.price + " PLN"}
                     </Typography>
                 </Grid>
         </CardActions>

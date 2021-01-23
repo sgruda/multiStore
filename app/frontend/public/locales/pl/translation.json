@@ -536,6 +536,7 @@
         },
         "pattern": {
             "accountDTO": "AccountDTO ma niepoprawny wzór.",
+            "description": "Opis ma niepoprawny wzór.",
             "email": "Adres e-mail ma niepoprawny wzór.",
             "firstName": "Imię ma niepoprawny wzór.",
             "language": "Język ma niepoprawny wzór.",
@@ -548,6 +549,7 @@
         },
         "size": {
             "accountDTO": "Zawartość pola accountDTO ma niepoprawny rozmiar.",
+            "description": "Zawartość pola opis ma niepoprawny rozmiar.",
             "email": "Zawartość pola adres e-mail ma niepoprawny rozmiar.",
             "firstName": "Zawartość pola imię ma niepoprawny rozmiar.",
             "language": "Zawartość pola język ma niepoprawny rozmiar.",

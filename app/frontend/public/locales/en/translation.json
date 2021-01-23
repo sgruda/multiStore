@@ -535,6 +535,7 @@
         },
         "pattern": {
             "accountDTO": "Field accountDTO has incorrect pattern.",
+            "description": "Field description has incorrect pattern.",
             "email": "Field email has incorrect pattern.",
             "firstName": "Field first name has incorrect pattern.",
             "language": "Field language has incorrect pattern.",
@@ -547,6 +548,7 @@
         },
         "size": {
             "accountDTO": "Content of field accountDTO has incorrect size.",
+            "description": "Content of field description has incorrect size.",
             "email": "Content of field email has incorrect size.",
             "firstName": "Content of field first name has incorrect size.",
             "language": "Content of field language has incorrect size.",

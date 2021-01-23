@@ -59,7 +59,7 @@ function OrderedItemCard({product, orderedNumber}) {
                     {t('order.details.product.orderedNumber') + ': ' + orderedNumber}
                 </Typography>   
                 <Typography variant="body6" color="textSecondary" component="p">
-                    {t('order.details.product.price') + ': ' + product.price}
+                    {t('order.details.product.price') + ': ' + product.price + " PLN"}
                 </Typography>            
         </CardContent>
         </Card>

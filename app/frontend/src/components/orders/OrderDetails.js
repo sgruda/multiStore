@@ -82,7 +82,7 @@ function OrderDetails({order}) {
             </Grid>
             <Divider/>
             <Typography variant="body6" component="p">
-                {t('order.details.totalPrice')}: {order.totalPrice}
+                {t('order.details.totalPrice')}: {order.totalPrice + " PLN"}
             </Typography>
             <Divider/>
             <Typography variant="body6" color="textSecondary" component="p">

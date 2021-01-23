@@ -119,7 +119,7 @@ function ProductAdd() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AddProduct: " + resMessage);
-            setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
+            setAlertWarningMessage(convertValidationMessage(t(error.response.data.message.toString())));
             setOpenWarningAlert(true);
         }
       );

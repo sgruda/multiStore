@@ -36,7 +36,7 @@ function BasketTableBody({orderedItems, handleClickItem, isSelected, classes, to
                 );
             })}
                     <TableRow>
-                        <TableCell colSpan={4} align="right">{t('order.total-price') + ": " + totalPrice}</TableCell>
+                        <TableCell colSpan={4} align="right">{t('order.total-price') + ": " + totalPrice + " PLN"}</TableCell>
                     </TableRow>
           </TableBody>
     );
