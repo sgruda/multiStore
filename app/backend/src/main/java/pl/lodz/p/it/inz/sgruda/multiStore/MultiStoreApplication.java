@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.retry.annotation.EnableRetry;
 import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 
 @Log
+@EnableRetry
 @EnableConfigurationProperties(AppProperties.class)
 @EntityScan(basePackageClasses = {
 		MultiStoreApplication.class,
