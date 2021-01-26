@@ -84,7 +84,11 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                             double discount = 0;
                             if(promotionEntities.size() > 0) {
                                 discount = promotionEntities.stream()
-                                        .mapToDouble(promo -> promo.isActive() ? promo.getDiscount() : 0.0)
+                                        .mapToDouble(promo ->
+                                                promo.isActive() && promo.getExpireDate().isAfter(LocalDateTime.now())
+                                                        ? promo.getDiscount()
+                                                        : 0.0
+                                        )
                                         .sum();
                                 if(promotionEntities.size() > 1 && discount > 50)
                                     discount = 50;

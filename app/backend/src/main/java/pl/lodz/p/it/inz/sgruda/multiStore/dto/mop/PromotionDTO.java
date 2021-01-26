@@ -10,6 +10,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public @Data class PromotionDTO implements SignatureVerifiability {
     private boolean active;
 
     @NotNull(message = "validation.notnull")
+    private LocalDateTime expireDate;
+
+    @NotNull(message = "validation.notnull")
     private long version;
 
     @NotNull(message = "validation.notnull")
@@ -45,6 +49,6 @@ public @Data class PromotionDTO implements SignatureVerifiability {
 
     @Override
     public List<String> specifySigningParams() {
-        return Arrays.asList(idHash, name, onCategory, String.valueOf(version));
+        return Arrays.asList(idHash, name, onCategory, expireDate.toString(), String.valueOf(version));
     }
 }
