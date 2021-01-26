@@ -60,10 +60,13 @@ function PromotionAdd() {
   const classes = useStyles();
   const { t } = useTranslation();
   const [fields, setFields] = useFields({
+    active: false,
     name: "",
+    expireDate: new Intl.DateTimeFormat("fr-CA").format(Date.now()),
     discount: 1.0,
     onCategory: "action",
   });
+  const [active, setActive] = useState(false);
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [loading, setLoading] = useState(false);
   const [openWarningAlert, setOpenWarningAlert] = useState(false);
@@ -90,7 +93,8 @@ function PromotionAdd() {
   const convertValidationMessage = (message) => {
     if(message.startsWith("error")) return t(message);
     let retMessage = '';
-    message = message.replace('{', '').replace('}', '')
+    message = message.replace('{', '').replace('}', '').replace('[', '').replace(']','');
+    if(message === ("validation.date.future")) return t(message);
     let parts = message.split(", ");
     parts.map(part => {
       let fieldError = part.split('=');
@@ -101,7 +105,7 @@ function PromotionAdd() {
   }
 
   async function createPromotion() {
-    await PromotionService.createPromotion(fields)
+    await PromotionService.createPromotion(fields, active)
       .then(response => {
         if (response.status === 200) { 
             setAlertInfoMessage(t('response.ok'));
@@ -113,7 +117,7 @@ function PromotionAdd() {
             (error.response && error.response.data && error.response.data.message) 
             || error.message || error.toString();
             console.error("AddPromotion: " + resMessage);
-            setAlertWarningMessage(convertValidationMessage(error.response.data.message.toString()));
+            setAlertWarningMessage(t(convertValidationMessage(error.response.data.message.toString())));
             setOpenWarningAlert(true);
         }
       );
@@ -146,6 +150,8 @@ function PromotionAdd() {
                   setFields={setFields}
                   register={register}
                   errors={errors}
+                  active={active}
+                  setActive={setActive}
                 />
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}

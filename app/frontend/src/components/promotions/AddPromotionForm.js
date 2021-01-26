@@ -7,8 +7,10 @@ import { InputLabel } from '@material-ui/core';
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-function AddPromotionForm({fields, setFields, register, errors}) {
+function AddPromotionForm({fields, setFields, register, errors, active, setActive}) {
   const { t } = useTranslation();
 
   return (
@@ -74,6 +76,23 @@ function AddPromotionForm({fields, setFields, register, errors}) {
                     <MenuItem value={'science'}>{t("product.fields.category.science")}</MenuItem>
                 </Select>
             </FormControl>
+        </Grid>
+        <Grid item xs={10}>
+            <TextField
+                value={fields.expireDate}
+                onChange={setFields}
+                id="expireDate"
+                label={t('promotion.create.form.expireDate')}
+                type="date"
+                variant="outlined"
+                required
+                fullWidth
+            />
+        </Grid>
+        <Grid item xs={2}>
+            <FormControlLabel
+                control={<Switch color="primary" checked={active} onChange={() => setActive((prev) => !prev)} />}
+            />
         </Grid>
     </Grid>
   );

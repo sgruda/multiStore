@@ -121,6 +121,7 @@ function PromotionsList() {
                     discount: promotion.discount,
                     onCategory: promotion.onCategory,
                     active: promotion.active,
+                    expireDate: promotion.expireDate,
                     version: promotion.version,
                     signature: promotion.signature
                   };
@@ -152,6 +153,7 @@ function PromotionsList() {
     { id: 'discount', disablePadding: false, label: t('promotion.list.table.header.discount'), numeric: true },
     { id: 'onCategory', disablePadding: false, label: t('promotion.list.table.header.onCategory') },
     { id: 'active', disablePadding: false, label: t('promotion.list.table.header.activity') },
+    { id: 'expireDate', disablePadding: false, label: t('promotion.list.table.header.expireDate') },
   ];
 
 
