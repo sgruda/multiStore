@@ -165,6 +165,7 @@ create table promotion
             primary key,
     active      boolean          not null,
     discount    double precision not null,
+    expire_date timestamp        not null,
     name        varchar(32)      not null
         constraint unique_name_promotion
             unique,
