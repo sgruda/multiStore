@@ -52,11 +52,11 @@ function OrderDetails({order}) {
             }
             title={t('order.details.identifier') + ': ' + order.identifier }
             subheader={t('order.details.orderDate') + ': ' +
-                        new Intl.DateTimeFormat("en-GB", {
-                        year: 'numeric', month: 'numeric', day: 'numeric',
-                        hour: 'numeric', minute: 'numeric',
-                        hour12: false,
-                        }).format(new Date(order.orderDate))
+                new Intl.DateTimeFormat(t('language'), {
+                    year: 'numeric', month: 'numeric', day: 'numeric',
+                    hour: 'numeric', minute: 'numeric',
+                    hour12: t('language') === "en-US" ? true : false,
+                }).format(new Date(order.orderDate))
             }
         />
         <CardContent>

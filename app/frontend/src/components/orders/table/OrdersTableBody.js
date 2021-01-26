@@ -38,10 +38,10 @@ function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRo
                     </TableCell>
                     <TableCell align="center" className={classes.tableCell}>
                       {
-                        new Intl.DateTimeFormat("en-GB", {
+                        new Intl.DateTimeFormat(t('language'), {
                           year: 'numeric', month: 'numeric', day: 'numeric',
                           hour: 'numeric', minute: 'numeric',
-                          hour12: false,
+                          hour12: t('language') === "en-US" ? true : false,
                         }).format(new Date(order.orderDate))
                       }
                     </TableCell>

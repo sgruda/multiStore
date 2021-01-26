@@ -302,6 +302,7 @@
             "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
         }
     },
+    "language": "en-US",
     "order": {
         "details": {
             "address":"Address of delivery",
@@ -448,7 +449,9 @@
     "promotion": {
         "create": {
             "form": {
+                "activity": "Activity",
                 "discount": "Value of discount",
+                "expireDate": "Expiration date",
                 "name": "Name of discount",
                 "onCategory": "Discount for category"
             }
@@ -458,6 +461,7 @@
                 "header": {
                     "activity": "Activity",
                     "discount": "Discount",
+                    "expireDate": "Expiration date",
                     "name": "Name",
                     "onCategory": "Covers category"
                 },
@@ -489,6 +493,9 @@
     "signin": "Sign in",
     "signup": "Sign up",
     "validation": {
+        "date": {
+            "future": "Date must be future"
+        },
         "message": {
             "checkbox": {
                 "roles": "Pick minimum one"

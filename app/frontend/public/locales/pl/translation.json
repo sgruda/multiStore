@@ -303,6 +303,7 @@
             "signup": "Rejestracja się powiodła! Potwierdź swój adres e-mail (otrzymasz w wiadomości link aktywujący konto)."
         }
     },
+    "language": "pl-PL",
     "order": {
         "details": {
             "address":"Adres dostawy",
@@ -449,7 +450,9 @@
     "promotion": {
         "create": {
             "form": {
+                "activity": "Aktywność",
                 "discount": "Wartość zniżki",
+                "expireDate": "Data wygaśnięcia",
                 "name": "Nazwa promocji",
                 "onCategory": "Zniżka na kategorię"
             }
@@ -459,6 +462,7 @@
                 "header": {
                     "activity": "Aktywność",
                     "discount": "Zniżka",
+                    "expireDate": "Data wygaśnięcia",
                     "name": "Nazwa",
                     "onCategory": "Obejmuje kategorię"
                 },
@@ -490,6 +494,9 @@
     "signin": "Zaloguj się",
     "signup": "Zarejestruj się",
     "validation": {
+        "date": {
+            "future": "Data musi być przyszła"
+        },
         "message": {
             "checkbox": {
                 "roles": "Wybierz minimum jeden"
