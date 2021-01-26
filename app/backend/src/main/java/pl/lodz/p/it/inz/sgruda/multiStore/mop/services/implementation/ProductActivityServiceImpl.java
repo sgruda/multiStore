@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.ProductRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivityService;
@@ -18,7 +19,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivit
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

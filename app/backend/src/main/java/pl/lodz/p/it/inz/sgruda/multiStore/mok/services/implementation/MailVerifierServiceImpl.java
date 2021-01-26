@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
@@ -20,7 +21,8 @@ import java.util.Optional;
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

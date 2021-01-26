@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.BasketRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketDetailsService;
@@ -18,7 +19,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketDetailsS
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

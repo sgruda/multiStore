@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.OrderNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.OrderRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderDetailsService;
@@ -19,7 +20,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderDetailsSe
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

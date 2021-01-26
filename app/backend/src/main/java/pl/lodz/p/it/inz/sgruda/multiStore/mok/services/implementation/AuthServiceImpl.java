@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
@@ -30,7 +31,8 @@ import java.util.Collections;
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,

@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2AuthenticationProcessingException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.auth.OAuth2WrongProviderException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
@@ -32,7 +33,8 @@ import java.util.Optional;
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
