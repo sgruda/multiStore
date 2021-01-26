@@ -302,6 +302,7 @@
             "signup": "Registration has been done! Confirm your e-mail address (mail with activation link)."
         }
     },
+    "language": "en-US",
     "order": {
         "details": {
             "address":"Address of delivery",
@@ -448,7 +449,9 @@
     "promotion": {
         "create": {
             "form": {
+                "activity": "Activity",
                 "discount": "Value of discount",
+                "expireDate": "Expiration date",
                 "name": "Name of discount",
                 "onCategory": "Discount for category"
             }
@@ -458,6 +461,7 @@
                 "header": {
                     "activity": "Activity",
                     "discount": "Discount",
+                    "expireDate": "Expiration date",
                     "name": "Name",
                     "onCategory": "Covers category"
                 },
@@ -489,6 +493,9 @@
     "signin": "Sign in",
     "signup": "Sign up",
     "validation": {
+        "date": {
+            "future": "Date must be future"
+        },
         "message": {
             "checkbox": {
                 "roles": "Pick minimum one"
@@ -535,6 +542,7 @@
         },
         "pattern": {
             "accountDTO": "Field accountDTO has incorrect pattern.",
+            "description": "Field description has incorrect pattern.",
             "email": "Field email has incorrect pattern.",
             "firstName": "Field first name has incorrect pattern.",
             "language": "Field language has incorrect pattern.",
@@ -547,6 +555,7 @@
         },
         "size": {
             "accountDTO": "Content of field accountDTO has incorrect size.",
+            "description": "Content of field description has incorrect size.",
             "email": "Content of field email has incorrect size.",
             "firstName": "Content of field first name has incorrect size.",
             "language": "Content of field language has incorrect size.",

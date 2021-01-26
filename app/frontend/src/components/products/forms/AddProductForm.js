@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Select from "@material-ui/core/Select";
-import NativeSelect from '@material-ui/core/NativeSelect';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { InputLabel } from '@material-ui/core';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from '@material-ui/core/FormControl';
@@ -79,6 +79,9 @@ function AddProductForm({fields, setFields, register, errors}) {
             label={t('product.create.form.price')}
             name="price"
             autoComplete="price"
+            InputProps={{
+                endAdornment: <InputAdornment position="end">PLN</InputAdornment>
+            }}
             
             inputRef={register({ required: true,  pattern: /[0-9.]+/ })}
             error={errors.price ? true : false}

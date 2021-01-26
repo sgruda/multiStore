@@ -4,6 +4,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,6 +16,10 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListSer
 
 @Log
 @Service
+@Retryable(
+        maxAttempts = 5,
+        backoff = @Backoff(delay = 500)
+)
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,

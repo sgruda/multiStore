@@ -34,6 +34,11 @@ function PromotionsTableBody({promotions, handleClickPromotion, isSelected, clas
                         ? <DoneIcon className={classes.doneIcon}/> 
                         : <ClearIcon className={classes.clearIcon}/> }
                         </TableCell>
+                    <TableCell align="center" className={classes.tableCell}>{ 
+                      new Intl.DateTimeFormat(t('language'), {
+                          year: 'numeric', month: 'numeric', day: 'numeric',
+                          }).format(new Date(promotion.expireDate))}
+                    </TableCell>
                 </TableRow>
                 );
             })}

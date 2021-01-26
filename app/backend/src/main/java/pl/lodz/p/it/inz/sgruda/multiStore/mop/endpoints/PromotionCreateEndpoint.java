@@ -41,8 +41,11 @@ public class PromotionCreateEndpoint {
     public ResponseEntity<?> createPromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
         PromotionEntity promotionEntity = new PromotionEntity(
                 promotionDTO.getName(),
-                promotionDTO.getDiscount()
+                promotionDTO.getDiscount(),
+                promotionDTO.isActive(),
+                promotionDTO.getExpireDate()
         );
+
         try {
             promotionCreateService.createPromotion(promotionEntity, CategoryName.valueOf(promotionDTO.getOnCategory()));
         } catch (AppBaseException e) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 function ProductEditForm({fields, setFields, register, errors}) {
   const { t } = useTranslation();
@@ -58,7 +58,10 @@ function ProductEditForm({fields, setFields, register, errors}) {
                 label={t('product.edit.form.price')}
                 name="price"
                 autoComplete="price"
-                
+                InputProps={{
+                    endAdornment: <InputAdornment position="end">PLN</InputAdornment>
+                }}
+
                 inputRef={register({ required: true,  pattern: /[0-9.]+/ })}
                 error={errors.price ? true : false}
                 helperText={errors.price ? t('validation.message.incorrect.entry') : ""}

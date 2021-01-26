@@ -6,11 +6,9 @@ import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
@@ -50,6 +48,12 @@ public class PromotionEntity implements Serializable, VersionGetter {
     @Column(name = "active", nullable = false)
     private boolean active;
 
+    @Basic(optional = false)
+    @Future(message = "validation.date.future")
+    @NotNull(message = "validation.notnull")
+    @Column(name = "expire_date", nullable = false)
+    private LocalDateTime expireDate;
+
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Basic
@@ -59,10 +63,10 @@ public class PromotionEntity implements Serializable, VersionGetter {
     public PromotionEntity() {
     }
 
-    public PromotionEntity(@NotNull(message = "validation.notnull") @Size(min = 1, max = 32, message = "validation.size") @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern") String name,
-                           @Digits(integer = 2, fraction = 2, message = "validation.digits") @NotNull(message = "validation.notnull") double discount) {
+    public PromotionEntity(String name, double discount, boolean active, LocalDateTime expireDate) {
         this.name = name;
         this.discount = discount;
-        this.active = true;
+        this.active = active;
+        this.expireDate = expireDate;
     }
 }

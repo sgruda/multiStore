@@ -56,6 +56,7 @@ function ProductDetails({product, handleLoadingData}) {
         return <SignalCellular4BarIcon className={classes.inStoreIcon}/>    
   }
 
+
   return (
     <div className={classes.root}>
         <CardHeader
@@ -108,7 +109,7 @@ function ProductDetails({product, handleLoadingData}) {
             </Typography>
             <Divider/>
             <Typography variant="body6" className={classes.priceText} component="p">
-                {t('product.fields.price')}: {product.price}
+                {t('product.fields.price')}: {product.price + " PLN"}
             </Typography>
         </CardContent>
     </div>

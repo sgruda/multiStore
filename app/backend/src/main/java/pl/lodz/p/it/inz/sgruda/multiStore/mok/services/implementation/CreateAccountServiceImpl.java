@@ -2,6 +2,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,6 +28,11 @@ import java.util.Set;
 
 @Log
 @Service
+@Retryable(
+        maxAttempts = 5,
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
+)
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,

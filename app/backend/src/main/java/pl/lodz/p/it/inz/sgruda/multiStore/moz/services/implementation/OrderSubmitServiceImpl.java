@@ -2,6 +2,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.moz.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,6 +28,11 @@ import java.util.Set;
 
 @Log
 @Service
+@Retryable(
+        maxAttempts = 5,
+        backoff = @Backoff(delay = 500),
+        exclude = {AppBaseException.class}
+)
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
@@ -77,7 +84,11 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                             double discount = 0;
                             if(promotionEntities.size() > 0) {
                                 discount = promotionEntities.stream()
-                                        .mapToDouble(promo -> promo.isActive() ? promo.getDiscount() : 0.0)
+                                        .mapToDouble(promo ->
+                                                promo.isActive() && promo.getExpireDate().isAfter(LocalDateTime.now())
+                                                        ? promo.getDiscount()
+                                                        : 0.0
+                                        )
                                         .sum();
                                 if(promotionEntities.size() > 1 && discount > 50)
                                     discount = 50;

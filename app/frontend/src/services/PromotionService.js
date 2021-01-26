@@ -9,13 +9,16 @@ class PromotionService {
         return axios.get(API_URL_PROMOTIONS + '?page=' + page + '&size=' + size,  { headers: AuthorizationHeader() });
     } 
 
-    createPromotion(fields) { 
+    createPromotion(fields, active) { 
         const data = {
             idHash: '0',
             name: fields.name,
             discount: fields.discount,
             onCategory: fields.onCategory,
-            signature: "0"
+            active: active,
+            expireDate: fields.expireDate + "T00:00:00",
+            version: '0',
+            signature: '0'
         };
         return axios.post(API_URL_CREATE_PROMOTION, data,  { headers: AuthorizationHeader() }); 
     }
@@ -27,6 +30,7 @@ class PromotionService {
             discount: promotion.discount,
             onCategory: promotion.onCategory,
             active: promotion.active,
+            expireDate: promotion.expireDate,
             version: promotion.version,
             signature: promotion.signature
         };
@@ -39,6 +43,7 @@ class PromotionService {
             discount: promotion.discount,
             onCategory: promotion.onCategory,
             active: promotion.active,
+            expireDate: promotion.expireDate,
             version: promotion.version,
             signature: promotion.signature
         };
@@ -51,6 +56,7 @@ class PromotionService {
             discount: promotion.discount,
             onCategory: promotion.onCategory,
             active: promotion.active,
+            expireDate: promotion.expireDate,
             version: promotion.version,
             signature: promotion.signature
         };
