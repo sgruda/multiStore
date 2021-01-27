@@ -360,6 +360,7 @@
                 "edit": "Edit account",
                 "list": "Account list"
             },
+            "app": "BookStore",
             "basket": {
                 "content": "Content of your shopping basket"
             },
