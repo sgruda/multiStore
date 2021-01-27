@@ -8,10 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import Divider from '@material-ui/core/Divider';
 
-import { useAuth } from '../../context/AuthContext';
-import { ROLE_EMPLOYEE } from '../../config/config';
 import { Grid } from '@material-ui/core';
-import OrderItemCard from './OrderedItemCard';
 import OrderedItemCard from './OrderedItemCard';
 
 const useStyles = makeStyles({
@@ -38,8 +35,6 @@ const useStyles = makeStyles({
 function OrderDetails({order}) {
   const classes = useStyles();
   const { t } = useTranslation();
-
-  const { activeRole } = useAuth();
 
 
   return (

@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import ClearIcon from '@material-ui/icons/Clear';
-import DoneIcon from '@material-ui/icons/Done';
 
 function OrdersTableBody({orders, handleClickOrder, isSelected, classes, emptyRows, dense}) {
   const { t } = useTranslation();

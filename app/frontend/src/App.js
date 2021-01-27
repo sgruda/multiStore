@@ -25,8 +25,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
 import AddIcon from '@material-ui/icons/Add';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
@@ -152,15 +150,13 @@ function App(props) {
   ];
 
   return (
-    // !currentAccessToken &&
     <div className={classes.root}>
       <AppBar
-        position="fixed"//fixed/static to bedzie rowniej z ekranem, ale tak nie miesci sie logo przy rejestracji
+        position="fixed"
         className={clsx(classes.appbar, {
           [classes.appBarShift]: openDrawer,
         })}
       >
-       {/* <AppBar position="static" className={classes.appbar}> */}
           <Toolbar position="fixed">
             { ( userIsAuthenticated  &&  (activeRole === ROLE_ADMIN || activeRole === ROLE_EMPLOYEE) ) &&
               <IconButton edge="start" color="inherit" aria-label="menu"

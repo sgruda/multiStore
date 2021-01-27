@@ -2,14 +2,10 @@ import  React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 
-import AccountService from '../../services/AccountService';
 import AuthenticationService from '../../services/AuthenticationService';
 import { useFields } from '../../hooks/FieldHook';
-import {ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN} from '../../config/config';
 
-import AddAccountForm from '../../components/accounts/AddAccountForm';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
-import AccessLevelsCheckboxForm from '../../components/simple/AccessLevelCheckboxForm';
 import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
 
 import Avatar from '@material-ui/core/Avatar';

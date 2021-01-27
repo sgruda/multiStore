@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
-import { useForm } from "react-hook-form";
 
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +11,7 @@ import BasketService from '../../../services/BasketService';
 import ConfirmDialog from '../../ConfirmDialog';
 import AlertApiResponseHandler from '../../AlertApiResponseHandler';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
