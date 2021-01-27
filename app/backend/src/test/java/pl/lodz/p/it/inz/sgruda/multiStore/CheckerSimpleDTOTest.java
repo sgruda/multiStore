@@ -25,7 +25,7 @@ public class CheckerSimpleDTOTest {
         productDTO.setDescription("desc");
         productDTO.setInStore(123);
         productDTO.setPrice(9.99);
-        productDTO.setType("movie");
+        productDTO.setType("ebook");
         productDTO.setCategory("action");
         productDTO.setVersion(0);
         signSimpleDTO.signDTO(productDTO);
