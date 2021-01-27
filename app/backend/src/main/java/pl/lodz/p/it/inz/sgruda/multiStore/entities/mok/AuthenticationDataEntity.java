@@ -57,7 +57,6 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
     @JoinColumn(name = "forgot_password_token_id", referencedColumnName = "id")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
-//    @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version

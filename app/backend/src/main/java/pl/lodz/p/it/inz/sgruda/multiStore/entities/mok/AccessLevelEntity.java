@@ -26,9 +26,6 @@ public class AccessLevelEntity implements Serializable  {
     @Column(name = "role_name", nullable = false, length = 16)
     private RoleName roleName;
 
-    //    @OneToMany(mappedBy = "accessLevelByAccessLevelId")
-//    private Collection<AccountAccessLevelMappingEntity> accountAccessLevelMappingsById;
-//
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

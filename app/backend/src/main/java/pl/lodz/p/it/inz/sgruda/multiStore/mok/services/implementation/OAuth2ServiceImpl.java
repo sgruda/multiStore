@@ -94,7 +94,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         }
         existingAccount.setFirstName(oAuth2UserInfo.getFirstName());
         existingAccount.setLastName(oAuth2UserInfo.getLastName());
-//        existingAccount.setEmail(oAuth2UserInfo.getEmail());
 
         return accountRepository.save(existingAccount);
     }
