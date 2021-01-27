@@ -109,7 +109,7 @@
             "to-basket": "Add to basket"
         },
         "back": "Back",
-        "block": "Activate",
+        "block": "Deactivate",
         "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
@@ -139,7 +139,7 @@
             "facebook": "Sign up with Facebook",
             "google": "Sign up with Google"
         },
-        "unblock": "Deactivate",
+        "unblock": "Activate",
         "yes": "Yes"
     },
     "error": {
