@@ -104,7 +104,7 @@
     },
     "button": {
         "add": {
-            "access-level": "Add access leve;",
+            "access-level": "Add access level",
             "default": "Add",
             "to-basket": "Add to basket"
         },
