@@ -104,12 +104,12 @@
     },
     "button": {
         "add": {
-            "access-level": "Add access leve;",
+            "access-level": "Add access level",
             "default": "Add",
             "to-basket": "Add to basket"
         },
         "back": "Back",
-        "block": "Activate",
+        "block": "Deactivate",
         "delete": "Delete",
         "cancel": "Cancel",
         "change": "Change",
@@ -139,7 +139,7 @@
             "facebook": "Sign up with Facebook",
             "google": "Sign up with Google"
         },
-        "unblock": "Deactivate",
+        "unblock": "Activate",
         "yes": "Yes"
     },
     "error": {
@@ -551,6 +551,7 @@
             "firstName": "Field first name has incorrect pattern.",
             "language": "Field language has incorrect pattern.",
             "lastName": "Field last name has incorrect pattern.",
+            "name": "Field name has incorrect pattern.",
             "newPassword": "Field new password has incorrect pattern.",
             "password": "Field password has incorrect pattern.",
             "resetPasswordToken": "Field reset password token has incorrect pattern.",

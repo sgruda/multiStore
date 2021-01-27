@@ -289,7 +289,6 @@
                 "exist": "Status o podanej nazwie nie istnieje."
             }
         }
-        
     },
     "densePadding": "Małe komórki w wierszach",
     "dialog": {
@@ -552,6 +551,7 @@
             "firstName": "Imię ma niepoprawny wzór.",
             "language": "Język ma niepoprawny wzór.",
             "lastName": "Nazwisko ma niepoprawny wzór.",
+            "name": "Nazwa ma niepoprawny wzór.",
             "newPassword": "Nowe hasło ma niepoprawny wzór.",
             "password": "Hasło ma niepoprawny wzór.",
             "resetPasswordToken": "Token resetu hasła ma niepoprawny wzór.",
