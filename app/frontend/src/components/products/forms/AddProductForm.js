@@ -103,7 +103,7 @@ function AddProductForm({fields, setFields, register, errors}) {
                     fullWidth
                 >
                     <MenuItem value={'book'}>{t("product.create.form.type.book")}</MenuItem>
-                    <MenuItem value={'movie'}>{t("product.create.form.type.movie")}</MenuItem>
+                    <MenuItem value={'ebook'}>{t("product.create.form.type.ebook")}</MenuItem>
                 </Select>
             </FormControl>
         </Grid>

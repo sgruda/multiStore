@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import BookIcon from '@material-ui/icons/Book';
-import MovieIcon from '@material-ui/icons/Movie';
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
 import clsx from 'clsx';
 import SignalCellularConnectedNoInternet0BarIcon from '@material-ui/icons/SignalCellularConnectedNoInternet0Bar';
 import SignalCellular1BarIcon from '@material-ui/icons/SignalCellular1Bar';
@@ -128,7 +128,7 @@ function ProductCard({product, setSelectedProduct, setShowDetails, showBackdrop}
                         [classes.detailsAtFront]: showBackdrop
                     })}
                     /> 
-                : <MovieIcon
+                : <DesktopWindowsIcon
                         className={clsx({
                             [classes.detailsAtFront]: showBackdrop
                         })}

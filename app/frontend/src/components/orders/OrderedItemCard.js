@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import BookIcon from '@material-ui/icons/Book';
-import MovieIcon from '@material-ui/icons/Movie';
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
 
 const useStyles = makeStyles({
     avatar: {
@@ -44,7 +44,7 @@ function OrderedItemCard({product, orderedNumber}) {
         <CardHeader
             avatar={
             <Avatar aria-label="avatar" className={classes.avatar}>
-                {product.type === 'book' ? <BookIcon /> : <MovieIcon/> }
+                {product.type === 'book' ? <BookIcon /> : <DesktopWindowsIcon/> }
             </Avatar>
             }
             title={t('order.details.product.title') + ': ' + product.title}

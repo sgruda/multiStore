@@ -36,7 +36,7 @@ function ProductTypeFilter({setFilterTypeProducts}) {
         >
             <option value={null}>{t("product.list.filter.all")}</option>
             <option value={'book'}>{t("product.list.filter.only-books")}</option>
-            <option value={'movie'}>{t("product.list.filter.only-movies")}</option>
+            <option value={'ebook'}>{t("product.list.filter.only-ebooks")}</option>
         </NativeSelect>
       </FormControl>
     </Grid>
