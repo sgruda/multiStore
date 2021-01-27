@@ -98,19 +98,6 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void editOrderedItemInBasket(OrderedItemEntity orderedItemEntity, BasketEntity basketEntity) throws AppBaseException {
-//        OrderedItemEntity toRemove = null;
-//        for(OrderedItemEntity item : basketEntity.getOrderedItemEntities()) {
-//            if(item.getIdentifier().equals(orderedItemEntity.getIdentifier())) {
-//                toRemove = item;
-//                break;
-//            }
-//        }
-//        if(toRemove != null) {
-//            basketEntity.getOrderedItemEntities().remove(toRemove);
-//            basketEntity.getOrderedItemEntities().add(orderedItemEntity);
-//            orderedItemRepository.saveAndFlush(orderedItemEntity);
-//        } else
-//            throw new BasketNotContainsItemException();
         if(!basketEntity.getOrderedItemEntities()
                 .removeIf(item -> item.getIdentifier().equals(orderedItemEntity.getIdentifier())))
             throw new BasketNotContainsItemException();

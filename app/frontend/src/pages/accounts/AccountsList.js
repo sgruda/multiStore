@@ -11,11 +11,6 @@ import Switch from '@material-ui/core/Switch';
 import TablePagination from '@material-ui/core/TablePagination';
 import SyncIcon from '@material-ui/icons/Sync';
 
-import AuthenticationService from '../../services/AuthenticationService';
-import RedirectToSignIn from '../../components/simple/RedirectToSignIn';
-import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
-import { Route } from "react-router-dom";
-
 import AccountService from '../../services/AccountService';
 import AccountsTableHeader from '../../components/accounts/table/AccountsTableHeader';
 import AccountsTableBody from '../../components/accounts/table/AccountsTableBody';

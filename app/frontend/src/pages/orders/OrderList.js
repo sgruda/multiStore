@@ -22,7 +22,7 @@ import OrderService from '../../services/OrderService';
 import OrdersTableHeader from '../../components/orders/table/OrdersTableHeader';
 import OrdersTableBody from '../../components/orders/table/OrdersTableBody';
 import { Button } from "@material-ui/core";
-import { ROLE_CLIENT, ROLE_EMPLOYEE } from "../../config/config";
+import { ROLE_EMPLOYEE } from "../../config/config";
 import OrderDetails from '../../components/orders/OrderDetails';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 

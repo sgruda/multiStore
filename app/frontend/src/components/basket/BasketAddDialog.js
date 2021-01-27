@@ -10,7 +10,6 @@ import { Backdrop } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
-import { ROLE_CLIENT } from '../../config/config';
 import BasketService from '../../services/BasketService';
 
 function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAlert, setOpenSuccessAlert, setAlertWarningMessage, setAlertInfoMessage, loadingData, setLoadingData}) {
@@ -22,7 +21,6 @@ function BasketAddDialog({openDialog, handleClose, getProduct, setOpenWarningAle
 
     const handleConfirm = () => {
         checkExpiredJWTAndExecute(addItem);
-        // setLoadingData(true);
         handleClose();
     }
     const checkErrors = () => {

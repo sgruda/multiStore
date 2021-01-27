@@ -43,7 +43,6 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @OneToOne(optional = false)
     private AccountEntity accountEntity;
 
-//    @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version

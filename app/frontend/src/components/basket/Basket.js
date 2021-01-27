@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext'
-import { ROLE_CLIENT, ACTIVE_ROLE } from '../../config/config';
 import BasketService from '../../services/BasketService';
 import BasketDetails from '../../components/basket/BasketDetails';
 import OrderDialog from '../../components/orders/OrderDialog';
@@ -14,8 +13,6 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Collapse from '@material-ui/core/Collapse';
 import SyncIcon from '@material-ui/icons/Sync';
 
 const useStyles = makeStyles((theme) => ({

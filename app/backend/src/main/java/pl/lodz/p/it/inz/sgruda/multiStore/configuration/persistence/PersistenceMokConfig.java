@@ -32,25 +32,12 @@ import javax.sql.DataSource;
         transactionManagerRef= "mokTransactionManager"
 )
 public class PersistenceMokConfig {
-    @Value("${spring.datasource.mok.url}")
-    private String url;
-    @Value("${spring.datasource.mok.username}")
-    private String username;
-    @Value("${spring.datasource.mok.password}")
-    private String password;
-    @Value("${spring.datasource.mok.driverClassName}")
-    private String driver;
 
     @Bean
     @Primary
-//    @ConfigurationProperties("spring.datasource.mok")
+    @ConfigurationProperties("spring.datasource.mok")
     public DataSourceProperties mokDataSourceProperties() {
-        DataSourceProperties dataSourceProperties = new DataSourceProperties();
-        dataSourceProperties.setUrl(url);
-        dataSourceProperties.setUsername(username);
-        dataSourceProperties.setPassword(password);
-        dataSourceProperties.setDriverClassName(driver);
-        return dataSourceProperties;
+        return new DataSourceProperties();
     }
 
     @Bean

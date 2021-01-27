@@ -4,17 +4,12 @@ import { useFields } from '../../hooks/FieldHook';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
-import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import BookIcon from '@material-ui/icons/Book';
 import MovieIcon from '@material-ui/icons/Movie';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Divider from "@material-ui/core/Divider";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 import { useAuth } from '../../context/AuthContext';
@@ -31,10 +26,6 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: '#432deb',
     },
-    // form: {
-    //     width: '100%', // Fix IE 11 issue.
-    //     marginTop: theme.spacing(2),
-    //   },
     submit: {
         margin: theme.spacing(3, 0, 2),
         backgroundColor: "#4285F4",
@@ -83,13 +74,6 @@ function ProductEdit({product, handleClose, handleRefresh}) {
     handleConfirmDialog();
   }
 
-  const checkErrors = () => {
-    if(Object.keys(errors).length > 0)
-      return true ;
-    return false;
-  }
-
-  const disabledSubmit = checkErrors();
 
   const convertValidationMessage = (message) => {
     if(message.startsWith("error")) return t(message);

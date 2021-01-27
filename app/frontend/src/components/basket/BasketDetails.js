@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext'
-import { ROLE_CLIENT, ACTIVE_ROLE } from '../../config/config';
 import BasketService from '../../services/BasketService';
 import BasketTableBody from './table/BasketTableBody';
 import BasketTableHeader from './table/BasketTableHeader';
 import BasketItemOperationsButton from './table/BasketItemOperationsButton';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fab from '@material-ui/core/Fab';
-import Badge from '@material-ui/core/Badge';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -75,16 +70,11 @@ const useStyles = makeStyles((theme) => ({
 function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
     const classes = useStyles();
     const { t } = useTranslation();
-    // const [basket, setBasket] = useState(Object);
     const [orderedItems, setOrderedItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(-1);
 
     const [firstLoading, setFirstLoading] = useState(true);
-    const [openWarningAlert, setOpenWarningAlert] = useState(false);
-    const [alertWarningMessage, setAlertWarningMessage] = useState('');
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-    const [alertInfoMessage, setAlertInfoMessage] = useState('');
-    const [showRefresh, setShowRefresh] = useState(false);
     const {checkExpiredJWTAndExecute} = useAuth();
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -92,7 +82,6 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
 
     const handleDeleteItem = () => {
         checkExpiredJWTAndExecute(deleteItem);
-        // setLoadingData(true);
     }
     const handleCloseSuccessDialog = () => {
         setSelectedItem(null);
@@ -177,8 +166,6 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("BasketTableBodyDelete: " + resMessage);
-                setAlertWarningMessage(t(error.response.data.message.toString()));
-                setOpenWarningAlert(true);
             }
         );
     }

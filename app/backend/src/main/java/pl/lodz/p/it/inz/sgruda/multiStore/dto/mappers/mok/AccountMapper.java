@@ -43,13 +43,11 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
     }
 
     @Override
-//    public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto, Set<AccessLevelEntity> accessLevelEntitySet) throws DTOSignatureException, DTOVersionException {
     public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto)  {
 
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
-//        entity.setAccessLevelEntities(accessLevelEntitySet);
         entity.setActive(dto.isActive());
         entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
         entity.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));

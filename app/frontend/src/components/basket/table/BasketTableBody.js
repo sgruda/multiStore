@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from 'react-i18next';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Typography } from "@material-ui/core";
 
-import { useAuth } from '../../../context/AuthContext';
-import ConfirmDialog from '../../ConfirmDialog';
 
 function BasketTableBody({orderedItems, handleClickItem, isSelected, classes, totalPrice}) {
     const { t } = useTranslation();

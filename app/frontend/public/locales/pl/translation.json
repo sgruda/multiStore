@@ -147,6 +147,9 @@
             "email": {
                 "verified": "Adres email został już zweryfikowany."
             },
+            "not": {
+                "exists": "Konto nie istnieje."
+            },
             "operation": {
                 "disabled": "Operacja jest zablokowana dla tego typu konta."
             },
