@@ -147,6 +147,9 @@
             "email": {
                 "verified": "Email is already verified."
             },
+            "not": {
+                "exists": "Account not exists."
+            },
             "operation": {
                 "disabled": "Operation is disabled for that account type."
             },
