@@ -366,7 +366,7 @@ VALUES (1, true, 'Niesamowita historia niszczyciela światów.', 100, 54.44, 'Im
 INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
 VALUES (2, true, 'O podróży po skarb.', 50, 34.44, 'Hobbit', 'book', 0, 1);
 INSERT INTO product (id, active, description, in_store, price, title, type, version, category_id)
-VALUES (3, true, 'Historia tajnego agenta, który cierpni na amnezję i próbuje poznać swoją tożsamość.', 75, 20.0, 'Tożsamość Bourne', 'movie', 0, 2);
+VALUES (3, true, 'Historia tajnego agenta, który cierpni na amnezję i próbuje poznać swoją tożsamość.', 75, 20.0, 'Tożsamość Bourne', 'ebook', 0, 2);
 
 INSERT INTO ordered_item (id, identifier,ordered_number, version, product_id)
 VALUES (1, 'ec45e9a5-1234-40ca-aaaa-e382dd9e5dd4', 3, 0, 2);

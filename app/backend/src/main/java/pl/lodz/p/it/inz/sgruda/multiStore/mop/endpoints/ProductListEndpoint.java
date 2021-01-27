@@ -50,7 +50,7 @@ public class ProductListEndpoint {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(required = false) Boolean active,
-            @Pattern(regexp = "(book|movie)", message = "validation.pattern") @RequestParam(required = false) String type) {
+            @Pattern(regexp = "(book|ebook)", message = "validation.pattern") @RequestParam(required = false) String type) {
 
         Pageable paging = PageRequest.of(page, size);
 

@@ -166,7 +166,7 @@ function App(props) {
             }
           
             <Typography variant="h6" className={classes.title} >
-              <Button component={Link} to="/" color="inherit">Inżynierka</Button>
+              <Button component={Link} to="/" color="inherit">{t('pages.titles.app')}</Button>
             </Typography>
               { userIsAuthenticated && activeRole === ROLE_ADMIN &&
                 <></>

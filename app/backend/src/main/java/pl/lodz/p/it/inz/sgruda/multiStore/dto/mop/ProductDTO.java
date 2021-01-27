@@ -41,7 +41,7 @@ public @Data class ProductDTO implements SignatureVerifiability {
     private double price;
 
     @NotNull(message = "validation.notnull")
-    @Pattern(regexp = "(book|movie)", message = "validation.pattern")
+    @Pattern(regexp = "(book|ebook)", message = "validation.pattern")
     private String type;
 
     @NotNull(message = "validation.notnull")

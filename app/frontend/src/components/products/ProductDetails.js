@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import BookIcon from '@material-ui/icons/Book';
-import MovieIcon from '@material-ui/icons/Movie';
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
 import SignalCellularConnectedNoInternet0BarIcon from '@material-ui/icons/SignalCellularConnectedNoInternet0Bar';
 import SignalCellular1BarIcon from '@material-ui/icons/SignalCellular1Bar';
 import SignalCellular2BarIcon from '@material-ui/icons/SignalCellular2Bar';
@@ -62,14 +62,9 @@ function ProductDetails({product, handleLoadingData}) {
         <CardHeader
             avatar={
             <Avatar aria-label="productType" className={classes.avatar}>
-                {product.type === 'book' ? <BookIcon/> : <MovieIcon/> }
+                {product.type === 'book' ? <BookIcon/> : <DesktopWindowsIcon/> }
             </Avatar>
             }
-            // action={
-            // // <IconButton aria-label="settings">
-            // //     <MoreVertIcon />
-            // // </IconButton>
-            // }
             title={t('product.details.type') + ': ' + t('product.fields.type.' + product.type)}
             subheader={t('product.details.category') + ': ' + t('product.fields.category.' + product.category)}
         />

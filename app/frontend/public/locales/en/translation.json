@@ -96,9 +96,9 @@
             "title": "Title",
             "price": "Price",
             "type": {
-                "book": "Book",
+                "book": "Paper book",
                 "label": "Type",
-                "movie": "Movie"
+                "ebook": "Electronic book"
             }
         }
     },
@@ -255,17 +255,17 @@
         },
         "product": {
             "already": {
-                "inactive": "That product is already inactive."
+                "inactive": "That book is already inactive."
             },
             "is": {
-                "active": "Product is active."
+                "active": "Book is active."
             },
             "not": {
-                "enough": "Store is not having enough product.",
-                "exists": "Product not exists."
+                "enough": "Store is not having enough book.",
+                "exists": "Book not exists."
             },
             "title": {
-                "exists": "Product title already exists."
+                "exists": "Book title already exists."
             }
         },
         "promotion": {
@@ -312,7 +312,7 @@
             "buyerEmail": "Buyer's address e-mail",
             "identifier": "Identifier of order",
             "orderDate": "Date of submitting order",
-            "orderedProducts": "Ordered products",
+            "orderedProducts": "Ordered books",
             "product": {
                 "orderedNumber":"Ordered number of items",
                 "price":"Price",
@@ -360,6 +360,7 @@
                 "edit": "Edit account",
                 "list": "Account list"
             },
+            "app": "BookStore",
             "basket": {
                 "content": "Content of your shopping basket"
             },
@@ -368,7 +369,7 @@
                 "list": "Lista zamówień"
             },
             "product": {
-                "create": "Create new product"
+                "create": "Create new book"
             },
             "profile": "Profile",
             "promotion": {
@@ -390,9 +391,9 @@
                 "title": "Title",
                 "price": "Price",
                 "type": {
-                    "book": "Book",
+                    "book": "Paper book",
                     "label": "Type",
-                    "movie": "Movie"
+                    "ebook": "Electronic book"
                 }
             }
         },
@@ -428,22 +429,22 @@
             "inactive": "UNAVAILABLE",
             "price": "Price",
             "type": {
-                "book": "Book",
-                "movie": "Movie"
+                "book": "Paper book",
+                "ebook": "Electronic book"
             }
         },
         "list": {
             "filter": {
                 "all": "All",
                 "label": {
-                    "activity": "Show products",
-                    "text": "Products, which are containing phrase",
-                    "type": "Type of searchich products"
+                    "activity": "Show books",
+                    "text": "Books, which are containing phrase",
+                    "type": "Type of searchich books"
                 },
-                "only-active": "Only active products",
-                "only-books": "Only books",
-                "only-movies": "Only movies",
-                "only-non-active": "Only non active products",
+                "only-active": "Only active books",
+                "only-books": "Only paper books",
+                "only-ebooks": "Only electronic books",
+                "only-non-active": "Only non active books",
                 "search": "Search"
             },
             "view-settings": "View settings"
