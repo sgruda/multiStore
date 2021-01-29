@@ -6,5 +6,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAcc
 
 public interface OwnAccountEditService {
     void editAccount(AccountEntity accountEntity) throws OperationDisabledForAccountException;
+    void changeAccountLanguage(AccountEntity accountEntity);
     AccountEntity getAccountByEmail(String mail) throws AccountNotExistsException;
 }

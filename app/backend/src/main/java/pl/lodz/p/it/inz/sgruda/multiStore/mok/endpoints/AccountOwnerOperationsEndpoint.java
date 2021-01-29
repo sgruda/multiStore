@@ -23,6 +23,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -88,6 +89,26 @@ public class AccountOwnerOperationsEndpoint {
                     HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(new ApiResponse(true, "account.edit.correctly."));
+    }
+    @PutMapping("/change-language")
+    @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> editLanguageAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
+        AccountEntity accountEntity;
+        try {
+            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
+                throw new OperationDisabledForAccountException();
+            }
+            accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
+            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
+            accountEntity.setLanguage(Language.valueOf(accountDTO.getLanguage()));
+            ownAccountEditService.changeAccountLanguage(accountEntity);
+        } catch (AppBaseException e) {
+            log.severe("Error: " + e);
+            return new ResponseEntity(new ApiResponse(false, e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(new ApiResponse(true, "account.language.edit.correctly."));
     }
     @Getter
     private static class ChangePasswordRequest {

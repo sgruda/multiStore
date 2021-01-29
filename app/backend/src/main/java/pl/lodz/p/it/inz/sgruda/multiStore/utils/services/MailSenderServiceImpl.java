@@ -31,6 +31,7 @@ public class MailSenderServiceImpl implements MailSenderService {
     public void sendPasswordResetMail(String email, String resetToken, Language language) throws MessagingException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(resourceBundle.getProperty(language.name() + ".reset.password.body"));
+        stringBuilder.append(": ");
         stringBuilder.append(resetToken);
         sendMail(email, resourceBundle.getProperty(language.name() + ".reset.password.subject"), stringBuilder.toString(), false);
     }

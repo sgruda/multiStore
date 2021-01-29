@@ -14,6 +14,5 @@ import java.util.Optional;
         transactionManager = "mokTransactionManager"
 )
 public interface ForgotPasswordTokenRepository extends JpaRepository<ForgotPasswordTokenEntity, Long> {
-    Optional<ForgotPasswordTokenEntity> findByHash(String hash);
-    void deleteByHash(String hash);
+    Optional<ForgotPasswordTokenEntity> findByToken(String token);
 }

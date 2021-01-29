@@ -1,7 +1,9 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user;
 
 import lombok.extern.java.Log;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
+import java.util.List;
 import java.util.Map;
 @Log
 public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
@@ -30,16 +32,11 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getImageUrl() {
-        if(attributes.containsKey("picture")) {
-            Map<String, Object> pictureObj = (Map<String, Object>) attributes.get("picture");
-            if(pictureObj.containsKey("data")) {
-                Map<String, Object>  dataObj = (Map<String, Object>) pictureObj.get("data");
-                if(dataObj.containsKey("url")) {
-                    return (String) dataObj.get("url");
-                }
-            }
-        }
-        return null;
+    public Language getLanguage() {
+        String languages = attributes.get("languages").toString();
+        if(languages.contains("polish"))
+            return Language.pl;
+        else
+            return Language.en;
     }
 }

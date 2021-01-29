@@ -39,9 +39,13 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     @Getter
     private String providerId;
 
+    @Getter
+    private String language;
+
 
     public UserPrincipal(Long id, String firstName, String lastName, String email, String username, String password, boolean active,
-                         boolean emailVerified, AuthProvider authProvider, Collection<? extends GrantedAuthority> authorities) {
+                         boolean emailVerified, AuthProvider authProvider, Collection<? extends GrantedAuthority> authorities,
+                         String language) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,10 +56,11 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.emailVerified = emailVerified;
         this.authProvider = authProvider;
         this.authorities = authorities;
+        this.language = language;
     }
 
     public UserPrincipal(Long id, String firstName, String lastName, String email, boolean active, AuthProvider authProvider,
-                         String providerId, Collection<? extends GrantedAuthority> authorities) {
+                         String providerId, Collection<? extends GrantedAuthority> authorities, String language) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -65,6 +70,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.authProvider = authProvider;
         this.providerId = providerId;
         this.authorities = authorities;
+        this.language = language;
     }
 
     public static UserPrincipal create(AccountEntity account) {
@@ -83,7 +89,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                     account.isActive(),
                     account.isEmailVerified(),
                     account.getProvider(),
-                    authorities
+                    authorities,
+                    account.getLanguage().name()
             );
         else
             return new UserPrincipal(
@@ -94,8 +101,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                     account.isActive(),
                     account.getProvider(),
                     account.getProviderId(),
-                    authorities
-
+                    authorities,
+                    account.getLanguage().name()
             );
     }
 

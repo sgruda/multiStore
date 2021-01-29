@@ -1,5 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user;
 
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
+
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {
@@ -21,5 +23,5 @@ public abstract class OAuth2UserInfo {
 
     public abstract String getEmail();
 
-    public abstract String getImageUrl();
+    public abstract Language getLanguage();
 }

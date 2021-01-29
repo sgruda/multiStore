@@ -1,12 +1,14 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
 import lombok.extern.java.Log;
+import org.apache.commons.codec.language.bm.Lang;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import java.util.stream.Collectors;
@@ -36,6 +38,7 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
         );
         dto.setActive(entity.isActive());
         dto.setAuthProvider(entity.getProvider().name());
+        dto.setLanguage(entity.getLanguage().name());
         if(entity.getAuthenticationDataEntity() != null)
             dto.setAuthenticationDataDTO(authenticationDataMapper.toDTO(entity.getAuthenticationDataEntity()));
         dto.setVersion(entity.getVersion());
@@ -50,6 +53,7 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
         entity.setEmail(dto.getEmail());
         entity.setActive(dto.isActive());
         entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
+        entity.setLanguage(Language.valueOf(dto.getLanguage()));
         entity.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
         return entity;
     }

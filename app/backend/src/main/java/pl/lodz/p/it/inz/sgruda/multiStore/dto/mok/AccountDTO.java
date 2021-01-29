@@ -50,6 +50,10 @@ public @Data class AccountDTO implements SignatureVerifiability {
     @Pattern(regexp = "(system|google|facebook)", message = "validation.pattern")
     private String authProvider;
 
+    @NotNull(message = "validation.notnull")
+    @Pattern(regexp = "(pl|en|)", message = "validation.pattern")
+    private String language;
+
     @Valid
     private AuthenticationDataDTO authenticationDataDTO;
 

@@ -64,7 +64,8 @@ public class OAuth2ServiceImpl implements OAuth2Service {
                 oAuth2UserInfo.getLastName(),
                 oAuth2UserInfo.getEmail(),
                 AuthProvider.valueOf(registrationId),
-                oAuth2UserInfo.getId()
+                oAuth2UserInfo.getId(),
+                oAuth2UserInfo.getLanguage()
         );
         AccessLevelEntity clientRole = accessLevelRepository.findByRoleName(RoleName.ROLE_CLIENT)
                 .orElseThrow(() -> new HttpBaseException("User Role not set."));
