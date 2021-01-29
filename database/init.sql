@@ -67,7 +67,7 @@ create table forgot_password_token
         constraint forgot_password_token_pkey
             primary key,
     expire_date timestamp   not null,
-    hash        varchar(64) not null
+    token        varchar(6) not null
         constraint unique_hash_forgot_password_token
             unique,
     version     bigint      not null,
