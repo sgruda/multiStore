@@ -33,8 +33,8 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public Language getLanguage() {
-        String languages = attributes.get("languages").toString();
-        if(languages != null) {
+        if(attributes.get("languages") != null) {
+            String languages = attributes.get("languages").toString();
             if(languages.contains("polish"))
                 return Language.pl;
             else
