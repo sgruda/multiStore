@@ -70,7 +70,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             }
             newTokenEntity.setAccountEntity(accountEntity);
             newTokenEntity.setExpireDate(LocalDateTime.now().plusSeconds(Integer.parseInt(FORGOT_PASSWORD_TOKEN_LIFETIME) / 1000));
-            newTokenEntity.setHash(hashMethod.hash(newTokenEntity.getExpireDate().toString() + UUID.randomUUID().toString()));
+            newTokenEntity.setHash(UUID.randomUUID().toString().replace("-", "").substring(0, 6));
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(newTokenEntity);
             forgotPasswordTokenRepository.saveAndFlush(newTokenEntity);
             return newTokenEntity.getHash();

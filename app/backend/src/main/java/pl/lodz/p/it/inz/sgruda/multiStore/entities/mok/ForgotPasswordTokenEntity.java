@@ -34,7 +34,7 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
 
     @Basic(optional = false)
     @NotNull(message = "validation.notnull")
-    @Size(min = 64, max = 64, message = "validation.size")
+    @Size(min = 6, max = 6, message = "validation.size")
     @Column(name = "hash", nullable = false, unique = true, length = 64)
     private String hash;
 

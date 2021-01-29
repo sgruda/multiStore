@@ -25,7 +25,7 @@ public @Data class ForgotPasswordTokenDTO implements SignatureVerifiability {
     @NotNull(message = "validation.notnull")
     private LocalDateTime expireDate;
 
-    @Size(min = 64, max = 64)
+    @Size(min = 6, max = 6)
     @NotNull(message = "validation.notnull")
     @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
     private String hash;

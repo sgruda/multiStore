@@ -87,7 +87,7 @@ public class ResetPasswordEndpoint {
         @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "validation.pattern")
         private String password;
 
-        @Size(min = 64, max = 64, message = "validation.size")
+        @Size(min = 6, max = 6, message = "validation.size")
         @NotNull(message = "validation.notnull")
         @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
         private String resetPasswordToken;
