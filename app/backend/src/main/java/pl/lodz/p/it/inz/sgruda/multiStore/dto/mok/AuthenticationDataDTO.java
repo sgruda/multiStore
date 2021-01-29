@@ -29,6 +29,7 @@ public @Data class AuthenticationDataDTO implements SignatureVerifiability {
 
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
     private String password;
+
     @NotNull(message = "{validation.notnull}")
     private boolean emailVerified;
 

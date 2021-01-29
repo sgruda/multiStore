@@ -34,9 +34,9 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
 
     @Basic(optional = false)
     @NotNull(message = "validation.notnull")
-    @Size(min = 64, max = 64, message = "validation.size")
-    @Column(name = "hash", nullable = false, unique = true, length = 64)
-    private String hash;
+    @Size(min = 6, max = 6, message = "validation.size")
+    @Column(name = "token", nullable = false, unique = true, length = 64)
+    private String token;
 
 
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, unique = true)
@@ -56,12 +56,12 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
         if (o == null || getClass() != o.getClass()) return false;
         ForgotPasswordTokenEntity that = (ForgotPasswordTokenEntity) o;
         return  Objects.equals(expireDate, that.expireDate) &&
-                Objects.equals(hash, that.hash);
+                Objects.equals(token, that.token);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, expireDate, hash, version);
+        return Objects.hash(id, expireDate, token, version);
     }
 
 }

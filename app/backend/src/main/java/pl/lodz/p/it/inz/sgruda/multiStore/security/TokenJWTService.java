@@ -39,6 +39,7 @@ public class TokenJWTService {
         claims.put("roles", userPrincipal.getAuthorities().stream()
                                          .map(GrantedAuthority::getAuthority)
                                          .collect(Collectors.toSet()));
+        claims.put("language", userPrincipal.getLanguage());
         claims.put("iss", now);
         claims.put("exp", expiryDate);
         return Jwts.builder()

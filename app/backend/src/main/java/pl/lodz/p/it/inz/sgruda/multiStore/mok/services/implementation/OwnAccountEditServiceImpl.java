@@ -49,6 +49,12 @@ public class OwnAccountEditServiceImpl implements OwnAccountEditService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
+    public void changeAccountLanguage(AccountEntity accountEntity) {
+        accountRepository.saveAndFlush(accountEntity);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
     public AccountEntity getAccountByEmail(String mail) throws AccountNotExistsException {
         return accountRepository.findByEmail(mail)
                 .orElseThrow(() -> new AccountNotExistsException());

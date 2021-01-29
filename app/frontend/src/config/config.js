@@ -17,6 +17,7 @@ export const API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL = API_URL_SINGLE_ACCOUNT
 export const API_URL_MY_ACCOUNT = API_BASE_URL + "/api/account/me";
 export const API_URL_MY_ACCOUNT_EDIT = API_URL_MY_ACCOUNT + "/edit";
 export const API_URL_MY_ACCOUNT_CHANGE_PASSWORD = API_URL_MY_ACCOUNT + "/change-password";
+export const API_URL_MY_ACCOUNT_CHANGE_LANGUAGE = API_URL_MY_ACCOUNT + "/change-language";
 export const API_URL_RESET_PASSWORD = API_BASE_URL + '/api/auth/reset-password';
 export const API_URL_CHANGE_RESETTED_PASSWORD = API_URL_RESET_PASSWORD + '/change';
 

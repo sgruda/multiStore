@@ -6,6 +6,7 @@ import lombok.ToString;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 import javax.persistence.*;
@@ -76,6 +77,11 @@ public class AccountEntity implements Serializable, VersionGetter {
     @Column(name = "provider_id", nullable = true)
     private String providerId;
 
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Basic
@@ -93,22 +99,24 @@ public class AccountEntity implements Serializable, VersionGetter {
     @JoinColumn(name = "basket_id", referencedColumnName = "id")
     private BasketEntity basketEntity;
 
-    public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider, String providerId) {
+    public AccountEntity(String firstName, String lastName, @Email String email, AuthProvider provider, String providerId, Language language) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.active = true;
         this.provider = provider;
         this.providerId = providerId;
+        this.language = language;
     }
 
-    public AccountEntity(String firstName, String lastName, @Email String email, String username, String password) {
+    public AccountEntity(String firstName, String lastName, @Email String email, String username, String password, Language language) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.active = true;
         this.authenticationDataEntity = new AuthenticationDataEntity(username, password);
         this.provider = AuthProvider.system;
+        this.language = language;
     }
 
     public AccountEntity() {
@@ -127,12 +135,13 @@ public class AccountEntity implements Serializable, VersionGetter {
                 accessLevelEntities.equals(that.accessLevelEntities) &&
                 provider == that.provider &&
                 active == that.active &&
+                language == that.language &&
                 authenticationDataEntity.equals(that.authenticationDataEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, accessLevelEntities, provider, active, authenticationDataEntity);
+        return Objects.hash(firstName, lastName, email, accessLevelEntities, provider, active, language, authenticationDataEntity);
     }
 
     public String getUsername() {

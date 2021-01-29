@@ -66,7 +66,8 @@ public class AuthenticationEndpoint {
                 signUpRequest.getLastName(),
                 signUpRequest.getEmail(),
                 signUpRequest.getUsername(),
-                passwordEncoder.encode(signUpRequest.getPassword())
+                passwordEncoder.encode(signUpRequest.getPassword()),
+                Language.valueOf(signUpRequest.getLanguage())
         );
 
         AccountEntity resultAccount;

@@ -31,6 +31,11 @@
             "firstName": "Imię",
             "lastName": "Nazwisko"
         },
+        "language": {
+            "edit": {
+                "correctly": "Język systemowy został zmieniony poprawnie."
+            }
+        },
         "list": {
             "table": {
                 "filter": {
@@ -76,6 +81,12 @@
             "account-type": "Typ konta",
             "email": "Adres e-mail",
             "email-verified": "Zweryfikowany adres e-mail",
+            "language": {
+                "en": "angielski",
+                "label": "Język",
+                "lang": "Język systemu",
+                "pl": "polski"
+            },
             "firstName": "Imię",
             "lastName": "Nazwisko",
             "roles": "Poziomy dostępu",
@@ -144,6 +155,13 @@
     },
     "error": {
         "account": {
+            "disabled": {
+                "operation": {
+                    "email": {
+                        "non-verified": "Operacja jest zablokowana dla kont z niezweryfikowanym adresem email. Najpierw potwierdź swój adres email."
+                    }
+                }
+            },
             "email": {
                 "verified": "Adres email został już zweryfikowany."
             },
@@ -200,6 +218,13 @@
         "dto": {
             "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",
             "version": "Ktoś przed Tobą edytował te dane. Odśwież je i spróbuj jeszcze raz."
+        },
+        "employee": {
+            "serving": {
+                "own": {
+                    "order": "Nie możesz zmienić statusu własnego zamówienia."
+                }
+            }
         },
         "http": {
             "default": "Wystąpił błąd.",
@@ -511,7 +536,7 @@
                 "helper": {
                     "email": "Podaj swój adres e-mail.",
                     "password": {
-                        "confirm": "Potwierdź swoje hasło.",
+                        "confirm": "Potwierdź swoje hasło (oba hasła muszą być takie same).",
                         "default": "Podaj hasło.",
                         "new": "Podaj nowe hasło.",
                         "present": "Podaj obecne hasło."
@@ -521,7 +546,7 @@
                 },
                 "incorrect": {
                     "password": {
-                        "confirm": "Oba hasła muszą być takie same.",
+                        "confirm": "Potwierdź swoje hasło (oba hasła muszą być takie same).",
                         "default": "Podanie hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
                         "new": "Podanie nowego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
                         "present": "Podanie obecnego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę)."

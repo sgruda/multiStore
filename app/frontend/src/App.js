@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation  } from 'react-i18next';
+import i18n from './i18n';
 import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import Routes from './routes/Routes';
@@ -131,6 +132,8 @@ function App(props) {
         else if(roles.includes(ROLE_ADMIN)) {
           setActiveRole(ROLE_ADMIN);
         }
+        localStorage.setItem("i18nextLng", AuthenticationService.getParsedJWT(currentAccessToken).language)
+        i18n.changeLanguage(AuthenticationService.getParsedJWT(currentAccessToken).language);
       }
     }
   }, [currentAccessToken]);

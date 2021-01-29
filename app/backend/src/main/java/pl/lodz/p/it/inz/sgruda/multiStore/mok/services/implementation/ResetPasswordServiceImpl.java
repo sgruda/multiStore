@@ -21,6 +21,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.ForgotPasswordTokenRe
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.ResetPasswordService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -53,14 +54,21 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     }
 
     @Override
+    public Language getAccountLanguage(String email) throws AppBaseException {
+        return accountRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountNotExistsException())
+                .getLanguage();
+    }
+
+    @Override
     public String resetPassword(String email) throws AppBaseException {
         Optional<AccountEntity> optionalAccountEntity = accountRepository.findByEmail(email);
         if(optionalAccountEntity.isPresent()) {
             AccountEntity accountEntity = optionalAccountEntity.get();
             if(accountEntity.getProvider() != AuthProvider.system)
                 throw new OperationDisabledForAccountException();
-
-            HashMethod hashMethod = new HashMethod();
+            if(!accountEntity.getAuthenticationDataEntity().isEmailVerified())
+                throw new OperationDisabledForAccountException("error.account.disabled.operation.email.non-verified");
             ForgotPasswordTokenEntity newTokenEntity;
             if(accountEntity.getForgotPasswordTokenEntity() == null) {
                 newTokenEntity = new ForgotPasswordTokenEntity();
@@ -69,17 +77,17 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             }
             newTokenEntity.setAccountEntity(accountEntity);
             newTokenEntity.setExpireDate(LocalDateTime.now().plusSeconds(Integer.parseInt(FORGOT_PASSWORD_TOKEN_LIFETIME) / 1000));
-            newTokenEntity.setHash(hashMethod.hash(newTokenEntity.getExpireDate().toString() + UUID.randomUUID().toString()));
+            newTokenEntity.setToken(UUID.randomUUID().toString().replace("-", "").substring(0, 6));
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(newTokenEntity);
             forgotPasswordTokenRepository.saveAndFlush(newTokenEntity);
-            return newTokenEntity.getHash();
+            return newTokenEntity.getToken();
         } else
             throw new AccountNotExistsException();
     }
 
     @Override
     public void changeResetPassword(String resetPasswordToken, String newPasswordEncoded) throws AppBaseException {
-        Optional<ForgotPasswordTokenEntity> optionalForgotPasswordTokenEntity = forgotPasswordTokenRepository.findByHash(resetPasswordToken);
+        Optional<ForgotPasswordTokenEntity> optionalForgotPasswordTokenEntity = forgotPasswordTokenRepository.findByToken(resetPasswordToken);
         if(optionalForgotPasswordTokenEntity.isPresent()) {
             ForgotPasswordTokenEntity forgotPasswordTokenEntity = optionalForgotPasswordTokenEntity.get();
             if(forgotPasswordTokenEntity.getExpireDate().isBefore(LocalDateTime.now())) {

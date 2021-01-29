@@ -1,6 +1,7 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user;
 
 import lombok.extern.java.Log;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
 import java.util.Map;
 
@@ -32,7 +33,11 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getImageUrl() {
-        return (String) attributes.get("picture");
+    public Language getLanguage() {
+        String languages = attributes.get("locale").toString();
+        if(languages.contains("pl"))
+            return Language.pl;
+        else
+            return Language.en;
     }
 }

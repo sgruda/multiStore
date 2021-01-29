@@ -135,13 +135,10 @@ public class AccountDetailsEndpoint {
     }
     @PutMapping("/send-email-verification")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "{validation.notnull}")
-                                                                    @Email(message = "{validation.email}")
-                                                                    @Size(min = 1, max = 32, message = "{validation.size}")
-                                                            @RequestParam(value = "email") String email,
-                                                                    @NotNull(message = "{validation.notnull}")
-                                                                    @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
-                                                            @RequestParam(value = "lang") String language) {
+    public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "validation.notnull")
+                                                                    @Email(message = "validation.email")
+                                                                    @Size(min = 1, max = 32, message = "validation.size")
+                                                            @RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(email);
@@ -152,9 +149,9 @@ public class AccountDetailsEndpoint {
         }
 
         try {
-            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken(), Language.valueOf(language));
+            mailSenderService.sendRegistrationMail(accountEntity.getEmail(), accountEntity.getVeryficationToken(), accountEntity.getLanguage());
         } catch (MessagingException e) {
-            log.severe("Problem z mailem " + e);
+            log.severe("Problem with mail " + e);
         }
         return ResponseEntity.ok(new ApiResponse(true, "mail.registration.resend.correctly"));
     }
@@ -184,7 +181,8 @@ public class AccountDetailsEndpoint {
                 accountRequest.getLastName(),
                 accountRequest.getEmail(),
                 accountRequest.getUsername(),
-                passwordEncoder.encode(accountRequest.getPassword())
+                passwordEncoder.encode(accountRequest.getPassword()),
+                Language.valueOf(accountRequest.getLanguage())
         );
 
         AccountEntity resultAccount;
@@ -208,35 +206,35 @@ public class AccountDetailsEndpoint {
 
     @Getter
     private static class CreateAccountRequest {
-        @NotNull(message = "{validation.notnull}")
-        @Size(min = 1, max = 32, message = "{validation.size}")
-        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Size(min = 1, max = 32, message = "validation.size")
+        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
         private String firstName;
 
-        @NotNull(message = "{validation.notnull}")
-        @Size(min = 1, max = 32, message = "{validation.size}")
-        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Size(min = 1, max = 32, message = "validation.size")
+        @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+", message = "validation.pattern")
         private String lastName;
 
-        @NotNull(message = "{validation.notnull}")
-        @Email(message = "{validation.email}")
-        @Size(min = 1, max = 32, message = "{validation.size}")
+        @NotNull(message = "validation.notnull")
+        @Email(message = "validation.email")
+        @Size(min = 1, max = 32, message = "validation.size")
         private String email;
 
-        @NotNull(message = "{validation.notnull}")
-        @Size(min = 1, max = 32, message = "{validation.size}")
-        @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Size(min = 1, max = 32, message = "validation.size")
+        @Pattern(regexp = "[a-zA-Z0-9!@#$%^*]+", message = "validation.pattern")
         private String username;
 
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", message = "validation.pattern")
         private String password;
 
-        @NotNull(message = "{validation.notnull}")
+        @NotNull(message = "validation.notnull")
         private Set<String> roles = new HashSet<>();
 
-        @NotNull(message = "{validation.notnull}")
-        @Pattern(regexp = "(pl|en)", message = "{validation.pattern}")
+        @NotNull(message = "validation.notnull")
+        @Pattern(regexp = "(pl|en)", message = "validation.pattern")
         private String language;
     }
 }
