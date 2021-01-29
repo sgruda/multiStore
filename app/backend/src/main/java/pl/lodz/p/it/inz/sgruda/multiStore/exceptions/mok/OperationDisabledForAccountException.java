@@ -9,4 +9,8 @@ public class OperationDisabledForAccountException extends AppBaseException {
         super(KEY_ACCOUNT_OPERATION_DISABLED);
     }
 
+    public OperationDisabledForAccountException(String key) {
+        super(key);
+    }
+
 }

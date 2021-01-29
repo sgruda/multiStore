@@ -59,7 +59,8 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             AccountEntity accountEntity = optionalAccountEntity.get();
             if(accountEntity.getProvider() != AuthProvider.system)
                 throw new OperationDisabledForAccountException();
-
+            if(!accountEntity.getAuthenticationDataEntity().isEmailVerified())
+                throw new OperationDisabledForAccountException("error.account.disabled.operation.email.non-verified");
             HashMethod hashMethod = new HashMethod();
             ForgotPasswordTokenEntity newTokenEntity;
             if(accountEntity.getForgotPasswordTokenEntity() == null) {

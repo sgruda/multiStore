@@ -144,6 +144,13 @@
     },
     "error": {
         "account": {
+            "disabled": {
+                "operation": {
+                    "email": {
+                        "non-verified": "Operation is disabled for account with non-verified email address. Previously confirm your email address."
+                    }
+                }
+            },
             "email": {
                 "verified": "Email is already verified."
             },
