@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
+import { useAuth } from '../../context/AuthContext';
 import AccountService from '../../services/AccountService';
 import AuthenticationService from '../../services/AuthenticationService';
 import { ROLE_CLIENT, ROLE_EMPLOYEE, ROLE_ADMIN } from "../../config/config";
 import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from '../../components/accounts/PasswordChange';
 import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
+import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
 
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -18,9 +21,15 @@ import Container from '@material-ui/core/Container';
 import { Button } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
+import SyncIcon from '@material-ui/icons/Sync';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from '@material-ui/core/FormControl';
+import Collapse from '@material-ui/core/Collapse';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -59,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: "#2c0fab"
         }
       },
+    buttonRefresh: {
+    backgroundColor: "#4285F4",
+    "&:hover": {
+        backgroundColor: "#2c0fab"
+    }
+    },
   }));
 
 function UserProfile() {
@@ -74,6 +89,24 @@ function UserProfile() {
     const [openChangePassword, setOpenChangePassword] = useState(false);
 
     const [jwtExpiration, setJwtExpiration] = useState(false);
+
+    const [language, setLanguage] = useState("")
+    const {checkExpiredJWTAndExecute} = useAuth();
+    const [openWarningAlert, setOpenWarningAlert] = useState(false);
+    const [alertWarningMessage, setAlertWarningMessage] = useState('');
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const [alertInfoMessage, setAlertInfoMessage] = useState('');
+    const [showRefresh, setShowRefresh] = useState(false);
+
+    const handleChangeLanguage = (value) => {
+        if( account.language !== value) {
+            account.language = value;
+            setLanguage(value);
+            localStorage.setItem("i18nextLng", value)
+            checkExpiredJWTAndExecute(changeLanguage);
+            setLoadingData(true);
+        }
+    }
 
     const handleOpenEdit = () => {
         setOpenEdit(true);
@@ -100,6 +133,7 @@ function UserProfile() {
                     setRoleEmployeeActive(true);
                 if(response.data.roles.includes(ROLE_ADMIN))
                     setRoleAdminActive(true);
+                setLanguage(response.data.language);
             }
         },
             (error) => {
@@ -110,15 +144,34 @@ function UserProfile() {
             }
         );
     }
-
+    async function changeLanguage() { 
+        await AccountService.changeLanguage(account)
+        .then(response => {
+            if (response.status === 200) { 
+                setAlertInfoMessage(t('response.ok'));
+                setOpenSuccessAlert(true);
+                window.location.reload();
+            }
+        },
+            (error) => {
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+                console.error("UserProfile: " + resMessage);
+                setAlertWarningMessage(t(error.response.data.message.toString()));
+                setOpenWarningAlert(true);
+                setShowRefresh(true);
+            }
+        );
+    }
     useEffect(() => {
         if (loadingData) {
             setLoadingData(false);
             if(AuthenticationService.jwtIsExpired()) {
                 setJwtExpiration(true);
-              } else {
+            } else {
                 getAccount();
-              }
+            }
         }
     }, [loadingData]);
 
@@ -132,7 +185,7 @@ function UserProfile() {
             <Typography component="h1" variant="h5">
             {t('pages.titles.profile')}
             </Typography>
-            <Grid container xs={12}>
+            <Grid container xs={12} >
                 <Grid xs={12}>
                     <Typography className={classes.text} color="inherit" variant="subtitle1" component="div"  align="center">
                         <Grid item xs={12}><Paper className={classes.paperOne} elevation={3}>{t('account.profile.firstName')}: {account.firstName}</Paper></Grid>
@@ -228,6 +281,48 @@ function UserProfile() {
                             </DialogContent>
                         </Dialog>
                     </Typography>
+                </Grid>
+                <Grid container xs={12}>
+                    <Grid item xs = {12} justify="center">
+                        <FormControl style={{maxHeight: '5'}} variant="outlined" required fullWidth> 
+                            <Select
+                                label={t('account.profile.language.label')}
+                                value={ language }
+                                onChange={(event) => {
+                                    handleChangeLanguage(event.target.value);
+                                }}
+                                id="lang"
+                                required
+                                fullWidth
+                            >
+                                <MenuItem value={'pl'}>{t("account.profile.language.pl")}</MenuItem>
+                                <MenuItem value={'en'}>{t("account.profile.language.en")}</MenuItem>
+                            </Select>
+                            <FormHelperText>{t('account.profile.language.lang')}</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <AlertApiResponseHandler
+                        openWarningAlert={openWarningAlert}
+                        setOpenWarningAlert={setOpenWarningAlert}
+                        openSuccessAlert={openSuccessAlert}
+                        setOpenSuccessAlert={setOpenSuccessAlert}
+                        alertWarningMessage={alertWarningMessage}
+                        alertInfoMessage={alertInfoMessage}
+                        />
+                        <Collapse in={showRefresh}>
+                            <Button
+                            onClick={() => setLoadingData(true)}
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            className={classes.buttonRefresh}
+                            startIcon={<SyncIcon size="large" color="primary"/>}
+                            >
+                            {t('button.refresh')}
+                            </Button>
+                        </Collapse>
+                    </Grid>
                 </Grid>
             </Grid>
         </div>

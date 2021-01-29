@@ -131,6 +131,7 @@ function App(props) {
         else if(roles.includes(ROLE_ADMIN)) {
           setActiveRole(ROLE_ADMIN);
         }
+        localStorage.setItem("i18nextLng", AuthenticationService.getParsedJWT(currentAccessToken).language)
       }
     }
   }, [currentAccessToken]);

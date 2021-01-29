@@ -31,6 +31,11 @@
             "firstName": "First Name",
             "lastName": "Last Name"
         },
+        "language": {
+            "edit": {
+                "correctly": "System language has been changed correctly."
+            }
+        },
         "list": {
             "table": {
                 "filter": {
@@ -77,6 +82,12 @@
             "email": "Address e-mail",
             "email-verified": "Address e-mail verified",
             "firstName": "First Name",
+            "language": {
+                "en": "english",
+                "label": "Language",
+                "lang": "System language",
+                "pl": "polish"
+            },
             "lastName": "Last Name",
             "roles": "Access levels",
             "username": "Username"
