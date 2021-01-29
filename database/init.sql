@@ -37,6 +37,7 @@ create table account_data
     last_name              varchar(32)  not null,
     provider               varchar(255) not null,
     provider_id            varchar(255),
+    language               varchar(2)   not null, 
     version                bigint       not null,
     authentication_data_id bigint,
     basket_id              bigint
@@ -339,24 +340,24 @@ INSERT INTO status VALUES(4, 'delivered');
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (1, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'admin', 0, 'ec45e9a5-ea8d-40ca-9ee3-e382dd9e5dd4', null);
 INSERT INTO basket (id, version) VALUES (1, 0);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
-VALUES (1, true, 'jKowalski@gmail.com', 'Jan', 'Kowalski', 'system', null, 0, 1, 1);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, language, version, authentication_data_id, basket_id)
+VALUES (1, true, 'jKowalski@gmail.com', 'Jan', 'Kowalski', 'system', null, 'pl', 0, 1, 1);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (1, 1);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (2, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'employee', 0, 'ec45aaa5-ae5t-35yt-0lzq-e382dd9e5dd4', null);
 INSERT INTO basket (id, version) VALUES (2, 0);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
-VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 0, 2, 2);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, language, version, authentication_data_id, basket_id)
+VALUES (2, true, 'stanislaw.nowak@gmail.com', 'Stanislaw', 'Nowak', 'system', null, 'pl', 0, 2, 2);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (2, 2);
 
 INSERT INTO authentication_data (id, email_verified, password, username, version, veryfication_token, forgot_password_token_id)
 VALUES (3, true, '$2a$10$DzKdlc8z6OB.woJOkmZsIeO9P6SWxOltsnVoWGurzNrXlTyS45kS6', 'client', 0, 'ty43aaa5-rf3g-35yt-66cv-e382dd9e5dd4', null);
 INSERT INTO basket (id, version) VALUES (3, 0);
-INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, version, authentication_data_id, basket_id)
-VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 0, 3, 3);
+INSERT INTO account_data (id, active, email, first_name, last_name, provider, provider_id, language, version, authentication_data_id, basket_id)
+VALUES (3, true, 'zygmunt.august@gmail.com', 'Zygmunt', 'August', 'system', null, 'pl', 0, 3, 3);
 INSERT INTO account_access_level_mapping (account_id, access_level_id)
 VALUES (3, 3);
 
