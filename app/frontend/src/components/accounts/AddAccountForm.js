@@ -112,7 +112,9 @@ function AddAccountForm({fields, setFields, register, errors}) {
                                 validate: confirmPassword => confirmPassword === fields.password})}
             error={errors.confirmPassword ? true : false}
             helperText={errors.confirmPassword ? 
-                errors.confirmPassword?.type === "validate" ? t('validation.message.required.incorrect.password.confirm') : t('validation.message.required.helper.password.confirm')
+                errors.confirmPassword.type === "minLength" ||  errors.confirmPassword.type === "pattern"
+                    ? t('validation.message.required.incorrect.password.confirm') 
+                    : t('validation.message.required.helper.password.confirm')
                 : ""}
         />
         </Grid>

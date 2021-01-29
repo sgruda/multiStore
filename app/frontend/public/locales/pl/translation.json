@@ -511,7 +511,7 @@
                 "helper": {
                     "email": "Podaj swój adres e-mail.",
                     "password": {
-                        "confirm": "Potwierdź swoje hasło.",
+                        "confirm": "Potwierdź swoje hasło (oba hasła muszą być takie same).",
                         "default": "Podaj hasło.",
                         "new": "Podaj nowe hasło.",
                         "present": "Podaj obecne hasło."
@@ -521,7 +521,7 @@
                 },
                 "incorrect": {
                     "password": {
-                        "confirm": "Oba hasła muszą być takie same.",
+                        "confirm": "Potwierdź swoje hasło (oba hasła muszą być takie same).",
                         "default": "Podanie hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
                         "new": "Podanie nowego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę).",
                         "present": "Podanie obecnego hasła jest wymagane (musi mieć: 8 znaków, jeden specjalny znak oraz jedną dużą literę)."

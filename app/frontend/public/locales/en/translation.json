@@ -511,7 +511,7 @@
                 "helper": {
                     "email": "Enter your e-mail address.",
                     "password": {
-                        "confirm": "Confirm your password.",
+                        "confirm": "Confirm your password (both passwords must be the same).",
                         "default": "Password is required.",
                         "new": "New password is required.",
                         "present": "Present password is required."
@@ -521,7 +521,7 @@
                 },
                 "incorrect": {
                     "password": {
-                        "confirm": "Both passwords must be the same.",
+                        "confirm": "Confirm your password (both passwords must be the same).",
                         "default": "Password is required (must have: 8 digits, one special character and one capital letter).",
                         "new": "Entering new password is required (must have: 8 digits, one special character and one capital letter).",
                         "present": "Entering present password is required (must have: 8 digits, one special character and one capital letter)."
