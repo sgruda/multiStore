@@ -102,7 +102,7 @@ class AccountService {
       'username': fields.username,
       'password': fields.password,
       'roles': roles,
-      "language": navigator.language || navigator.userLanguage
+      "language": fields.language
     };
     return axios.post(API_URL_SINGLE_ACCOUNT_CREATE, data,  { headers: AuthorizationHeader() }); 
   }

@@ -1,6 +1,7 @@
 import  React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 import AccountService from '../../services/AccountService';
 import AuthenticationService from '../../services/AuthenticationService';
@@ -23,6 +24,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -68,7 +72,8 @@ function AddAccount() {
     email: "",
     username: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    language: i18n.language
   });
   const { register, handleSubmit, errors } = useForm({mode: "onSubmit"}); 
   const [loading, setLoading] = useState(false);
@@ -181,6 +186,24 @@ function AddAccount() {
                       setEmployeeRole={setEmployeeRole}
                       setAdminRole={setAdminRole}
                   />
+                </FormControl>
+                <FormControl style={{maxHeight: '5'}} variant="outlined" required fullWidth> 
+                    <FormLabel>{t('account.profile.language.label')}</FormLabel>
+                    <Select
+                        value={ fields.language }
+                        onChange={ setFields }
+                        id="language"
+                        onChange={(event) => {
+                          event.target.id = "language";
+                          setFields(event);
+                        }}
+                        required
+                        fullWidth
+                    >
+                        <MenuItem value={'pl'}>{t("account.profile.language.pl")}</MenuItem>
+                        <MenuItem value={'en'}>{t("account.profile.language.en")}</MenuItem>
+                    </Select>
+                    <FormHelperText>{t('account.profile.language.lang')}</FormHelperText>
                 </FormControl>
                 <AlertApiResponseHandler
                   openWarningAlert={openWarningAlert}
