@@ -9,6 +9,7 @@ import AccountEdit from '../../components/accounts/AccountEdit';
 import PasswordChange from '../../components/accounts/PasswordChange';
 import RouterRedirectTo from '../../components/simple/RouterRedirectTo';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
+import i18n from '../../i18n';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Avatar from '@material-ui/core/Avatar';
@@ -90,7 +91,6 @@ function UserProfile() {
 
     const [jwtExpiration, setJwtExpiration] = useState(false);
 
-    const [language, setLanguage] = useState("")
     const {checkExpiredJWTAndExecute} = useAuth();
     const [openWarningAlert, setOpenWarningAlert] = useState(false);
     const [alertWarningMessage, setAlertWarningMessage] = useState('');
@@ -99,13 +99,12 @@ function UserProfile() {
     const [showRefresh, setShowRefresh] = useState(false);
 
     const handleChangeLanguage = (value) => {
-        if( account.language !== value) {
             account.language = value;
-            setLanguage(value);
             localStorage.setItem("i18nextLng", value)
+            i18n.changeLanguage(value);
+
             checkExpiredJWTAndExecute(changeLanguage);
             setLoadingData(true);
-        }
     }
 
     const handleOpenEdit = () => {
@@ -133,7 +132,6 @@ function UserProfile() {
                     setRoleEmployeeActive(true);
                 if(response.data.roles.includes(ROLE_ADMIN))
                     setRoleAdminActive(true);
-                setLanguage(response.data.language);
             }
         },
             (error) => {
@@ -150,7 +148,6 @@ function UserProfile() {
             if (response.status === 200) { 
                 setAlertInfoMessage(t('response.ok'));
                 setOpenSuccessAlert(true);
-                window.location.reload();
             }
         },
             (error) => {
@@ -287,7 +284,7 @@ function UserProfile() {
                         <FormControl style={{maxHeight: '5'}} variant="outlined" required fullWidth> 
                             <Select
                                 label={t('account.profile.language.label')}
-                                value={ language }
+                                value={ i18n.language }
                                 onChange={(event) => {
                                     handleChangeLanguage(event.target.value);
                                 }}
