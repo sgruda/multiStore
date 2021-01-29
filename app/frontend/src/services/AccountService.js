@@ -83,17 +83,14 @@ class AccountService {
   }
 
   sendMail(email) {
-    const language = navigator.language || navigator.userLanguage;
-    return axios.put(API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL + '?email=' + email + "&lang=" + language, '',  { headers: AuthorizationHeader() }); 
+    return axios.put(API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL + '?email=' + email,  { headers: AuthorizationHeader() }); 
   }
 
   verifyEmail(token) {
     return axios.post(API_URL_VERIFY_EMAIL + '?token=' + token, '',  { headers: AuthorizationHeader() }); 
   }
 
-  changeLanguage(account, ) {
-    console.log("account.language " + account.language)
-
+  changeLanguage(account) {
     return axios.put(API_URL_MY_ACCOUNT_CHANGE_LANGUAGE, account, { headers: AuthorizationHeader()});
   }
 

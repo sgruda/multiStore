@@ -138,10 +138,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> sendEmailToAccountVeryfication(@Valid @NotNull(message = "validation.notnull")
                                                                     @Email(message = "validation.email")
                                                                     @Size(min = 1, max = 32, message = "validation.size")
-                                                            @RequestParam(value = "email") String email,
-                                                                    @NotNull(message = "validation.notnull")
-                                                                    @Pattern(regexp = "(pl|en)", message = "validation.pattern")
-                                                            @RequestParam(value = "lang") String language) {
+                                                            @RequestParam(value = "email") String email) {
         AccountEntity accountEntity;
         try {
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(email);
