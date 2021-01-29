@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.StatusEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.EmployeeServingOwnOrderException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.OrderNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.StatusNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.OrderRepository;
@@ -51,7 +52,9 @@ public class OrderChangeStatusServiceImpl implements OrderChangeStatusService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void changeStatus(OrderEntity orderEntity) throws AppBaseException {
+    public void changeStatus(OrderEntity orderEntity, long employeeId) throws AppBaseException {
+        if(employeeId == orderEntity.getAccountEntity().getId())
+            throw new EmployeeServingOwnOrderException();
         NextStatusGetter nextStatusGetter = new NextStatusGetter();
         StatusEntity statusEntity = statusRepository.findByStatusName(
                 nextStatusGetter.getNextStatusName(

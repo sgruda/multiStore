@@ -201,6 +201,13 @@
             "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",
             "version": "Ktoś przed Tobą edytował te dane. Odśwież je i spróbuj jeszcze raz."
         },
+        "employee": {
+            "serving": {
+                "own": {
+                    "order": "Nie możesz zmienić statusu własnego zamówienia."
+                }
+            }
+        },
         "http": {
             "default": "Wystąpił błąd.",
             "400": "Złe żądanie.",

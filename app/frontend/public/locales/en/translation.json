@@ -201,6 +201,13 @@
             "signature": "Invalid dto signature. Refresh data and try again.",
             "version": "Somebody has already edited this data. Refresh data and try again."
         },
+        "employee": {
+            "serving": {
+                "own": {
+                    "order": "You can't change status of your own order."
+                }
+            }
+        },
         "http": {
             "default": "Error occured.",
             "400": "Bad request",

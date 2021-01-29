@@ -6,5 +6,5 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.OrderNotExistsException
 
 public interface OrderChangeStatusService {
     OrderEntity getOrderByIdentifier(String identifier) throws OrderNotExistsException;
-    void changeStatus(OrderEntity orderEntity) throws AppBaseException;
+    void changeStatus(OrderEntity orderEntity, long employeeId) throws AppBaseException;
 }
