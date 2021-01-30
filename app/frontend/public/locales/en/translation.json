@@ -466,10 +466,10 @@
                     "text": "Books, which are containing phrase",
                     "type": "Type of searchich books"
                 },
-                "only-active": "Only active books",
+                "only-active": "Only available books",
                 "only-books": "Only paper books",
                 "only-ebooks": "Only electronic books",
-                "only-non-active": "Only non active books",
+                "only-non-active": "Only non available books",
                 "search": "Search"
             },
             "view-settings": "View settings"

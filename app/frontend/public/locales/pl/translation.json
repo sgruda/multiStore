@@ -466,10 +466,10 @@
                     "text": "Książki zawierające frazę",
                     "type": "Typ szukanych książek"
                 },
-                "only-active": "Tylko aktywne książki",
+                "only-active": "Tylko dostępne książki",
                 "only-books": "Tylko papierowe ksiązki",
                 "only-ebooks": "Tylko elektroniczne książki",
-                "only-non-active": "Tylko nieaktywne książki",
+                "only-non-active": "Tylko niedostępne książki",
                 "search": "Szukaj"
             },
             "view-settings": "Ustawienia widoku"
