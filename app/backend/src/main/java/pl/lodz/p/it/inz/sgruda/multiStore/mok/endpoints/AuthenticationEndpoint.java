@@ -22,12 +22,14 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderServiceImpl;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @Log
 @Validated
@@ -52,10 +54,11 @@ public class AuthenticationEndpoint {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateAccount(@Valid @RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<?> authenticateAccount(HttpServletRequest request, @Valid @RequestBody SignInRequest signInRequest) {
         String tokenJWT = authService.authenticateAccount(
                 signInRequest.getUsername(),
                 signInRequest.getPassword());
+        log.info(LocalDateTime.now() + " User: " + signInRequest.getUsername() + " IP: " + request.getRemoteAddr() + " session started.");
         return ResponseEntity.ok(new JwtAuthenticationResponse(tokenJWT));
     }
 
