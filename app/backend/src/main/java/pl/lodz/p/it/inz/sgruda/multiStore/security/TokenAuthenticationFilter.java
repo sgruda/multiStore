@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Log
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -39,6 +40,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info(LocalDateTime.now() + " User: " + userDetails.getUsername() + " IP: " +
+                        request.getRemoteAddr() + " used JWT: " + jwt);
+
             }
         } catch(TokenJWTHasBeenExpiredException ex) {
             log.severe("Error: " + ex);

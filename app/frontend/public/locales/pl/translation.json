@@ -177,7 +177,7 @@
                 }
             },
             "username": {
-                "exist": "Konto o podanej nazwie użytkownika już istnieje."
+                "exists": "Konto o podanej nazwie użytkownika już istnieje."
             }
         },
         "auth": {
