@@ -83,7 +83,7 @@ class AccountService {
   }
 
   sendMail(email) {
-    return axios.put(API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL + '?email=' + email,  { headers: AuthorizationHeader() }); 
+    return axios.put(API_URL_SINGLE_ACCOUNT_RESEND_CONFIRM_MAIL + '?email=' + email, '', { headers: AuthorizationHeader() }); 
   }
 
   verifyEmail(token) {
