@@ -157,6 +157,9 @@
         "account": {
             "disabled": {
                 "operation": {
+                    "account": {
+                        "disabled": "Twoje konto jest nieaktywne, nie możesz wykonać żadnej operacji w systemie, skontatkuj się z administratorem."
+                    },
                     "email": {
                         "non-verified": "Operacja jest zablokowana dla kont z niezweryfikowanym adresem email. Najpierw potwierdź swój adres email."
                     }
