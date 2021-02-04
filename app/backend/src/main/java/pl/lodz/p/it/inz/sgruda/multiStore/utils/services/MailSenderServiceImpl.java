@@ -11,6 +11,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
@@ -33,6 +35,8 @@ public class MailSenderServiceImpl implements MailSenderService {
         stringBuilder.append(resourceBundle.getProperty(language.name() + ".reset.password.body"));
         stringBuilder.append(": ");
         stringBuilder.append(resetToken);
+        stringBuilder.append("\n");
+        stringBuilder.append(this.getSendingDateMessage(language));
         sendMail(email, resourceBundle.getProperty(language.name() + ".reset.password.subject"), stringBuilder.toString(), false);
     }
 
@@ -47,6 +51,8 @@ public class MailSenderServiceImpl implements MailSenderService {
         stringBuilder.append("\">");
         stringBuilder.append(resourceBundle.getProperty(language.name() + ".confirm.account.body"));
         stringBuilder.append("</a>");
+        stringBuilder.append("\n");
+        stringBuilder.append(this.getSendingDateMessage(language));
         sendMail(email, resourceBundle.getProperty(language.name() + ".confirm.account.subject"), stringBuilder.toString(), true);
 
     }
@@ -57,5 +63,10 @@ public class MailSenderServiceImpl implements MailSenderService {
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(text, isHtmlContent);
         javaMailSender.send(mimeMessage);
+    }
+    private String getSendingDateMessage(Language language) {
+        String format = language.equals(Language.pl) ? "HH:mm:ss dd-MM-yyyy " : "MM-dd-yyyy h:m:s a";
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+        return resourceBundle.getProperty(language.name() + ".sending.date") + " " + date;
     }
 }

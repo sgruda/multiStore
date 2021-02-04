@@ -166,6 +166,7 @@
                 }
             },
             "email": {
+                "exists": "Podany adres już jest wykorzystywany.",
                 "verified": "Adres email został już zweryfikowany."
             },
             "not": {

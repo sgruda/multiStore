@@ -166,6 +166,7 @@
                 }
             },
             "email": {
+                "exists": "Given email is already used.",
                 "verified": "Email is already verified."
             },
             "not": {
