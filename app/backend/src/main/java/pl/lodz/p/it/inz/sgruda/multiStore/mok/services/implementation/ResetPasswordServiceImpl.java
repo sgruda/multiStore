@@ -69,6 +69,8 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
                 throw new OperationDisabledForAccountException();
             if(!accountEntity.getAuthenticationDataEntity().isEmailVerified())
                 throw new OperationDisabledForAccountException("error.account.disabled.operation.email.non-verified");
+            if(!accountEntity.isActive())
+                throw new OperationDisabledForAccountException("error.account.disabled.operation.account.disabled");
             ForgotPasswordTokenEntity newTokenEntity;
             if(accountEntity.getForgotPasswordTokenEntity() == null) {
                 newTokenEntity = new ForgotPasswordTokenEntity();

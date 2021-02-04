@@ -157,12 +157,16 @@
         "account": {
             "disabled": {
                 "operation": {
+                    "account": {
+                        "disabled": "Your account is non-active, you cannot perform any operations on the system, please contact administrator."
+                    },
                     "email": {
                         "non-verified": "Operation is disabled for account with non-verified email address. Previously confirm your email address."
                     }
                 }
             },
             "email": {
+                "exists": "Given email is already used.",
                 "verified": "Email is already verified."
             },
             "not": {
