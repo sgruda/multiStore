@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ACCESS_TOKEN, ACTIVE_ROLE } from '../config/config';
 import {API_URL_SIGN_IN, API_URL_SIGN_UP} from '../config/config';
-
+import i18n from '../i18n';
 
 const getAccessTokenFromStorage = () => {
     return localStorage.getItem(ACCESS_TOKEN);
@@ -48,6 +48,8 @@ const signUp = (fields) => {
 const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(ACTIVE_ROLE);
+    let browserLang = navigator.language || navigator.userLanguage; 
+    i18n.changeLanguage(browserLang);
 };
 
 
