@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
 
@@ -34,7 +34,7 @@ public class CheckerSimpleDTOTest {
         productDTO.setVersion(1);
         try {
             checkerSimpleDTO.checkSignature(productDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -44,7 +44,7 @@ public class CheckerSimpleDTOTest {
         productDTO.setTitle("title2");
         try {
             checkerSimpleDTO.checkSignature(productDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
 
@@ -38,7 +38,7 @@ public class AccountDTOUtilTest {
         accountDTO.setVersion(1);
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -48,7 +48,7 @@ public class AccountDTOUtilTest {
         accountDTO.setEmail("kowal.s@gmail.com");
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -66,7 +66,7 @@ public class AccountDTOUtilTest {
         accountDTO.getAuthenticationDataDTO().setVersion(1);
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -76,7 +76,7 @@ public class AccountDTOUtilTest {
         accountDTO.getAuthenticationDataDTO().setIdHash(null);
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);

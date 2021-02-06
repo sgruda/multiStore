@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
@@ -17,7 +17,7 @@ public class CheckerAccountDTO extends CheckerSimpleDTO {
         super(signatureDTOUtil);
     }
 
-    public void checkAccountDTOSignature(AccountDTO dto) throws DTOSignatureException {
+    public void checkAccountDTOSignature(AccountDTO dto) throws DTOHashException {
         if(dto != null) {
             super.checkSignatureSingleDTO(dto);
             if(dto.getAuthenticationDataDTO() != null) {

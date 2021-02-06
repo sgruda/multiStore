@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
@@ -62,7 +61,7 @@ public class CheckerMozDTOTest {
 
         try {
             checkerMozDTO.checkOrderDTOSignature(orderDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(false, catched);
@@ -71,7 +70,7 @@ public class CheckerMozDTOTest {
         orderDTO.setVersion(1);
         try {
             checkerMozDTO.checkOrderDTOSignature(orderDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -81,7 +80,7 @@ public class CheckerMozDTOTest {
         productDTO.setTitle("title2");
         try {
             checkerMozDTO.checkOrderDTOSignature(orderDTO);
-        } catch (DTOSignatureException e) {
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);

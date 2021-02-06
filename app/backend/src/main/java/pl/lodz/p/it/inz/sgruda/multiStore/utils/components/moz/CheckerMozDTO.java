@@ -9,7 +9,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
@@ -21,7 +21,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         super(signatureDTOUtil);
     }
 
-    public void checkOrderDTOSignature(OrderDTO dto) throws DTOSignatureException {
+    public void checkOrderDTOSignature(OrderDTO dto) throws DTOHashException {
         if(dto != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 super.checkSignatureSingleDTO(item);
@@ -31,7 +31,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         }
     }
 
-    public void checkBasketDTOSignature(BasketDTO dto) throws DTOSignatureException {
+    public void checkBasketDTOSignature(BasketDTO dto) throws DTOHashException {
         if(dto != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 super.checkSignatureSingleDTO(item);
@@ -41,7 +41,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         }
     }
 
-    public void checkOrderedItemDTOSignature(OrderedItemDTO dto) throws DTOSignatureException {
+    public void checkOrderedItemDTOSignature(OrderedItemDTO dto) throws DTOHashException {
         if(dto != null) {
             super.checkSignatureSingleDTO(dto);
             super.checkSignatureSingleDTO(dto.getOrderedProduct());
