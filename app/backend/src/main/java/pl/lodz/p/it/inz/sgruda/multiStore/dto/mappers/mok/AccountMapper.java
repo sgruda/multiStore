@@ -43,16 +43,22 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
 
     @Override
     public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto)  {
+        AccountEntity entityCopy = new AccountEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setFirstName(dto.getFirstName());
+        entityCopy.setLastName(dto.getLastName());
+        entityCopy.setEmail(dto.getEmail());
+        entityCopy.setAccessLevelEntities(entity.getAccessLevelEntities());
+        entityCopy.setActive(dto.isActive());
+        entityCopy.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
+        entityCopy.setProviderId(entity.getProviderId());
+        entityCopy.setLanguage(Language.valueOf(dto.getLanguage()));
+        entityCopy.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
+        entityCopy.setOrderCollection(entity.getOrderCollection());
+        entityCopy.setBasketEntity(entity.getBasketEntity());
 
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
-        entity.setActive(dto.isActive());
-        entity.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
-        entity.setLanguage(Language.valueOf(dto.getLanguage()));
-        entity.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
-        entity.setVersion(dto.getVersion());
-        return entity;
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }
 

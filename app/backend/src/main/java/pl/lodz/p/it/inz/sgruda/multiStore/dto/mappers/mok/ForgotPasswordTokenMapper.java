@@ -24,8 +24,12 @@ public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEnti
 
     @Override
     public ForgotPasswordTokenEntity updateEntity(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) {
-        entity.setExpireDate(dto.getExpireDate());
-        entity.setToken(dto.getToken());
-        return entity;
+        ForgotPasswordTokenEntity entityCopy = new ForgotPasswordTokenEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setExpireDate(dto.getExpireDate());
+        entityCopy.setToken(dto.getToken());
+        entityCopy.setAccountEntity(entity.getAccountEntity());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }

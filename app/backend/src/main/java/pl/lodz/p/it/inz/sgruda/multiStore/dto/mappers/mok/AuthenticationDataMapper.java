@@ -25,11 +25,16 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
 
     @Override
     public AuthenticationDataEntity updateEntity(AuthenticationDataEntity entity, AuthenticationDataDTO dto) {
+        AuthenticationDataEntity entityCopy = new AuthenticationDataEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setVeryficationToken(entity.getVeryficationToken());
+        entityCopy.setUsername(dto.getUsername());
         if(dto.getPassword() != null)
-            entity.setPassword(dto.getPassword());
-        entity.setEmailVerified(dto.isEmailVerified());
+            entityCopy.setPassword(dto.getPassword());
+        entityCopy.setEmailVerified(dto.isEmailVerified());
         if(dto.getForgotPasswordTokenDTO() != null)
-            entity.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
-        return entity;
+            entityCopy.setForgotPasswordTokenEntity(forgotPasswordTokenMapper.updateEntity(entity.getForgotPasswordTokenEntity(), dto.getForgotPasswordTokenDTO()));
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }
