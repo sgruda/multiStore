@@ -74,15 +74,15 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
         this.forgotPasswordTokenEntity = null;
     }
 
-    public AuthenticationDataEntity duplicateWithId(AuthenticationDataEntity entity, long newId) {
+    public AuthenticationDataEntity duplicateWithId(long newId) {
         AuthenticationDataEntity entityDuplicate = new AuthenticationDataEntity();
         entityDuplicate.setId(newId);
-        entityDuplicate.setVeryficationToken(entity.getVeryficationToken());
-        entityDuplicate.setUsername(entity.getUsername());
-        entityDuplicate.setPassword(entity.getPassword());
-        entityDuplicate.setEmailVerified(entity.isEmailVerified());
-        entityDuplicate.setForgotPasswordTokenEntity(entity.getForgotPasswordTokenEntity());
-        entityDuplicate.setVersion(entity.getVersion());
+        entityDuplicate.setVeryficationToken(this.getVeryficationToken());
+        entityDuplicate.setUsername(this.getUsername());
+        entityDuplicate.setPassword(this.getPassword());
+        entityDuplicate.setEmailVerified(this.isEmailVerified());
+        entityDuplicate.setForgotPasswordTokenEntity(this.getForgotPasswordTokenEntity());
+        entityDuplicate.setVersion(this.getVersion());
         return entityDuplicate;
     }
 

@@ -97,17 +97,17 @@ public class ProductEntity implements Serializable, VersionGetter {
                 this.active = true;
         }
 
-        public ProductEntity duplicateWithId(ProductEntity entity, long newId) {
+        public ProductEntity duplicateWithId(long newId) {
                 ProductEntity entityDuplicate = new ProductEntity();
                 entityDuplicate.setId(newId);
-                entityDuplicate.setTitle(entity.getTitle());
-                entityDuplicate.setDescription(entity.getDescription());
-                entityDuplicate.setInStore(entity.getInStore());
-                entityDuplicate.setPrice(entity.getPrice());
-                entityDuplicate.setType(entity.getType());
-                entityDuplicate.setCategoryEntity(entity.getCategoryEntity());
-                entityDuplicate.setActive(entity.isActive());
-                entityDuplicate.setVersion(entity.getVersion());
+                entityDuplicate.setTitle(this.getTitle());
+                entityDuplicate.setDescription(this.getDescription());
+                entityDuplicate.setInStore(this.getInStore());
+                entityDuplicate.setPrice(this.getPrice());
+                entityDuplicate.setType(this.getType());
+                entityDuplicate.setCategoryEntity(this.getCategoryEntity());
+                entityDuplicate.setActive(this.isActive());
+                entityDuplicate.setVersion(this.getVersion());
                 return entityDuplicate;
         }
 }

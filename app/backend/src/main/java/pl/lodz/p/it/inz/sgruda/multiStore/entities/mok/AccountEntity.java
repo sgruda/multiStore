@@ -121,21 +121,21 @@ public class AccountEntity implements Serializable, VersionGetter {
         this.authenticationDataEntity = new AuthenticationDataEntity();
     }
 
-    public AccountEntity duplicateWithId(AccountEntity entity, long newId) {
+    public AccountEntity duplicateWithId(long newId) {
         AccountEntity entityDuplicate = new AccountEntity();
         entityDuplicate.setId(newId);
-        entityDuplicate.setFirstName(entity.getFirstName());
-        entityDuplicate.setLastName(entity.getLastName());
-        entityDuplicate.setEmail(entity.getEmail());
-        entityDuplicate.setAccessLevelEntities(entity.getAccessLevelEntities());
-        entityDuplicate.setActive(entity.isActive());
-        entityDuplicate.setProviderId(entity.getProviderId());
-        entityDuplicate.setProvider(entity.getProvider());
-        entityDuplicate.setLanguage(entity.getLanguage());
-        entityDuplicate.setVersion(entity.getVersion());
-        entityDuplicate.setAuthenticationDataEntity(entity.getAuthenticationDataEntity());
-        entityDuplicate.setOrderCollection(entity.getOrderCollection());
-        entityDuplicate.setBasketEntity(entity.getBasketEntity());
+        entityDuplicate.setFirstName(this.getFirstName());
+        entityDuplicate.setLastName(this.getLastName());
+        entityDuplicate.setEmail(this.getEmail());
+        entityDuplicate.setAccessLevelEntities(this.getAccessLevelEntities());
+        entityDuplicate.setActive(this.isActive());
+        entityDuplicate.setProviderId(this.getProviderId());
+        entityDuplicate.setProvider(this.getProvider());
+        entityDuplicate.setLanguage(this.getLanguage());
+        entityDuplicate.setVersion(this.getVersion());
+        entityDuplicate.setAuthenticationDataEntity(this.getAuthenticationDataEntity().duplicateWithId());
+        entityDuplicate.setOrderCollection(this.getOrderCollection());
+        entityDuplicate.setBasketEntity(this.getBasketEntity());
         return entityDuplicate;
     }
 
