@@ -55,7 +55,6 @@ public class PromotionEntity implements Serializable, VersionGetter {
     private LocalDateTime expireDate;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
@@ -68,5 +67,17 @@ public class PromotionEntity implements Serializable, VersionGetter {
         this.discount = discount;
         this.active = active;
         this.expireDate = expireDate;
+    }
+
+    public PromotionEntity duplicateWithId (PromotionEntity entity, long newId) {
+        PromotionEntity entityDuplicate = new PromotionEntity();
+        entityDuplicate.setId(newId);
+        entityDuplicate.setName(entity.getName());
+        entityDuplicate.setDiscount(entity.getDiscount());
+        entityDuplicate.setCategoryEntity(entity.getCategoryEntity());
+        entityDuplicate.setActive(entity.isActive());
+        entityDuplicate.setExpireDate(entity.getExpireDate());
+        entityDuplicate.setVersion(entity.getVersion());
+        return entityDuplicate;
     }
 }

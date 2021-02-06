@@ -29,7 +29,6 @@ import java.util.*;
         valueColumnName = "id_range", pkColumnValue = "account_data")
 public class AccountEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountIdGen")
     private long id;
@@ -83,7 +82,6 @@ public class AccountEntity implements Serializable, VersionGetter {
     private Language language;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
@@ -123,6 +121,23 @@ public class AccountEntity implements Serializable, VersionGetter {
         this.authenticationDataEntity = new AuthenticationDataEntity();
     }
 
+    public AccountEntity duplicateWithId(AccountEntity entity, long newId) {
+        AccountEntity entityDuplicate = new AccountEntity();
+        entityDuplicate.setId(newId);
+        entityDuplicate.setFirstName(entity.getFirstName());
+        entityDuplicate.setLastName(entity.getLastName());
+        entityDuplicate.setEmail(entity.getEmail());
+        entityDuplicate.setAccessLevelEntities(entity.getAccessLevelEntities());
+        entityDuplicate.setActive(entity.isActive());
+        entityDuplicate.setProviderId(entity.getProviderId());
+        entityDuplicate.setProvider(entity.getProvider());
+        entityDuplicate.setLanguage(entity.getLanguage());
+        entityDuplicate.setVersion(entity.getVersion());
+        entityDuplicate.setAuthenticationDataEntity(entity.getAuthenticationDataEntity());
+        entityDuplicate.setOrderCollection(entity.getOrderCollection());
+        entityDuplicate.setBasketEntity(entity.getBasketEntity());
+        return entityDuplicate;
+    }
 
     @Override
     public boolean equals(Object o) {

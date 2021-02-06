@@ -25,7 +25,6 @@ import java.io.Serializable;
         valueColumnName = "id_range", pkColumnValue = "product")
 public class ProductEntity implements Serializable, VersionGetter {
         @Id
-        @Setter(lombok.AccessLevel.NONE)
         @Column(name = "id", nullable = false)
         @GeneratedValue(strategy = GenerationType.TABLE, generator = "ProductIdGen")
         private long id;
@@ -72,7 +71,6 @@ public class ProductEntity implements Serializable, VersionGetter {
         private boolean active;
 
         @Version
-        @Setter(lombok.AccessLevel.NONE)
         @Basic
         @Column(name = "version", nullable = false)
         private long version;
@@ -97,5 +95,19 @@ public class ProductEntity implements Serializable, VersionGetter {
                 this.price = price;
                 this.type = type;
                 this.active = true;
+        }
+
+        public ProductEntity duplicateWithId(ProductEntity entity, long newId) {
+                ProductEntity entityDuplicate = new ProductEntity();
+                entityDuplicate.setId(newId);
+                entityDuplicate.setTitle(entity.getTitle());
+                entityDuplicate.setDescription(entity.getDescription());
+                entityDuplicate.setInStore(entity.getInStore());
+                entityDuplicate.setPrice(entity.getPrice());
+                entityDuplicate.setType(entity.getType());
+                entityDuplicate.setCategoryEntity(entity.getCategoryEntity());
+                entityDuplicate.setActive(entity.isActive());
+                entityDuplicate.setVersion(entity.getVersion());
+                return entityDuplicate;
         }
 }

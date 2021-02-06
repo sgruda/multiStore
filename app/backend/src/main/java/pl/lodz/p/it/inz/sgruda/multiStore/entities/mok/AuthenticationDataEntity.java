@@ -24,12 +24,10 @@ import java.util.UUID;
         valueColumnName = "id_range", pkColumnValue = "authentication_data")
 public class AuthenticationDataEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "AuthenticationDataTokenIdGen")
     private long id;
 
-    @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Column(name = "veryfication_token", nullable = false)
     private String veryficationToken;
@@ -57,7 +55,6 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
     @JoinColumn(name = "forgot_password_token_id", referencedColumnName = "id")
     private ForgotPasswordTokenEntity forgotPasswordTokenEntity;
 
-    @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version
     @Column(name = "version", nullable = false)
@@ -75,6 +72,18 @@ public class AuthenticationDataEntity implements Serializable, VersionGetter {
         this.veryficationToken = UUID.randomUUID().toString();
         this.emailVerified = false;
         this.forgotPasswordTokenEntity = null;
+    }
+
+    public AuthenticationDataEntity duplicateWithId(AuthenticationDataEntity entity, long newId) {
+        AuthenticationDataEntity entityDuplicate = new AuthenticationDataEntity();
+        entityDuplicate.setId(newId);
+        entityDuplicate.setVeryficationToken(entity.getVeryficationToken());
+        entityDuplicate.setUsername(entity.getUsername());
+        entityDuplicate.setPassword(entity.getPassword());
+        entityDuplicate.setEmailVerified(entity.isEmailVerified());
+        entityDuplicate.setForgotPasswordTokenEntity(entity.getForgotPasswordTokenEntity());
+        entityDuplicate.setVersion(entity.getVersion());
+        return entityDuplicate;
     }
 
     @Override

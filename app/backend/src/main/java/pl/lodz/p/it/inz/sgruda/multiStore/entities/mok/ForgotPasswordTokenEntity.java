@@ -21,7 +21,6 @@ import java.util.Objects;
                 valueColumnName = "id_range", pkColumnValue = "forgot_password_token")
 public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ForgotPasswordTokenIdGen")
     private long id;
@@ -43,11 +42,20 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @OneToOne(optional = false)
     private AccountEntity accountEntity;
 
-    @Setter(lombok.AccessLevel.NONE)
     @Basic(optional = false)
     @Version
     @Column(name = "version", nullable = false)
     private long version;
+
+    public ForgotPasswordTokenEntity duplicateWithId(ForgotPasswordTokenEntity entity, long newId) {
+        ForgotPasswordTokenEntity entityDuplicate = new ForgotPasswordTokenEntity();
+        entityDuplicate.setId(newId);
+        entityDuplicate.setExpireDate(entity.getExpireDate());
+        entityDuplicate.setToken(entity.getToken());
+        entityDuplicate.setAccountEntity(entity.getAccountEntity());
+        entityDuplicate.setVersion(entity.getVersion());
+        return entityDuplicate;
+    }
 
 
     @Override

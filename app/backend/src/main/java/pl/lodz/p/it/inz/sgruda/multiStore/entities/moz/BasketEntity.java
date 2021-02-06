@@ -20,7 +20,6 @@ import java.util.Set;
         valueColumnName = "id_range", pkColumnValue = "basket")
 public class BasketEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "BasketIdGen")
     private long id;
@@ -35,7 +34,6 @@ public class BasketEntity implements Serializable, VersionGetter {
     private AccountEntity accountEntity;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
@@ -45,5 +43,14 @@ public class BasketEntity implements Serializable, VersionGetter {
 
     public BasketEntity(AccountEntity accountEntity) {
         this.accountEntity = accountEntity;
+    }
+
+    public BasketEntity duplicateWithId(BasketEntity entity, long newId) {
+        BasketEntity entityDuplicate = new BasketEntity();
+        entityDuplicate.setId(newId);
+        entityDuplicate.setOrderedItemEntities(entity.getOrderedItemEntities());
+        entityDuplicate.setAccountEntity(entity.getAccountEntity());
+        entityDuplicate.setVersion(entity.getVersion());
+        return entityDuplicate;
     }
 }
