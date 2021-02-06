@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mop.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductIsActiveException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.ProductRepository;
@@ -27,7 +29,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditSer
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mopTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class ProductEditServiceImpl implements ProductEditService {
     private ProductRepository productRepository;
@@ -39,10 +42,15 @@ public class ProductEditServiceImpl implements ProductEditService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void editProduct(ProductEntity productEntity) throws ProductIsActiveException {
+    public void editProduct(ProductEntity productEntity) throws ProductIsActiveException, OptimisticLockAppException {
         if(productEntity.isActive())
             throw new ProductIsActiveException();
-        productRepository.saveAndFlush(productEntity);
+        try{
+            productRepository.saveAndFlush(productEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override

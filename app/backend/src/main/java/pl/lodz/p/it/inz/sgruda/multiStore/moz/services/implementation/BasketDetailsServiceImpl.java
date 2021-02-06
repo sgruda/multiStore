@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.BasketRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketDetailsService;
@@ -26,7 +27,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.BasketDetailsS
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mozTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class BasketDetailsServiceImpl implements BasketDetailsService {
     private BasketRepository basketRepository;

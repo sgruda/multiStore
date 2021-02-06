@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RemovingAllAccessLevelsException;
@@ -34,7 +36,8 @@ import java.util.Set;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mokTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class AccountAccessLevelServiceImpl implements AccountAccessLevelService {
 
@@ -58,6 +61,12 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.add(opt.get());
+            try{
+                accountRepository.saveAndFlush(accountEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
         }
     }
 
@@ -74,6 +83,12 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.remove(opt.get());
+            try{
+                accountRepository.saveAndFlush(accountEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
         }
     }
 

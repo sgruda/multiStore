@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
@@ -31,7 +33,8 @@ import java.util.Optional;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mokTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class NotEmailVerifiedAccountServiceImpl implements NotEmailVerifiedAccountService {
     private AccountRepository accountRepository;
@@ -62,6 +65,11 @@ public class NotEmailVerifiedAccountServiceImpl implements NotEmailVerifiedAccou
             throw new OperationDisabledForAccountException();
         if(accountEntity.getAuthenticationDataEntity().isEmailVerified())
             throw new EmailAlreadyVerifyException();
-        accountRepository.delete(accountEntity);
+        try{
+            accountRepository.delete(accountEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }
