@@ -4,14 +4,11 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 public class OrderedItemMapper implements Mapper<OrderedItemEntity, OrderedItemDTO> {
-    private HashMethod hashMethod;
     private ProductMapper productMapper;
 
     public OrderedItemMapper() {
-        this.hashMethod = new HashMethod();
         this.productMapper = new ProductMapper();
     }
 
@@ -19,7 +16,7 @@ public class OrderedItemMapper implements Mapper<OrderedItemEntity, OrderedItemD
     public OrderedItemDTO toDTO(OrderedItemEntity entity) {
         OrderedItemDTO dto = new OrderedItemDTO();
 
-        dto.setIdHash(hashMethod.hash(entity.getId()));
+        dto.setId(entity.getId());
         dto.setIdentifier(entity.getIdentifier());
         dto.setIdentifier(entity.getIdentifier());
         dto.setOrderedNumber(entity.getOrderedNumber());

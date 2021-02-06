@@ -3,21 +3,19 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 
 public class ProductMapper  implements Mapper<ProductEntity, ProductDTO> {
-    private HashMethod hashMethod;
 
     public ProductMapper() {
-        this.hashMethod = new HashMethod();
+
     }
 
     @Override
     public ProductDTO toDTO(ProductEntity entity) {
         ProductDTO dto = new ProductDTO();
 
-        dto.setIdHash(hashMethod.hash(entity.getId()));
+        dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setInStore(entity.getInStore());

@@ -3,21 +3,18 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AuthenticationDataEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 
 public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity, AuthenticationDataDTO> {
-    private HashMethod hashMethod;
     private ForgotPasswordTokenMapper forgotPasswordTokenMapper;
 
     public AuthenticationDataMapper() {
-        this.hashMethod = new HashMethod();
         this.forgotPasswordTokenMapper = new ForgotPasswordTokenMapper();
     }
     @Override
     public AuthenticationDataDTO toDTO(AuthenticationDataEntity entity) {
         AuthenticationDataDTO dto = new AuthenticationDataDTO();
-        dto.setIdHash(hashMethod.hash(entity.getId()));
+        dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmailVerified(entity.isEmailVerified());
         if(entity.getForgotPasswordTokenEntity() != null)
