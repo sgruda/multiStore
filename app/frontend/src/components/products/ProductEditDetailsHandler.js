@@ -24,9 +24,6 @@ function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ProductDetails: " + resMessage);
-                // if(resMessage === "error.product.not.exists") {
-                //     handleHardRefresh();
-                // }
             }
         ); 
     }

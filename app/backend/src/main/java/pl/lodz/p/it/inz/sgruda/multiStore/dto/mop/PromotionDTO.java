@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -17,11 +17,10 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class PromotionDTO implements SignatureVerifiability {
-    @Size(max = 64, message = "validation.size")
+public @Data class PromotionDTO implements HashVerifiability {
     @NotNull(message = "validation.notnull")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
-    private String idHash;
+    @Pattern(regexp = "[0-9]+", message = "validation.pattern")
+    private long id;
 
     @NotNull(message = "validation.notnull")
     @Size(min = 1, max = 32, message = "validation.size")
@@ -45,10 +44,10 @@ public @Data class PromotionDTO implements SignatureVerifiability {
     private long version;
 
     @NotNull(message = "validation.notnull")
-    private String signature;
+    private String hash;
 
     @Override
-    public List<String> specifySigningParams() {
-        return Arrays.asList(idHash, name, onCategory, expireDate.toString(), String.valueOf(version));
+    public List<String> specifyHashingParams() {
+        return Arrays.asList(String.valueOf(id), name, onCategory, expireDate.toString(), String.valueOf(version));
     }
 }

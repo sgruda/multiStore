@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,11 +16,10 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class ForgotPasswordTokenDTO implements SignatureVerifiability {
-    @Size(min = 64, max = 64)
+public @Data class ForgotPasswordTokenDTO implements HashVerifiability {
     @NotNull(message = "validation.notnull")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
-    private String idHash;
+    @Pattern(regexp = "[0-9]+", message = "validation.pattern")
+    private long id;
 
     @NotNull(message = "validation.notnull")
     private LocalDateTime expireDate;
@@ -37,11 +36,11 @@ public @Data class ForgotPasswordTokenDTO implements SignatureVerifiability {
     private long version;
 
     @NotNull(message = "validation.notnull")
-    private String signature;
+    private String hash;
 
     @Override
-    public List<String> specifySigningParams() {
-        return Arrays.asList(idHash, ownerUsername, String.valueOf(version));
+    public List<String> specifyHashingParams() {
+        return Arrays.asList(String.valueOf(id), ownerUsername, String.valueOf(version));
     }
 
 }
