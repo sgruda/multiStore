@@ -3,7 +3,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.security.oauth2.user;
 import lombok.extern.java.Log;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
-import java.util.List;
 import java.util.Map;
 @Log
 public class FacebookOAuth2UserInfo extends OAuth2UserInfo {

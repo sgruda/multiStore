@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 
 import java.util.Set;
 @Log

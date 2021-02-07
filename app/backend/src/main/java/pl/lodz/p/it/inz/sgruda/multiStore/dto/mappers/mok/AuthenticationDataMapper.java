@@ -1,6 +1,5 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok;
 
-import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AuthenticationDataEntity;

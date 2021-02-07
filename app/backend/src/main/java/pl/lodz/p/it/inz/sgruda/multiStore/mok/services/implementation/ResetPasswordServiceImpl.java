@@ -21,7 +21,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAcc
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.ForgotPasswordTokenRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.ResetPasswordService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 

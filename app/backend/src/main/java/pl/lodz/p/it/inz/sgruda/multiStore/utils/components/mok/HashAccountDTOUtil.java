@@ -4,8 +4,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 
 @Log
 @Component

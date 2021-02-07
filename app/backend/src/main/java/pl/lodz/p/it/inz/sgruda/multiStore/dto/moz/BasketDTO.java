@@ -9,7 +9,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Arrays;

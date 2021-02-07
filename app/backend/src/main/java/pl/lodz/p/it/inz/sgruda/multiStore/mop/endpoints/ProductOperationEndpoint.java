@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivityService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditService;

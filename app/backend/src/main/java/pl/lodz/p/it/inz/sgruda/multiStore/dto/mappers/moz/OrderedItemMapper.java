@@ -3,7 +3,6 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 
 public class OrderedItemMapper implements Mapper<OrderedItemEntity, OrderedItemDTO> {

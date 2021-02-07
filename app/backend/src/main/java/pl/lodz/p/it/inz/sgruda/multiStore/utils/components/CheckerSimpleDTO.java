@@ -2,10 +2,8 @@ package pl.lodz.p.it.inz.sgruda.multiStore.utils.components;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
 public class CheckerSimpleDTO {
