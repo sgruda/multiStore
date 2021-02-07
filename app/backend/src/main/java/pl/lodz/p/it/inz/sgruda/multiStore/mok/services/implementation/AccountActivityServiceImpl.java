@@ -15,6 +15,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
 
 @Log
@@ -32,12 +33,13 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivit
         rollbackFor = {OptimisticLockAppException.class}
 )
 public class AccountActivityServiceImpl implements AccountActivityService {
-
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public AccountActivityServiceImpl(AccountRepository accountRepository) {
+    public AccountActivityServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class AccountActivityServiceImpl implements AccountActivityService {
         try{
             accountEntity.setActive(false);
             accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();
@@ -58,6 +61,7 @@ public class AccountActivityServiceImpl implements AccountActivityService {
         try{
             accountEntity.setActive(true);
             accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();
