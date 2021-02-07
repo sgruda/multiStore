@@ -79,7 +79,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public double calcPrice(Set<OrderedItemEntity> orderedItems) {
+    public double calcPrice(Set<OrderedItemEntity> orderedItems, String askerEmail) {
         return new BigDecimal(orderedItems.stream()
                 .mapToDouble(
                         item -> {
@@ -89,6 +89,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                                 discount = promotionEntities.stream()
                                         .mapToDouble(promo ->
                                                 promo.isActive() && promo.getExpireDate().isAfter(LocalDateTime.now())
+                                                        && !promo.getAuthorEmail().equals(askerEmail)
                                                         ? promo.getDiscount()
                                                         : 0.0
                                         )
@@ -112,7 +113,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
         orderEntity.setOrderDate(LocalDateTime.now());
         orderEntity.setAccountEntity(basketEntity.getAccountEntity());
         orderEntity.setOrderedItemEntities(basketEntity.getOrderedItemEntities());
-        orderEntity.setTotalPrice(this.calcPrice(orderEntity.getOrderedItemEntities()));
+        orderEntity.setTotalPrice(this.calcPrice(orderEntity.getOrderedItemEntities(), basketEntity.getAccountEntity().getEmail()));
         orderEntity.setStatusEntity(statusRepository.findByStatusName(StatusName.submitted)
                                                     .orElseThrow(() -> new StatusNotExistsException())
         );

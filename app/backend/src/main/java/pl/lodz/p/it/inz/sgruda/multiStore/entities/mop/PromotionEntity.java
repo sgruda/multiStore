@@ -54,6 +54,13 @@ public class PromotionEntity implements Serializable, VersionGetter {
     @Column(name = "expire_date", nullable = false)
     private LocalDateTime expireDate;
 
+    @Basic(optional = false)
+    @NotNull(message = "validation.notnull")
+    @Email(message = "validation.email")
+    @Size(min = 1, max = 32, message = "validation.size")
+    @Column(name = "author_email", nullable = false, length = 32)
+    private String authorEmail;
+
     @Version
     @Basic
     @Column(name = "version", nullable = false)
@@ -62,10 +69,11 @@ public class PromotionEntity implements Serializable, VersionGetter {
     public PromotionEntity() {
     }
 
-    public PromotionEntity(String name, double discount, boolean active, LocalDateTime expireDate) {
+    public PromotionEntity(String name, double discount, boolean active, LocalDateTime expireDate, String authorEmail) {
         this.name = name;
         this.discount = discount;
         this.active = active;
         this.expireDate = expireDate;
+        this.authorEmail = authorEmail;
     }
 }

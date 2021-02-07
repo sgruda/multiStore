@@ -92,7 +92,7 @@ public class OrderSubmitEndpoint {
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
                 orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            totalPrice = orderSubmitService.calcPrice(orderedItemEntitySet);
+            totalPrice = orderSubmitService.calcPrice(orderedItemEntitySet, currentUser.getEmail());
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

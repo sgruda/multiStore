@@ -42,6 +42,7 @@ public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
         entityCopy.setCategoryEntity(entity.getCategoryEntity());
         entityCopy.setActive(entity.isActive());
         entityCopy.setExpireDate(entity.getExpireDate());
+        entityCopy.setAuthorEmail(entity.getAuthorEmail());
         entityCopy.setVersion(dto.getVersion());
         return entityCopy;
     }

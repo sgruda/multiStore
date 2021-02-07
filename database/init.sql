@@ -173,7 +173,8 @@ create table promotion
     version     bigint           not null,
     category_id bigint           not null
         constraint category_id_references_to_category_promotion
-            references category
+            references category,
+    author_email varchar(32)     not null
 );
 
 alter table promotion
