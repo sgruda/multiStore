@@ -25,7 +25,7 @@ public class CheckerMozDTOTest {
     @Test
     void test() {
         ProductDTO productDTO = new ProductDTO();
-        productDTO.setIdHash("123");
+        productDTO.setId(123);
         productDTO.setTitle("title");
         productDTO.setDescription("desc");
         productDTO.setInStore(123);
@@ -36,7 +36,7 @@ public class CheckerMozDTOTest {
         signSimpleDTO.signDTO(productDTO);
 
         OrderedItemDTO orderedItemDTO = new OrderedItemDTO();
-        orderedItemDTO.setIdHash("123456789");
+        orderedItemDTO.setId(123456789);
         orderedItemDTO.setIdentifier("zxcvnm");
         orderedItemDTO.setOrderedNumber(2);
         orderedItemDTO.setOrderedProduct(productDTO);
@@ -44,7 +44,7 @@ public class CheckerMozDTOTest {
         signSimpleDTO.signDTO((orderedItemDTO));
 
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setIdHash("123");
+        orderDTO.setId(123);
         orderDTO.setIdentifier("3456");
         orderDTO.setOrderDate(LocalDateTime.now());
         orderDTO.setBuyerEmail("jan.kowalski@gmail.com");

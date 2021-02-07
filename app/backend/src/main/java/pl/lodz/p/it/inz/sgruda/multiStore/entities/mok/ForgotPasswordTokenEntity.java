@@ -47,16 +47,6 @@ public class ForgotPasswordTokenEntity implements Serializable, VersionGetter {
     @Column(name = "version", nullable = false)
     private long version;
 
-    public ForgotPasswordTokenEntity duplicateWithId(long newId) {
-        ForgotPasswordTokenEntity entityDuplicate = new ForgotPasswordTokenEntity();
-        entityDuplicate.setId(newId);
-        entityDuplicate.setExpireDate(this.getExpireDate());
-        entityDuplicate.setToken(this.getToken());
-        entityDuplicate.setAccountEntity(this.getAccountEntity());
-        entityDuplicate.setVersion(this.getVersion());
-        return entityDuplicate;
-    }
-
 
     @Override
     public boolean equals(Object o) {

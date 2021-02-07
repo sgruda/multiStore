@@ -24,7 +24,7 @@ public class AccountDTOUtilTest {
     void test() {
         AccountDTO accountDTO = new AccountDTO();
         final String EMAIL = "jan.kowalski@gmail.com";
-        accountDTO.setIdHash("123");
+        accountDTO.setId(123);
         accountDTO.setFirstName("Jan");
         accountDTO.setLastName("Kowalski");
         accountDTO.setEmail(EMAIL);
@@ -56,7 +56,7 @@ public class AccountDTOUtilTest {
 
         accountDTO.setAuthProvider("system");
         AuthenticationDataDTO authenticationDataDTO = new AuthenticationDataDTO();
-        authenticationDataDTO.setIdHash("321");
+        authenticationDataDTO.setId(321);
         authenticationDataDTO.setUsername("kowal");
         authenticationDataDTO.setEmailVerified(true);
         authenticationDataDTO.setVersion(0);
@@ -71,14 +71,5 @@ public class AccountDTOUtilTest {
         }
         Assertions.assertEquals(true, catched);
         accountDTO.getAuthenticationDataDTO().setVersion(0);
-
-        catched = false;
-        accountDTO.getAuthenticationDataDTO().setIdHash(null);
-        try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOHashException e) {
-            catched = true;
-        }
-        Assertions.assertEquals(true, catched);
     }
 }

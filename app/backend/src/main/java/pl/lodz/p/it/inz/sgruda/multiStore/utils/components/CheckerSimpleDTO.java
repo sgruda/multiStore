@@ -2,9 +2,9 @@ package pl.lodz.p.it.inz.sgruda.multiStore.utils.components;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
@@ -16,24 +16,24 @@ public class CheckerSimpleDTO {
         this.signatureDTOUtil = signatureDTOUtil;
     }
 
-    public void checkSignature(SignatureVerifiability dto) throws DTOHashException {
+    public void checkSignature(HashVerifiability dto) throws DTOHashException {
         if(dto != null) {
             this.checkSignatureSingleDTO(dto);
         }
     }
-    public void checkVersion(VersionGetter entity, SignatureVerifiability dto) throws DTOVersionException {
+    public void checkVersion(VersionGetter entity, HashVerifiability dto) throws OptimisticLockAppException {
         if(dto != null && entity != null) {
             this.checkVersionSingleDTO(entity, dto);
         }
     }
-    protected void checkSignatureSingleDTO(SignatureVerifiability dto) throws DTOHashException {
+    protected void checkSignatureSingleDTO(HashVerifiability dto) throws DTOHashException {
         if(!signatureDTOUtil.checkSignatureDTO(dto)) {
             throw new DTOHashException();
         }
     }
-    protected void checkVersionSingleDTO(VersionGetter entity, SignatureVerifiability dto) throws  DTOVersionException {
+    protected void checkVersionSingleDTO(VersionGetter entity, HashVerifiability dto) throws  OptimisticLockAppException {
         if(entity.getVersion() != dto.getVersion()) {
-            throw new DTOVersionException();
+            throw new OptimisticLockAppException();
         }
     }
 }

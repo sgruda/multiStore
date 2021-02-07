@@ -9,8 +9,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 @Log
@@ -48,7 +48,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
         }
     }
 
-    public void checkOrderDTOVersion(OrderEntity entity, OrderDTO dto) throws DTOVersionException {
+    public void checkOrderDTOVersion(OrderEntity entity, OrderDTO dto) throws OptimisticLockAppException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemEntities())
@@ -60,7 +60,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
             super.checkVersionSingleDTO(entity, dto);
         }
     }
-    public void checkBasketDTOVersion(BasketEntity entity, BasketDTO dto) throws DTOVersionException {
+    public void checkBasketDTOVersion(BasketEntity entity, BasketDTO dto) throws OptimisticLockAppException {
         if(dto != null && entity != null) {
             for(OrderedItemDTO item : dto.getOrderedItemDTOS()) {
                 for(OrderedItemEntity itemsEntityTemp : entity.getOrderedItemEntities())
@@ -72,7 +72,7 @@ public class CheckerMozDTO extends CheckerSimpleDTO {
             super.checkVersionSingleDTO(entity, dto);
         }
     }
-    public void checkOrderedItemDTOVersion(OrderedItemEntity entity, OrderedItemDTO dto) throws DTOVersionException {
+    public void checkOrderedItemDTOVersion(OrderedItemEntity entity, OrderedItemDTO dto) throws OptimisticLockAppException {
         if(dto != null && entity != null) {
                 super.checkVersionSingleDTO(entity, dto);
                 super.checkVersionSingleDTO(entity.getProductEntity(), dto.getOrderedProduct());

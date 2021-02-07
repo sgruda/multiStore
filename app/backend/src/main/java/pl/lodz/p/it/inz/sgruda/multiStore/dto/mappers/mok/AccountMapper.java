@@ -5,7 +5,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
@@ -43,21 +42,48 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
 
     @Override
     public AccountEntity updateEntity(AccountEntity entity, AccountDTO dto)  {
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setAccessLevelEntities(entity.getAccessLevelEntities());
+        entity.setActive(dto.isActive());
+        entity.setLanguage(Language.valueOf(dto.getLanguage()));
+        if(dto.getAuthenticationDataDTO() != null)
+            entity.setAuthenticationDataEntity(
+                authenticationDataMapper.updateEntity(
+                        entity.getAuthenticationDataEntity(),
+                        dto.getAuthenticationDataDTO()
+                )
+            );
+
+        entity.setVersion(dto.getVersion());
+        return entity;
+    }
+    public AccountEntity createCopyOf(AccountEntity entity, AccountDTO accountDTO) {
         AccountEntity entityCopy = new AccountEntity();
-        entityCopy.setId(dto.getId());
-        entityCopy.setFirstName(dto.getFirstName());
-        entityCopy.setLastName(dto.getLastName());
-        entityCopy.setEmail(dto.getEmail());
+        entityCopy.setId(accountDTO.getId());
+        entityCopy.setFirstName(entity.getFirstName());
+        entityCopy.setLastName(entity.getLastName());
+        entityCopy.setEmail(entity.getEmail());
         entityCopy.setAccessLevelEntities(entity.getAccessLevelEntities());
-        entityCopy.setActive(dto.isActive());
-        entityCopy.setProvider(AuthProvider.valueOf(dto.getAuthProvider()));
+        entityCopy.setActive(entity.isActive());
+        entityCopy.setProvider(entity.getProvider());
         entityCopy.setProviderId(entity.getProviderId());
-        entityCopy.setLanguage(Language.valueOf(dto.getLanguage()));
-        entityCopy.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
+        entityCopy.setLanguage(entity.getLanguage());
+//        entityCopy.setAuthenticationDataEntity(entity.getAuthenticationDataEntity());
+        if(entity.getAuthenticationDataEntity() != null)
+            entityCopy.setAuthenticationDataEntity(
+                    authenticationDataMapper.createCopyOf(
+                            entity.getAuthenticationDataEntity(),
+                            accountDTO.getAuthenticationDataDTO()
+                    )
+            );
+        else
+            entityCopy.setAuthenticationDataEntity(null);
+//        entityCopy.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
         entityCopy.setOrderCollection(entity.getOrderCollection());
         entityCopy.setBasketEntity(entity.getBasketEntity());
 
-        entityCopy.setVersion(dto.getVersion());
+        entityCopy.setVersion(accountDTO.getVersion());
         return entityCopy;
     }
 }

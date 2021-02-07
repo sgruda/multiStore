@@ -20,7 +20,7 @@ public class CheckerSimpleDTOTest {
     @Test
     void test() {
         ProductDTO productDTO = new ProductDTO();
-        productDTO.setIdHash("123");
+        productDTO.setId(123);
         productDTO.setTitle("title");
         productDTO.setDescription("desc");
         productDTO.setInStore(123);

@@ -121,23 +121,6 @@ public class AccountEntity implements Serializable, VersionGetter {
         this.authenticationDataEntity = new AuthenticationDataEntity();
     }
 
-    public AccountEntity duplicateWithId(long newId) {
-        AccountEntity entityDuplicate = new AccountEntity();
-        entityDuplicate.setId(newId);
-        entityDuplicate.setFirstName(this.getFirstName());
-        entityDuplicate.setLastName(this.getLastName());
-        entityDuplicate.setEmail(this.getEmail());
-        entityDuplicate.setAccessLevelEntities(this.getAccessLevelEntities());
-        entityDuplicate.setActive(this.isActive());
-        entityDuplicate.setProviderId(this.getProviderId());
-        entityDuplicate.setProvider(this.getProvider());
-        entityDuplicate.setLanguage(this.getLanguage());
-        entityDuplicate.setVersion(this.getVersion());
-        entityDuplicate.setAuthenticationDataEntity(this.getAuthenticationDataEntity().duplicateWithId());
-        entityDuplicate.setOrderCollection(this.getOrderCollection());
-        entityDuplicate.setBasketEntity(this.getBasketEntity());
-        return entityDuplicate;
-    }
 
     @Override
     public boolean equals(Object o) {

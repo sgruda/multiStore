@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.services.MailSenderService;
 
@@ -89,10 +90,11 @@ public class AccountDetailsEndpoint {
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
-            accountMapper.updateEntity(accountEntity, accountDTO);
-            accountEditService.editAccount(accountEntity);
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountMapper.updateEntity(entityCopy, accountDTO);
+
+            accountEditService.editAccount(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

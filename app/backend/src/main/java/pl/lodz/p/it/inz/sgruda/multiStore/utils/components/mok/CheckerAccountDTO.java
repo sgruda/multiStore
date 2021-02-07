@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOVersionException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 
@@ -29,7 +29,7 @@ public class CheckerAccountDTO extends CheckerSimpleDTO {
         }
     }
 
-    public void checkAccountDTOVersion(AccountEntity entity, AccountDTO dto) throws DTOVersionException {
+    public void checkAccountDTOVersion(AccountEntity entity, AccountDTO dto) throws OptimisticLockAppException {
         if(dto != null && entity != null) {
             super.checkVersionSingleDTO(entity, dto);
             if(dto.getAuthenticationDataDTO() != null) {

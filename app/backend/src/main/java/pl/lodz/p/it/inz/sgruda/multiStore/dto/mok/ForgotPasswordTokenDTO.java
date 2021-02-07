@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public @Data class ForgotPasswordTokenDTO implements HashVerifiability {
     @NotNull(message = "validation.notnull")
-    @Pattern(regexp = "[0-9]+", message = "validation.pattern")
     private long id;
 
     @NotNull(message = "validation.notnull")

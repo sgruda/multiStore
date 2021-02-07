@@ -10,7 +10,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,25 +23,25 @@ public class SignatureDTOUtilTest {
     @Test
     void signingTest() {
         HashMethod hashMethod = new HashMethod();
-        TestDTO dto = new TestDTO(hashMethod.hash(5), "jan.kowalski@gmail.com", 0, AuthProvider.system.name());
+        TestDTO dto = new TestDTO(5, "jan.kowalski@gmail.com", 0, AuthProvider.system.name());
         String badSignature = "ecddd611a9752fa9482670af8ff7483ade932d89feb7af8d5039b4952ff5093f_BAD";
         signatureDTOUtil.signDTO(dto);
 
         Assertions.assertEquals(true, signatureDTOUtil.checkSignatureDTO(dto));
 
-        String signature = dto.getSignature();
-        dto.setSignature(badSignature);
+        String signature = dto.getHash();
+        dto.setHash(badSignature);
         Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
-        dto.setSignature(signature);
+        dto.setHash(signature);
 
-        dto.setSignature(signature + "a");
+        dto.setHash(signature + "a");
         Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
-        dto.setSignature(signature);
+        dto.setHash(signature);
 
-        String idHash = dto.getIdHash();
-        dto.setIdHash(hashMethod.hash(77));
+        String idHash = dto.getHash();
+        dto.setHash(hashMethod.hash(77));
         Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
-        dto.setIdHash(idHash);
+        dto.setHash(idHash);
 
         String param = dto.getParam();
         dto.setParam(param + "a");
@@ -60,23 +60,23 @@ public class SignatureDTOUtilTest {
     }
 
     @Data
-    private class TestDTO implements SignatureVerifiability {
-        String idHash;
+    private class TestDTO implements HashVerifiability {
+        long id;
         String param;
         long version;
         String authProvider;
-        String signature;
+        String hash;
 
-        public TestDTO(String idHash, String param, long version, String authProvider) {
-            this.idHash = idHash;
+        public TestDTO(long id, String param, long version, String authProvider) {
+            this.id = id;
             this.param = param;
             this.version = version;
             this.authProvider = authProvider;
         }
 
         @Override
-        public List<String> specifySigningParams() {
-            return Arrays.asList(idHash, param, authProvider, String.valueOf(version));
+        public List<String> specifyHashingParams() {
+            return Arrays.asList(String.valueOf(id), param, authProvider, String.valueOf(version));
         }
 
     }
