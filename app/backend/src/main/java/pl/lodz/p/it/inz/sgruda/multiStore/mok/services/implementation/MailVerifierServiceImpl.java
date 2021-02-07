@@ -15,6 +15,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyVerifyException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.MailVerifierService;
 
 import java.util.Optional;
@@ -35,10 +36,12 @@ import java.util.Optional;
 )
 public class MailVerifierServiceImpl implements MailVerifierService {
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public MailVerifierServiceImpl(AccountRepository accountRepository) {
+    public MailVerifierServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class MailVerifierServiceImpl implements MailVerifierService {
             accountToConfirm.setEmailVerified(true);
             try{
                 accountRepository.saveAndFlush(accountToConfirm);
+                authenticationDataRepository.saveAndFlush(accountToConfirm.getAuthenticationDataEntity());
             }
             catch(OptimisticLockingFailureException ex){
                 throw new OptimisticLockAppException();
