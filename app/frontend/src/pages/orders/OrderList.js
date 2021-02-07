@@ -21,7 +21,7 @@ import Collapse from '@material-ui/core/Collapse';
 import OrderService from '../../services/OrderService';
 import OrdersTableHeader from '../../components/orders/table/OrdersTableHeader';
 import OrdersTableBody from '../../components/orders/table/OrdersTableBody';
-import { Button } from "@material-ui/core";
+import { Button, setRef } from "@material-ui/core";
 import { ROLE_EMPLOYEE } from "../../config/config";
 import OrderDetails from '../../components/orders/OrderDetails';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
@@ -244,6 +244,7 @@ function OrderList() {
           if (response.status === 200) { 
             setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
+            setRefreshDetails(true);
           }
       },
           (error) => {

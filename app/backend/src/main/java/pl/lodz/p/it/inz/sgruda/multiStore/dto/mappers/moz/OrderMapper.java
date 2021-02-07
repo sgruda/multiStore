@@ -44,11 +44,11 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
     @Override
     public OrderEntity createCopyOf(OrderEntity entity, OrderDTO dto) {
         OrderEntity entityCopy = new OrderEntity();
-        entityCopy.setId(dto.getVersion());
+        entityCopy.setId(dto.getId());
         entityCopy.setIdentifier(entity.getIdentifier());
         entityCopy.setOrderDate(entity.getOrderDate());
         entityCopy.setAccountEntity(entity.getAccountEntity());
-        entityCopy.setOrderedItemEntities(entity.getOrderedItemEntities());
+        entityCopy.setOrderedItemEntities( entity.getOrderedItemEntities());
         entityCopy.setTotalPrice(entity.getTotalPrice());
         entityCopy.setStatusEntity(entity.getStatusEntity());
         entityCopy.setAddress(entity.getAddress());

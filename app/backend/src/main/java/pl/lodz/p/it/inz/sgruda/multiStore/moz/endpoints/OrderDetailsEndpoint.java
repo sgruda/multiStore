@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz.OrderMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderChangeStatusService;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderDetailsService;
@@ -76,8 +77,10 @@ public class OrderDetailsEndpoint {
         try {
             checkerMozDTO.checkOrderDTOSignature(orderDTO);
             orderEntity = orderChangeStatusService.getOrderByIdentifier(orderDTO.getIdentifier());
-            checkerMozDTO.checkOrderDTOVersion(orderEntity, orderDTO);
-            orderChangeStatusService.changeStatus(orderEntity, userPrincipal.getId());
+            OrderMapper orderMapper = new OrderMapper();
+            OrderEntity entityCopy = orderMapper.createCopyOf(orderEntity, orderDTO);
+
+            orderChangeStatusService.changeStatus(entityCopy, userPrincipal.getId());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
