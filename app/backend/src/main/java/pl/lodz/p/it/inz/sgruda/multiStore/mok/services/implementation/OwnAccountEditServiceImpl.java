@@ -16,6 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnAccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
@@ -35,10 +36,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 )
 public class OwnAccountEditServiceImpl implements OwnAccountEditService {
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public OwnAccountEditServiceImpl(AccountRepository accountRepository) {
+    public OwnAccountEditServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class OwnAccountEditServiceImpl implements OwnAccountEditService {
         if(accountEntity.getProvider() == AuthProvider.system)
             try{
                 accountRepository.saveAndFlush(accountEntity);
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
             }
             catch(OptimisticLockingFailureException ex){
                 throw new OptimisticLockAppException();
@@ -60,6 +64,7 @@ public class OwnAccountEditServiceImpl implements OwnAccountEditService {
     public void changeAccountLanguage(AccountEntity accountEntity) throws OptimisticLockAppException {
         try{
             accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();

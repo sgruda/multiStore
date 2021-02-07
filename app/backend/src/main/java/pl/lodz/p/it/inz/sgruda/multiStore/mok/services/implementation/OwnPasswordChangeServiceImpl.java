@@ -18,6 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsExcepti
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.PasswordsNotEqualsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.OwnPasswordChangeService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
@@ -38,11 +39,14 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 public class OwnPasswordChangeServiceImpl implements OwnPasswordChangeService {
     private AccountRepository accountRepository;
     private PasswordEncoder passwordEncoder;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public OwnPasswordChangeServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public OwnPasswordChangeServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder,
+                                        AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -53,6 +57,7 @@ public class OwnPasswordChangeServiceImpl implements OwnPasswordChangeService {
                 throw new PasswordsNotEqualsException();
             accountEntity.setPassword(passwordEncoder.encode(newPassword));
             try{
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
                 accountRepository.saveAndFlush(accountEntity);
             }
             catch(OptimisticLockingFailureException ex){
