@@ -64,7 +64,8 @@ public class OwnAccountEditServiceImpl implements OwnAccountEditService {
     public void changeAccountLanguage(AccountEntity accountEntity) throws OptimisticLockAppException {
         try{
             accountRepository.saveAndFlush(accountEntity);
-            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+            if(accountEntity.getProvider().equals(AuthProvider.system))
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();

@@ -21,6 +21,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import java.util.Optional;
@@ -67,7 +68,8 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
         }
         try{
             accountRepository.saveAndFlush(accountEntity);
-            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+            if(accountEntity.getProvider().equals(AuthProvider.system))
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();
@@ -90,7 +92,8 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
         }
         try{
             accountRepository.saveAndFlush(accountEntity);
-            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+            if(accountEntity.getProvider().equals(AuthProvider.system))
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();
