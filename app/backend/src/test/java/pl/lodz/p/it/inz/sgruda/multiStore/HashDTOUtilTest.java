@@ -24,19 +24,19 @@ public class HashDTOUtilTest {
     void signingTest() {
         HashMethod hashMethod = new HashMethod();
         TestDTO dto = new TestDTO(5, "jan.kowalski@gmail.com", 0, AuthProvider.system.name());
-        String badSignature = "ecddd611a9752fa9482670af8ff7483ade932d89feb7af8d5039b4952ff5093f_BAD";
+        String badHash = "ecddd611a9752fa9482670af8ff7483ade932d89feb7af8d5039b4952ff5093f_BAD";
         hashDTOUtil.hashDTO(dto);
 
         Assertions.assertEquals(true, hashDTOUtil.checkHashDTO(dto));
 
-        String signature = dto.getHash();
-        dto.setHash(badSignature);
+        String hash = dto.getHash();
+        dto.setHash(badHash);
         Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
-        dto.setHash(signature);
+        dto.setHash(hash);
 
-        dto.setHash(signature + "a");
+        dto.setHash(hash + "a");
         Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
-        dto.setHash(signature);
+        dto.setHash(hash);
 
         String idHash = dto.getHash();
         dto.setHash(hashMethod.hash(77));
