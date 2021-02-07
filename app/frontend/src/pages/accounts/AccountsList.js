@@ -136,7 +136,7 @@ function AccountsList() {
                         _roles.push(t('account.access-level.names.' + parts[1].toLowerCase()) + ", ");
                     });
                     return {
-                      id: account.idHash,
+                      id: account.id,
                       firstName: account.firstName,
                       lastName: account.lastName,
                       email: account.email,

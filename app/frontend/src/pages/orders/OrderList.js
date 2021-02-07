@@ -155,7 +155,7 @@ function OrderList() {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
                     return {
-                        id: order.idHash,
+                        id: order.id,
                         identifier: order.identifier,
                         orderDate: order.orderDate,
                         buyerEmail: order.buyerEmail,
@@ -186,7 +186,7 @@ function OrderList() {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
                     return {
-                        id: order.idHash,
+                        id: order.id,
                         identifier: order.identifier,
                         orderDate: order.orderDate,
                         buyerEmail: order.buyerEmail,
@@ -216,7 +216,7 @@ function OrderList() {
       .then(response => {
           if (response.status === 200) { 
                   const order = {
-                      id: response.data.idHash,
+                      id: response.data.id,
                       identifier: response.data.identifier,
                       orderDate: response.data.orderDate,
                       buyerEmail: response.data.buyerEmail,

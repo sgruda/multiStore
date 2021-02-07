@@ -117,7 +117,7 @@ function ProductList() {
         if (response.status === 200) { 
             const products = response.data.products.map(product => {
                 return {
-                  id: product.idHash,
+                  id: product.id,
                   title: product.title,
                   description: product.description,
                   inStore: product.inStore,
@@ -250,7 +250,7 @@ useEffect(() => {
               products.map(product => {
                 if(product.title === selectedProductTitle)
                   data = {
-                    idHash: product.id,
+                    id: product.id,
                     title: product.title,
                     description: product.description,
                     inStore: product.inStore,

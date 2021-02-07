@@ -11,7 +11,7 @@ class PromotionService {
 
     createPromotion(fields, active) { 
         const data = {
-            idHash: '0',
+            id: '0',
             name: fields.name,
             discount: fields.discount,
             onCategory: fields.onCategory,
@@ -25,7 +25,7 @@ class PromotionService {
 
     block(promotion) {
         const data = {
-            idHash: promotion.id,
+            id: promotion.id,
             name: promotion.name,
             discount: promotion.discount,
             onCategory: promotion.onCategory,
@@ -38,7 +38,7 @@ class PromotionService {
     }
     unblock(promotion) {
         const data = {
-            idHash: promotion.id,
+            id: promotion.id,
             name: promotion.name,
             discount: promotion.discount,
             onCategory: promotion.onCategory,
@@ -51,7 +51,7 @@ class PromotionService {
     }
     delete(promotion) {
         const data = {
-            idHash: promotion.id,
+            id: promotion.id,
             name: promotion.name,
             discount: promotion.discount,
             onCategory: promotion.onCategory,

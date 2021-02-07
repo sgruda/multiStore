@@ -114,7 +114,7 @@ function PromotionsList() {
           if (response.status === 200) { 
               const promotions = response.data.promotions.map(promotion => {
                   return {
-                    id: promotion.idHash,
+                    id: promotion.id,
                     name: promotion.name,
                     discount: promotion.discount,
                     onCategory: promotion.onCategory,

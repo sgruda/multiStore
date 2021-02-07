@@ -116,7 +116,7 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
             if (response.status === 200) { 
                 const orderedItems = response.data.orderedItemDTOS.map(item => {
                     return {
-                      id: item.idHash,
+                      id: item.id,
                       identifier: item.identifier,
                       orderedNumber: item.orderedNumber,
                       orderedProduct: item.orderedProduct,

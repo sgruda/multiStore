@@ -28,7 +28,7 @@ class ProductService {
 
       createProduct(fields) { 
         const data = {
-          idHash: '0',
+          id: '0',
           title: fields.title,
           description: fields.description,
           inStore: fields.inStore,
@@ -41,7 +41,7 @@ class ProductService {
       }
       editProduct(product, fields) { 
         const data = {
-          idHash: product.idHash,
+          id: product.id,
           title: product.title,
           description: fields.description,
           inStore: fields.inStore,

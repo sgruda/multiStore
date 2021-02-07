@@ -17,7 +17,7 @@ class BasketService {
     }
     editItemInBasket(item) {
         const data = {
-            idHash: item.id,
+            id: item.id,
             identifier: item.identifier,
             orderedNumber: item.orderedNumber,
             orderedProduct: item.orderedProduct,
@@ -28,11 +28,11 @@ class BasketService {
     }
     addToBasket(basket, item, orderedNumber) {
         const orderedItem = {
-            idHash: "0",
+            id: "0",
             identifier: "0",
             orderedNumber: orderedNumber,
             orderedProduct: {
-                idHash: item.idHash,
+                id: item.id,
                 title: item.title,
                 description: item.description,
                 inStore: item.inStore,

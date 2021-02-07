@@ -24,7 +24,7 @@ class OrderService {
     }
     changeStatus(order) {
         const data = {
-            idHash: order.id,
+            id: order.id,
             identifier: order.identifier,
             orderDate: order.orderDate,
             buyerEmail: order.buyerEmail,
