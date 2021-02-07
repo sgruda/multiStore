@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mop.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.PromotionIsActiveException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.PromotionNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.PromotionRepository;
@@ -27,7 +29,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionDelet
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mopTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class PromotionDeleteServiceImpl implements PromotionDeleteService {
     private PromotionRepository promotionRepository;
@@ -46,9 +49,14 @@ public class PromotionDeleteServiceImpl implements PromotionDeleteService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void deletePromotion(PromotionEntity promotionEntity) throws PromotionIsActiveException {
+    public void deletePromotion(PromotionEntity promotionEntity) throws PromotionIsActiveException, OptimisticLockAppException {
         if(promotionEntity.isActive())
             throw new PromotionIsActiveException();
-        promotionRepository.delete(promotionEntity);
+        try{
+            promotionRepository.delete(promotionEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }

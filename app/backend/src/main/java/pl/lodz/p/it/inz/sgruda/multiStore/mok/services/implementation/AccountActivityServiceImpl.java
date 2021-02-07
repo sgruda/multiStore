@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,8 +12,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivityService;
 
 @Log
@@ -26,27 +29,43 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountActivit
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mokTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class AccountActivityServiceImpl implements AccountActivityService {
-
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public AccountActivityServiceImpl(AccountRepository accountRepository) {
+    public AccountActivityServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void blockAccount(AccountEntity accountEntity) {
-        accountEntity.setActive(false);
+    public void blockAccount(AccountEntity accountEntity) throws OptimisticLockAppException {
+        try{
+            accountEntity.setActive(false);
+            accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void unblockAccount(AccountEntity accountEntity) {
-        accountEntity.setActive(true);
+    public void unblockAccount(AccountEntity accountEntity) throws OptimisticLockAppException {
+        try{
+            accountEntity.setActive(true);
+            accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override

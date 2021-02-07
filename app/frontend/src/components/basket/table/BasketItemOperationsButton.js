@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function BasketItemOperationsButton({basket, item, handleClose, handleCloseSuccessDialog}) {
+function BasketItemOperationsButton({basket, item, handleClose, handleCloseSuccessDialog, handleRefresh}) {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -66,6 +66,7 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
           return true ;
         return false;
       }
+
     
     const orderedNumberIsWrong = checkErrors();
 
@@ -160,7 +161,7 @@ function BasketItemOperationsButton({basket, item, handleClose, handleCloseSucce
             <Grid item xs={12}>
                 <Collapse in={showRefresh}>
                     <Button
-                    onClick={handleClose}
+                    onClick={handleRefresh}
                     variant="contained"
                     color="primary"
                     fullWidth

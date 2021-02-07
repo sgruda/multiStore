@@ -17,7 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductGetService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,12 +33,12 @@ import javax.validation.constraints.Size;
 @RequestMapping("/api/product")
 public class ProductGetEndpoint {
     private ProductGetService productGetService;
-    private SignSimpleDTO signSimpleDTO;
+    private HashSimpleDTO hashSimpleDTO;
 
     @Autowired
-    public ProductGetEndpoint(ProductGetService productGetService, SignSimpleDTO signSimpleDTO) {
+    public ProductGetEndpoint(ProductGetService productGetService, HashSimpleDTO hashSimpleDTO) {
         this.productGetService = productGetService;
-        this.signSimpleDTO = signSimpleDTO;
+        this.hashSimpleDTO = hashSimpleDTO;
     }
 
     @GetMapping
@@ -56,7 +56,7 @@ public class ProductGetEndpoint {
         }
         ProductMapper productMapper = new ProductMapper();
         ProductDTO productDTO = productMapper.toDTO(productEntity);
-        signSimpleDTO.signDTO(productDTO);
+        hashSimpleDTO.hashDTO(productDTO);
         return ResponseEntity.ok(productDTO);
     }
 }

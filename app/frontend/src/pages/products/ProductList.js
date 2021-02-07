@@ -117,7 +117,7 @@ function ProductList() {
         if (response.status === 200) { 
             const products = response.data.products.map(product => {
                 return {
-                  id: product.idHash,
+                  id: product.id,
                   title: product.title,
                   description: product.description,
                   inStore: product.inStore,
@@ -126,7 +126,7 @@ function ProductList() {
                   category: product.category,
                   active: product.active,
                   version: product.version,
-                  signature: product.signature
+                  hash: product.hash
                 };
             });
             setProducts(products);
@@ -250,7 +250,7 @@ useEffect(() => {
               products.map(product => {
                 if(product.title === selectedProductTitle)
                   data = {
-                    idHash: product.id,
+                    id: product.id,
                     title: product.title,
                     description: product.description,
                     inStore: product.inStore,
@@ -258,7 +258,7 @@ useEffect(() => {
                     type: product.type,
                     category: product.category,
                     version: product.version,
-                    signature: product.signature
+                    hash: product.hash
                   };
               })
               return data;

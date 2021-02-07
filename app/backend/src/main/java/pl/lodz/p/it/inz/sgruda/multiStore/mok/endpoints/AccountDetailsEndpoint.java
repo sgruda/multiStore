@@ -68,12 +68,13 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = passwordChangeService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            passwordChangeService.changePassword(accountEntity, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            passwordChangeService.changePassword(entityCopy, passwordEncoder.encode(accountDTO.getAuthenticationDataDTO().getPassword()));
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -87,12 +88,12 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
-            accountMapper.updateEntity(accountEntity, accountDTO);
-            accountEditService.editAccount(accountEntity);
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountMapper.updateEntity(entityCopy, accountDTO);
+            accountEditService.editAccount(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -106,10 +107,12 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> addAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            accountAccessLevelService.addAccessLevel(accountEntity, accountDTO.getRoles());
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+
+            accountAccessLevelService.addAccessLevel(entityCopy, accountDTO.getRoles());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -122,10 +125,11 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            accountAccessLevelService.removeAccessLevel(accountEntity, accountDTO.getRoles());
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountAccessLevelService.removeAccessLevel(entityCopy, accountDTO.getRoles());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -161,10 +165,11 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccountWithNotVerifiedEmail(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            notEmailVerifiedAccountService.removeAccountWithNotVerifiedEmail(accountEntity);
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            notEmailVerifiedAccountService.removeAccountWithNotVerifiedEmail(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -199,7 +204,6 @@ public class AccountDetailsEndpoint {
         } catch (MessagingException e) {
             log.severe("Problem z mailem " + e);
         }
-
 
         return ResponseEntity.ok(new ApiResponse(true, "account.correctly.created"));
     }

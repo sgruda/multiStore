@@ -52,15 +52,16 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(request.getAccountDTO());
+            checkerAccountDTO.checkAccountDTOHash(request.getAccountDTO());
             if(!currentUser.getEmail().equals(request.getAccountDTO().getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
             if(request.getAccountDTO().getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = ownPasswordChangeService.getAccountByEmail(request.getAccountDTO().getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, request.getAccountDTO());
-            ownPasswordChangeService.changePassword(accountEntity, request.getNewPassword(), request.getAccountDTO().getAuthenticationDataDTO().getPassword());
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, request.getAccountDTO());
+            ownPasswordChangeService.changePassword(entityCopy, request.getNewPassword(), request.getAccountDTO().getAuthenticationDataDTO().getPassword());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -74,15 +75,15 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
             accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
-            accountMapper.updateEntity(accountEntity, accountDTO);
-            ownAccountEditService.editAccount(accountEntity);
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountMapper.updateEntity(entityCopy, accountDTO);
+            ownAccountEditService.editAccount(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -95,14 +96,15 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editLanguageAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
             accountEntity = ownAccountEditService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            accountEntity.setLanguage(Language.valueOf(accountDTO.getLanguage()));
-            ownAccountEditService.changeAccountLanguage(accountEntity);
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            entityCopy.setLanguage(Language.valueOf(accountDTO.getLanguage()));
+            ownAccountEditService.changeAccountLanguage(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

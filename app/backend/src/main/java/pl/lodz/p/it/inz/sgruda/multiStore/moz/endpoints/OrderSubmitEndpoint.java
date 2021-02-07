@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz.BasketMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.BasketDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
@@ -57,15 +58,17 @@ public class OrderSubmitEndpoint {
                 log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
                 throw new UnauthorizedAttemptOfAccessToBasketException();
             }
-            checkerMozDTO.checkBasketDTOSignature(orderRequest.getBasketDTO());
+            checkerMozDTO.checkBasketDTOHash(orderRequest.getBasketDTO());
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(orderRequest.getBasketDTO().getOwnerEmail());
-            checkerMozDTO.checkBasketDTOVersion(basketEntity, orderRequest.getBasketDTO());
+            BasketMapper basketMapper = new BasketMapper();
+            BasketEntity basketEntityCopy = basketMapper.createCopyOf(basketEntity, orderRequest.getBasketDTO());
+
             Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : orderRequest.getBasketDTO().getOrderedItemDTOS()) {
                 orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            basketEntity.setOrderedItemEntities(orderedItemEntitySet);
-            orderSubmitService.createOrder(basketEntity, orderRequest.getAddress());
+            basketEntityCopy.setOrderedItemEntities(orderedItemEntitySet);
+            orderSubmitService.createOrder(basketEntityCopy, orderRequest.getAddress());
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -83,14 +86,13 @@ public class OrderSubmitEndpoint {
                 log.severe("Error: UnauthorizedRequest. Buyer email in BasketDTO doesn't equals to current authenticated user.");
                 throw new UnauthorizedAttemptOfAccessToBasketException();
             }
-            checkerMozDTO.checkBasketDTOSignature(basketDTO);
+            checkerMozDTO.checkBasketDTOHash(basketDTO);
             BasketEntity basketEntity = orderSubmitService.getBasketEntity(basketDTO.getOwnerEmail());
-            checkerMozDTO.checkBasketDTOVersion(basketEntity, basketDTO);
             Set<OrderedItemEntity> orderedItemEntitySet = new HashSet<>();
             for(OrderedItemDTO itemDTO : basketDTO.getOrderedItemDTOS()) {
                 orderedItemEntitySet.add(orderSubmitService.getOrderedItemsEntityByIdentifier(itemDTO.getIdentifier()));
             }
-            totalPrice = orderSubmitService.calcPrice(orderedItemEntitySet);
+            totalPrice = orderSubmitService.calcPrice(orderedItemEntitySet, currentUser.getEmail());
         } catch(AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

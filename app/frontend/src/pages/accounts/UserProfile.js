@@ -155,6 +155,16 @@ function UserProfile() {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("UserProfile: " + resMessage);
+                if(account.language === "pl") {
+                    account.language = "en";
+                    localStorage.setItem("i18nextLng", "en")
+                    i18n.changeLanguage("en");
+                } else {
+                    account.language = "pl";
+                    localStorage.setItem("i18nextLng", "pl")
+                    i18n.changeLanguage("pl");
+                }
+                
                 setAlertWarningMessage(t(error.response.data.message.toString()));
                 setOpenWarningAlert(true);
                 setShowRefresh(true);

@@ -3,6 +3,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.ForgotPasswordTokenEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.ForgotPasswordTokenNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectForgotPasswordTokenException;
@@ -19,7 +21,6 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAcc
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.ForgotPasswordTokenRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.ResetPasswordService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.Language;
 
@@ -38,7 +39,8 @@ import java.util.UUID;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         timeout = 5,
-        transactionManager = "mokTransactionManager"
+        transactionManager = "mokTransactionManager",
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class ResetPasswordServiceImpl implements ResetPasswordService {
     private AccountRepository accountRepository;
@@ -81,7 +83,13 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             newTokenEntity.setExpireDate(LocalDateTime.now().plusSeconds(Integer.parseInt(FORGOT_PASSWORD_TOKEN_LIFETIME) / 1000));
             newTokenEntity.setToken(UUID.randomUUID().toString().replace("-", "").substring(0, 6));
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(newTokenEntity);
-            forgotPasswordTokenRepository.saveAndFlush(newTokenEntity);
+            try{
+                forgotPasswordTokenRepository.saveAndFlush(newTokenEntity);
+                accountRepository.saveAndFlush(accountEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
             return newTokenEntity.getToken();
         } else
             throw new AccountNotExistsException();
@@ -98,7 +106,13 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             AccountEntity accountEntity = forgotPasswordTokenEntity.getAccountEntity();
             accountEntity.setPassword(newPasswordEncoded);
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(null);
-            forgotPasswordTokenRepository.delete(forgotPasswordTokenEntity);
+            try{
+                forgotPasswordTokenRepository.delete(forgotPasswordTokenEntity);
+                accountRepository.saveAndFlush(accountEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
         } else
             throw new ForgotPasswordTokenNotExistsException();
     }

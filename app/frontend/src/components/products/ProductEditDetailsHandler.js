@@ -7,7 +7,7 @@ import ProductEdit from './ProductEdit';
 
 function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
   const [product, setProduct] = useState(Object);
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const {checkExpiredJWTAndExecute} = useAuth();
 
 
@@ -24,9 +24,6 @@ function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("ProductDetails: " + resMessage);
-                // if(resMessage === "error.product.not.exists") {
-                //     handleHardRefresh();
-                // }
             }
         ); 
     }

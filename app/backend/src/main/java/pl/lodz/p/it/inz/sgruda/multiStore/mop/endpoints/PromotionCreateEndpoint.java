@@ -17,6 +17,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionCreateService;
 import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
+import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.CategoryName;
 
 import javax.validation.Valid;
@@ -38,12 +40,13 @@ public class PromotionCreateEndpoint {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public ResponseEntity<?> createPromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
+    public ResponseEntity<?> createPromotion(@Valid @RequestBody PromotionDTO promotionDTO, @CurrentUser UserPrincipal userPrincipal) {
         PromotionEntity promotionEntity = new PromotionEntity(
                 promotionDTO.getName(),
                 promotionDTO.getDiscount(),
                 promotionDTO.isActive(),
-                promotionDTO.getExpireDate()
+                promotionDTO.getExpireDate(),
+                userPrincipal.getEmail()
         );
 
         try {

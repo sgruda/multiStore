@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOSignatureException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.HashAccountDTOUtil;
 
 import java.util.Arrays;;
 import java.util.HashSet;
@@ -18,27 +18,27 @@ import java.util.HashSet;
 @SpringBootTest
 public class AccountDTOUtilTest {
     private @Autowired CheckerAccountDTO checkerAccountDTO;
-    private @Autowired SignAccountDTOUtil signAccountDTOUtil;
+    private @Autowired HashAccountDTOUtil hashAccountDTOUtil;
 
     @Test
     void test() {
         AccountDTO accountDTO = new AccountDTO();
         final String EMAIL = "jan.kowalski@gmail.com";
-        accountDTO.setIdHash("123");
+        accountDTO.setId(123);
         accountDTO.setFirstName("Jan");
         accountDTO.setLastName("Kowalski");
         accountDTO.setEmail(EMAIL);
         accountDTO.setRoles(new HashSet<>(Arrays.asList("CLIENT_ROLE")));
         accountDTO.setAuthProvider("google");
         accountDTO.setVersion(0);
-        signAccountDTOUtil.signAccountDTO(accountDTO);
+        hashAccountDTOUtil.signAccountDTO(accountDTO);
 
 
         boolean catched = false;
         accountDTO.setVersion(1);
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -47,8 +47,8 @@ public class AccountDTOUtilTest {
         catched = false;
         accountDTO.setEmail("kowal.s@gmail.com");
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
@@ -56,29 +56,20 @@ public class AccountDTOUtilTest {
 
         accountDTO.setAuthProvider("system");
         AuthenticationDataDTO authenticationDataDTO = new AuthenticationDataDTO();
-        authenticationDataDTO.setIdHash("321");
+        authenticationDataDTO.setId(321);
         authenticationDataDTO.setUsername("kowal");
         authenticationDataDTO.setEmailVerified(true);
         authenticationDataDTO.setVersion(0);
         accountDTO.setAuthenticationDataDTO(authenticationDataDTO);
-        signAccountDTOUtil.signAccountDTO(accountDTO);
+        hashAccountDTOUtil.signAccountDTO(accountDTO);
 
         accountDTO.getAuthenticationDataDTO().setVersion(1);
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
+        } catch (DTOHashException e) {
             catched = true;
         }
         Assertions.assertEquals(true, catched);
         accountDTO.getAuthenticationDataDTO().setVersion(0);
-
-        catched = false;
-        accountDTO.getAuthenticationDataDTO().setIdHash(null);
-        try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
-        } catch (DTOSignatureException e) {
-            catched = true;
-        }
-        Assertions.assertEquals(true, catched);
     }
 }

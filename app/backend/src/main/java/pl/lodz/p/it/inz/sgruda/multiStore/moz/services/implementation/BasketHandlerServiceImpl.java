@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.moz.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotContainsItemException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.BasketNotExistsException;
@@ -37,7 +39,8 @@ import java.util.Set;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mozTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class BasketHandlerServiceImpl implements BasketHandlerService {
     private BasketRepository basketRepository;
@@ -60,7 +63,8 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public OrderedItemEntity getOrderedItemEntityOrCreateNew(String identifier, int orderedNumber, String productTitle, ProductEntity orderedProductIfPresent) throws AppBaseException {
+    public OrderedItemEntity getOrderedItemEntityOrCreateNew(String identifier, int orderedNumber, String productTitle,
+                                                             ProductEntity orderedProductIfPresent) throws AppBaseException {
         Optional<OrderedItemEntity> optional = orderedItemRepository.findByIdentifier(identifier);
         if(optional.isPresent())
             return optional.get();
@@ -76,7 +80,12 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
             if(!productEntity.isActive())
                 throw new ProductAlreadyInactiveException();
             orderedItemEntity.setProductEntity(productEntity);
-            orderedItemRepository.saveAndFlush(orderedItemEntity);
+            try{
+                orderedItemRepository.saveAndFlush(orderedItemEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
             return orderedItemEntity;
         }
     }
@@ -102,23 +111,39 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
                 .removeIf(item -> item.getIdentifier().equals(orderedItemEntity.getIdentifier())))
             throw new BasketNotContainsItemException();
         basketEntity.getOrderedItemEntities().add(orderedItemEntity);
-        orderedItemRepository.saveAndFlush(orderedItemEntity);
+        try{
+            orderedItemRepository.saveAndFlush(orderedItemEntity);
+            basketRepository.saveAndFlush(basketEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void addToBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public void addToBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) throws OptimisticLockAppException {
         for(OrderedItemEntity entity : orderedItemEntities)
             if(!basketEntity.getOrderedItemEntities().contains(entity))
                 basketEntity.getOrderedItemEntities().add(entity);
-        basketRepository.saveAndFlush(basketEntity);
+        try{
+            basketRepository.saveAndFlush(basketEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void removeFromBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) {
+    public void removeFromBasket(Set<OrderedItemEntity> orderedItemEntities, BasketEntity basketEntity) throws OptimisticLockAppException {
         basketEntity.getOrderedItemEntities()
                 .removeIf(item -> !orderedItemEntities.contains(item));
-        basketRepository.saveAndFlush(basketEntity);
+        try{
+            basketRepository.saveAndFlush(basketEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }

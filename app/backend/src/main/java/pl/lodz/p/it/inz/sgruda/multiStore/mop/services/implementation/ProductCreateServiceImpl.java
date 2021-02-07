@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mop.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.CategoryEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.CategoryNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.TitleAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.CategoryRepository;
@@ -32,7 +34,8 @@ import java.util.Optional;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mopTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class ProductCreateServiceImpl implements ProductCreateService {
     private ProductRepository productRepository;
@@ -54,7 +57,12 @@ public class ProductCreateServiceImpl implements ProductCreateService {
         if(optionalCategoryEntity.isPresent()) {
             CategoryEntity categoryEntity = optionalCategoryEntity.get();
             productEntity.setCategoryEntity(categoryEntity);
-            productRepository.saveAndFlush(productEntity);
+            try{
+                productRepository.saveAndFlush(productEntity);
+            }
+            catch(OptimisticLockingFailureException ex){
+                throw new OptimisticLockAppException();
+            }
         } else
             throw new CategoryNotExistsException();
     }

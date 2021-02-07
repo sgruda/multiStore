@@ -3,20 +3,18 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.PromotionDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
 
 public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
-    private HashMethod hashMethod;
 
     public PromotionMapper() {
-        this.hashMethod = new HashMethod();
+
     }
 
     @Override
     public PromotionDTO toDTO(PromotionEntity entity) {
        PromotionDTO dto = new PromotionDTO();
 
-       dto.setIdHash(hashMethod.hash(entity.getId()));
+        dto.setId(entity.getId());
        dto.setName(entity.getName());
        dto.setDiscount(entity.getDiscount());
        dto.setOnCategory(entity.getCategoryEntity().getCategoryName().name());
@@ -30,6 +28,22 @@ public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
     @Override
     public PromotionEntity updateEntity(PromotionEntity entity, PromotionDTO dto) {
         entity.setDiscount(dto.getDiscount());
+        entity.setActive(dto.isActive());
+        entity.setVersion(dto.getVersion());
         return entity;
+    }
+
+    @Override
+    public PromotionEntity createCopyOf(PromotionEntity entity, PromotionDTO dto) {
+        PromotionEntity entityCopy = new PromotionEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setName(entity.getName());
+        entityCopy.setDiscount(entity.getDiscount());
+        entityCopy.setCategoryEntity(entity.getCategoryEntity());
+        entityCopy.setActive(entity.isActive());
+        entityCopy.setExpireDate(entity.getExpireDate());
+        entityCopy.setAuthorEmail(entity.getAuthorEmail());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }

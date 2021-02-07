@@ -28,28 +28,29 @@ class ProductService {
 
       createProduct(fields) { 
         const data = {
-          idHash: '0',
+          id: '0',
           title: fields.title,
           description: fields.description,
           inStore: fields.inStore,
           price: fields.price,
           type: fields.type,
           category: fields.category,
-          signature: "0"
+          hash: "0"
         };
         return axios.post(API_URL_CREATE_PRODUCT, data,  { headers: AuthorizationHeader() }); 
       }
       editProduct(product, fields) { 
         const data = {
-          idHash: product.idHash,
+          id: product.id,
           title: product.title,
           description: fields.description,
           inStore: fields.inStore,
           price: fields.price,
           type: product.type,
           category: product.category,
+          active: product.active,
           version: product.version,
-          signature: product.signature
+          hash: product.hash
         };
         return axios.put(API_URL_EDIT_PRODUCT, data,  { headers: AuthorizationHeader() }); 
       }

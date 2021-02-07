@@ -20,7 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountListService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.HashAccountDTOUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -39,12 +39,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/accounts")
 public class AccountListEndpoint {
     private AccountListService accountListService;
-    private SignAccountDTOUtil signAccountDTOUtil;
+    private HashAccountDTOUtil hashAccountDTOUtil;
 
     @Autowired
-    public AccountListEndpoint(AccountListService accountListService, SignAccountDTOUtil signAccountDTOUtil) {
+    public AccountListEndpoint(AccountListService accountListService, HashAccountDTOUtil hashAccountDTOUtil) {
         this.accountListService = accountListService;
-        this.signAccountDTOUtil = signAccountDTOUtil;
+        this.hashAccountDTOUtil = hashAccountDTOUtil;
     }
 
     @GetMapping
@@ -67,7 +67,7 @@ public class AccountListEndpoint {
             accountDTOS = pageAccountEntities.getContent().stream()
                             .map(entity -> accountMapper.toDTO(entity))
                             .collect(Collectors.toList());
-            accountDTOS.forEach(dto -> signAccountDTOUtil.signAccountDTO(dto));
+            accountDTOS.forEach(dto -> hashAccountDTOUtil.signAccountDTO(dto));
 
             Map<String, Object> response = new HashMap<>();
             response.put("accounts", accountDTOS);

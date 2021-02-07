@@ -23,7 +23,6 @@ import java.util.UUID;
         valueColumnName = "id_range", pkColumnValue = "ordered_item")
 public class OrderedItemEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderedItemIdGen")
     private long id;
@@ -47,7 +46,6 @@ public class OrderedItemEntity implements Serializable, VersionGetter {
     private ProductEntity productEntity;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
@@ -55,4 +53,5 @@ public class OrderedItemEntity implements Serializable, VersionGetter {
     public OrderedItemEntity() {
         this.identifier = UUID.randomUUID().toString();
     }
+
 }

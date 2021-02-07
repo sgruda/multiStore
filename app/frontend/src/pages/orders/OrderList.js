@@ -21,7 +21,7 @@ import Collapse from '@material-ui/core/Collapse';
 import OrderService from '../../services/OrderService';
 import OrdersTableHeader from '../../components/orders/table/OrdersTableHeader';
 import OrdersTableBody from '../../components/orders/table/OrdersTableBody';
-import { Button } from "@material-ui/core";
+import { Button, setRef } from "@material-ui/core";
 import { ROLE_EMPLOYEE } from "../../config/config";
 import OrderDetails from '../../components/orders/OrderDetails';
 import AlertApiResponseHandler from '../../components/AlertApiResponseHandler';
@@ -155,7 +155,7 @@ function OrderList() {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
                     return {
-                        id: order.idHash,
+                        id: order.id,
                         identifier: order.identifier,
                         orderDate: order.orderDate,
                         buyerEmail: order.buyerEmail,
@@ -164,7 +164,7 @@ function OrderList() {
                         status: order.status,
                         address: order.address,
                         version: order.version,
-                        signature: order.signature,
+                        hash: order.hash,
                     };
                 });
                 setOrders(orders);
@@ -186,7 +186,7 @@ function OrderList() {
             if (response.status === 200) { 
                 const orders = response.data.orders.map(order => {
                     return {
-                        id: order.idHash,
+                        id: order.id,
                         identifier: order.identifier,
                         orderDate: order.orderDate,
                         buyerEmail: order.buyerEmail,
@@ -195,7 +195,7 @@ function OrderList() {
                         status: order.status,
                         address: order.address,
                         version: order.version,
-                        signature: order.signature,
+                        hash: order.hash,
                     };
                 });
                 setOrders(orders);
@@ -216,7 +216,7 @@ function OrderList() {
       .then(response => {
           if (response.status === 200) { 
                   const order = {
-                      id: response.data.idHash,
+                      id: response.data.id,
                       identifier: response.data.identifier,
                       orderDate: response.data.orderDate,
                       buyerEmail: response.data.buyerEmail,
@@ -225,7 +225,7 @@ function OrderList() {
                       status: response.data.status,
                       address: response.data.address,
                       version: response.data.version,
-                      signature: response.data.signature,
+                      hash: response.data.hash,
                   };
               setSelectedOrder(order);
           }
@@ -244,6 +244,7 @@ function OrderList() {
           if (response.status === 200) { 
             setAlertInfoMessage(t('response.ok'));
             setOpenSuccessAlert(true);
+            setRefreshDetails(true);
           }
       },
           (error) => {

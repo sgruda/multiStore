@@ -25,7 +25,6 @@ import java.io.Serializable;
         valueColumnName = "id_range", pkColumnValue = "product")
 public class ProductEntity implements Serializable, VersionGetter {
         @Id
-        @Setter(lombok.AccessLevel.NONE)
         @Column(name = "id", nullable = false)
         @GeneratedValue(strategy = GenerationType.TABLE, generator = "ProductIdGen")
         private long id;
@@ -72,7 +71,6 @@ public class ProductEntity implements Serializable, VersionGetter {
         private boolean active;
 
         @Version
-        @Setter(lombok.AccessLevel.NONE)
         @Basic
         @Column(name = "version", nullable = false)
         private long version;

@@ -29,7 +29,6 @@ import java.util.*;
         valueColumnName = "id_range", pkColumnValue = "account_data")
 public class AccountEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountIdGen")
     private long id;
@@ -83,7 +82,6 @@ public class AccountEntity implements Serializable, VersionGetter {
     private Language language;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;

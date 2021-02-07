@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.moz.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.StatusEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.EmployeeServingOwnOrderException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.OrderNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.StatusNotExistsException;
@@ -31,7 +33,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.NextStatusGetter;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mozTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class OrderChangeStatusServiceImpl implements OrderChangeStatusService {
     private OrderRepository orderRepository;
@@ -64,6 +67,11 @@ public class OrderChangeStatusServiceImpl implements OrderChangeStatusService {
         .orElseThrow(() -> new StatusNotExistsException());
 
         orderEntity.setStatusEntity(statusEntity);
-        orderRepository.saveAndFlush(orderEntity);
+        try{
+            orderRepository.saveAndFlush(orderEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }
