@@ -69,7 +69,6 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
         entityCopy.setProvider(entity.getProvider());
         entityCopy.setProviderId(entity.getProviderId());
         entityCopy.setLanguage(entity.getLanguage());
-//        entityCopy.setAuthenticationDataEntity(entity.getAuthenticationDataEntity());
         if(entity.getAuthenticationDataEntity() != null)
             entityCopy.setAuthenticationDataEntity(
                     authenticationDataMapper.createCopyOf(
@@ -79,7 +78,6 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
             );
         else
             entityCopy.setAuthenticationDataEntity(null);
-//        entityCopy.setAuthenticationDataEntity(authenticationDataMapper.updateEntity(entity.getAuthenticationDataEntity(), dto.getAuthenticationDataDTO()));
         entityCopy.setOrderCollection(entity.getOrderCollection());
         entityCopy.setBasketEntity(entity.getBasketEntity());
 

@@ -7,7 +7,7 @@ import ProductEdit from './ProductEdit';
 
 function ProductEditDetailsHelper({productTitle, showEdit, handleClose}) {
   const [product, setProduct] = useState(Object);
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const {checkExpiredJWTAndExecute} = useAuth();
 
 

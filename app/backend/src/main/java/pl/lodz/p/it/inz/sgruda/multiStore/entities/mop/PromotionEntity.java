@@ -68,16 +68,4 @@ public class PromotionEntity implements Serializable, VersionGetter {
         this.active = active;
         this.expireDate = expireDate;
     }
-
-    public PromotionEntity duplicateWithId (long newId) {
-        PromotionEntity entityDuplicate = new PromotionEntity();
-        entityDuplicate.setId(newId);
-        entityDuplicate.setName(this.getName());
-        entityDuplicate.setDiscount(this.getDiscount());
-        entityDuplicate.setCategoryEntity(this.getCategoryEntity());
-        entityDuplicate.setActive(this.isActive());
-        entityDuplicate.setExpireDate(this.getExpireDate());
-        entityDuplicate.setVersion(this.getVersion());
-        return entityDuplicate;
-    }
 }

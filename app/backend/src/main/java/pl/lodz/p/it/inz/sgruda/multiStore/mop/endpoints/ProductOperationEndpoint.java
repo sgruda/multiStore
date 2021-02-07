@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivityService;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductEditService;
@@ -49,10 +50,11 @@ public class ProductOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(productDTO);
             productEntity = productEditService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
             ProductMapper productMapper = new ProductMapper();
-            productMapper.updateEntity(productEntity, productDTO);
-            productEditService.editProduct(productEntity);
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productMapper.updateEntity(entityCopy, productDTO);
+
+            productEditService.editProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -68,8 +70,9 @@ public class ProductOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
-            productActivityService.blockProduct(productEntity);
+            ProductMapper productMapper = new ProductMapper();
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productActivityService.blockProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -85,8 +88,9 @@ public class ProductOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
-            productActivityService.unblockProduct(productEntity);
+            ProductMapper productMapper = new ProductMapper();
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productActivityService.unblockProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

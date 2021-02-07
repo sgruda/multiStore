@@ -44,7 +44,6 @@ public class AccountActivityEndpoint {
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-//            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
             accountActivityService.blockAccount(entityCopy);
@@ -63,7 +62,6 @@ public class AccountActivityEndpoint {
         try {
             checkerAccountDTO.checkAccountDTOSignature(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-//            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
             accountActivityService.unblockAccount(entityCopy);

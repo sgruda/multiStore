@@ -48,6 +48,7 @@ class ProductService {
           price: fields.price,
           type: product.type,
           category: product.category,
+          active: product.active,
           version: product.version,
           hash: product.hash
         };

@@ -29,13 +29,26 @@ public class ProductMapper  implements Mapper<ProductEntity, ProductDTO> {
     }
 
     @Override
-    public ProductEntity updateEntity(ProductEntity entity, ProductDTO dto)  {
+    public ProductEntity updateEntity(ProductEntity entity, ProductDTO dto) {
+        entity.setDescription(dto.getDescription());
+        entity.setInStore(dto.getInStore());
+        entity.setPrice(dto.getPrice());
+        entity.setActive(dto.isActive());
+        entity.setVersion(dto.getVersion());
+        return entity;
+    }
+
+    public ProductEntity createCopyOf(ProductEntity entity, ProductDTO dto) {
         ProductEntity entityCopy = new ProductEntity();
         entityCopy.setId(dto.getId());
-        entityCopy.setTitle(dto.getTitle());
-        entityCopy.setDescription(dto.getDescription());
-        entityCopy.setInStore(dto.getInStore());
-        entityCopy.setPrice(dto.getPrice());
-        return entity;
+        entityCopy.setTitle(entity.getTitle());
+        entityCopy.setDescription(entity.getDescription());
+        entityCopy.setInStore(entity.getInStore());
+        entityCopy.setPrice(entity.getPrice());
+        entityCopy.setType(entity.getType());
+        entityCopy.setCategoryEntity(entity.getCategoryEntity());
+        entityCopy.setActive(entity.isActive());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }
