@@ -85,8 +85,8 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             newTokenEntity.setToken(UUID.randomUUID().toString().replace("-", "").substring(0, 6));
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(newTokenEntity);
             try{
-                accountRepository.saveAndFlush(accountEntity);
                 forgotPasswordTokenRepository.saveAndFlush(newTokenEntity);
+                accountRepository.saveAndFlush(accountEntity);
             }
             catch(OptimisticLockingFailureException ex){
                 throw new OptimisticLockAppException();
@@ -108,8 +108,8 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
             accountEntity.setPassword(newPasswordEncoded);
             accountEntity.getAuthenticationDataEntity().setForgotPasswordTokenEntity(null);
             try{
-                accountRepository.saveAndFlush(accountEntity);
                 forgotPasswordTokenRepository.delete(forgotPasswordTokenEntity);
+                accountRepository.saveAndFlush(accountEntity);
             }
             catch(OptimisticLockingFailureException ex){
                 throw new OptimisticLockAppException();
