@@ -42,7 +42,7 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
@@ -60,7 +60,7 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);

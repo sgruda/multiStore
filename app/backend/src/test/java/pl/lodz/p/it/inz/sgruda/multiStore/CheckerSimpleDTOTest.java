@@ -8,14 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 
 
 @Log
 @SpringBootTest
 public class CheckerSimpleDTOTest {
     private @Autowired CheckerSimpleDTO checkerSimpleDTO;
-    private @Autowired SignSimpleDTO signSimpleDTO;
+    private @Autowired HashSimpleDTO hashSimpleDTO;
 
     @Test
     void test() {
@@ -28,12 +28,12 @@ public class CheckerSimpleDTOTest {
         productDTO.setType("ebook");
         productDTO.setCategory("action");
         productDTO.setVersion(0);
-        signSimpleDTO.signDTO(productDTO);
+        hashSimpleDTO.hashDTO(productDTO);
 
         boolean catched = false;
         productDTO.setVersion(1);
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
         } catch (DTOHashException e) {
             catched = true;
         }
@@ -43,7 +43,7 @@ public class CheckerSimpleDTOTest {
         catched = false;
         productDTO.setTitle("title2");
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
         } catch (DTOHashException e) {
             catched = true;
         }

@@ -8,17 +8,17 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
 @Log
 @Component
-public class SignSimpleDTO {
-    private SignatureDTOUtil signatureDTOUtil;
+public class HashSimpleDTO {
+    private HashDTOUtil hashDTOUtil;
 
     @Autowired
-    public SignSimpleDTO(SignatureDTOUtil signatureDTOUtil) {
-        this.signatureDTOUtil = signatureDTOUtil;
+    public HashSimpleDTO(HashDTOUtil hashDTOUtil) {
+        this.hashDTOUtil = hashDTOUtil;
     }
 
-    public void signDTO(HashVerifiability dto) {
+    public void hashDTO(HashVerifiability dto) {
         if (dto != null) {
-            signatureDTOUtil.signDTO(dto);
+            hashDTOUtil.hashDTO(dto);
         }
     }
 }

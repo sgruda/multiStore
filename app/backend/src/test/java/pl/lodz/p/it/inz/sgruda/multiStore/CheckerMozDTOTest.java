@@ -9,9 +9,9 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.HashMozDTOUtil;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @SpringBootTest
 public class CheckerMozDTOTest {
     private @Autowired CheckerMozDTO checkerMozDTO;
-    private @Autowired SignMozDTOUtil signMozDTOUtil;
-    private @Autowired SignSimpleDTO signSimpleDTO;
+    private @Autowired HashMozDTOUtil hashMozDTOUtil;
+    private @Autowired HashSimpleDTO hashSimpleDTO;
 
     @Test
     void test() {
@@ -33,7 +33,7 @@ public class CheckerMozDTOTest {
         productDTO.setType("ebook");
         productDTO.setCategory("action");
         productDTO.setVersion(0);
-        signSimpleDTO.signDTO(productDTO);
+        hashSimpleDTO.hashDTO(productDTO);
 
         OrderedItemDTO orderedItemDTO = new OrderedItemDTO();
         orderedItemDTO.setId(123456789);
@@ -41,7 +41,7 @@ public class CheckerMozDTOTest {
         orderedItemDTO.setOrderedNumber(2);
         orderedItemDTO.setOrderedProduct(productDTO);
         orderedItemDTO.setVersion(0);
-        signSimpleDTO.signDTO((orderedItemDTO));
+        hashSimpleDTO.hashDTO((orderedItemDTO));
 
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(123);
@@ -55,12 +55,12 @@ public class CheckerMozDTOTest {
         orderDTO.setStatus("submitted");
         orderDTO.setAddress("Warszawa, Fajna 32/44");
         orderDTO.setVersion(0);
-        signMozDTOUtil.signOrderDTO(orderDTO);
+        hashMozDTOUtil.hashOrderDTO(orderDTO);
 
         boolean catched = false;
 
         try {
-            checkerMozDTO.checkOrderDTOSignature(orderDTO);
+            checkerMozDTO.checkOrderDTOHash(orderDTO);
         } catch (DTOHashException e) {
             catched = true;
         }
@@ -69,7 +69,7 @@ public class CheckerMozDTOTest {
         catched = false;
         orderDTO.setVersion(1);
         try {
-            checkerMozDTO.checkOrderDTOSignature(orderDTO);
+            checkerMozDTO.checkOrderDTOHash(orderDTO);
         } catch (DTOHashException e) {
             catched = true;
         }
@@ -79,7 +79,7 @@ public class CheckerMozDTOTest {
         catched = false;
         productDTO.setTitle("title2");
         try {
-            checkerMozDTO.checkOrderDTOSignature(orderDTO);
+            checkerMozDTO.checkOrderDTOHash(orderDTO);
         } catch (DTOHashException e) {
             catched = true;
         }

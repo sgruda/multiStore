@@ -52,7 +52,7 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(request.getAccountDTO());
+            checkerAccountDTO.checkAccountDTOHash(request.getAccountDTO());
             if(!currentUser.getEmail().equals(request.getAccountDTO().getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
@@ -75,7 +75,7 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
                 throw new OperationDisabledForAccountException();
             }
@@ -96,7 +96,7 @@ public class AccountOwnerOperationsEndpoint {
     public ResponseEntity<?> editLanguageAccount(@Valid @RequestBody AccountDTO accountDTO, @CurrentUser UserPrincipal currentUser) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(!currentUser.getEmail().equals(accountDTO.getEmail())) {
                 throw new OperationDisabledForAccountException();
             }

@@ -44,7 +44,7 @@ public class PromotionOperationEndpoint {
     public ResponseEntity<?> blockPromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
         PromotionEntity promotionEntity;
         try {
-            checkerSimpleDTO.checkSignature(promotionDTO);
+            checkerSimpleDTO.checkHash(promotionDTO);
             promotionEntity = promotionActivityService.getPromotionByName(promotionDTO.getName());
             PromotionMapper promotionMapper = new PromotionMapper();
             PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);
@@ -62,7 +62,7 @@ public class PromotionOperationEndpoint {
     public ResponseEntity<?> unblockPromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
         PromotionEntity promotionEntity;
         try {
-            checkerSimpleDTO.checkSignature(promotionDTO);
+            checkerSimpleDTO.checkHash(promotionDTO);
             promotionEntity = promotionActivityService.getPromotionByName(promotionDTO.getName());
             PromotionMapper promotionMapper = new PromotionMapper();
             PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);
@@ -80,7 +80,7 @@ public class PromotionOperationEndpoint {
     public ResponseEntity<?> deletePromotion(@Valid @RequestBody PromotionDTO promotionDTO) {
         PromotionEntity promotionEntity;
         try {
-            checkerSimpleDTO.checkSignature(promotionDTO);
+            checkerSimpleDTO.checkHash(promotionDTO);
             promotionEntity = promotionDeleteService.getPromotionByName(promotionDTO.getName());
             PromotionMapper promotionMapper = new PromotionMapper();
             PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);

@@ -4,25 +4,25 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashDTOUtil;
 
 @Log
 @Component
-public class SignAccountDTOUtil extends SignSimpleDTO {
+public class HashAccountDTOUtil extends HashSimpleDTO {
 
     @Autowired
-    public SignAccountDTOUtil(SignatureDTOUtil signatureDTOUtil) {
-        super(signatureDTOUtil);
+    public HashAccountDTOUtil(HashDTOUtil hashDTOUtil) {
+        super(hashDTOUtil);
     }
 
     public void signAccountDTO(AccountDTO dto) {
         if(dto != null) {
-            super.signDTO(dto);
+            super.hashDTO(dto);
             if(dto.getAuthenticationDataDTO() != null) {
-                super.signDTO(dto.getAuthenticationDataDTO());
+                super.hashDTO(dto.getAuthenticationDataDTO());
                 if(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO() != null) {
-                    super.signDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
+                    super.hashDTO(dto.getAuthenticationDataDTO().getForgotPasswordTokenDTO());
                 }
             }
         }

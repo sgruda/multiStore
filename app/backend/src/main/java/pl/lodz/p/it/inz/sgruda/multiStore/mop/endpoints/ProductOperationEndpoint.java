@@ -48,7 +48,7 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> editProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productEditService.getProductByTitle(productDTO.getTitle());
             ProductMapper productMapper = new ProductMapper();
             ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
@@ -68,7 +68,7 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> blockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
             ProductMapper productMapper = new ProductMapper();
             ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
@@ -86,7 +86,7 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> unblockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
             ProductMapper productMapper = new ProductMapper();
             ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);

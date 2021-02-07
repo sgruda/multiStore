@@ -69,7 +69,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             if(accountDTO.getAuthenticationDataDTO().getPassword() == null)
                 throw new AppBaseException("error.password.can.not.be.null");
             accountEntity = passwordChangeService.getAccountByEmail(accountDTO.getEmail());
@@ -89,7 +89,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> editAccount(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountEditService.getAccountByEmail(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
@@ -108,7 +108,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> addAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
@@ -126,7 +126,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccessLevel(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountAccessLevelService.getAccountByEmail(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
@@ -166,7 +166,7 @@ public class AccountDetailsEndpoint {
     public ResponseEntity<?> removeAccountWithNotVerifiedEmail(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = notEmailVerifiedAccountService.getAccountByEmailIfNotVerified(accountDTO.getEmail());
             AccountMapper accountMapper = new AccountMapper();
             AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);

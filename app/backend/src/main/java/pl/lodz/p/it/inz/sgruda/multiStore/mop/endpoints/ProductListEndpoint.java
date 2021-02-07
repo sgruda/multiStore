@@ -17,7 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductListService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.ProductType;
 
 import javax.validation.Valid;
@@ -36,12 +36,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/products")
 public class ProductListEndpoint {
     private ProductListService productListService;
-    private SignSimpleDTO signSimpleDTO;
+    private HashSimpleDTO hashSimpleDTO;
 
     @Autowired
-    public ProductListEndpoint(ProductListService productListService, SignSimpleDTO signSimpleDTO) {
+    public ProductListEndpoint(ProductListService productListService, HashSimpleDTO hashSimpleDTO) {
         this.productListService = productListService;
-        this.signSimpleDTO = signSimpleDTO;
+        this.hashSimpleDTO = hashSimpleDTO;
     }
 
     @GetMapping
@@ -62,7 +62,7 @@ public class ProductListEndpoint {
         productDTOS = pageProductEntities.getContent().stream()
                 .map(entity -> productMapper.toDTO(entity))
                 .collect(Collectors.toList());
-        productDTOS.forEach(dto -> signSimpleDTO.signDTO(dto));
+        productDTOS.forEach(dto -> hashSimpleDTO.hashDTO(dto));
 
         Map<String, Object> response = new HashMap<>();
         response.put("products", productDTOS);

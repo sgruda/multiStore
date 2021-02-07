@@ -9,31 +9,21 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.VersionGetter;
 
 @Component
 public class CheckerSimpleDTO {
-    private SignatureDTOUtil signatureDTOUtil;
+    private HashDTOUtil hashDTOUtil;
 
     @Autowired
-    public CheckerSimpleDTO(SignatureDTOUtil signatureDTOUtil) {
-        this.signatureDTOUtil = signatureDTOUtil;
+    public CheckerSimpleDTO(HashDTOUtil hashDTOUtil) {
+        this.hashDTOUtil = hashDTOUtil;
     }
 
-    public void checkSignature(HashVerifiability dto) throws DTOHashException {
+    public void checkHash(HashVerifiability dto) throws DTOHashException {
         if(dto != null) {
-            this.checkSignatureSingleDTO(dto);
+            this.checkHashSingleDTO(dto);
         }
     }
-    public void checkVersion(VersionGetter entity, HashVerifiability dto) throws OptimisticLockAppException {
-        if(dto != null && entity != null) {
-            this.checkVersionSingleDTO(entity, dto);
-        }
-    }
-    protected void checkSignatureSingleDTO(HashVerifiability dto) throws DTOHashException {
-        if(!signatureDTOUtil.checkSignatureDTO(dto)) {
+    protected void checkHashSingleDTO(HashVerifiability dto) throws DTOHashException {
+        if(!hashDTOUtil.checkHashDTO(dto)) {
             throw new DTOHashException();
-        }
-    }
-    protected void checkVersionSingleDTO(VersionGetter entity, HashVerifiability dto) throws  OptimisticLockAppException {
-        if(entity.getVersion() != dto.getVersion()) {
-            throw new OptimisticLockAppException();
         }
     }
 }

@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.lodz.p.it.inz.sgruda.multiStore.configuration.AppProperties;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.HashMethod;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignatureDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashDTOUtil;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
@@ -17,45 +16,46 @@ import java.util.List;
 
 @Log
 @SpringBootTest
-public class SignatureDTOUtilTest {
-    private @Autowired SignatureDTOUtil signatureDTOUtil;
+public class HashDTOUtilTest {
+    private @Autowired
+    HashDTOUtil hashDTOUtil;
 
     @Test
     void signingTest() {
         HashMethod hashMethod = new HashMethod();
         TestDTO dto = new TestDTO(5, "jan.kowalski@gmail.com", 0, AuthProvider.system.name());
         String badSignature = "ecddd611a9752fa9482670af8ff7483ade932d89feb7af8d5039b4952ff5093f_BAD";
-        signatureDTOUtil.signDTO(dto);
+        hashDTOUtil.hashDTO(dto);
 
-        Assertions.assertEquals(true, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(true, hashDTOUtil.checkHashDTO(dto));
 
         String signature = dto.getHash();
         dto.setHash(badSignature);
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setHash(signature);
 
         dto.setHash(signature + "a");
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setHash(signature);
 
         String idHash = dto.getHash();
         dto.setHash(hashMethod.hash(77));
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setHash(idHash);
 
         String param = dto.getParam();
         dto.setParam(param + "a");
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setParam(param);
 
         long version = dto.getVersion();
         dto.setVersion(version + 1);
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setVersion(version);
 
         String provider = dto.getAuthProvider();
         dto.setAuthProvider(AuthProvider.facebook.name());
-        Assertions.assertEquals(false, signatureDTOUtil.checkSignatureDTO(dto));
+        Assertions.assertEquals(false, hashDTOUtil.checkHashDTO(dto));
         dto.setAuthProvider(provider);
     }
 

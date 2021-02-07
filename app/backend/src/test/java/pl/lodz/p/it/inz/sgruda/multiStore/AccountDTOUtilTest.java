@@ -9,7 +9,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AuthenticationDataDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.dto.DTOHashException;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.CheckerAccountDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.SignAccountDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.mok.HashAccountDTOUtil;
 
 import java.util.Arrays;;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 @SpringBootTest
 public class AccountDTOUtilTest {
     private @Autowired CheckerAccountDTO checkerAccountDTO;
-    private @Autowired SignAccountDTOUtil signAccountDTOUtil;
+    private @Autowired HashAccountDTOUtil hashAccountDTOUtil;
 
     @Test
     void test() {
@@ -31,13 +31,13 @@ public class AccountDTOUtilTest {
         accountDTO.setRoles(new HashSet<>(Arrays.asList("CLIENT_ROLE")));
         accountDTO.setAuthProvider("google");
         accountDTO.setVersion(0);
-        signAccountDTOUtil.signAccountDTO(accountDTO);
+        hashAccountDTOUtil.signAccountDTO(accountDTO);
 
 
         boolean catched = false;
         accountDTO.setVersion(1);
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
         } catch (DTOHashException e) {
             catched = true;
         }
@@ -47,7 +47,7 @@ public class AccountDTOUtilTest {
         catched = false;
         accountDTO.setEmail("kowal.s@gmail.com");
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
         } catch (DTOHashException e) {
             catched = true;
         }
@@ -61,11 +61,11 @@ public class AccountDTOUtilTest {
         authenticationDataDTO.setEmailVerified(true);
         authenticationDataDTO.setVersion(0);
         accountDTO.setAuthenticationDataDTO(authenticationDataDTO);
-        signAccountDTOUtil.signAccountDTO(accountDTO);
+        hashAccountDTOUtil.signAccountDTO(accountDTO);
 
         accountDTO.getAuthenticationDataDTO().setVersion(1);
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
         } catch (DTOHashException e) {
             catched = true;
         }

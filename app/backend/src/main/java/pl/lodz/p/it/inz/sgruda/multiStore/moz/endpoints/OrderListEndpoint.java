@@ -20,7 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderListService;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.HashMozDTOUtil;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -37,12 +37,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/orders")
 public class OrderListEndpoint {
     private OrderListService orderListService;
-    private SignMozDTOUtil signMozDTOUtil;
+    private HashMozDTOUtil hashMozDTOUtil;
 
     @Autowired
-    public OrderListEndpoint(OrderListService orderListService, SignMozDTOUtil signMozDTOUtil) {
+    public OrderListEndpoint(OrderListService orderListService, HashMozDTOUtil hashMozDTOUtil) {
         this.orderListService = orderListService;
-        this.signMozDTOUtil = signMozDTOUtil;
+        this.hashMozDTOUtil = hashMozDTOUtil;
     }
 
     @GetMapping("/all")
@@ -76,7 +76,7 @@ public class OrderListEndpoint {
                 .stream()
                 .map(entity -> orderMapper.toDTO(entity))
                 .collect(Collectors.toList());
-        orderDTOS.forEach(dto -> signMozDTOUtil.signOrderDTO(dto));
+        orderDTOS.forEach(dto -> hashMozDTOUtil.hashOrderDTO(dto));
 
         Map<String, Object> response = new HashMap<>();
         response.put("orders", orderDTOS);

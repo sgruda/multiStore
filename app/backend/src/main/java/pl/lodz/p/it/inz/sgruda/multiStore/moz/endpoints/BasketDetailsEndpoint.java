@@ -27,7 +27,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.CheckerSimpleDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.HashMozDTOUtil;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -44,16 +44,16 @@ import java.util.Set;
 public class BasketDetailsEndpoint {
     private BasketDetailsService basketDetailsService;
     private BasketHandlerService basketHandlerService;
-    private SignMozDTOUtil signMozDTOUtil;
+    private HashMozDTOUtil hashMozDTOUtil;
     private CheckerMozDTO checkerMozDTO;
     private CheckerSimpleDTO checkerSimpleDTO;
 
     @Autowired
     public BasketDetailsEndpoint(BasketDetailsService basketDetailsService, BasketHandlerService basketHandlerService,
-                                 SignMozDTOUtil signMozDTOUtil, CheckerMozDTO checkerMozDTO, CheckerSimpleDTO checkerSimpleDTO) {
+                                 HashMozDTOUtil hashMozDTOUtil, CheckerMozDTO checkerMozDTO, CheckerSimpleDTO checkerSimpleDTO) {
         this.basketDetailsService = basketDetailsService;
         this.basketHandlerService = basketHandlerService;
-        this.signMozDTOUtil = signMozDTOUtil;
+        this.hashMozDTOUtil = hashMozDTOUtil;
         this.checkerMozDTO = checkerMozDTO;
         this.checkerSimpleDTO = checkerSimpleDTO;
     }
@@ -71,7 +71,7 @@ public class BasketDetailsEndpoint {
         }
         BasketMapper basketMapper = new BasketMapper();
         BasketDTO basketDTO = basketMapper.toDTO(basketEntity);
-        signMozDTOUtil.signBasketDTO(basketDTO);
+        hashMozDTOUtil.hashBasketDTO(basketDTO);
         return ResponseEntity.ok(basketDTO);
     }
 
@@ -95,7 +95,7 @@ public class BasketDetailsEndpoint {
         BasketEntity basketEntity;
         OrderedItemEntity orderedItemEntity;
         try {
-            checkerMozDTO.checkOrderedItemDTOSignature(itemDTO);
+            checkerMozDTO.checkOrderedItemDTOHash(itemDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             orderedItemEntity = basketHandlerService.getOrderedItemEntity(itemDTO.getIdentifier());
             orderedItemEntity.setOrderedNumber(itemDTO.getOrderedNumber());
@@ -118,8 +118,8 @@ public class BasketDetailsEndpoint {
         try {
             if(!request.getBasketDTO().getOwnerEmail().equals(currentUser.getEmail()))
                 throw new UnauthorizedAttemptOfAccessToBasketException();
-            checkerMozDTO.checkBasketDTOSignature(request.getBasketDTO());
-            checkerSimpleDTO.checkSignature(request.getOrderedItemDTO().getOrderedProduct());
+            checkerMozDTO.checkBasketDTOHash(request.getBasketDTO());
+            checkerSimpleDTO.checkHash(request.getOrderedItemDTO().getOrderedProduct());
             productEntity = basketHandlerService.getProductEntityByTitle(request.getOrderedItemDTO().getOrderedProduct().getTitle());
             ProductMapper productMapper = new ProductMapper();
             ProductEntity productEntityCopy = productMapper.createCopyOf(productEntity, request.getOrderedItemDTO().getOrderedProduct());
@@ -155,7 +155,7 @@ public class BasketDetailsEndpoint {
         try {
             if(!basketDTO.getOwnerEmail().equals(currentUser.getEmail()))
                 throw new UnauthorizedAttemptOfAccessToBasketException();
-            checkerMozDTO.checkBasketDTOSignature(basketDTO);
+            checkerMozDTO.checkBasketDTOHash(basketDTO);
             basketEntity = basketHandlerService.getBasketEntityByOwnerEmail(currentUser.getEmail());
             BasketMapper basketMapper = new BasketMapper();
             BasketEntity basketEntityCopy = basketMapper.createCopyOf(basketEntity, basketDTO);
