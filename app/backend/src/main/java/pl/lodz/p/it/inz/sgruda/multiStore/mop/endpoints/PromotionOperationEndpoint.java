@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.PromotionMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.PromotionDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
@@ -45,8 +46,9 @@ public class PromotionOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(promotionDTO);
             promotionEntity = promotionActivityService.getPromotionByName(promotionDTO.getName());
-            checkerSimpleDTO.checkVersion(promotionEntity, promotionDTO);
-            promotionActivityService.blockPromotion(promotionEntity);
+            PromotionMapper promotionMapper = new PromotionMapper();
+            PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);
+            promotionActivityService.blockPromotion(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -62,8 +64,9 @@ public class PromotionOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(promotionDTO);
             promotionEntity = promotionActivityService.getPromotionByName(promotionDTO.getName());
-            checkerSimpleDTO.checkVersion(promotionEntity, promotionDTO);
-            promotionActivityService.unblockPromotion(promotionEntity);
+            PromotionMapper promotionMapper = new PromotionMapper();
+            PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);
+            promotionActivityService.unblockPromotion(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -79,8 +82,9 @@ public class PromotionOperationEndpoint {
         try {
             checkerSimpleDTO.checkSignature(promotionDTO);
             promotionEntity = promotionDeleteService.getPromotionByName(promotionDTO.getName());
-            checkerSimpleDTO.checkVersion(promotionEntity, promotionDTO);
-            promotionDeleteService.deletePromotion(promotionEntity);
+            PromotionMapper promotionMapper = new PromotionMapper();
+            PromotionEntity entityCopy = promotionMapper.createCopyOf(promotionEntity, promotionDTO);
+            promotionDeleteService.deletePromotion(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

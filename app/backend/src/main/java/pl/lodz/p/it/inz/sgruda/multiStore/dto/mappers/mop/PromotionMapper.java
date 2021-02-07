@@ -1,7 +1,6 @@
 package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop;
 
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
-import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.ProductDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.PromotionDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 
@@ -34,7 +33,7 @@ public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
         return entity;
     }
 
-    public PromotionEntity createCopyOf(PromotionEntity entity, ProductDTO dto) {
+    public PromotionEntity createCopyOf(PromotionEntity entity, PromotionDTO dto) {
         PromotionEntity entityCopy = new PromotionEntity();
         entityCopy.setId(dto.getId());
         entityCopy.setName(entity.getName());
