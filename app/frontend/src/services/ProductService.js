@@ -35,7 +35,7 @@ class ProductService {
           price: fields.price,
           type: fields.type,
           category: fields.category,
-          signature: "0"
+          hash: "0"
         };
         return axios.post(API_URL_CREATE_PRODUCT, data,  { headers: AuthorizationHeader() }); 
       }
@@ -49,7 +49,7 @@ class ProductService {
           type: product.type,
           category: product.category,
           version: product.version,
-          signature: product.signature
+          hash: product.hash
         };
         return axios.put(API_URL_EDIT_PRODUCT, data,  { headers: AuthorizationHeader() }); 
       }

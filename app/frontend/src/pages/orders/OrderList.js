@@ -164,7 +164,7 @@ function OrderList() {
                         status: order.status,
                         address: order.address,
                         version: order.version,
-                        signature: order.signature,
+                        hash: order.hash,
                     };
                 });
                 setOrders(orders);
@@ -195,7 +195,7 @@ function OrderList() {
                         status: order.status,
                         address: order.address,
                         version: order.version,
-                        signature: order.signature,
+                        hash: order.hash,
                     };
                 });
                 setOrders(orders);
@@ -225,7 +225,7 @@ function OrderList() {
                       status: response.data.status,
                       address: response.data.address,
                       version: response.data.version,
-                      signature: response.data.signature,
+                      hash: response.data.hash,
                   };
               setSelectedOrder(order);
           }

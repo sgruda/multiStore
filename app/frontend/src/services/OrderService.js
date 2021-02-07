@@ -33,7 +33,7 @@ class OrderService {
             status: order.status,
             address: order.address,
             version: order.version,
-            signature: order.signature
+            hash: order.hash
         };
         return axios.put(API_URL_ORDER_CHANGE_STATUS, data, { headers: AuthorizationHeader() });
     }

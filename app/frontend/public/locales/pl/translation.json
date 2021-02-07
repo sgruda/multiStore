@@ -220,7 +220,7 @@
         },
         "default": "Wystąpił błąd podczas przetwarzania wykonywania tej operacji!",
         "dto": {
-            "signature": "Niepoprawna sygnatura dto. Odśwież dane i spróbuj jeszcze raz.",
+            "hash": "Niepoprawny skrót dto. Odśwież dane i spróbuj jeszcze raz.",
             "version": "Ktoś przed Tobą edytował te dane. Odśwież je i spróbuj jeszcze raz."
         },
         "employee": {

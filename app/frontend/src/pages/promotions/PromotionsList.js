@@ -121,7 +121,7 @@ function PromotionsList() {
                     active: promotion.active,
                     expireDate: promotion.expireDate,
                     version: promotion.version,
-                    signature: promotion.signature
+                    hash: promotion.hash
                   };
               });
               setPromotions(promotions);

@@ -18,7 +18,7 @@ class PromotionService {
             active: active,
             expireDate: fields.expireDate + "T00:00:00",
             version: '0',
-            signature: '0'
+            hash: '0'
         };
         return axios.post(API_URL_CREATE_PROMOTION, data,  { headers: AuthorizationHeader() }); 
     }
@@ -32,7 +32,7 @@ class PromotionService {
             active: promotion.active,
             expireDate: promotion.expireDate,
             version: promotion.version,
-            signature: promotion.signature
+            hash: promotion.hash
         };
         return axios.put(API_URL_BLOCK_PROMOTION, data, { headers: AuthorizationHeader()});
     }
@@ -45,7 +45,7 @@ class PromotionService {
             active: promotion.active,
             expireDate: promotion.expireDate,
             version: promotion.version,
-            signature: promotion.signature
+            hash: promotion.hash
         };
         return axios.put(API_URL_UNBLOCK_PROMOTION, data, { headers: AuthorizationHeader()});
     }
@@ -58,7 +58,7 @@ class PromotionService {
             active: promotion.active,
             expireDate: promotion.expireDate,
             version: promotion.version,
-            signature: promotion.signature
+            hash: promotion.hash
         };
         return axios.post(API_URL_DELETE_PROMOTION, data, { headers: AuthorizationHeader()});
     }

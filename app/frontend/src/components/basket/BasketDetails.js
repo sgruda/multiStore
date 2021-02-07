@@ -121,7 +121,7 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
                       orderedNumber: item.orderedNumber,
                       orderedProduct: item.orderedProduct,
                       version: item.version,
-                      signature: item.signature,
+                      hash: item.hash,
                     };
                 });
                 setBasket(response.data);

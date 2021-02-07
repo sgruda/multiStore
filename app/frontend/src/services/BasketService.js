@@ -22,7 +22,7 @@ class BasketService {
             orderedNumber: item.orderedNumber,
             orderedProduct: item.orderedProduct,
             version: item.version,
-            signature: item.signature,
+            hash: item.hash,
         }
         return axios.put(API_URL_BASKET_ITEM_EDIT, data, { headers: AuthorizationHeader() });
     }
@@ -40,10 +40,10 @@ class BasketService {
                 type: item.type,
                 category: item.category,
                 version: item.version,
-                signature: item.signature
+                hash: item.hash
             },
             version: 0,
-            signature: "0",
+            hash: "0",
         };
         const data = {
             basketDTO: basket,

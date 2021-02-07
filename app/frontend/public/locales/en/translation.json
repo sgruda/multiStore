@@ -220,7 +220,7 @@
         },
         "default": "Error occured during perfoming operation!",
         "dto": {
-            "signature": "Invalid dto signature. Refresh data and try again.",
+            "hash": "Invalid dto hash. Refresh data and try again.",
             "version": "Somebody has already edited this data. Refresh data and try again."
         },
         "employee": {

@@ -126,7 +126,7 @@ function ProductList() {
                   category: product.category,
                   active: product.active,
                   version: product.version,
-                  signature: product.signature
+                  hash: product.hash
                 };
             });
             setProducts(products);
@@ -258,7 +258,7 @@ useEffect(() => {
                     type: product.type,
                     category: product.category,
                     version: product.version,
-                    signature: product.signature
+                    hash: product.hash
                   };
               })
               return data;
