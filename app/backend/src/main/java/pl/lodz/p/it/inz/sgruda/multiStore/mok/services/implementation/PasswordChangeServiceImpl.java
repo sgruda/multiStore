@@ -16,6 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.PasswordChangeService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
@@ -35,10 +36,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 )
 public class PasswordChangeServiceImpl implements PasswordChangeService {
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public PasswordChangeServiceImpl(AccountRepository accountRepository) {
+    public PasswordChangeServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class PasswordChangeServiceImpl implements PasswordChangeService {
             accountEntity.setPassword(newEncodedPassword);
             try {
                 accountRepository.saveAndFlush(accountEntity);
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
             } catch (OptimisticLockingFailureException ex) {
                 throw new OptimisticLockAppException();
             }

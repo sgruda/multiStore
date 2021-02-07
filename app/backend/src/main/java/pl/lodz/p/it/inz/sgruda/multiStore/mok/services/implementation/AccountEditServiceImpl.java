@@ -16,6 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.OperationDisabledForAccountException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountEditService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 
@@ -35,10 +36,12 @@ import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 )
 public class AccountEditServiceImpl implements AccountEditService {
     private AccountRepository accountRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public AccountEditServiceImpl(AccountRepository accountRepository) {
+    public AccountEditServiceImpl(AccountRepository accountRepository, AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -46,6 +49,7 @@ public class AccountEditServiceImpl implements AccountEditService {
     public void editAccount(AccountEntity accountEntity) throws OperationDisabledForAccountException, OptimisticLockAppException {
         if(accountEntity.getProvider() == AuthProvider.system) {
             try{
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
                 accountRepository.saveAndFlush(accountEntity);
             }
             catch(OptimisticLockingFailureException ex){

@@ -19,6 +19,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameExcept
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RemovingAllAccessLevelsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
@@ -40,14 +41,16 @@ import java.util.Set;
         rollbackFor = {OptimisticLockAppException.class}
 )
 public class AccountAccessLevelServiceImpl implements AccountAccessLevelService {
-
     private AccountRepository accountRepository;
     private AccessLevelRepository accessLevelRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public AccountAccessLevelServiceImpl(AccountRepository accountRepository, AccessLevelRepository accessLevelRepository) {
+    public AccountAccessLevelServiceImpl(AccountRepository accountRepository, AccessLevelRepository accessLevelRepository,
+                                         AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
         this.accessLevelRepository = accessLevelRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -61,12 +64,13 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.add(opt.get());
-            try{
-                accountRepository.saveAndFlush(accountEntity);
-            }
-            catch(OptimisticLockingFailureException ex){
-                throw new OptimisticLockAppException();
-            }
+        }
+        try{
+            accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
         }
     }
 
@@ -83,12 +87,13 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.remove(opt.get());
-            try{
-                accountRepository.saveAndFlush(accountEntity);
-            }
-            catch(OptimisticLockingFailureException ex){
-                throw new OptimisticLockAppException();
-            }
+        }
+        try{
+            accountRepository.saveAndFlush(accountEntity);
+            authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
         }
     }
 
