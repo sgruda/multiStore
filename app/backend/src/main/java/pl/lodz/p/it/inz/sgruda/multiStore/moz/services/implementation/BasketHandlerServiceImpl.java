@@ -112,8 +112,8 @@ public class BasketHandlerServiceImpl implements BasketHandlerService {
             throw new BasketNotContainsItemException();
         basketEntity.getOrderedItemEntities().add(orderedItemEntity);
         try{
-            basketRepository.saveAndFlush(basketEntity);
             orderedItemRepository.saveAndFlush(orderedItemEntity);
+            basketRepository.saveAndFlush(basketEntity);
         }
         catch(OptimisticLockingFailureException ex){
             throw new OptimisticLockAppException();

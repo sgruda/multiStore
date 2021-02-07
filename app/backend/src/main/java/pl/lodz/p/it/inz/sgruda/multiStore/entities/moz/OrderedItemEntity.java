@@ -54,13 +54,4 @@ public class OrderedItemEntity implements Serializable, VersionGetter {
         this.identifier = UUID.randomUUID().toString();
     }
 
-    public OrderedItemEntity duplicateWithId(long newId) {
-        OrderedItemEntity entityDuplicate = new OrderedItemEntity();
-        entityDuplicate.setId(newId);
-        entityDuplicate.setIdentifier(this.getIdentifier());
-        entityDuplicate.setOrderedNumber(this.getOrderedNumber());
-        entityDuplicate.setProductEntity(this.getProductEntity());
-        entityDuplicate.setVersion(this.getVersion());
-        return entityDuplicate;
-    }
 }

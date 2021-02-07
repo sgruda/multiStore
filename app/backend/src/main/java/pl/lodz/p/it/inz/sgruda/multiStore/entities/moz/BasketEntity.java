@@ -45,12 +45,4 @@ public class BasketEntity implements Serializable, VersionGetter {
         this.accountEntity = accountEntity;
     }
 
-    public BasketEntity duplicateWithId(long newId) {
-        BasketEntity entityDuplicate = new BasketEntity();
-        entityDuplicate.setId(newId);
-        entityDuplicate.setOrderedItemEntities(this.getOrderedItemEntities());
-        entityDuplicate.setAccountEntity(this.getAccountEntity());
-        entityDuplicate.setVersion(this.getVersion());
-        return entityDuplicate;
-    }
 }
