@@ -31,6 +31,7 @@ public class ForgotPasswordTokenMapper implements Mapper<ForgotPasswordTokenEnti
         return entity;
     }
 
+    @Override
     public ForgotPasswordTokenEntity createCopyOf(ForgotPasswordTokenEntity entity, ForgotPasswordTokenDTO dto) {
         ForgotPasswordTokenEntity entityCopy = new ForgotPasswordTokenEntity();
         entityCopy.setId(dto.getId());

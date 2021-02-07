@@ -39,6 +39,8 @@ public class AuthenticationDataMapper implements Mapper<AuthenticationDataEntity
         entity.setVersion(dto.getVersion());
         return entity;
     }
+
+    @Override
     public AuthenticationDataEntity createCopyOf(AuthenticationDataEntity entity, AuthenticationDataDTO dto) {
         AuthenticationDataEntity entityCopy = new AuthenticationDataEntity();
         entityCopy.setId(dto.getId());

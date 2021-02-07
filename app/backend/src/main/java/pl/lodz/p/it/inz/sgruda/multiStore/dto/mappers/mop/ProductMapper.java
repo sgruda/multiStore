@@ -38,6 +38,7 @@ public class ProductMapper  implements Mapper<ProductEntity, ProductDTO> {
         return entity;
     }
 
+    @Override
     public ProductEntity createCopyOf(ProductEntity entity, ProductDTO dto) {
         ProductEntity entityCopy = new ProductEntity();
         entityCopy.setId(dto.getId());

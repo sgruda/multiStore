@@ -31,6 +31,17 @@ public class BasketMapper implements Mapper<BasketEntity, BasketDTO> {
 
     @Override
     public BasketEntity updateEntity(BasketEntity entity, BasketDTO dto) {
+        entity.setVersion(dto.getVersion());
         return entity;
+    }
+
+    @Override
+    public BasketEntity createCopyOf(BasketEntity entity, BasketDTO dto) {
+        BasketEntity entityCopy = new BasketEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setOrderedItemEntities(entity.getOrderedItemEntities());
+        entityCopy.setAccountEntity(entity.getAccountEntity());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }

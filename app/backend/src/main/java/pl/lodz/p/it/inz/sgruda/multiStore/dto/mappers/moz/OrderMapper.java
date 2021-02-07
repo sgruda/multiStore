@@ -36,6 +36,23 @@ public class OrderMapper implements Mapper<OrderEntity, OrderDTO> {
 
     @Override
     public OrderEntity updateEntity(OrderEntity entity, OrderDTO dto) {
+
+        entity.setVersion(dto.getVersion());
         return entity;
+    }
+
+    @Override
+    public OrderEntity createCopyOf(OrderEntity entity, OrderDTO dto) {
+        OrderEntity entityCopy = new OrderEntity();
+        entityCopy.setId(dto.getVersion());
+        entityCopy.setIdentifier(entity.getIdentifier());
+        entityCopy.setOrderDate(entity.getOrderDate());
+        entityCopy.setAccountEntity(entity.getAccountEntity());
+        entityCopy.setOrderedItemEntities(entity.getOrderedItemEntities());
+        entityCopy.setTotalPrice(entity.getTotalPrice());
+        entityCopy.setStatusEntity(entity.getStatusEntity());
+        entityCopy.setAddress(entity.getAddress());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }

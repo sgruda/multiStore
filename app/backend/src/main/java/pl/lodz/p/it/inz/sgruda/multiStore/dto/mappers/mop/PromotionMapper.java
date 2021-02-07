@@ -33,6 +33,7 @@ public class PromotionMapper implements Mapper<PromotionEntity, PromotionDTO> {
         return entity;
     }
 
+    @Override
     public PromotionEntity createCopyOf(PromotionEntity entity, PromotionDTO dto) {
         PromotionEntity entityCopy = new PromotionEntity();
         entityCopy.setId(dto.getId());

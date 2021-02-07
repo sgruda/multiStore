@@ -58,6 +58,7 @@ public class AccountMapper implements Mapper<AccountEntity, AccountDTO> {
         entity.setVersion(dto.getVersion());
         return entity;
     }
+    @Override
     public AccountEntity createCopyOf(AccountEntity entity, AccountDTO accountDTO) {
         AccountEntity entityCopy = new AccountEntity();
         entityCopy.setId(accountDTO.getId());

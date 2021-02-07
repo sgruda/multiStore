@@ -3,6 +3,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.moz;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.Mapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.ProductMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.moz.OrderedItemDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 
 public class OrderedItemMapper implements Mapper<OrderedItemEntity, OrderedItemDTO> {
@@ -29,6 +30,19 @@ public class OrderedItemMapper implements Mapper<OrderedItemEntity, OrderedItemD
     @Override
     public OrderedItemEntity updateEntity(OrderedItemEntity entity, OrderedItemDTO dto) {
         entity.setOrderedNumber(dto.getOrderedNumber());
+
+        entity.setVersion(dto.getVersion());
         return entity;
+    }
+
+    @Override
+    public OrderedItemEntity createCopyOf(OrderedItemEntity entity, OrderedItemDTO dto) {
+        OrderedItemEntity entityCopy = new OrderedItemEntity();
+        entityCopy.setId(dto.getId());
+        entityCopy.setIdentifier(entity.getIdentifier());
+        entityCopy.setOrderedNumber(entity.getOrderedNumber());
+        entityCopy.setProductEntity(entity.getProductEntity());
+        entityCopy.setVersion(dto.getVersion());
+        return entityCopy;
     }
 }
