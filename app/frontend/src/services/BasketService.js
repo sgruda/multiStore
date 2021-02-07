@@ -12,7 +12,7 @@ class BasketService {
         return axios.get(API_URL_BASKET_SIZE,  { headers: AuthorizationHeader() });
     } 
     deleteItemFromBasket(basket, itemToDelete) {
-        basket.orderedItemDTOS.splice(itemToDelete, 1);
+        basket.orderedItemDTOS = basket.orderedItemDTOS.filter(item => item.identifier !== itemToDelete.identifier)
         return axios.put(API_URL_BASKET_REMOVE, basket, { headers: AuthorizationHeader() });
     }
     editItemInBasket(item) {

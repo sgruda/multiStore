@@ -80,9 +80,6 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [showOperations, setShowOperations] = useState(false);
 
-    const handleDeleteItem = () => {
-        checkExpiredJWTAndExecute(deleteItem);
-    }
     const handleCloseSuccessDialog = () => {
         setSelectedItem(null);
         setShowOperations(false)
@@ -108,6 +105,11 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
 
     const handleCloseOperations = () => {
         setShowOperations(false);
+    }
+
+    const handleRefresh = () => {
+        setLoadingData(true);
+        handleCloseOperations();
     }
 
     async function getItems() {
@@ -150,22 +152,6 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
                 console.error("BasketDetails TotalPrice: " + resMessage);
-            }
-        );
-    }
-
-    async function deleteItem() {
-        await BasketService.deleteItemFromBasket(basket, selectedItem)
-        .then(response => {
-            if (response.status === 200) { 
-                setOpenSuccessAlert(true);
-            }
-        },
-            (error) => {
-            const resMessage =
-                (error.response && error.response.data && error.response.data.message) 
-                || error.message || error.toString();
-                console.error("BasketTableBodyDelete: " + resMessage);
             }
         );
     }
@@ -220,8 +206,8 @@ function BasketDetails({loadingData, setLoadingData, basket, setBasket}) {
                     basket={basket}
                     item={selectedItem}
                     handleClose={handleCloseOperations}
-                    deleteItem={handleDeleteItem}
                     handleCloseSuccessDialog={handleCloseSuccessDialog}
+                    handleRefresh={handleRefresh}
                 />    
             </Collapse>
         </Paper >
