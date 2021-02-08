@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.moz.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderedItemEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.moz.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.*;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderSubmitService;
@@ -37,7 +39,8 @@ import java.util.Set;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mozTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class OrderSubmitServiceImpl implements OrderSubmitService {
     private OrderRepository orderRepository;
@@ -76,7 +79,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public double calcPrice(Set<OrderedItemEntity> orderedItems) {
+    public double calcPrice(Set<OrderedItemEntity> orderedItems, String askerEmail) {
         return new BigDecimal(orderedItems.stream()
                 .mapToDouble(
                         item -> {
@@ -86,6 +89,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
                                 discount = promotionEntities.stream()
                                         .mapToDouble(promo ->
                                                 promo.isActive() && promo.getExpireDate().isAfter(LocalDateTime.now())
+                                                        && !promo.getAuthorEmail().equals(askerEmail)
                                                         ? promo.getDiscount()
                                                         : 0.0
                                         )
@@ -109,7 +113,7 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
         orderEntity.setOrderDate(LocalDateTime.now());
         orderEntity.setAccountEntity(basketEntity.getAccountEntity());
         orderEntity.setOrderedItemEntities(basketEntity.getOrderedItemEntities());
-        orderEntity.setTotalPrice(this.calcPrice(orderEntity.getOrderedItemEntities()));
+        orderEntity.setTotalPrice(this.calcPrice(orderEntity.getOrderedItemEntities(), basketEntity.getAccountEntity().getEmail()));
         orderEntity.setStatusEntity(statusRepository.findByStatusName(StatusName.submitted)
                                                     .orElseThrow(() -> new StatusNotExistsException())
         );
@@ -126,7 +130,12 @@ public class OrderSubmitServiceImpl implements OrderSubmitService {
         }
         basketEntity.setOrderedItemEntities(null);
 
-        basketRepository.saveAndFlush(basketEntity);
-        orderRepository.saveAndFlush(orderEntity);
+        try{
+            basketRepository.saveAndFlush(basketEntity);
+            orderRepository.saveAndFlush(orderEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }

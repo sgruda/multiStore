@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mok.AccountMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mok.AccountDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
@@ -41,10 +42,11 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> blockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            accountActivityService.blockAccount(accountEntity);
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountActivityService.blockAccount(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -58,10 +60,11 @@ public class AccountActivityEndpoint {
     public ResponseEntity<?> unblockAcocunt(@Valid @RequestBody AccountDTO accountDTO) {
         AccountEntity accountEntity;
         try {
-            checkerAccountDTO.checkAccountDTOSignature(accountDTO);
+            checkerAccountDTO.checkAccountDTOHash(accountDTO);
             accountEntity = accountActivityService.getAccountByEmail(accountDTO.getEmail());
-            checkerAccountDTO.checkAccountDTOVersion(accountEntity, accountDTO);
-            accountActivityService.unblockAccount(accountEntity);
+            AccountMapper accountMapper = new AccountMapper();
+            AccountEntity entityCopy = accountMapper.createCopyOf(accountEntity, accountDTO);
+            accountActivityService.unblockAccount(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

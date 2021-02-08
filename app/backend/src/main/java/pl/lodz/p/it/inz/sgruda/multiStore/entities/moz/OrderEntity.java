@@ -26,7 +26,6 @@ import java.util.UUID;
         valueColumnName = "id_range", pkColumnValue = "order")
 public class OrderEntity implements Serializable, VersionGetter {
     @Id
-    @Setter(lombok.AccessLevel.NONE)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "OrderIdGen")
     private long id;
@@ -72,7 +71,6 @@ public class OrderEntity implements Serializable, VersionGetter {
     private String address;
 
     @Version
-    @Setter(lombok.AccessLevel.NONE)
     @Basic
     @Column(name = "version", nullable = false)
     private long version;
@@ -80,4 +78,5 @@ public class OrderEntity implements Serializable, VersionGetter {
     public OrderEntity() {
         this.identifier = UUID.randomUUID().toString();
     }
+
 }

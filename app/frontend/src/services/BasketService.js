@@ -12,27 +12,27 @@ class BasketService {
         return axios.get(API_URL_BASKET_SIZE,  { headers: AuthorizationHeader() });
     } 
     deleteItemFromBasket(basket, itemToDelete) {
-        basket.orderedItemDTOS.splice(itemToDelete, 1);
+        basket.orderedItemDTOS = basket.orderedItemDTOS.filter(item => item.identifier !== itemToDelete.identifier)
         return axios.put(API_URL_BASKET_REMOVE, basket, { headers: AuthorizationHeader() });
     }
     editItemInBasket(item) {
         const data = {
-            idHash: item.id,
+            id: item.id,
             identifier: item.identifier,
             orderedNumber: item.orderedNumber,
             orderedProduct: item.orderedProduct,
             version: item.version,
-            signature: item.signature,
+            hash: item.hash,
         }
         return axios.put(API_URL_BASKET_ITEM_EDIT, data, { headers: AuthorizationHeader() });
     }
     addToBasket(basket, item, orderedNumber) {
         const orderedItem = {
-            idHash: "0",
+            id: "0",
             identifier: "0",
             orderedNumber: orderedNumber,
             orderedProduct: {
-                idHash: item.idHash,
+                id: item.id,
                 title: item.title,
                 description: item.description,
                 inStore: item.inStore,
@@ -40,10 +40,10 @@ class BasketService {
                 type: item.type,
                 category: item.category,
                 version: item.version,
-                signature: item.signature
+                hash: item.hash
             },
             version: 0,
-            signature: "0",
+            hash: "0",
         };
         const data = {
             basketDTO: basket,

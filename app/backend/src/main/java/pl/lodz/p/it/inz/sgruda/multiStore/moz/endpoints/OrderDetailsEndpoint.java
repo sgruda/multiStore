@@ -19,7 +19,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.responses.ApiResponse;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.CurrentUser;
 import pl.lodz.p.it.inz.sgruda.multiStore.security.UserPrincipal;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.CheckerMozDTO;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.SignMozDTOUtil;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.moz.HashMozDTOUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,16 +36,16 @@ import javax.validation.constraints.Size;
 public class OrderDetailsEndpoint {
     private OrderDetailsService orderDetailsService;
     private OrderChangeStatusService orderChangeStatusService;
-    private SignMozDTOUtil signMozDTOUtil;
+    private HashMozDTOUtil hashMozDTOUtil;
     private CheckerMozDTO checkerMozDTO;
 
 
     @Autowired
     public OrderDetailsEndpoint(OrderDetailsService orderDetailsService, OrderChangeStatusService orderChangeStatusService,
-                                SignMozDTOUtil signMozDTOUtil, CheckerMozDTO checkerMozDTO) {
+                                HashMozDTOUtil hashMozDTOUtil, CheckerMozDTO checkerMozDTO) {
         this.orderDetailsService = orderDetailsService;
         this.orderChangeStatusService = orderChangeStatusService;
-        this.signMozDTOUtil = signMozDTOUtil;
+        this.hashMozDTOUtil = hashMozDTOUtil;
         this.checkerMozDTO = checkerMozDTO;
     }
 
@@ -65,7 +65,7 @@ public class OrderDetailsEndpoint {
         }
         OrderMapper orderMapper = new OrderMapper();
         OrderDTO orderDTO = orderMapper.toDTO(orderEntity);
-        signMozDTOUtil.signOrderDTO(orderDTO);
+        hashMozDTOUtil.hashOrderDTO(orderDTO);
         return ResponseEntity.ok(orderDTO);
     }
 
@@ -74,10 +74,12 @@ public class OrderDetailsEndpoint {
     public ResponseEntity<?> changeOrderStatus(@Valid @RequestBody OrderDTO orderDTO, @CurrentUser UserPrincipal userPrincipal) {
         OrderEntity orderEntity;
         try {
-            checkerMozDTO.checkOrderDTOSignature(orderDTO);
+            checkerMozDTO.checkOrderDTOHash(orderDTO);
             orderEntity = orderChangeStatusService.getOrderByIdentifier(orderDTO.getIdentifier());
-            checkerMozDTO.checkOrderDTOVersion(orderEntity, orderDTO);
-            orderChangeStatusService.changeStatus(orderEntity, userPrincipal.getId());
+            OrderMapper orderMapper = new OrderMapper();
+            OrderEntity entityCopy = orderMapper.createCopyOf(orderEntity, orderDTO);
+
+            orderChangeStatusService.changeStatus(entityCopy, userPrincipal.getId());
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

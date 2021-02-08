@@ -47,12 +47,13 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> editProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productEditService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
             ProductMapper productMapper = new ProductMapper();
-            productMapper.updateEntity(productEntity, productDTO);
-            productEditService.editProduct(productEntity);
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productMapper.updateEntity(entityCopy, productDTO);
+
+            productEditService.editProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -66,10 +67,11 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> blockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
-            productActivityService.blockProduct(productEntity);
+            ProductMapper productMapper = new ProductMapper();
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productActivityService.blockProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
@@ -83,10 +85,11 @@ public class ProductOperationEndpoint {
     public ResponseEntity<?> unblockProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductEntity productEntity;
         try {
-            checkerSimpleDTO.checkSignature(productDTO);
+            checkerSimpleDTO.checkHash(productDTO);
             productEntity = productActivityService.getProductByTitle(productDTO.getTitle());
-            checkerSimpleDTO.checkVersion(productEntity, productDTO);
-            productActivityService.unblockProduct(productEntity);
+            ProductMapper productMapper = new ProductMapper();
+            ProductEntity entityCopy = productMapper.createCopyOf(productEntity, productDTO);
+            productActivityService.unblockProduct(entityCopy);
         } catch (AppBaseException e) {
             log.severe("Error: " + e);
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),

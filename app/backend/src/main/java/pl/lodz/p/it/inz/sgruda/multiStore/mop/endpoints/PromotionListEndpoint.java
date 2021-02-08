@@ -18,7 +18,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.dto.mappers.mop.PromotionMapper;
 import pl.lodz.p.it.inz.sgruda.multiStore.dto.mop.PromotionDTO;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionListService;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.SignSimpleDTO;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.components.HashSimpleDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +34,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/promotions")
 public class PromotionListEndpoint {
     private PromotionListService promotionListService;
-    private SignSimpleDTO signSimpleDTO;
+    private HashSimpleDTO hashSimpleDTO;
 
     @Autowired
-    public PromotionListEndpoint(PromotionListService promotionListService, SignSimpleDTO signSimpleDTO) {
+    public PromotionListEndpoint(PromotionListService promotionListService, HashSimpleDTO hashSimpleDTO) {
         this.promotionListService = promotionListService;
-        this.signSimpleDTO = signSimpleDTO;
+        this.hashSimpleDTO = hashSimpleDTO;
     }
 
     @GetMapping
@@ -54,7 +54,7 @@ public class PromotionListEndpoint {
         List<PromotionDTO> dtos = pagePromotionEntitites.stream()
                 .map(entity -> promotionMapper.toDTO(entity))
                 .collect(Collectors.toList());
-        dtos.forEach(dto -> signSimpleDTO.signDTO(dto));
+        dtos.forEach(dto -> hashSimpleDTO.hashDTO(dto));
 
         Map<String, Object> response = new HashMap<>();
         response.put("promotions", dtos);

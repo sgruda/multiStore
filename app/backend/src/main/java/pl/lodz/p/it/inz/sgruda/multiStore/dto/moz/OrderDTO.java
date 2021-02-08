@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.java.Log;
-import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.SignatureVerifiability;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.interfaces.HashVerifiability;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,11 +19,9 @@ import java.util.stream.Collectors;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class OrderDTO implements SignatureVerifiability {
-    @Size(max = 64, message = "validation.size")
+public @Data class OrderDTO implements HashVerifiability {
     @NotNull(message = "validation.notnull")
-    @Pattern(regexp = "[0-9a-zA-Z]+", message = "validation.pattern")
-    private String idHash;
+    private long id;
 
     @NotNull(message = "validation.notnull")
     @Size(min = 36, max = 36, message = "validation.size")
@@ -57,14 +55,14 @@ public @Data class OrderDTO implements SignatureVerifiability {
     private long version;
 
     @NotNull(message = "validation.notnull")
-    private String signature;
+    private String hash;
 
     @Override
-    public List<String> specifySigningParams() {
+    public List<String> specifyHashingParams() {
         String items = orderedItemDTOS.stream()
                 .map(item -> item.getIdentifier())
                 .sorted()
                 .collect(Collectors.joining());
-        return Arrays.asList(idHash, identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, address, String.valueOf(version));
+        return Arrays.asList(String.valueOf(id), identifier, orderDate.toString(), buyerEmail, String.valueOf(totalPrice), items, address, String.valueOf(version));
     }
 }

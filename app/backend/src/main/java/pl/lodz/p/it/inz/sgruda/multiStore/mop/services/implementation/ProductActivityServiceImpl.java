@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mop.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.ProductEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mop.ProductNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.ProductRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivityService;
@@ -26,7 +28,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.ProductActivit
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mopTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class ProductActivityServiceImpl implements ProductActivityService {
     private ProductRepository productRepository;
@@ -45,15 +48,25 @@ public class ProductActivityServiceImpl implements ProductActivityService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void blockProduct(ProductEntity productEntity) {
-        productEntity.setActive(false);
-        productRepository.saveAndFlush(productEntity);
+    public void blockProduct(ProductEntity productEntity) throws OptimisticLockAppException {
+        try{
+            productEntity.setActive(false);
+            productRepository.saveAndFlush(productEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public void unblockProduct(ProductEntity productEntity) {
-        productEntity.setActive(true);
-        productRepository.saveAndFlush(productEntity);
+    public void unblockProduct(ProductEntity productEntity) throws OptimisticLockAppException {
+        try{
+            productEntity.setActive(true);
+            productRepository.saveAndFlush(productEntity);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }

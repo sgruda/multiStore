@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mop.PromotionEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.repositories.PromotionRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionListService;
 
@@ -27,7 +28,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.mop.services.interfaces.PromotionListS
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mopTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class PromotionListServiceImpl implements PromotionListService {
     private PromotionRepository promotionRepository;

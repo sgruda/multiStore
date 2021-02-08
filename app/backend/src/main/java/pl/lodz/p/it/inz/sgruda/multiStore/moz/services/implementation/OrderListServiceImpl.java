@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.OrderEntity;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.repositories.OrderRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderListService;
 
@@ -25,7 +26,8 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderListServi
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mozTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class OrderListServiceImpl implements OrderListService {
     private OrderRepository orderRepository;

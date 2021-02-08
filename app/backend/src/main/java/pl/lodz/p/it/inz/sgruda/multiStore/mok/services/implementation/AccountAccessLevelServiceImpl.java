@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,12 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.AccountNotExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.IncorrectRoleNameException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.RemovingAllAccessLevelsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccessLevelRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AccountRepository;
+import pl.lodz.p.it.inz.sgruda.multiStore.mok.repositories.AuthenticationDataRepository;
 import pl.lodz.p.it.inz.sgruda.multiStore.mok.services.interfaces.AccountAccessLevelService;
+import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.AuthProvider;
 import pl.lodz.p.it.inz.sgruda.multiStore.utils.enums.RoleName;
 
 import java.util.Optional;
@@ -34,17 +38,20 @@ import java.util.Set;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mokTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class AccountAccessLevelServiceImpl implements AccountAccessLevelService {
-
     private AccountRepository accountRepository;
     private AccessLevelRepository accessLevelRepository;
+    private AuthenticationDataRepository authenticationDataRepository;
 
     @Autowired
-    public AccountAccessLevelServiceImpl(AccountRepository accountRepository, AccessLevelRepository accessLevelRepository) {
+    public AccountAccessLevelServiceImpl(AccountRepository accountRepository, AccessLevelRepository accessLevelRepository,
+                                         AuthenticationDataRepository authenticationDataRepository) {
         this.accountRepository = accountRepository;
         this.accessLevelRepository = accessLevelRepository;
+        this.authenticationDataRepository = authenticationDataRepository;
     }
 
     @Override
@@ -58,6 +65,14 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.add(opt.get());
+        }
+        try{
+            accountRepository.saveAndFlush(accountEntity);
+            if(accountEntity.getProvider().equals(AuthProvider.system))
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
         }
     }
 
@@ -74,6 +89,14 @@ public class AccountAccessLevelServiceImpl implements AccountAccessLevelService 
             Optional<AccessLevelEntity> opt = accessLevelRepository.findByRoleName(RoleName.valueOf(roleString));
             if(opt.isPresent())
                 accessLevelEntitySet.remove(opt.get());
+        }
+        try{
+            accountRepository.saveAndFlush(accountEntity);
+            if(accountEntity.getProvider().equals(AuthProvider.system))
+                authenticationDataRepository.saveAndFlush(accountEntity.getAuthenticationDataEntity());
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
         }
     }
 

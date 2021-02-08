@@ -2,6 +2,7 @@ package pl.lodz.p.it.inz.sgruda.multiStore.mok.services.implementation;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccessLevelEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.mok.AccountEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.entities.moz.BasketEntity;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.AppBaseException;
+import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.OptimisticLockAppException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.http.HttpBaseException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.EmailAlreadyExistsException;
 import pl.lodz.p.it.inz.sgruda.multiStore.exceptions.mok.UsernameAlreadyExistsException;
@@ -38,7 +40,8 @@ import java.util.Collections;
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRES_NEW,
         transactionManager = "mokTransactionManager",
-        timeout = 5
+        timeout = 5,
+        rollbackFor = {OptimisticLockAppException.class}
 )
 public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
@@ -67,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AccountEntity registerAccount(AccountEntity account) throws EmailAlreadyExistsException, UsernameAlreadyExistsException {
+    public AccountEntity registerAccount(AccountEntity account) throws EmailAlreadyExistsException, UsernameAlreadyExistsException, OptimisticLockAppException {
         if(accountRepository.existsByUsername(account.getUsername())) {
             throw new UsernameAlreadyExistsException();
         }
@@ -81,6 +84,11 @@ public class AuthServiceImpl implements AuthService {
         account.setAccessLevelEntities(Collections.singleton(clientRole));
         BasketEntity basketEntity = new BasketEntity(account);
         account.setBasketEntity(basketEntity);
-        return accountRepository.saveAndFlush(account);
+        try{
+            return accountRepository.saveAndFlush(account);
+        }
+        catch(OptimisticLockingFailureException ex){
+            throw new OptimisticLockAppException();
+        }
     }
 }
