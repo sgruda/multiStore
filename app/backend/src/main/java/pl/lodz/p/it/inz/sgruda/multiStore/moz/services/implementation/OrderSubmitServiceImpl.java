@@ -32,7 +32,7 @@ import java.util.Set;
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500),
+        backoff = @Backoff(delay = 10000),
         exclude = {AppBaseException.class}
 )
 @Transactional(
