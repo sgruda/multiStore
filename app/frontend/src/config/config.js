@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://backend-7lhoj5kiqa-ey.a.run.app';
+export const API_BASE_URL = 'api_url';
 export const API_URL_SIGN_IN = API_BASE_URL + "/api/auth/signin";
 export const API_URL_SIGN_UP = API_BASE_URL + "/api/auth/signup";
 export const API_URL_VERIFY_EMAIL = API_BASE_URL + "/api/auth/verify-email";
@@ -52,7 +52,7 @@ export const API_URL_ORDERS_MINE = API_URL_ORDERS + "/mine";
 export const ACCESS_TOKEN = 'accessToken';
 export const ACTIVE_ROLE = 'activeRole';
 
-export const REACT_APP_URL =  'https://frontend-7lhoj5kiqa-ey.a.run.app/';
+export const REACT_APP_URL =  'front_app_url';
 
 export const OAUTH2_REDIRECT_URI = REACT_APP_URL + '/oauth2/redirect';
 

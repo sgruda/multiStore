@@ -28,7 +28,7 @@
 * Google Cloud Run
 
 ## Setup
-Running system is very easy. After editing file *app\backend\src\main\resources\application.yml* or *travis.yml* (second file should be edited only if you want to use TravisCI) use commands `docker-compose build` and `docker-compose up`.
+Running system is very easy. After editing files: *app/backend/src/main/resources/application.yml*, *app/frontend/src/config/config.js* or *travis.yml* (second file should be edited only if you want to use TravisCI) use commands `docker-compose build` and `docker-compose up`.
 
 ## Code Examples
 Example of class, used in integrating system with social media accounts is presented below. Moreover worth mentioning is configurating transactions and retrying of transactions.
