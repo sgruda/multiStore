@@ -20,7 +20,7 @@ import pl.lodz.p.it.inz.sgruda.multiStore.moz.services.interfaces.OrderListServi
 @Service
 @Retryable(
         maxAttempts = 5,
-        backoff = @Backoff(delay = 500)
+        backoff = @Backoff(delay = 10000)
 )
 @Transactional(
         isolation = Isolation.READ_COMMITTED,
